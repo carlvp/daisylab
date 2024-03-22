@@ -32,7 +32,8 @@ Voice *allocateVoice(unsigned channel, unsigned key) {
 }
 
 void Voice::Init(float sampleRate) {
-  mOp.Init(sampleRate);
+  for (FmOperator &op: mOp)
+    op.Init(sampleRate);
 }
 
 void Voice::noteOn(const Program *p, unsigned key, unsigned velocity) {
@@ -42,15 +43,18 @@ void Voice::noteOn(const Program *p, unsigned key, unsigned velocity) {
   mTimestamp=getAudioPathTimestamp();
 
   float freq=daisysp::mtof(key);
-  mOp.noteOn(&p->op, freq, velocity);
+  for (unsigned i=0; i<NUM_OPERATORS; ++i)
+    mOp[i].noteOn(&p->op[i], freq, velocity);
 }
 
 void Voice::noteOff() {
   mNoteOn=false;
   mTimestamp=getAudioPathTimestamp();
-  mOp.noteOff();
+  for (FmOperator &op: mOp)
+    op.noteOff();
 }
 
 void Voice::addToBuffer(float *buffer) {
-  mOp.fillBuffer(buffer, buffer, /* TBD (fm) */ nullptr);
+  for (FmOperator &op: mOp)
+    op.fillBuffer(buffer, buffer, /* TBD (fm) */ nullptr);
 }

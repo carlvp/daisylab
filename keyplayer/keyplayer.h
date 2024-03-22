@@ -5,7 +5,9 @@
 
 extern daisy::DaisySeed DaisySeedHw;
 
-#define BLOCK_SIZE 32
+#define BLOCK_SIZE   32
+#define NUM_VOICES    4
+#define NUM_OPERATORS 6
 
 void initVoices(float sampleRate);
 void startAudioPath();

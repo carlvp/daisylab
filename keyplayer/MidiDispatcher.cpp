@@ -5,14 +5,64 @@
 using namespace daisy;
 
 Program theProgram = {
- name: "Example Program",
- op: {
-      totalLevel: 0.71f,
+ name: "E.Organ 1",
+ op:
+  {
+    { // OP6
+      fixedFreq:  false,
+      freq:       3.00f,
+      totalLevel: 0.10f,
       attack:     0.01f,
-      decay:      0.40f,
-      sustain:    0.25f,
-      release:    0.10f
- }
+      decay:      0.08f,
+      sustain:    0.00f,
+      release:    0.01f
+    },
+    { // OP5
+      fixedFreq:  false,
+      freq:       1.006f,
+      totalLevel: 0.10f,
+      attack:     0.01f,
+      decay:      1.00f,
+      sustain:    1.00f,
+      release:    0.01f
+    },
+    { // OP4
+      fixedFreq:  false,
+      freq:       0.508f,
+      totalLevel: 0.10f,
+      attack:     0.01f,
+      decay:      1.00f,
+      sustain:    1.00f,
+      release:    0.01f
+    },    
+    { // OP3
+      fixedFreq:  false,
+      freq:       1.520f,
+      totalLevel: 0.10f,
+      attack:     0.01f,
+      decay:      1.00f,
+      sustain:    1.00f,
+      release:    0.04f
+    },
+    { // OP2
+      fixedFreq:  false,
+      freq:       0.990f,
+      totalLevel: 0.10f,
+      attack:     0.01f,
+      decay:      1.00f,
+      sustain:    1.00f,
+      release:    0.01f
+    },
+    { // OP1
+      fixedFreq:  false,
+      freq:       0.497f,
+      totalLevel: 0.10f,
+      attack:     0.01f,
+      decay:      1.00f,
+      sustain:    1.00f,
+      release:    0.01f
+    }
+  }
 };
 
 static void noteOn(unsigned channel, unsigned key, unsigned velocity) {

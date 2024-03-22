@@ -4,13 +4,12 @@
 
 #include <daisysp.h>
 
+#include "keyplayer.h"
 #include "FmOperator.h"
-
-#define NUM_VOICES 4
 
 struct Program {
   const char *name;
-  FmOperatorParam op;
+  FmOperatorParam op[NUM_OPERATORS];
 };
 
 class Voice {
@@ -49,7 +48,7 @@ class Voice {
   bool mNoteOn;
   unsigned mTimestamp;
   const Program *mProgram;
-  FmOperator mOp;
+  FmOperator mOp[NUM_OPERATORS];
 };
 
 extern Voice allVoices[NUM_VOICES];

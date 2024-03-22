@@ -5,6 +5,8 @@
 #include <daisysp.h>
 
 struct FmOperatorParam {
+  bool  fixedFreq;
+  float freq;
   float totalLevel;
   float attack, decay, sustain, release;
 };
@@ -20,7 +22,7 @@ class FmOperator {
   void fillBuffer(float *out, const float *in, const float *mod);
   
  private:
-  const FmOperatorParam *p;
+  const FmOperatorParam *mParam;
   bool mGate;
   daisysp::Oscillator mOsc;
   daisysp::Adsr mEnv;
