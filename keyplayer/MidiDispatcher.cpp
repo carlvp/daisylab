@@ -6,14 +6,18 @@ using namespace daisy;
 
 Program theProgram = {
  name: "Example Program",
- attackTime: 0.01f,
- decayTime:  0.40f
+ op: {
+      totalLevel: 0.71f,
+      attack:     0.01f,
+      decay:      0.40f,
+      sustain:    0.25f,
+      release:    0.10f
+ }
 };
 
 static void noteOn(unsigned channel, unsigned key, unsigned velocity) {
   Voice *voice=allocateVoice(channel, key);
-  voice->setProgram(&theProgram);
-  voice->noteOn(key, velocity);
+  voice->noteOn(&theProgram, key, velocity);
   DaisySeedHw.SetLed(true);
 }
 

@@ -32,30 +32,25 @@ Voice *allocateVoice(unsigned channel, unsigned key) {
 }
 
 void Voice::Init(float sampleRate) {
-  mOsc.Init(sampleRate);
-  mEnv.Init(sampleRate);
+  mOp.Init(sampleRate);
 }
 
-void Voice::noteOn(unsigned key, unsigned velocity) {
+void Voice::noteOn(const Program *p, unsigned key, unsigned velocity) {
+  mProgram=p;
   mKey=key;
   mNoteOn=true;
   mTimestamp=getAudioPathTimestamp();
-  mOsc.SetFreq(daisysp::mtof(key));
-  mEnv.SetTime(daisysp::ADENV_SEG_ATTACK, mProgram->attackTime);
-  mEnv.SetTime(daisysp::ADENV_SEG_DECAY, mProgram->decayTime);
-  mEnv.Trigger();
+
+  float freq=daisysp::mtof(key);
+  mOp.noteOn(&p->op, freq, velocity);
 }
 
 void Voice::noteOff() {
   mNoteOn=false;
   mTimestamp=getAudioPathTimestamp();
+  mOp.noteOff();
 }
 
 void Voice::addToBuffer(float *buffer) {
-  for (unsigned i=0; i<BLOCK_SIZE; ++i) {
-    float gain=mEnv.Process();
-    
-    mOsc.SetAmp(gain);
-    buffer[i]+=mOsc.Process();
-  }
+  mOp.fillBuffer(buffer, buffer, /* TBD (fm) */ nullptr);
 }

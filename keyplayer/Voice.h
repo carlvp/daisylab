@@ -4,12 +4,13 @@
 
 #include <daisysp.h>
 
+#include "FmOperator.h"
+
 #define NUM_VOICES 4
 
 struct Program {
   const char *name;
-  float attackTime;
-  float decayTime;
+  FmOperatorParam op;
 };
 
 class Voice {
@@ -37,11 +38,7 @@ class Voice {
     }
   }
   
-  void setProgram(const Program *p) {
-    mProgram=p;
-  }
-  
-  void noteOn(unsigned key, unsigned velocity);
+  void noteOn(const Program *p, unsigned key, unsigned velocity);
 
   void noteOff();
 
@@ -52,8 +49,7 @@ class Voice {
   bool mNoteOn;
   unsigned mTimestamp;
   const Program *mProgram;
-  daisysp::Oscillator mOsc;
-  daisysp::AdEnv mEnv;
+  FmOperator mOp;
 };
 
 extern Voice allVoices[NUM_VOICES];
