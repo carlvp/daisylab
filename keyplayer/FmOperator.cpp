@@ -1,5 +1,6 @@
 #include "keyplayer.h"
 #include "FmOperator.h"
+#include "Q23.h"
 
 void FmOperator::Init(float sampleRate) {
   mEnv.Init(sampleRate);
@@ -24,13 +25,15 @@ void FmOperator::noteOff() {
   mGate=false;
 }
 
-void FmOperator::fillBuffer(float *out, const float *in, const float *mod) {
+void FmOperator::fillBuffer(std::int32_t *out,
+			    const std::int32_t *in,
+			    const std::int32_t *mod) {
   float totalLevel=mParam->totalLevel;
   for (unsigned i=0; i<BLOCK_SIZE; ++i) {
     float gain=mEnv.Process(mGate)*totalLevel;
     
     mOsc.SetAmp(gain);
-    out[i]=in[i] + mOsc.Process();
+    out[i]=in[i] + Q23::fromFloat(mOsc.Process());
   }
 }
 

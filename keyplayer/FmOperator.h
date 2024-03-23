@@ -2,6 +2,7 @@
 #ifndef FmOperator_H
 #define FmOperator_H
 
+#include <cstdint>
 #include <daisysp.h>
 
 struct FmOperatorParam {
@@ -19,8 +20,17 @@ class FmOperator {
 
   void noteOff();
 
-  void fillBuffer(float *out, const float *in, const float *mod);
-  
+  // Computes out[0:N-1] = in[0:N-1] + f(mod[0:N-1]), where N is the buffer size
+  //
+  // out[0:N-1] is the output buffer
+  // in[0:N-1] is an input buffer which is mixed with the FmOperator's output
+  // mod[0:N-1] is the phase modulation input (produced by other FmOperators)
+  //
+  // Samples are Q23 (signed fixed point, 23 fractional bits)
+  void fillBuffer(std::int32_t *out,
+		  const std::int32_t *in,
+		  const std::int32_t *mod);
+
  private:
   const FmOperatorParam *mParam;
   bool mGate;
