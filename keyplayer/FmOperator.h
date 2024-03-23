@@ -6,8 +6,8 @@
 #include <daisysp.h>
 
 struct FmOperatorParam {
-  bool  fixedFreq;
-  float freq;
+  bool fixedFreq;
+  float freq;              // Fixed frequency (Hz) or frequency ratio
   float totalLevel;
   float attack, decay, sustain, release;
 };
@@ -16,7 +16,9 @@ class FmOperator {
  public:
   void Init(float sampleRate);
   
-  void noteOn(const FmOperatorParam *p, float freq, unsigned velocity);
+  void noteOn(const FmOperatorParam *p,
+	      std::int32_t deltaPhi,
+	      unsigned velocity);
 
   void noteOff();
 
@@ -34,7 +36,7 @@ class FmOperator {
  private:
   const FmOperatorParam *mParam;
   bool mGate;
-  daisysp::Oscillator mOsc;
+  unsigned mPhi, mDeltaPhiKey;
   daisysp::Adsr mEnv;
 };
 

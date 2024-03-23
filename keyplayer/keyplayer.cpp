@@ -18,17 +18,31 @@ using namespace daisysp;
 
 DaisySeed DaisySeedHw;
 
-static UsbMidiDispatcher midi;
+KeyPlayer theKeyPlayer;
+
+void KeyPlayer::Init() {
+  // Basic initialization of Daisy hardware
+  DaisySeedHw.Configure();
+  DaisySeedHw.Init();
+
+  // Tune the KeyPlayer:
+  // Phase is represented as a 32-bit integer and 2PI corresponds to 2^32
+  // The phase increment of a 1Hz signal is 2^32/sampleRate
+  float sampleRate=DaisySeedHw.AudioSampleRate();
+  mDeltaPhi1Hz=4294967296.0f/sampleRate;
+  // In the same way for midi key A4 (440Hz)
+  mDeltaPhiA4=440*mDeltaPhi1Hz;
+}
 
 int main(void)
 {
-  /* Basic initialization of Daisy hardware */
-  DaisySeedHw.Configure();
-  DaisySeedHw.Init();
-  /* Initialize USB Midi */ 
+  UsbMidiDispatcher midi;
+  
+  theKeyPlayer.Init();
+  /* TODO: move this stuff into the Keyplayer singleton? */
   midi.Init();
-  /* Initialize the voices and start the audio callback */
   initVoices(DaisySeedHw.AudioSampleRate());
+  
   startAudioPath();
   while(1) {
     processAudioPath();

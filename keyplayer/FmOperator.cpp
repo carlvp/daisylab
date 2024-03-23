@@ -4,16 +4,19 @@
 
 void FmOperator::Init(float sampleRate) {
   mEnv.Init(sampleRate);
-  mOsc.Init(sampleRate);
+  mPhi=0;
 }
   
-void FmOperator::noteOn(const FmOperatorParam *p, float freq, unsigned vel) {
+void FmOperator::noteOn(const FmOperatorParam *p,
+			std::int32_t deltaPhi,
+			unsigned vel) {
   mParam=p;
   mGate=true;
-  mOsc.SetWaveform(mOsc.WAVE_SIN);
   // oscillator mode (fixed frequency or ratio)
-  freq=(p->fixedFreq)? p->freq : p->freq*freq;
-  mOsc.SetFreq(freq);
+  mDeltaPhiKey=(p->fixedFreq)?
+    theKeyPlayer.freqToPhaseIncrement(p->freq)
+    : p->freq*deltaPhi;
+  // envelope paramers
   mEnv.SetAttackTime(p->attack);
   mEnv.SetDecayTime(p->decay);
   mEnv.SetSustainLevel(p->sustain);
@@ -29,12 +32,16 @@ void FmOperator::fillBuffer(std::int32_t *out,
 			    const std::int32_t *in,
 			    const std::int32_t *mod) {
   float totalLevel=mParam->totalLevel;
+  unsigned phi=mPhi;
+  
   for (unsigned i=0; i<BLOCK_SIZE; ++i) {
     float gain=mEnv.Process(mGate)*totalLevel;
+    float s=sinf(ldexpf(PI_F*phi,-31));
     
-    mOsc.SetAmp(gain);
-    out[i]=in[i] + Q23::fromFloat(mOsc.Process());
+    phi+=mDeltaPhiKey;
+    out[i]=in[i] + Q23::fromFloat(s*gain);
   }
-}
 
-  
+  // Write back updated state
+  mPhi=phi;
+}

@@ -42,9 +42,9 @@ void Voice::noteOn(const Program *p, unsigned key, unsigned velocity) {
   mNoteOn=true;
   mTimestamp=getAudioPathTimestamp();
 
-  float freq=daisysp::mtof(key);
+  std::int32_t deltaPhi=theKeyPlayer.midiToPhaseIncrement(key);
   for (unsigned i=0; i<NUM_OPERATORS; ++i)
-    mOp[i].noteOn(&p->op[i], freq, velocity);
+    mOp[i].noteOn(&p->op[i], deltaPhi, velocity);
 }
 
 void Voice::noteOff() {
