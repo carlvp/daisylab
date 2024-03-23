@@ -2,8 +2,8 @@
 TARGET = keyplayer
 
 # Sources
-CPP_SOURCES = keyplayer.cpp MidiDispatcher.cpp Voice.cpp FmOperator.cpp \
-              AudioPath.cpp
+CPP_SOURCES = keyplayer.cpp MidiDispatcher.cpp Voice.cpp FmAlgorithm.cpp \
+              FmOperator.cpp AudioPath.cpp
 
 # Library Locations
 LIBDAISY_DIR = ../../DaisyExamples/libDaisy/

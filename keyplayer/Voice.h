@@ -9,8 +9,11 @@
 
 struct Program {
   const char *name;
+  unsigned char algorithm;
   FmOperatorParam op[NUM_OPERATORS];
 };
+
+class FmAlgorithm;
 
 class Voice {
  public:
@@ -48,6 +51,7 @@ class Voice {
   bool mNoteOn;
   unsigned mTimestamp;
   const Program *mProgram;
+  const FmAlgorithm *mAlgorithm;
   FmOperator mOp[NUM_OPERATORS];
 };
 

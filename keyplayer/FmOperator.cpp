@@ -27,7 +27,11 @@ void FmOperator::noteOff() {
   mGate=false;
 }
 
-void FmOperator::fillBuffer(float *out, const float *in, const float *mod) {
+void FmOperator::fillBuffer(float *out,
+			    const float *in,
+			    const float *mod,
+			    float pitchMod,
+			    unsigned feedback) {
   float totalLevel=mParam->totalLevel;
   unsigned phi=mPhi;
   

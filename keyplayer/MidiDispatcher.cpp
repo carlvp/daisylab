@@ -6,6 +6,7 @@ using namespace daisy;
 
 Program theProgram = {
  name: "E.Organ 1",
+ algorithm: 32,
  op:
   {
     { // OP6

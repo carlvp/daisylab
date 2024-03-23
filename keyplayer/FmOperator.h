@@ -21,7 +21,11 @@ class FmOperator {
 
   void noteOff();
 
-  void fillBuffer(float *out, const float *in, const float *mod);
+  void fillBuffer(float *out,
+		  const float *in,
+		  const float *mod,
+		  float pitchMod,
+		  unsigned feedback);
   
  private:
   const FmOperatorParam *mParam;

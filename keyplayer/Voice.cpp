@@ -1,4 +1,5 @@
 #include "keyplayer.h"
+#include "FmAlgorithm.h"
 #include "Voice.h"
 
 Voice allVoices[NUM_VOICES];
@@ -34,10 +35,12 @@ Voice *allocateVoice(unsigned channel, unsigned key) {
 void Voice::Init(float sampleRate) {
   for (FmOperator &op: mOp)
     op.Init(sampleRate);
+  mAlgorithm=nullptr;
 }
 
 void Voice::noteOn(const Program *p, unsigned key, unsigned velocity) {
   mProgram=p;
+  mAlgorithm=FmAlgorithm::getAlgorithm(p->algorithm);
   mKey=key;
   mNoteOn=true;
   mTimestamp=getAudioPathTimestamp();
@@ -55,6 +58,9 @@ void Voice::noteOff() {
 }
 
 void Voice::addToBuffer(float *buffer) {
-  for (FmOperator &op: mOp)
-    op.fillBuffer(buffer, buffer, /* TBD (fm) */ nullptr);
+  float pitchMod=1.0;
+  unsigned feedback=0;
+  if (mAlgorithm) {
+    mAlgorithm->fillBuffer(buffer, buffer, mOp, pitchMod, feedback);
+  }
 }
