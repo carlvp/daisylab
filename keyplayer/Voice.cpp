@@ -54,7 +54,7 @@ void Voice::noteOff() {
     op.noteOff();
 }
 
-void Voice::addToBuffer(std::int32_t *buffer) {
+void Voice::addToBuffer(float *buffer) {
   for (FmOperator &op: mOp)
     op.fillBuffer(buffer, buffer, /* TBD (fm) */ nullptr);
 }

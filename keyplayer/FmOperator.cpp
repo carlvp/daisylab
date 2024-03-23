@@ -1,6 +1,5 @@
 #include "keyplayer.h"
 #include "FmOperator.h"
-#include "Q23.h"
 
 void FmOperator::Init(float sampleRate) {
   mEnv.Init(sampleRate);
@@ -28,9 +27,7 @@ void FmOperator::noteOff() {
   mGate=false;
 }
 
-void FmOperator::fillBuffer(std::int32_t *out,
-			    const std::int32_t *in,
-			    const std::int32_t *mod) {
+void FmOperator::fillBuffer(float *out, const float *in, const float *mod) {
   float totalLevel=mParam->totalLevel;
   unsigned phi=mPhi;
   
@@ -39,7 +36,7 @@ void FmOperator::fillBuffer(std::int32_t *out,
     float s=sinf(ldexpf(PI_F*phi,-31));
     
     phi+=mDeltaPhiKey;
-    out[i]=in[i] + Q23::fromFloat(s*gain);
+    out[i]=in[i] + s*gain;
   }
 
   // Write back updated state

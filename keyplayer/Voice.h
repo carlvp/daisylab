@@ -2,7 +2,6 @@
 #ifndef Voice_H
 #define Voice_H
 
-#include <cstdint>
 #include <daisysp.h>
 
 #include "keyplayer.h"
@@ -42,8 +41,7 @@ class Voice {
 
   void noteOff();
 
-  // Samples are Q23 (signed fixed point, 23 fractional bits)
-  void addToBuffer(std::int32_t *buf);
+  void addToBuffer(float *buf);
 
  private:
   unsigned char mKey;
