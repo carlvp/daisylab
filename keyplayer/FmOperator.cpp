@@ -1,5 +1,6 @@
 #include "keyplayer.h"
 #include "FmOperator.h"
+#include "Program.h"
 
 void FmOperator::Init(float sampleRate) {
   mEnv.Init(sampleRate);

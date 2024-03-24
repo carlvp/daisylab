@@ -4,12 +4,7 @@
 
 #include <daisysp.h>
 
-struct FmOperatorParam {
-  bool fixedFreq;
-  float freq;              // Fixed frequency (Hz) or frequency ratio
-  float totalLevel;
-  float attack, decay, sustain, release;
-};
+struct FmOperatorParam;
 
 class FmOperator {
  public:

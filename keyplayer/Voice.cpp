@@ -1,6 +1,8 @@
 #include "keyplayer.h"
+#include "Channel.h"
 #include "FmAlgorithm.h"
 #include "Voice.h"
+#include "Program.h"
 
 Voice allVoices[NUM_VOICES];
 
@@ -38,20 +40,20 @@ void Voice::Init(float sampleRate) {
   mAlgorithm=nullptr;
 }
 
-void Voice::noteOn(const Program *p, unsigned key, unsigned velocity) {
-  mProgram=p;
-  mAlgorithm=FmAlgorithm::getAlgorithm(p->algorithm);
+void Voice::noteOn(const Channel *ch, unsigned key, unsigned velocity) {
+  mProgram=ch->program;
+  mAlgorithm=FmAlgorithm::getAlgorithm(mProgram->algorithm);
   mKey=key;
-  mNoteOn=true;
+  mGate=true;
   mTimestamp=getAudioPathTimestamp();
 
   std::int32_t deltaPhi=theKeyPlayer.midiToPhaseIncrement(key);
   for (unsigned i=0; i<NUM_OPERATORS; ++i)
-    mOp[i].noteOn(&p->op[i], deltaPhi, velocity);
+    mOp[i].noteOn(&mProgram->op[i], deltaPhi, velocity);
 }
 
 void Voice::noteOff() {
-  mNoteOn=false;
+  mGate=false;
   mTimestamp=getAudioPathTimestamp();
   for (FmOperator &op: mOp)
     op.noteOff();

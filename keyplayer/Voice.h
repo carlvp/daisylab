@@ -7,40 +7,36 @@
 #include "keyplayer.h"
 #include "FmOperator.h"
 
-struct Program {
-  const char *name;
-  unsigned char algorithm;
-  FmOperatorParam op[NUM_OPERATORS];
-};
-
+struct Channel;
 class FmAlgorithm;
+struct Program;
 
 class Voice {
  public:
  Voice()
-   : mKey{0}, mNoteOn{false}, mTimestamp{0}, mProgram{nullptr}
+   : mKey{0}, mGate{false}, mTimestamp{0}, mProgram{nullptr}
     { }
 
   void Init(float sampleRate);
 
   unsigned getKey() const { return mKey; }
 
-  bool isNoteOn() const { return mNoteOn; }
+  bool isNoteOn() const { return mGate; }
 
   // Voice stealing is based on note-on status and "age"
   Voice *voiceStealing(Voice *other, unsigned currTimestamp) {
     unsigned thisAge=currTimestamp-mTimestamp;
     unsigned otherAge=currTimestamp-other->mTimestamp;
 
-    if (other->mNoteOn) {
-      return (!mNoteOn || thisAge>=otherAge)? this : other;
+    if (other->mGate) {
+      return (!mGate || thisAge>=otherAge)? this : other;
     }
     else {
-      return (!mNoteOn && thisAge>=otherAge)? this : other;
+      return (!mGate && thisAge>=otherAge)? this : other;
     }
   }
   
-  void noteOn(const Program *p, unsigned key, unsigned velocity);
+  void noteOn(const Channel *ch, unsigned key, unsigned velocity);
 
   void noteOff();
 
@@ -48,7 +44,7 @@ class Voice {
 
  private:
   unsigned char mKey;
-  bool mNoteOn;
+  bool mGate;
   unsigned mTimestamp;
   const Program *mProgram;
   const FmAlgorithm *mAlgorithm;
