@@ -15,6 +15,7 @@ static const Program programBank[]={
   {
     name: "INIT VOICE",
     algorithm: 1,
+    feedback: 0,
     op: {
       INIT_OP(0),
       INIT_OP(0),

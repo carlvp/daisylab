@@ -21,11 +21,12 @@ class FmOperator {
 		  const float *in,
 		  const float *mod,
 		  float pitchMod,
-		  unsigned feedback);
+		  int feedback);
   
  private:
   const FmOperatorParam *mParam;
   unsigned mPhi, mDeltaPhiKey;
+  float mDelay1, mDelay2;
   EnvelopeState mEnvelope;
 };
 

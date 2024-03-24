@@ -1,6 +1,7 @@
   { // Program: 1
     name: "BRASS   1",
     algorithm: 22,
+    feedback:   9,
     op: {
       { // OP6
         fixedFreq:  false,
@@ -67,6 +68,7 @@
   { // Program: 2
     name: "BRASS   2",
     algorithm: 22,
+    feedback:   9,
     op: {
       { // OP6
         fixedFreq:  false,
@@ -133,6 +135,7 @@
   { // Program: 3
     name: "BRASS   3",
     algorithm: 18,
+    feedback:   8,
     op: {
       { // OP6
         fixedFreq:  false,
@@ -198,7 +201,8 @@
   },
   { // Program: 4
     name: "STRINGS 1",
-    algorithm: 2,
+    algorithm:  2,
+    feedback:   9,
     op: {
       { // OP6
         fixedFreq:  false,
@@ -264,7 +268,8 @@
   },
   { // Program: 5
     name: "STRINGS 2",
-    algorithm: 2,
+    algorithm:  2,
+    feedback:   9,
     op: {
       { // OP6
         fixedFreq:  false,
@@ -331,6 +336,7 @@
   { // Program: 6
     name: "STRINGS 3",
     algorithm: 15,
+    feedback:   9,
     op: {
       { // OP6
         fixedFreq:  false,
@@ -396,7 +402,8 @@
   },
   { // Program: 7
     name: "ORCHESTRA",
-    algorithm: 2,
+    algorithm:  2,
+    feedback:   9,
     op: {
       { // OP6
         fixedFreq:  false,
@@ -463,6 +470,7 @@
   { // Program: 8
     name: "PIANO   1",
     algorithm: 19,
+    feedback:   8,
     op: {
       { // OP6
         fixedFreq:  false,
@@ -529,6 +537,7 @@
   { // Program: 9
     name: "PIANO   2",
     algorithm: 18,
+    feedback:   7,
     op: {
       { // OP6
         fixedFreq:  false,
@@ -594,7 +603,8 @@
   },
   { // Program: 10
     name: "PIANO   3",
-    algorithm: 3,
+    algorithm:  3,
+    feedback:   6,
     op: {
       { // OP6
         fixedFreq:  false,
@@ -660,7 +670,8 @@
   },
   { // Program: 11
     name: "E.PIANO 1",
-    algorithm: 5,
+    algorithm:  5,
+    feedback:   8,
     op: {
       { // OP6
         fixedFreq:  false,
@@ -726,7 +737,8 @@
   },
   { // Program: 12
     name: "GUITAR  1",
-    algorithm: 8,
+    algorithm:  8,
+    feedback:   9,
     op: {
       { // OP6
         fixedFreq:  false,
@@ -793,6 +805,7 @@
   { // Program: 13
     name: "GUITAR  2",
     algorithm: 16,
+    feedback:   9,
     op: {
       { // OP6
         fixedFreq:  false,
@@ -859,6 +872,7 @@
   { // Program: 14
     name: "SYN-LEAD 1",
     algorithm: 18,
+    feedback:   9,
     op: {
       { // OP6
         fixedFreq:  false,
@@ -925,6 +939,7 @@
   { // Program: 15
     name: "BASS    1",
     algorithm: 16,
+    feedback:   9,
     op: {
       { // OP6
         fixedFreq:  false,
@@ -991,6 +1006,7 @@
   { // Program: 16
     name: "BASS    2",
     algorithm: 17,
+    feedback:   9,
     op: {
       { // OP6
         fixedFreq:  false,
@@ -1057,6 +1073,7 @@
   { // Program: 17
     name: "E.ORGAN 1",
     algorithm: 32,
+    feedback:   0,
     op: {
       { // OP6
         fixedFreq:  false,
@@ -1123,6 +1140,7 @@
   { // Program: 18
     name: "PIPES   1",
     algorithm: 19,
+    feedback:   9,
     op: {
       { // OP6
         fixedFreq:  false,
@@ -1188,7 +1206,8 @@
   },
   { // Program: 19
     name: "HARPSICH 1",
-    algorithm: 5,
+    algorithm:  5,
+    feedback:   3,
     op: {
       { // OP6
         fixedFreq:  false,
@@ -1254,7 +1273,8 @@
   },
   { // Program: 20
     name: "CLAV    1",
-    algorithm: 3,
+    algorithm:  3,
+    feedback:   7,
     op: {
       { // OP6
         fixedFreq:  false,
@@ -1321,6 +1341,7 @@
   { // Program: 21
     name: "VIBE    1",
     algorithm: 23,
+    feedback:   7,
     op: {
       { // OP6
         fixedFreq:  false,
@@ -1386,7 +1407,8 @@
   },
   { // Program: 22
     name: "MARIMBA",
-    algorithm: 7,
+    algorithm:  7,
+    feedback:   0,
     op: {
       { // OP6
         fixedFreq:  false,
@@ -1452,7 +1474,8 @@
   },
   { // Program: 23
     name: "KOTO",
-    algorithm: 2,
+    algorithm:  2,
+    feedback:   9,
     op: {
       { // OP6
         fixedFreq:  false,
@@ -1519,6 +1542,7 @@
   { // Program: 24
     name: "FLUTE   1",
     algorithm: 16,
+    feedback:   7,
     op: {
       { // OP6
         fixedFreq:  false,
@@ -1584,7 +1608,8 @@
   },
   { // Program: 25
     name: "ORCH-CHIME",
-    algorithm: 5,
+    algorithm:  5,
+    feedback:   9,
     op: {
       { // OP6
         fixedFreq:  false,
@@ -1650,7 +1675,8 @@
   },
   { // Program: 26
     name: "TUB BELLS",
-    algorithm: 5,
+    algorithm:  5,
+    feedback:   9,
     op: {
       { // OP6
         fixedFreq:  false,
@@ -1717,6 +1743,7 @@
   { // Program: 27
     name: "STEEL DRUM",
     algorithm: 15,
+    feedback:   7,
     op: {
       { // OP6
         fixedFreq:  true,
@@ -1783,6 +1810,7 @@
   { // Program: 28
     name: "TIMPANI",
     algorithm: 16,
+    feedback:   9,
     op: {
       { // OP6
         fixedFreq:  false,
@@ -1849,6 +1877,7 @@
   { // Program: 29
     name: "REFS WHISL",
     algorithm: 18,
+    feedback:   4,
     op: {
       { // OP6
         fixedFreq:  true,
@@ -1914,7 +1943,8 @@
   },
   { // Program: 30
     name: "VOICE   1",
-    algorithm: 7,
+    algorithm:  7,
+    feedback:   9,
     op: {
       { // OP6
         fixedFreq:  false,
@@ -1980,7 +2010,8 @@
   },
   { // Program: 31
     name: "TRAIN",
-    algorithm: 5,
+    algorithm:  5,
+    feedback:   9,
     op: {
       { // OP6
         fixedFreq:  false,
@@ -2047,6 +2078,7 @@
   { // Program: 32
     name: "TAKE OFF",
     algorithm: 10,
+    feedback:   0,
     op: {
       { // OP6
         fixedFreq:  false,

@@ -20,6 +20,7 @@ struct FmOperatorParam {
 struct Program {
   const char *name;
   unsigned char algorithm;
+  unsigned char feedback;
   FmOperatorParam op[NUM_OPERATORS];
 
   static const Program *getProgram(unsigned programNumber);

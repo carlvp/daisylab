@@ -17,6 +17,9 @@ void FmOperator::noteOn(const FmOperatorParam *param,
     theKeyPlayer.freqToPhaseIncrement(param->freq)
     : param->freq*deltaPhi;
 
+  // delays
+  mDelay1=mDelay2=0;
+  
   // envelope
   mEnvelope.noteOn(&param->envelope, param->totalLevel*levelCom, 1.0f);
 }
@@ -29,20 +32,29 @@ void FmOperator::fillBuffer(float *out,
 			    const float *in,
 			    const float *mod,
 			    float pitchMod,
-			    unsigned feedback) {
+			    int feedback) {
   unsigned phi=mPhi;
-  
+  float y1=mDelay1;
+  float y2=mDelay2;
   for (unsigned i=0; i<BLOCK_SIZE; ++i) {
     // Modulator is scaled by 4PI, which is the modulation index for ouput 99
-    float m=4.0f*mod[i];
+    // Feedback is scaled similarly, but there is also an implicit
+    // averaging of y1 and y2 and a scaling by 2^(feedback-9):
+    // (2^k)PI, where k=2 {for 4PI} -1 {1/2 averaging} + feedback-9 =
+    // = feedback-8.
+    float m=(feedback)? ldexpf(y1+y2, feedback-8) : 4.0f*mod[i];
     float s=sinf((ldexpf(phi,-31)+m)*((float) M_PI));
     float gain=mEnvelope.ProcessSample();
-    
+
+    y2=y1;
+    y1=s*gain;
     phi+=mDeltaPhiKey;
-    out[i]=in[i] + s*gain;
+    out[i]=in[i] + y1;
   }
 
   // Write back updated state
   mPhi=phi;
+  mDelay1=y1;
+  mDelay2=y2;
   mEnvelope.updateAfterBlock(&mParam->envelope);
 }

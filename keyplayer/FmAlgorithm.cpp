@@ -13,6 +13,35 @@ static float tempBuffer1[BLOCK_SIZE];
 #define BITSET5(a,b,c,d,e)   (BITSET3(a,b,c) | BITSET2(d,e))
 #define BITSET6(a,b,c,d,e,f) (BITSET3(a,b,c) | BITSET3(d,e,f))
 
+// 4 2 0*
+// | | |
+// 5 3 1
+// +-+-+
+class FmAlgorithm5 : public FmAlgorithm {
+public:
+  FmAlgorithm5()
+    : FmAlgorithm{3, BITSET3(1,3,5)}
+  { }
+
+  virtual void fillBuffer(float *out,
+			  const float *in,
+			  FmOperator *op,
+			  float pitchMod,
+			  unsigned feedback) const override {
+    float *tmp=tempBuffer1;
+    const float *zero=zeroBuffer;
+    
+    op[0].fillBuffer(tmp, zero, zero, pitchMod, feedback);
+    op[1].fillBuffer(out, in,   tmp,  pitchMod, 0);
+    op[2].fillBuffer(tmp, zero, zero, pitchMod, 0);
+    op[3].fillBuffer(out, out,  tmp,  pitchMod, 0);
+    op[4].fillBuffer(tmp, zero, zero, pitchMod, 0);
+    op[5].fillBuffer(out, out,  tmp,  pitchMod, 0);
+  }
+};
+
+static FmAlgorithm5 alg5;
+
 //     0*
 //     |
 // 4 2 1
@@ -71,6 +100,7 @@ static FmAlgorithm32 alg32;
 
 const FmAlgorithm* FmAlgorithm::getAlgorithm(unsigned algorithmNumber) {
   switch (algorithmNumber) {
+  case 5: return &alg5;
   case 7: return &alg7;
   case 32:
   default:

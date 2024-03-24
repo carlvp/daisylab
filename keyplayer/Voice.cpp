@@ -62,8 +62,8 @@ void Voice::noteOff() {
 
 void Voice::addToBuffer(float *buffer) {
   float pitchMod=1.0;
-  unsigned feedback=0;
+
   if (mAlgorithm) {
-    mAlgorithm->fillBuffer(buffer, buffer, mOp, pitchMod, feedback);
+    mAlgorithm->fillBuffer(buffer, buffer, mOp, pitchMod, mProgram->feedback);
   }
 }
