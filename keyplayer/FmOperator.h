@@ -2,19 +2,20 @@
 #ifndef FmOperator_H
 #define FmOperator_H
 
-#include <daisysp.h>
+#include "EnvelopeState.h"
 
-struct FmOperatorParam;
+class FmOperatorParam;
 
 class FmOperator {
  public:
-  void Init(float sampleRate);
+  void Init();
   
   void noteOn(const FmOperatorParam *p,
 	      std::int32_t deltaPhi,
-	      unsigned velocity);
+	      unsigned velocity,
+	      float levelCom);
 
-  void noteOff();
+  void noteOff(const FmOperatorParam *param);
 
   void fillBuffer(float *out,
 		  const float *in,
@@ -24,9 +25,8 @@ class FmOperator {
   
  private:
   const FmOperatorParam *mParam;
-  bool mGate;
   unsigned mPhi, mDeltaPhiKey;
-  daisysp::Adsr mEnv;
+  EnvelopeState mEnvelope;
 };
 
 #endif

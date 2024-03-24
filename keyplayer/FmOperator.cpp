@@ -1,31 +1,28 @@
+#include <cmath>
 #include "keyplayer.h"
 #include "FmOperator.h"
 #include "Program.h"
 
-void FmOperator::Init(float sampleRate) {
-  mEnv.Init(sampleRate);
-  mPhi=0;
+void FmOperator::Init() {
+   mPhi=0;
 }
   
-void FmOperator::noteOn(const FmOperatorParam *p,
+void FmOperator::noteOn(const FmOperatorParam *param,
 			std::int32_t deltaPhi,
-			unsigned vel) {
-  mParam=p;
-  mGate=true;
+			unsigned vel,
+			float levelCom) {
+  mParam=param;
   // oscillator mode (fixed frequency or ratio)
-  mDeltaPhiKey=(p->fixedFreq)?
-    theKeyPlayer.freqToPhaseIncrement(p->freq)
-    : p->freq*deltaPhi;
-  // envelope paramers
-  mEnv.SetAttackTime(p->attack);
-  mEnv.SetDecayTime(p->decay);
-  mEnv.SetSustainLevel(p->sustain);
-  mEnv.SetReleaseTime(p->release);
-  mEnv.Retrigger(true);
+  mDeltaPhiKey=(param->fixedFreq)?
+    theKeyPlayer.freqToPhaseIncrement(param->freq)
+    : param->freq*deltaPhi;
+
+  // envelope
+  mEnvelope.noteOn(&param->envelope, param->totalLevel*levelCom, 1.0f);
 }
 
-void FmOperator::noteOff() {
-  mGate=false;
+void FmOperator::noteOff(const FmOperatorParam *param) {
+  mEnvelope.noteOff(&param->envelope);
 }
 
 void FmOperator::fillBuffer(float *out,
@@ -33,12 +30,11 @@ void FmOperator::fillBuffer(float *out,
 			    const float *mod,
 			    float pitchMod,
 			    unsigned feedback) {
-  float totalLevel=mParam->totalLevel;
   unsigned phi=mPhi;
   
   for (unsigned i=0; i<BLOCK_SIZE; ++i) {
-    float gain=mEnv.Process(mGate)*totalLevel;
-    float s=sinf(ldexpf(PI_F*phi,-31));
+    float s=sinf(ldexpf((float) M_PI*phi,-31));
+    float gain=mEnvelope.ProcessSample();
     
     phi+=mDeltaPhiKey;
     out[i]=in[i] + s*gain;
@@ -46,4 +42,5 @@ void FmOperator::fillBuffer(float *out,
 
   // Write back updated state
   mPhi=phi;
+  mEnvelope.updateAfterBlock(&mParam->envelope);
 }

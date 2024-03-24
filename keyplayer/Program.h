@@ -4,11 +4,17 @@
 
 #include "KeyplayerConfig.h"
 
+struct EnvelopeParam {
+  float level0;
+  float levels[NUM_ENV_STAGES]; 
+  float times[NUM_ENV_STAGES]; 
+};
+
 struct FmOperatorParam {
   bool fixedFreq;
   float freq;              // Fixed frequency (Hz) or frequency ratio
   float totalLevel;
-  float attack, decay, sustain, release;
+  EnvelopeParam envelope;
 };
 
 struct Program {

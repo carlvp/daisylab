@@ -30,7 +30,7 @@ class KeyPlayer {
 
 extern KeyPlayer theKeyPlayer;
 
-void initVoices(float sampleRate);
+void initVoices();
 void startAudioPath();
 void processAudioPath();
 unsigned getAudioPathTimestamp();

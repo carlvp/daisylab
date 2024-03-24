@@ -6,9 +6,9 @@
 
 Voice allVoices[NUM_VOICES];
 
-void initVoices(float sampleRate) {
+void initVoices() {
   for (Voice &v: allVoices)
-    v.Init(sampleRate);
+    v.Init();
 }
 
 Voice *findVoice(unsigned channel, unsigned key) {
@@ -34,9 +34,9 @@ Voice *allocateVoice(unsigned channel, unsigned key) {
   return v;
 }
 
-void Voice::Init(float sampleRate) {
+void Voice::Init() {
   for (FmOperator &op: mOp)
-    op.Init(sampleRate);
+    op.Init();
   mAlgorithm=nullptr;
 }
 
@@ -48,15 +48,16 @@ void Voice::noteOn(const Channel *ch, unsigned key, unsigned velocity) {
   mTimestamp=getAudioPathTimestamp();
 
   std::int32_t deltaPhi=theKeyPlayer.midiToPhaseIncrement(key);
+  float com=1.0/mAlgorithm->getNumCarriers();
   for (unsigned i=0; i<NUM_OPERATORS; ++i)
-    mOp[i].noteOn(&mProgram->op[i], deltaPhi, velocity);
+    mOp[i].noteOn(&mProgram->op[i], deltaPhi, velocity, com);
 }
 
 void Voice::noteOff() {
   mGate=false;
   mTimestamp=getAudioPathTimestamp();
-  for (FmOperator &op: mOp)
-    op.noteOff();
+  for (unsigned i=0; i<NUM_OPERATORS; ++i)
+    mOp[i].noteOff(&mProgram->op[i]);
 }
 
 void Voice::addToBuffer(float *buffer) {

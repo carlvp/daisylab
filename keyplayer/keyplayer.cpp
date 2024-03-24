@@ -41,7 +41,7 @@ int main(void)
   theKeyPlayer.Init();
   /* TODO: move this stuff into the Keyplayer singleton? */
   midi.Init();
-  initVoices(DaisySeedHw.AudioSampleRate());
+  initVoices();
   
   startAudioPath();
   while(1) {

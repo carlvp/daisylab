@@ -17,7 +17,7 @@ class Voice {
    : mKey{0}, mGate{false}, mTimestamp{0}, mProgram{nullptr}
     { }
 
-  void Init(float sampleRate);
+  void Init();
 
   unsigned getKey() const { return mKey; }
 
