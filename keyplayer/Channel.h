@@ -6,6 +6,7 @@ class Program;
 
 struct Channel {
   const Program *program;
+  float volume;
 };
 
 #endif

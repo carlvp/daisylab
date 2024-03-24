@@ -24,7 +24,7 @@ static const Program programBank[]={
       INIT_OP(1.0),
     }
   },
-#include "EOrgan1.i"
+#include "rom1a.i"
 };
 
 const Program *Program::getProgram(unsigned programNumber) {

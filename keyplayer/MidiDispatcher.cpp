@@ -8,8 +8,10 @@ void UsbMidiDispatcher::Init() {
   midi_cfg.transport_config.periph = daisy::MidiUsbTransport::Config::INTERNAL;
   mMidi.Init(midi_cfg);
 
-  for (unsigned ch=0; ch<16; ++ch)
+  for (unsigned ch=0; ch<16; ++ch) {
     mChannel[ch].program=Program::getProgram(1);
+    mChannel[ch].volume=0.25;
+  }
 }
 
 void UsbMidiDispatcher::noteOn(unsigned channel, unsigned key, unsigned velocity) {

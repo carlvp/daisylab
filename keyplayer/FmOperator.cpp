@@ -33,7 +33,9 @@ void FmOperator::fillBuffer(float *out,
   unsigned phi=mPhi;
   
   for (unsigned i=0; i<BLOCK_SIZE; ++i) {
-    float s=sinf(ldexpf((float) M_PI*phi,-31));
+    // Modulator is scaled by 4PI, which is the modulation index for ouput 99
+    float m=4.0f*mod[i];
+    float s=sinf((ldexpf(phi,-31)+m)*((float) M_PI));
     float gain=mEnvelope.ProcessSample();
     
     phi+=mDeltaPhiKey;
