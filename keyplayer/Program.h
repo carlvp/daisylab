@@ -10,6 +10,14 @@ struct EnvelopeParam {
   float times[NUM_ENV_STAGES]; 
 };
 
+struct KeyScalingParam {
+  unsigned char bp;
+  bool lcExp;
+  signed char lDepth;
+  bool rcExp;
+  signed char rDepth;
+};
+
 struct FmOperatorParam {
   bool fixedFreq;
   unsigned char velScaling;
@@ -17,6 +25,7 @@ struct FmOperatorParam {
   float freq;              // Fixed frequency (Hz) or frequency ratio
   float totalLevel;
   EnvelopeParam envelope;
+  KeyScalingParam keyScaling;
 };
 
 struct Program {

@@ -42,6 +42,20 @@ static float timeScaling(int key, int rs) {
   return exp2f(-x*rs/128.0);
 }
 
+static float keyScaling(bool expCurve, int depth, int x) {
+  static constexpr float expCoeff=0.1069336;
+  
+  if (depth==0 || x==0)
+    return 1.0f;
+  float l = (expCurve)? exp2(-(72-x)*expCoeff-8) : ldexpf(25*x,-13);
+  return exp2(l*depth);
+}
+
+static float keyScaling(const KeyScalingParam *param, unsigned key) {
+  return (key<param->bp)? keyScaling(param->lcExp, param->lDepth, param->bp-key)
+    : keyScaling(param->rcExp, param->rDepth, key-param->bp);
+}
+
 void FmOperator::noteOn(const FmOperatorParam *param,
 			unsigned key,
 			unsigned vel,
@@ -57,8 +71,11 @@ void FmOperator::noteOn(const FmOperatorParam *param,
   mDelay1=mDelay2=0;
   
   // envelope
-  float level=param->totalLevel*levelCom;
-  level*=velocityScaling(vel, param->velScaling);
+  float level=param->totalLevel*keyScaling(&param->keyScaling, key);
+  // +LIN and +EXP curves can only use the headroom above totalLevel
+  // that is: keyScaling shouldn't cause level greater than unity.
+  if (level > 1.0f) level=1.0f;
+  level*=levelCom * velocityScaling(vel, param->velScaling);
   float timeS=timeScaling(key, param->kbdRateScaling);
   mEnvelope.noteOn(&param->envelope, level, timeS);
 }
