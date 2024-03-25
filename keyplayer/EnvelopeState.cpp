@@ -5,16 +5,16 @@
 
 void EnvelopeState::noteOn(const EnvelopeParam *param,
 			   float levelScaling,
-			   float rateScaling) {
+			   float timeScaling) {
   mLevelScaling=levelScaling;
-  mRateScaling=rateScaling;
+  mTimeScaling=timeScaling;
   mLevel=param->level0*levelScaling;
   mVarying=0;
   initStage(0, param);
 }
 
 void EnvelopeState::initStage(unsigned stage, const EnvelopeParam *param) {
-  unsigned numSamples=param->times[stage]*SAMPLE_RATE*mRateScaling;
+  unsigned numSamples=param->times[stage]*SAMPLE_RATE*mTimeScaling;
   
   mStage=stage;
   mBlocksLeft=1 + numSamples/BLOCK_SIZE;

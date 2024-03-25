@@ -11,8 +11,9 @@ class FmOperator {
   void Init();
   
   void noteOn(const FmOperatorParam *p,
-	      std::int32_t deltaPhi,
+	      unsigned key,
 	      unsigned velocity,
+	      std::int32_t deltaPhi,
 	      float levelCom);
 
   void noteOff(const FmOperatorParam *param);

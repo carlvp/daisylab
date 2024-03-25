@@ -16,7 +16,7 @@ class EnvelopeState {
   
   void noteOn(const EnvelopeParam *param,
 	      float levelScaling,
-	      float rateScaling);
+	      float timeScaling);
 
   void noteOff(const EnvelopeParam *param) {
     if (mStage<RELEASE_STAGE)
@@ -37,7 +37,7 @@ class EnvelopeState {
   float mLevel;
   float mVarying;
   float mDecay;
-  float mLevelScaling, mRateScaling;
+  float mLevelScaling, mTimeScaling;
   void initStage(unsigned stage, const EnvelopeParam *param);
 };
 

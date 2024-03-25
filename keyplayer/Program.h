@@ -12,6 +12,8 @@ struct EnvelopeParam {
 
 struct FmOperatorParam {
   bool fixedFreq;
+  unsigned char velScaling;
+  unsigned char kbdRateScaling;
   float freq;              // Fixed frequency (Hz) or frequency ratio
   float totalLevel;
   EnvelopeParam envelope;

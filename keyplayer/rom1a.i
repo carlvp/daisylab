@@ -5,6 +5,8 @@
     op: {
       { // OP6
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 4,
         freq:       1.000,
         totalLevel: 0.229251,
         envelope: {
@@ -15,6 +17,8 @@
       },
       { // OP5
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 0,
         freq:       1.003,
         totalLevel: 0.917004,
         envelope: {
@@ -25,6 +29,8 @@
       },
       { // OP4
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 0,
         freq:       1.000,
         totalLevel: 1.000000,
         envelope: {
@@ -35,6 +41,8 @@
       },
       { // OP3
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 0,
         freq:       0.994,
         totalLevel: 1.000000,
         envelope: {
@@ -45,6 +53,8 @@
       },
       { // OP2
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       0.512,
         totalLevel: 0.324210,
         envelope: {
@@ -55,6 +65,8 @@
       },
       { // OP1
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       0.512,
         totalLevel: 0.917004,
         envelope: {
@@ -72,6 +84,8 @@
     op: {
       { // OP6
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       0.500,
         totalLevel: 0.192776,
         envelope: {
@@ -82,6 +96,8 @@
       },
       { // OP5
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       0.501,
         totalLevel: 1.000000,
         envelope: {
@@ -92,6 +108,8 @@
       },
       { // OP4
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       0.497,
         totalLevel: 1.000000,
         envelope: {
@@ -102,6 +120,8 @@
       },
       { // OP3
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       0.495,
         totalLevel: 1.000000,
         envelope: {
@@ -112,6 +132,8 @@
       },
       { // OP2
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       0.512,
         totalLevel: 0.272627,
         envelope: {
@@ -122,6 +144,8 @@
       },
       { // OP1
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       0.512,
         totalLevel: 1.000000,
         envelope: {
@@ -139,6 +163,8 @@
     op: {
       { // OP6
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 7,
         freq:       8.470,
         totalLevel: 0.176777,
         envelope: {
@@ -149,6 +175,8 @@
       },
       { // OP5
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       3.171,
         totalLevel: 0.081052,
         envelope: {
@@ -159,6 +187,8 @@
       },
       { // OP4
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       1.000,
         totalLevel: 0.176777,
         envelope: {
@@ -169,6 +199,8 @@
       },
       { // OP3
         fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 1,
         freq:       1.000,
         totalLevel: 0.148651,
         envelope: {
@@ -179,6 +211,8 @@
       },
       { // OP2
         fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 2,
         freq:       1.000,
         totalLevel: 0.081052,
         envelope: {
@@ -189,6 +223,8 @@
       },
       { // OP1
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 2,
         freq:       1.000,
         totalLevel: 1.000000,
         envelope: {
@@ -206,6 +242,8 @@
     op: {
       { // OP6
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 2,
         freq:      14.000,
         totalLevel: 0.018581,
         envelope: {
@@ -216,6 +254,8 @@
       },
       { // OP5
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 2,
         freq:       3.000,
         totalLevel: 0.272627,
         envelope: {
@@ -226,6 +266,8 @@
       },
       { // OP4
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 2,
         freq:       1.000,
         totalLevel: 0.148651,
         envelope: {
@@ -236,6 +278,8 @@
       },
       { // OP3
         fixedFreq:  false,
+        velScaling: 7,
+        kbdRateScaling: 0,
         freq:       1.000,
         totalLevel: 0.324210,
         envelope: {
@@ -246,6 +290,8 @@
       },
       { // OP2
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 1,
         freq:       1.000,
         totalLevel: 0.250000,
         envelope: {
@@ -256,6 +302,8 @@
       },
       { // OP1
         fixedFreq:  false,
+        velScaling: 3,
+        kbdRateScaling: 2,
         freq:       1.000,
         totalLevel: 1.000000,
         envelope: {
@@ -273,6 +321,8 @@
     op: {
       { // OP6
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       8.000,
         totalLevel: 0.081052,
         envelope: {
@@ -283,6 +333,8 @@
       },
       { // OP5
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       2.000,
         totalLevel: 0.057313,
         envelope: {
@@ -293,6 +345,8 @@
       },
       { // OP4
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       2.000,
         totalLevel: 0.136313,
         envelope: {
@@ -303,6 +357,8 @@
       },
       { // OP3
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       2.041,
         totalLevel: 0.545254,
         envelope: {
@@ -313,6 +369,8 @@
       },
       { // OP2
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       1.960,
         totalLevel: 0.114626,
         envelope: {
@@ -323,6 +381,8 @@
       },
       { // OP1
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       2.000,
         totalLevel: 0.545254,
         envelope: {
@@ -340,6 +400,8 @@
     op: {
       { // OP6
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 2,
         freq:      14.000,
         totalLevel: 0.020263,
         envelope: {
@@ -350,6 +412,8 @@
       },
       { // OP5
         fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 2,
         freq:       3.000,
         totalLevel: 0.272627,
         envelope: {
@@ -360,6 +424,8 @@
       },
       { // OP4
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 2,
         freq:       1.000,
         totalLevel: 0.125000,
         envelope: {
@@ -370,6 +436,8 @@
       },
       { // OP3
         fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 2,
         freq:       1.000,
         totalLevel: 1.000000,
         envelope: {
@@ -380,6 +448,8 @@
       },
       { // OP2
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 1,
         freq:       1.000,
         totalLevel: 0.324210,
         envelope: {
@@ -390,6 +460,8 @@
       },
       { // OP1
         fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 2,
         freq:       1.000,
         totalLevel: 1.000000,
         envelope: {
@@ -407,6 +479,8 @@
     op: {
       { // OP6
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       2.000,
         totalLevel: 0.229251,
         envelope: {
@@ -417,6 +491,8 @@
       },
       { // OP5
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       2.000,
         totalLevel: 0.192776,
         envelope: {
@@ -427,6 +503,8 @@
       },
       { // OP4
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       2.000,
         totalLevel: 0.096388,
         envelope: {
@@ -437,6 +515,8 @@
       },
       { // OP3
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       2.041,
         totalLevel: 0.771105,
         envelope: {
@@ -447,6 +527,8 @@
       },
       { // OP2
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       0.980,
         totalLevel: 0.250000,
         envelope: {
@@ -457,6 +539,8 @@
       },
       { // OP1
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       1.000,
         totalLevel: 1.000000,
         envelope: {
@@ -474,6 +558,8 @@
     op: {
       { // OP6
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 5,
         freq:       0.997,
         totalLevel: 0.229251,
         envelope: {
@@ -484,6 +570,8 @@
       },
       { // OP5
         fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 5,
         freq:       1.575,
         totalLevel: 0.594604,
         envelope: {
@@ -494,6 +582,8 @@
       },
       { // OP4
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 5,
         freq:       1.003,
         totalLevel: 1.000000,
         envelope: {
@@ -504,6 +594,8 @@
       },
       { // OP3
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 5,
         freq:       3.000,
         totalLevel: 0.026278,
         envelope: {
@@ -514,6 +606,8 @@
       },
       { // OP2
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 5,
         freq:       1.006,
         totalLevel: 0.353553,
         envelope: {
@@ -524,6 +618,8 @@
       },
       { // OP1
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 4,
         freq:       0.994,
         totalLevel: 1.000000,
         envelope: {
@@ -541,6 +637,8 @@
     op: {
       { // OP6
         fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 3,
         freq:       0.501,
         totalLevel: 0.162105,
         envelope: {
@@ -551,6 +649,8 @@
       },
       { // OP5
         fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 3,
         freq:       0.500,
         totalLevel: 0.648420,
         envelope: {
@@ -561,6 +661,8 @@
       },
       { // OP4
         fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 3,
         freq:       0.997,
         totalLevel: 0.272627,
         envelope: {
@@ -571,6 +673,8 @@
       },
       { // OP3
         fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 5,
         freq:       5.014,
         totalLevel: 0.250000,
         envelope: {
@@ -581,6 +685,8 @@
       },
       { // OP2
         fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 2,
         freq:       1.006,
         totalLevel: 0.324210,
         envelope: {
@@ -591,6 +697,8 @@
       },
       { // OP1
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 3,
         freq:       1.000,
         totalLevel: 0.648420,
         envelope: {
@@ -608,6 +716,8 @@
     op: {
       { // OP6
         fixedFreq:  false,
+        velScaling: 5,
+        kbdRateScaling: 3,
         freq:       0.503,
         totalLevel: 0.272627,
         envelope: {
@@ -618,6 +728,8 @@
       },
       { // OP5
         fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 2,
         freq:       0.994,
         totalLevel: 0.353553,
         envelope: {
@@ -628,6 +740,8 @@
       },
       { // OP4
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 3,
         freq:       1.010,
         totalLevel: 0.707107,
         envelope: {
@@ -638,6 +752,8 @@
       },
       { // OP3
         fixedFreq:  false,
+        velScaling: 3,
+        kbdRateScaling: 3,
         freq:       6.932,
         totalLevel: 0.840896,
         envelope: {
@@ -648,6 +764,8 @@
       },
       { // OP2
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 2,
         freq:       1.013,
         totalLevel: 0.297302,
         envelope: {
@@ -658,6 +776,8 @@
       },
       { // OP1
         fixedFreq:  false,
+        velScaling: 3,
+        kbdRateScaling: 3,
         freq:       0.987,
         totalLevel: 0.324210,
         envelope: {
@@ -675,6 +795,8 @@
     op: {
       { // OP6
         fixedFreq:  false,
+        velScaling: 6,
+        kbdRateScaling: 3,
         freq:       1.024,
         totalLevel: 0.176777,
         envelope: {
@@ -685,6 +807,8 @@
       },
       { // OP5
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 3,
         freq:       0.977,
         totalLevel: 1.000000,
         envelope: {
@@ -695,6 +819,8 @@
       },
       { // OP4
         fixedFreq:  false,
+        velScaling: 6,
+        kbdRateScaling: 3,
         freq:       1.000,
         totalLevel: 0.420448,
         envelope: {
@@ -705,6 +831,8 @@
       },
       { // OP3
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 3,
         freq:       1.000,
         totalLevel: 1.000000,
         envelope: {
@@ -715,6 +843,8 @@
       },
       { // OP2
         fixedFreq:  false,
+        velScaling: 7,
+        kbdRateScaling: 3,
         freq:      14.000,
         totalLevel: 0.028656,
         envelope: {
@@ -725,6 +855,8 @@
       },
       { // OP1
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 3,
         freq:       1.010,
         totalLevel: 1.000000,
         envelope: {
@@ -742,6 +874,8 @@
     op: {
       { // OP6
         fixedFreq:  false,
+        velScaling: 6,
+        kbdRateScaling: 0,
         freq:      12.000,
         totalLevel: 0.026278,
         envelope: {
@@ -752,6 +886,8 @@
       },
       { // OP5
         fixedFreq:  false,
+        velScaling: 7,
+        kbdRateScaling: 4,
         freq:       3.000,
         totalLevel: 1.000000,
         envelope: {
@@ -762,6 +898,8 @@
       },
       { // OP4
         fixedFreq:  false,
+        velScaling: 4,
+        kbdRateScaling: 4,
         freq:       3.000,
         totalLevel: 0.420448,
         envelope: {
@@ -772,6 +910,8 @@
       },
       { // OP3
         fixedFreq:  false,
+        velScaling: 7,
+        kbdRateScaling: 3,
         freq:       1.000,
         totalLevel: 1.000000,
         envelope: {
@@ -782,6 +922,8 @@
       },
       { // OP2
         fixedFreq:  false,
+        velScaling: 7,
+        kbdRateScaling: 2,
         freq:       3.000,
         totalLevel: 0.594604,
         envelope: {
@@ -792,6 +934,8 @@
       },
       { // OP1
         fixedFreq:  false,
+        velScaling: 5,
+        kbdRateScaling: 4,
         freq:       1.000,
         totalLevel: 1.000000,
         envelope: {
@@ -809,6 +953,8 @@
     op: {
       { // OP6
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 0,
         freq:       3.000,
         totalLevel: 0.105112,
         envelope: {
@@ -819,6 +965,8 @@
       },
       { // OP5
         fixedFreq:  false,
+        velScaling: 7,
+        kbdRateScaling: 0,
         freq:       0.500,
         totalLevel: 0.297302,
         envelope: {
@@ -829,6 +977,8 @@
       },
       { // OP4
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       0.500,
         totalLevel: 0.081052,
         envelope: {
@@ -839,6 +989,8 @@
       },
       { // OP3
         fixedFreq:  false,
+        velScaling: 7,
+        kbdRateScaling: 0,
         freq:       1.500,
         totalLevel: 1.000000,
         envelope: {
@@ -849,6 +1001,8 @@
       },
       { // OP2
         fixedFreq:  false,
+        velScaling: 7,
+        kbdRateScaling: 1,
         freq:       1.000,
         totalLevel: 0.353553,
         envelope: {
@@ -859,6 +1013,8 @@
       },
       { // OP1
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 0,
         freq:       3.000,
         totalLevel: 0.324210,
         envelope: {
@@ -876,6 +1032,8 @@
     op: {
       { // OP6
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 3,
         freq:      17.000,
         totalLevel: 0.011049,
         envelope: {
@@ -886,6 +1044,8 @@
       },
       { // OP5
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 1,
         freq:       2.981,
         totalLevel: 0.007812,
         envelope: {
@@ -896,6 +1056,8 @@
       },
       { // OP4
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 6,
         freq:       2.013,
         totalLevel: 0.088388,
         envelope: {
@@ -906,6 +1068,8 @@
       },
       { // OP3
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 3,
         freq:       1.000,
         totalLevel: 0.229251,
         envelope: {
@@ -916,6 +1080,8 @@
       },
       { // OP2
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 3,
         freq:       0.997,
         totalLevel: 0.088388,
         envelope: {
@@ -926,6 +1092,8 @@
       },
       { // OP1
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 1,
         freq:       1.003,
         totalLevel: 1.000000,
         envelope: {
@@ -943,6 +1111,8 @@
     op: {
       { // OP6
         fixedFreq:  false,
+        velScaling: 7,
+        kbdRateScaling: 1,
         freq:       9.000,
         totalLevel: 0.297302,
         envelope: {
@@ -953,6 +1123,8 @@
       },
       { // OP5
         fixedFreq:  false,
+        velScaling: 3,
+        kbdRateScaling: 7,
         freq:       0.500,
         totalLevel: 0.040526,
         envelope: {
@@ -963,6 +1135,8 @@
       },
       { // OP4
         fixedFreq:  false,
+        velScaling: 5,
+        kbdRateScaling: 5,
         freq:       5.000,
         totalLevel: 0.594604,
         envelope: {
@@ -973,6 +1147,8 @@
       },
       { // OP3
         fixedFreq:  false,
+        velScaling: 3,
+        kbdRateScaling: 6,
         freq:       0.500,
         totalLevel: 1.000000,
         envelope: {
@@ -983,6 +1159,8 @@
       },
       { // OP2
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 7,
         freq:       0.500,
         totalLevel: 0.192776,
         envelope: {
@@ -993,6 +1171,8 @@
       },
       { // OP1
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 7,
         freq:       0.500,
         totalLevel: 1.000000,
         envelope: {
@@ -1010,6 +1190,8 @@
     op: {
       { // OP6
         fixedFreq:  false,
+        velScaling: 7,
+        kbdRateScaling: 3,
         freq:       0.501,
         totalLevel: 0.353553,
         envelope: {
@@ -1020,6 +1202,8 @@
       },
       { // OP5
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 4,
         freq:       1.010,
         totalLevel: 0.125000,
         envelope: {
@@ -1030,6 +1214,8 @@
       },
       { // OP4
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 3,
         freq:       0.500,
         totalLevel: 1.000000,
         envelope: {
@@ -1040,6 +1226,8 @@
       },
       { // OP3
         fixedFreq:  false,
+        velScaling: 3,
+        kbdRateScaling: 3,
         freq:       1.024,
         totalLevel: 0.068157,
         envelope: {
@@ -1050,6 +1238,8 @@
       },
       { // OP2
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 1,
         freq:       0.515,
         totalLevel: 0.192776,
         envelope: {
@@ -1060,6 +1250,8 @@
       },
       { // OP1
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 3,
         freq:       0.505,
         totalLevel: 1.000000,
         envelope: {
@@ -1077,6 +1269,8 @@
     op: {
       { // OP6
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       3.000,
         totalLevel: 0.648420,
         envelope: {
@@ -1087,6 +1281,8 @@
       },
       { // OP5
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       1.006,
         totalLevel: 0.648420,
         envelope: {
@@ -1097,6 +1293,8 @@
       },
       { // OP4
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       0.508,
         totalLevel: 0.648420,
         envelope: {
@@ -1107,6 +1305,8 @@
       },
       { // OP3
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       1.520,
         totalLevel: 0.648420,
         envelope: {
@@ -1117,6 +1317,8 @@
       },
       { // OP2
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       0.990,
         totalLevel: 0.648420,
         envelope: {
@@ -1127,6 +1329,8 @@
       },
       { // OP1
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       0.497,
         totalLevel: 0.648420,
         envelope: {
@@ -1144,6 +1348,8 @@
     op: {
       { // OP6
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 3,
         freq:      10.000,
         totalLevel: 0.136313,
         envelope: {
@@ -1154,6 +1360,8 @@
       },
       { // OP5
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 3,
         freq:       2.000,
         totalLevel: 0.840896,
         envelope: {
@@ -1164,6 +1372,8 @@
       },
       { // OP4
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 3,
         freq:       4.000,
         totalLevel: 0.385553,
         envelope: {
@@ -1174,6 +1384,8 @@
       },
       { // OP3
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 5,
         freq:       1.000,
         totalLevel: 0.125000,
         envelope: {
@@ -1184,6 +1396,8 @@
       },
       { // OP2
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 4,
         freq:       0.500,
         totalLevel: 0.458502,
         envelope: {
@@ -1194,6 +1408,8 @@
       },
       { // OP1
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 5,
         freq:       0.500,
         totalLevel: 1.000000,
         envelope: {
@@ -1211,6 +1427,8 @@
     op: {
       { // OP6
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 1,
         freq:       6.000,
         totalLevel: 0.353553,
         envelope: {
@@ -1221,6 +1439,8 @@
       },
       { // OP5
         fixedFreq:  false,
+        velScaling: 3,
+        kbdRateScaling: 3,
         freq:       3.988,
         totalLevel: 0.250000,
         envelope: {
@@ -1231,6 +1451,8 @@
       },
       { // OP4
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 1,
         freq:       3.000,
         totalLevel: 1.000000,
         envelope: {
@@ -1241,6 +1463,8 @@
       },
       { // OP3
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 3,
         freq:       0.997,
         totalLevel: 0.297302,
         envelope: {
@@ -1251,6 +1475,8 @@
       },
       { // OP2
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 1,
         freq:       0.500,
         totalLevel: 1.000000,
         envelope: {
@@ -1261,6 +1487,8 @@
       },
       { // OP1
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 3,
         freq:       4.000,
         totalLevel: 0.420448,
         envelope: {
@@ -1278,6 +1506,8 @@
     op: {
       { // OP6
         fixedFreq:  false,
+        velScaling: 7,
+        kbdRateScaling: 3,
         freq:       8.000,
         totalLevel: 0.162105,
         envelope: {
@@ -1288,6 +1518,8 @@
       },
       { // OP5
         fixedFreq:  false,
+        velScaling: 6,
+        kbdRateScaling: 3,
         freq:       0.497,
         totalLevel: 1.000000,
         envelope: {
@@ -1298,6 +1530,8 @@
       },
       { // OP4
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 3,
         freq:       2.000,
         totalLevel: 1.000000,
         envelope: {
@@ -1308,6 +1542,8 @@
       },
       { // OP3
         fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 3,
         freq:       6.000,
         totalLevel: 0.088388,
         envelope: {
@@ -1318,6 +1554,8 @@
       },
       { // OP2
         fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 3,
         freq:       0.499,
         totalLevel: 1.000000,
         envelope: {
@@ -1328,6 +1566,8 @@
       },
       { // OP1
         fixedFreq:  false,
+        velScaling: 3,
+        kbdRateScaling: 3,
         freq:       0.501,
         totalLevel: 1.000000,
         envelope: {
@@ -1345,6 +1585,8 @@
     op: {
       { // OP6
         fixedFreq:  false,
+        velScaling: 7,
+        kbdRateScaling: 5,
         freq:      14.000,
         totalLevel: 0.026278,
         envelope: {
@@ -1355,6 +1597,8 @@
       },
       { // OP5
         fixedFreq:  false,
+        velScaling: 5,
+        kbdRateScaling: 3,
         freq:       1.024,
         totalLevel: 1.000000,
         envelope: {
@@ -1365,6 +1609,8 @@
       },
       { // OP4
         fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 3,
         freq:       0.977,
         totalLevel: 1.000000,
         envelope: {
@@ -1375,6 +1621,8 @@
       },
       { // OP3
         fixedFreq:  false,
+        velScaling: 4,
+        kbdRateScaling: 4,
         freq:       3.000,
         totalLevel: 0.096388,
         envelope: {
@@ -1385,6 +1633,8 @@
       },
       { // OP2
         fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 2,
         freq:       1.000,
         totalLevel: 1.000000,
         envelope: {
@@ -1395,6 +1645,8 @@
       },
       { // OP1
         fixedFreq:  false,
+        velScaling: 7,
+        kbdRateScaling: 2,
         freq:       4.000,
         totalLevel: 0.014328,
         envelope: {
@@ -1412,6 +1664,8 @@
     op: {
       { // OP6
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 0,
         freq:       4.520,
         totalLevel: 1.000000,
         envelope: {
@@ -1422,6 +1676,8 @@
       },
       { // OP5
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 0,
         freq:       0.750,
         totalLevel: 0.594604,
         envelope: {
@@ -1432,6 +1688,8 @@
       },
       { // OP4
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 0,
         freq:       5.000,
         totalLevel: 0.297302,
         envelope: {
@@ -1442,6 +1700,8 @@
       },
       { // OP3
         fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 3,
         freq:       0.500,
         totalLevel: 1.000000,
         envelope: {
@@ -1452,6 +1712,8 @@
       },
       { // OP2
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 0,
         freq:       3.000,
         totalLevel: 0.771105,
         envelope: {
@@ -1462,6 +1724,8 @@
       },
       { // OP1
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 3,
         freq:       0.500,
         totalLevel: 0.707107,
         envelope: {
@@ -1479,6 +1743,8 @@
     op: {
       { // OP6
         fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 6,
         freq:       3.000,
         totalLevel: 0.210224,
         envelope: {
@@ -1489,6 +1755,8 @@
       },
       { // OP5
         fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 6,
         freq:       4.000,
         totalLevel: 0.250000,
         envelope: {
@@ -1499,6 +1767,8 @@
       },
       { // OP4
         fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 6,
         freq:       1.000,
         totalLevel: 0.229251,
         envelope: {
@@ -1509,6 +1779,8 @@
       },
       { // OP3
         fixedFreq:  false,
+        velScaling: 3,
+        kbdRateScaling: 5,
         freq:       1.000,
         totalLevel: 1.000000,
         envelope: {
@@ -1519,6 +1791,8 @@
       },
       { // OP2
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 6,
         freq:       4.000,
         totalLevel: 1.000000,
         envelope: {
@@ -1529,6 +1803,8 @@
       },
       { // OP1
         fixedFreq:  false,
+        velScaling: 3,
+        kbdRateScaling: 6,
         freq:       1.000,
         totalLevel: 0.458502,
         envelope: {
@@ -1546,6 +1822,8 @@
     op: {
       { // OP6
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 0,
         freq:       1.550,
         totalLevel: 0.250000,
         envelope: {
@@ -1556,6 +1834,8 @@
       },
       { // OP5
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       2.000,
         totalLevel: 0.024097,
         envelope: {
@@ -1566,6 +1846,8 @@
       },
       { // OP4
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 3,
         freq:       2.000,
         totalLevel: 0.000000,
         envelope: {
@@ -1576,6 +1858,8 @@
       },
       { // OP3
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       0.990,
         totalLevel: 0.136313,
         envelope: {
@@ -1586,6 +1870,8 @@
       },
       { // OP2
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 4,
         freq:       1.013,
         totalLevel: 0.125000,
         envelope: {
@@ -1596,6 +1882,8 @@
       },
       { // OP1
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 0,
         freq:       0.994,
         totalLevel: 0.917004,
         envelope: {
@@ -1613,6 +1901,8 @@
     op: {
       { // OP6
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 7,
         freq:       0.977,
         totalLevel: 0.125000,
         envelope: {
@@ -1623,6 +1913,8 @@
       },
       { // OP5
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 3,
         freq:       1.024,
         totalLevel: 0.917004,
         envelope: {
@@ -1633,6 +1925,8 @@
       },
       { // OP4
         fixedFreq:  false,
+        velScaling: 3,
+        kbdRateScaling: 3,
         freq:       3.140,
         totalLevel: 0.500000,
         envelope: {
@@ -1643,6 +1937,8 @@
       },
       { // OP3
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 3,
         freq:       0.500,
         totalLevel: 1.000000,
         envelope: {
@@ -1653,6 +1949,8 @@
       },
       { // OP2
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 7,
         freq:       0.508,
         totalLevel: 0.353553,
         envelope: {
@@ -1663,6 +1961,8 @@
       },
       { // OP1
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 3,
         freq:       0.508,
         totalLevel: 0.840896,
         envelope: {
@@ -1680,6 +1980,8 @@
     op: {
       { // OP6
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 2,
         freq:       1.953,
         totalLevel: 0.297302,
         envelope: {
@@ -1690,6 +1992,8 @@
       },
       { // OP5
         fixedFreq:  true,
+        velScaling: 5,
+        kbdRateScaling: 2,
         freq:     323.594,
         totalLevel: 1.000000,
         envelope: {
@@ -1700,6 +2004,8 @@
       },
       { // OP4
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 2,
         freq:       3.478,
         totalLevel: 0.125000,
         envelope: {
@@ -1710,6 +2016,8 @@
       },
       { // OP3
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 2,
         freq:       0.983,
         totalLevel: 1.000000,
         envelope: {
@@ -1720,6 +2028,8 @@
       },
       { // OP2
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 2,
         freq:       3.535,
         totalLevel: 0.162105,
         envelope: {
@@ -1730,6 +2040,8 @@
       },
       { // OP1
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 2,
         freq:       1.006,
         totalLevel: 0.707107,
         envelope: {
@@ -1747,6 +2059,8 @@
     op: {
       { // OP6
         fixedFreq:  true,
+        velScaling: 0,
+        kbdRateScaling: 3,
         freq:     398.107,
         totalLevel: 0.013139,
         envelope: {
@@ -1757,6 +2071,8 @@
       },
       { // OP5
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 3,
         freq:       5.320,
         totalLevel: 0.048194,
         envelope: {
@@ -1767,6 +2083,8 @@
       },
       { // OP4
         fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 3,
         freq:       2.048,
         totalLevel: 0.385553,
         envelope: {
@@ -1777,6 +2095,8 @@
       },
       { // OP3
         fixedFreq:  false,
+        velScaling: 3,
+        kbdRateScaling: 3,
         freq:       1.000,
         totalLevel: 1.000000,
         envelope: {
@@ -1787,6 +2107,8 @@
       },
       { // OP2
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 2,
         freq:       1.700,
         totalLevel: 0.048194,
         envelope: {
@@ -1797,6 +2119,8 @@
       },
       { // OP1
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 4,
         freq:       1.000,
         totalLevel: 1.000000,
         envelope: {
@@ -1814,6 +2138,8 @@
     op: {
       { // OP6
         fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 3,
         freq:       0.780,
         totalLevel: 0.105112,
         envelope: {
@@ -1824,6 +2150,8 @@
       },
       { // OP5
         fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 0,
         freq:       0.500,
         totalLevel: 0.105112,
         envelope: {
@@ -1834,6 +2162,8 @@
       },
       { // OP4
         fixedFreq:  false,
+        velScaling: 7,
+        kbdRateScaling: 7,
         freq:       0.875,
         totalLevel: 0.353553,
         envelope: {
@@ -1844,6 +2174,8 @@
       },
       { // OP3
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 3,
         freq:       0.673,
         totalLevel: 0.297302,
         envelope: {
@@ -1854,6 +2186,8 @@
       },
       { // OP2
         fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 1,
         freq:       0.505,
         totalLevel: 0.324210,
         envelope: {
@@ -1864,6 +2198,8 @@
       },
       { // OP1
         fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 3,
         freq:       0.500,
         totalLevel: 1.000000,
         envelope: {
@@ -1881,6 +2217,8 @@
     op: {
       { // OP6
         fixedFreq:  true,
+        velScaling: 0,
+        kbdRateScaling: 1,
         freq:      10.000,
         totalLevel: 0.162105,
         envelope: {
@@ -1891,6 +2229,8 @@
       },
       { // OP5
         fixedFreq:  true,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       1.000,
         totalLevel: 0.048194,
         envelope: {
@@ -1901,6 +2241,8 @@
       },
       { // OP4
         fixedFreq:  true,
+        velScaling: 0,
+        kbdRateScaling: 1,
         freq:    6606.934,
         totalLevel: 0.125000,
         envelope: {
@@ -1911,6 +2253,8 @@
       },
       { // OP3
         fixedFreq:  true,
+        velScaling: 0,
+        kbdRateScaling: 4,
         freq:      46.774,
         totalLevel: 0.057313,
         envelope: {
@@ -1921,6 +2265,8 @@
       },
       { // OP2
         fixedFreq:  true,
+        velScaling: 0,
+        kbdRateScaling: 4,
         freq:      33.884,
         totalLevel: 0.594604,
         envelope: {
@@ -1931,6 +2277,8 @@
       },
       { // OP1
         fixedFreq:  true,
+        velScaling: 1,
+        kbdRateScaling: 4,
         freq:    2089.296,
         totalLevel: 0.458502,
         envelope: {
@@ -1948,6 +2296,8 @@
     op: {
       { // OP6
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       5.115,
         totalLevel: 0.022097,
         envelope: {
@@ -1958,6 +2308,8 @@
       },
       { // OP5
         fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 0,
         freq:       1.007,
         totalLevel: 0.018581,
         envelope: {
@@ -1968,6 +2320,8 @@
       },
       { // OP4
         fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 0,
         freq:       1.030,
         totalLevel: 1.000000,
         envelope: {
@@ -1978,6 +2332,8 @@
       },
       { // OP3
         fixedFreq:  false,
+        velScaling: 3,
+        kbdRateScaling: 0,
         freq:       1.024,
         totalLevel: 1.000000,
         envelope: {
@@ -1988,6 +2344,8 @@
       },
       { // OP2
         fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 0,
         freq:       1.000,
         totalLevel: 1.000000,
         envelope: {
@@ -1998,6 +2356,8 @@
       },
       { // OP1
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       0.977,
         totalLevel: 0.353553,
         envelope: {
@@ -2015,6 +2375,8 @@
     op: {
       { // OP6
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       5.000,
         totalLevel: 1.000000,
         envelope: {
@@ -2025,6 +2387,8 @@
       },
       { // OP5
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       9.089,
         totalLevel: 0.250000,
         envelope: {
@@ -2035,6 +2399,8 @@
       },
       { // OP4
         fixedFreq:  true,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:     971.048,
         totalLevel: 0.420448,
         envelope: {
@@ -2045,6 +2411,8 @@
       },
       { // OP3
         fixedFreq:  true,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:     373.903,
         totalLevel: 1.000000,
         envelope: {
@@ -2055,6 +2423,8 @@
       },
       { // OP2
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 5,
         freq:       3.030,
         totalLevel: 0.096388,
         envelope: {
@@ -2065,6 +2435,8 @@
       },
       { // OP1
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 3,
         freq:       1.640,
         totalLevel: 1.000000,
         envelope: {
@@ -2082,6 +2454,8 @@
     op: {
       { // OP6
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       0.500,
         totalLevel: 1.000000,
         envelope: {
@@ -2092,6 +2466,8 @@
       },
       { // OP5
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       2.020,
         totalLevel: 0.771105,
         envelope: {
@@ -2102,6 +2478,8 @@
       },
       { // OP4
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       0.500,
         totalLevel: 1.000000,
         envelope: {
@@ -2112,6 +2490,8 @@
       },
       { // OP3
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       6.060,
         totalLevel: 1.000000,
         envelope: {
@@ -2122,6 +2502,8 @@
       },
       { // OP2
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       1.000,
         totalLevel: 0.771105,
         envelope: {
@@ -2132,6 +2514,8 @@
       },
       { // OP1
         fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
         freq:       4.040,
         totalLevel: 1.000000,
         envelope: {
