@@ -49,8 +49,10 @@ void Voice::noteOn(const Channel *ch, unsigned key, unsigned velocity) {
 
   std::int32_t deltaPhi=theKeyPlayer.midiToPhaseIncrement(key);
   float com=0.25f/mAlgorithm->getNumCarriers();
-  for (unsigned i=0; i<NUM_OPERATORS; ++i)
-    mOp[i].noteOn(&mProgram->op[i], key, velocity, deltaPhi, com);
+  for (unsigned i=0; i<NUM_OPERATORS; ++i) {
+    float outputScaling=mAlgorithm->isCarrier(i)? com : 1.0f;
+    mOp[i].noteOn(&mProgram->op[i], key, velocity, deltaPhi, outputScaling);
+  }
 }
 
 void Voice::noteOff() {
