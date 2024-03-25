@@ -5,6 +5,7 @@
 
 static const float zeroBuffer[BLOCK_SIZE] = {0};
 static float tempBuffer1[BLOCK_SIZE];
+static float tempBuffer2[BLOCK_SIZE];
 
 #define BITSET1(a)           (1<<a)
 #define BITSET2(a,b)         (BITSET1(a)     | BITSET1(b))
@@ -74,6 +75,42 @@ public:
 
 static FmAlgorithm7 alg7;
 
+//   2 0*    2 0
+//   | |     | |
+// 4 3 1  *4 3 1
+//  \|/     \|/
+//   5       5
+//   +       +
+//
+//  #16     #17
+class FmAlgorithm16and17: public FmAlgorithm {
+public:
+  explicit FmAlgorithm16and17(int algo)
+    : FmAlgorithm{1, BITSET1(5)}, is16mask{(algo==16)? -1 : 0}
+  { }
+
+  int is16mask; // selects where to put the feedback
+
+  virtual void fillBuffer(float *out,
+			  const float *in,
+			  FmOperator *op,
+			  float pitchMod,
+			  unsigned feedback) const override {
+    float *tmp1=tempBuffer1;
+    float *tmp2=tempBuffer2;
+    const float *zero=zeroBuffer;
+
+    op[0].fillBuffer(tmp1, zero, zero, pitchMod, feedback & is16mask);
+    op[1].fillBuffer(tmp1, zero, tmp1, pitchMod, 0);
+    op[2].fillBuffer(tmp2, zero, zero, pitchMod, 0);
+    op[3].fillBuffer(tmp1, tmp1, tmp2, pitchMod, 0);
+    op[4].fillBuffer(tmp1, tmp1, zero, pitchMod, feedback & ~is16mask);
+    op[5].fillBuffer(out,  in,   tmp1, pitchMod, 0);
+  }
+};
+
+static FmAlgorithm16and17 alg16{16}, alg17{17};
+
 // 5 4 3 2 1 0*
 // | | | | | |
 // +-+-+-+-+-+
@@ -93,15 +130,16 @@ public:
     for (unsigned i=1; i<6; ++i)
       op[i].fillBuffer(out, out, zeroBuffer, pitchMod, 0);
   }
-
 };
 
 static FmAlgorithm32 alg32;
 
 const FmAlgorithm* FmAlgorithm::getAlgorithm(unsigned algorithmNumber) {
   switch (algorithmNumber) {
-  case 5: return &alg5;
-  case 7: return &alg7;
+  case 5:  return &alg5;
+  case 7:  return &alg7;
+  case 16: return &alg16;
+  case 17: return &alg17;
   case 32:
   default:
     return &alg32;
