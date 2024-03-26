@@ -14,6 +14,77 @@ static float tempBuffer2[BLOCK_SIZE];
 #define BITSET5(a,b,c,d,e)   (BITSET3(a,b,c) | BITSET2(d,e))
 #define BITSET6(a,b,c,d,e,f) (BITSET3(a,b,c) | BITSET3(d,e,f))
 
+//    0*    0
+//    |     |
+//    1     1
+//    |     |
+// 4  2  4* 2
+// |  |  |  |
+// 5  3  5  3
+// +--+  +--+
+//
+//  #1    #2
+
+class FmAlgorithm1and2: public FmAlgorithm {
+public:
+  explicit FmAlgorithm1and2(int algo)
+    : FmAlgorithm{2, BITSET2(3,5)}, mask0{(algo==1)? -1 : 0}
+  { }
+
+  int mask0; // selects where to put the feedback
+
+  virtual void fillBuffer(float *out,
+			  const float *in,
+			  FmOperator *op,
+			  float pitchMod,
+			  unsigned feedback) const override {
+    float *tmp=tempBuffer1;
+    const float *zero=zeroBuffer;
+    int mask4=~mask0;
+    
+    op[0].fillBuffer(tmp, zero, zero, pitchMod, feedback & mask0);
+    op[1].fillBuffer(tmp, zero, tmp,  pitchMod, 0);
+    op[2].fillBuffer(tmp, zero, tmp,  pitchMod, 0);
+    op[3].fillBuffer(out, in,   tmp,  pitchMod, 0);
+    op[4].fillBuffer(tmp, zero, zero, pitchMod, feedback & mask4);
+    op[5].fillBuffer(out, out,  tmp,  pitchMod, 0);
+  }
+};
+
+static FmAlgorithm1and2 alg1{1}, alg2{2};
+
+// 3  0*
+// |  |
+// 4  1
+// |  |
+// 5  2
+// +--+
+
+class FmAlgorithm3 : public FmAlgorithm {
+public:
+  FmAlgorithm3()
+    : FmAlgorithm{2, BITSET2(2,5)}
+  { }
+
+  virtual void fillBuffer(float *out,
+			  const float *in,
+			  FmOperator *op,
+			  float pitchMod,
+			  unsigned feedback) const override {
+    float *tmp=tempBuffer1;
+    const float *zero=zeroBuffer;
+    
+    op[0].fillBuffer(tmp, zero, zero, pitchMod, feedback);
+    op[1].fillBuffer(tmp, zero, tmp,  pitchMod, 0);
+    op[2].fillBuffer(out, in,   tmp,  pitchMod, 0);
+    op[3].fillBuffer(tmp, zero, zero, pitchMod, 0);
+    op[4].fillBuffer(tmp, zero, tmp,  pitchMod, 0);
+    op[5].fillBuffer(out, out,  tmp,  pitchMod, 0);
+  }
+};
+
+static FmAlgorithm3 alg3;
+
 // 4 2 0*
 // | | |
 // 5 3 1
@@ -43,17 +114,238 @@ public:
 
 static FmAlgorithm5 alg5;
 
-//     0*
-//     |
-// 4 2 1
-// | |/
-// 5 3
-// +-+
+//     0*      0      0
+//     |       |      |
+// 4 2 1  4 *2 1 *4 2 1
+// | |/   |  |/   | |/
+// 5 3    5  3    5 3
+// +-+    +--+    +-+
+//
+//  #7     #8     #9
 
-class FmAlgorithm7 : public FmAlgorithm {
+class FmAlgorithm789 : public FmAlgorithm {
 public:
-  FmAlgorithm7()
-    : FmAlgorithm{2, BITSET2(3,5)}
+  FmAlgorithm789(int algo)
+    : FmAlgorithm{2, BITSET2(3,5)},
+      mask0{(algo==7)? -1 : 0},
+      mask2{(algo==8)? -1 : 0}
+  { }
+
+  virtual void fillBuffer(float *out,
+			  const float *in,
+			  FmOperator *op,
+			  float pitchMod,
+			  unsigned feedback) const override {
+    float *tmp=tempBuffer1;
+    const float *zero=zeroBuffer;
+    int mask4=~(mask0 | mask2);
+    
+    op[0].fillBuffer(tmp, zero, zero, pitchMod, feedback & mask0);
+    op[1].fillBuffer(tmp, zero, tmp,  pitchMod, 0);
+    op[2].fillBuffer(tmp, tmp,  zero, pitchMod, feedback & mask2);
+    op[3].fillBuffer(out, in,   tmp,  pitchMod, 0);
+    op[4].fillBuffer(tmp, zero, zero, pitchMod, feedback & mask4);
+    op[5].fillBuffer(out, out,  tmp,  pitchMod, 0);
+  }
+
+  int mask0, mask2;
+};
+
+static FmAlgorithm789 alg7{7}, alg8{8}, alg9{9};
+
+// 3*       3
+// |        |
+// 4 1   0  4 1   0*
+// |  \ /   |  \ /
+// 5   2    5   2
+// +---+    +---+
+//
+//  #10      #11
+
+class FmAlgorithm10and11: public FmAlgorithm {
+public:
+  explicit FmAlgorithm10and11(int algo)
+    : FmAlgorithm{2, BITSET2(2,5)}, mask0{(algo==11)? -1 : 0}
+  { }
+
+  int mask0; // selects where to put the feedback
+
+  virtual void fillBuffer(float *out,
+			  const float *in,
+			  FmOperator *op,
+			  float pitchMod,
+			  unsigned feedback) const override {
+    float *tmp=tempBuffer1;
+    const float *zero=zeroBuffer;
+    int mask3=~mask0;
+    
+    op[0].fillBuffer(tmp, zero, zero, pitchMod, feedback & mask0);
+    op[1].fillBuffer(tmp, tmp,  zero, pitchMod, 0);
+    op[2].fillBuffer(out, in,   tmp,  pitchMod, 0);
+    op[3].fillBuffer(tmp, zero, zero, pitchMod, feedback & mask3);
+    op[4].fillBuffer(tmp, zero, tmp,  pitchMod, 0);
+    op[5].fillBuffer(out, out,  tmp,  pitchMod, 0);
+  }
+};
+
+static FmAlgorithm10and11 alg10{10}, alg11{11};
+
+// 4* 2 1 0  4  2 1 0*
+// |   \|/   |   \|/
+// 5    3    5    3
+// +----+    +----+
+//
+//  #12       #13
+
+class FmAlgorithm12and13: public FmAlgorithm {
+public:
+  explicit FmAlgorithm12and13(int algo)
+    : FmAlgorithm{2, BITSET2(3,5)}, mask0{(algo==13)? -1 : 0}
+  { }
+
+  int mask0; // selects where to put the feedback
+
+  virtual void fillBuffer(float *out,
+			  const float *in,
+			  FmOperator *op,
+			  float pitchMod,
+			  unsigned feedback) const override {
+    float *tmp=tempBuffer1;
+    const float *zero=zeroBuffer;
+    int mask4=~mask0;
+    
+    op[0].fillBuffer(tmp, zero, zero, pitchMod, feedback & mask0);
+    op[1].fillBuffer(tmp, tmp,  zero, pitchMod, 0);
+    op[2].fillBuffer(tmp, tmp,  zero, pitchMod, 0);
+    op[3].fillBuffer(out, in,   tmp,  pitchMod, 0);
+    op[4].fillBuffer(tmp, zero, zero, pitchMod, feedback & mask4);
+    op[5].fillBuffer(out, out,  tmp,  pitchMod, 0);
+  }
+};
+
+static FmAlgorithm12and13 alg12{12}, alg13{13};
+
+
+//  1 0*   1 0
+//   \|     \|
+//  4 2   *4 2
+//  | |    | |
+//  5 3    5 3
+//  +-+    +-+
+//
+//  #14    #15
+
+class FmAlgorithm14and15: public FmAlgorithm {
+public:
+  explicit FmAlgorithm14and15(int algo)
+    : FmAlgorithm{2, BITSET2(3,5)}, mask0{(algo==14)? -1 : 0}
+  { }
+
+  int mask0; // selects where to put the feedback
+
+  virtual void fillBuffer(float *out,
+			  const float *in,
+			  FmOperator *op,
+			  float pitchMod,
+			  unsigned feedback) const override {
+    float *tmp=tempBuffer1;
+    const float *zero=zeroBuffer;
+    int mask4=~mask0;
+    
+    op[0].fillBuffer(tmp, zero, zero, pitchMod, feedback & mask0);
+    op[1].fillBuffer(tmp, tmp,  zero, pitchMod, 0);
+    op[2].fillBuffer(tmp, zero, tmp,  pitchMod, 0);
+    op[3].fillBuffer(out, in,   tmp,  pitchMod, 0);
+    op[4].fillBuffer(tmp, zero, zero, pitchMod, feedback & mask4);
+    op[5].fillBuffer(out, out,  tmp,  pitchMod, 0);
+  }
+};
+
+static FmAlgorithm14and15 alg14{14}, alg15{15};
+
+//   2 0*    2 0
+//   | |     | |
+// 4 3 1  *4 3 1
+//  \|/     \|/
+//   5       5
+//   +       +
+//
+//  #16     #17
+
+class FmAlgorithm16and17: public FmAlgorithm {
+public:
+  explicit FmAlgorithm16and17(int algo)
+    : FmAlgorithm{1, BITSET1(5)}, mask0{(algo==16)? -1 : 0}
+  { }
+
+  int mask0; // selects where to put the feedback
+
+  virtual void fillBuffer(float *out,
+			  const float *in,
+			  FmOperator *op,
+			  float pitchMod,
+			  unsigned feedback) const override {
+    float *tmp1=tempBuffer1;
+    float *tmp2=tempBuffer2;
+    const float *zero=zeroBuffer;
+    int mask4=~mask0;
+    
+    op[0].fillBuffer(tmp1, zero, zero, pitchMod, feedback & mask0);
+    op[1].fillBuffer(tmp1, zero, tmp1, pitchMod, 0);
+    op[2].fillBuffer(tmp2, zero, zero, pitchMod, 0);
+    op[3].fillBuffer(tmp1, tmp1, tmp2, pitchMod, 0);
+    op[4].fillBuffer(tmp1, tmp1, zero, pitchMod, feedback & mask4);
+    op[5].fillBuffer(out,  in,   tmp1, pitchMod, 0);
+  }
+};
+
+static FmAlgorithm16and17 alg16{16}, alg17{17};
+
+//     0
+//     |
+//     1
+//   3*|
+// 4 | 2
+//  \|/
+//   5
+//   +
+
+class FmAlgorithm18 : public FmAlgorithm {
+public:
+  FmAlgorithm18()
+    : FmAlgorithm{1, BITSET1(5)}
+  { }
+
+  virtual void fillBuffer(float *out,
+			  const float *in,
+			  FmOperator *op,
+			  float pitchMod,
+			  unsigned feedback) const override {
+    float *tmp=tempBuffer1;
+    const float *zero=zeroBuffer;
+    
+    op[0].fillBuffer(tmp, zero, zero, pitchMod, 0);
+    op[1].fillBuffer(tmp, zero, tmp,  pitchMod, 0);
+    op[2].fillBuffer(tmp, zero, tmp,  pitchMod, 0);
+    op[3].fillBuffer(tmp, tmp,  zero, pitchMod, feedback);
+    op[4].fillBuffer(tmp, tmp,  zero, pitchMod, 0);
+    op[5].fillBuffer(out, in,   tmp,  pitchMod, 0);
+  }
+};
+
+static FmAlgorithm18 alg18;
+
+// 3
+// |
+// 4   0*
+// |  /|
+// 5 2 1
+// +-+-+
+
+class FmAlgorithm19 : public FmAlgorithm {
+public:
+  FmAlgorithm19()
+    : FmAlgorithm{3, BITSET3(1,2,5)}
   { }
 
   virtual void fillBuffer(float *out,
@@ -65,51 +357,46 @@ public:
     const float *zero=zeroBuffer;
     
     op[0].fillBuffer(tmp, zero, zero, pitchMod, feedback);
-    op[1].fillBuffer(tmp, zero, tmp,  pitchMod, 0);
-    op[2].fillBuffer(tmp, tmp,  zero, pitchMod, 0);
-    op[3].fillBuffer(out, in,   tmp,  pitchMod, 0);
-    op[4].fillBuffer(tmp, zero, zero, pitchMod, 0);
+    op[1].fillBuffer(out, in,   tmp,  pitchMod, 0);
+    op[2].fillBuffer(out, out,  tmp,  pitchMod, 0);
+    op[3].fillBuffer(tmp, zero, zero, pitchMod, 0);
+    op[4].fillBuffer(tmp, zero, tmp,  pitchMod, 0);
     op[5].fillBuffer(out, out,  tmp,  pitchMod, 0);
   }
 };
 
-static FmAlgorithm7 alg7;
+static FmAlgorithm19 alg19;
 
-//   2 0*    2 0
-//   | |     | |
-// 4 3 1  *4 3 1
-//  \|/     \|/
-//   5       5
-//   +       +
-//
-//  #16     #17
-class FmAlgorithm16and17: public FmAlgorithm {
+// 4   0*
+// |  /|\ :-)
+// 5 3 2 1
+// | | | |
+// +-+-+-+
+
+class FmAlgorithm22 : public FmAlgorithm {
 public:
-  explicit FmAlgorithm16and17(int algo)
-    : FmAlgorithm{1, BITSET1(5)}, is16mask{(algo==16)? -1 : 0}
+  FmAlgorithm22()
+    : FmAlgorithm{4, BITSET4(1,2,3,5)}
   { }
-
-  int is16mask; // selects where to put the feedback
 
   virtual void fillBuffer(float *out,
 			  const float *in,
 			  FmOperator *op,
 			  float pitchMod,
 			  unsigned feedback) const override {
-    float *tmp1=tempBuffer1;
-    float *tmp2=tempBuffer2;
+    float *tmp=tempBuffer1;
     const float *zero=zeroBuffer;
-
-    op[0].fillBuffer(tmp1, zero, zero, pitchMod, feedback & is16mask);
-    op[1].fillBuffer(tmp1, zero, tmp1, pitchMod, 0);
-    op[2].fillBuffer(tmp2, zero, zero, pitchMod, 0);
-    op[3].fillBuffer(tmp1, tmp1, tmp2, pitchMod, 0);
-    op[4].fillBuffer(tmp1, tmp1, zero, pitchMod, feedback & ~is16mask);
-    op[5].fillBuffer(out,  in,   tmp1, pitchMod, 0);
+    
+    op[0].fillBuffer(tmp, zero, zero, pitchMod, feedback);
+    op[1].fillBuffer(out, in,   tmp,  pitchMod, 0);
+    op[2].fillBuffer(out, out,  tmp,  pitchMod, 0);
+    op[3].fillBuffer(out, out,  tmp,  pitchMod, 0);
+    op[4].fillBuffer(tmp, zero, zero, pitchMod, 0);
+    op[5].fillBuffer(out, out,  tmp,  pitchMod, 0);
   }
 };
 
-static FmAlgorithm16and17 alg16{16}, alg17{17};
+static FmAlgorithm22 alg22;
 
 // 5 4 3 2 1 0*
 // | | | | | |
@@ -136,10 +423,24 @@ static FmAlgorithm32 alg32;
 
 const FmAlgorithm* FmAlgorithm::getAlgorithm(unsigned algorithmNumber) {
   switch (algorithmNumber) {
+  case 1:  return &alg1;
+  case 2:  return &alg2;
+  case 3:  return &alg3;
   case 5:  return &alg5;
   case 7:  return &alg7;
+  case 8:  return &alg8;
+  case 9:  return &alg9;
+  case 10: return &alg10;
+  case 11: return &alg11;
+  case 12: return &alg12;
+  case 13: return &alg13;
+  case 14: return &alg14;
+  case 15: return &alg15;
   case 16: return &alg16;
   case 17: return &alg17;
+  case 18: return &alg18;
+  case 19: return &alg19;
+  case 22: return &alg22;
   case 32:
   default:
     return &alg32;
