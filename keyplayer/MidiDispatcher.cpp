@@ -1,7 +1,6 @@
 #include "keyplayer.h"
 #include "MidiDispatcher.h"
 #include "Voice.h"
-#include "Program.h"
 
 void UsbMidiDispatcher::Init() {
   daisy::MidiUsbHandler::Config midi_cfg;
@@ -9,8 +8,8 @@ void UsbMidiDispatcher::Init() {
   mMidi.Init(midi_cfg);
 
   for (unsigned ch=0; ch<16; ++ch) {
-    mChannel[ch].program=Program::getProgram(1);
-    mChannel[ch].volume=0.25;
+    mChannel[ch].reset();
+    mChannel[ch].setMasterVolume(0.5f);
   }
 }
 
@@ -29,8 +28,13 @@ void UsbMidiDispatcher::noteOff(unsigned channel, unsigned key) {
   }
 }
 
+void UsbMidiDispatcher::controlChange(unsigned channel, unsigned cc, unsigned value) {
+  if (cc==7)
+    mChannel[channel].setChannelVolume(value*128);
+}
+
 void UsbMidiDispatcher::programChange(unsigned channel, unsigned program) {
-  mChannel[channel].program=Program::getProgram(program);
+  mChannel[channel].setProgram(program);
 }
 
 void UsbMidiDispatcher::DispatchEvents() {
@@ -50,6 +54,9 @@ void UsbMidiDispatcher::DispatchEvents() {
       break;
     case daisy::NoteOff:
       noteOff(msg.channel, msg.AsNoteOff().note);
+      break;
+    case daisy::ControlChange:
+      controlChange(msg.channel, msg.data[0], msg.data[1]);
       break;
     case daisy::ProgramChange:
       programChange(msg.channel, msg.data[0]);

@@ -7,7 +7,7 @@
 #include "keyplayer.h"
 #include "FmOperator.h"
 
-struct Channel;
+class Channel;
 class FmAlgorithm;
 struct Program;
 
@@ -46,6 +46,7 @@ class Voice {
   unsigned char mKey;
   bool mGate;
   unsigned mTimestamp;
+  const Channel *mChannel;
   const Program *mProgram;
   const FmAlgorithm *mAlgorithm;
   FmOperator mOp[NUM_OPERATORS];

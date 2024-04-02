@@ -41,16 +41,17 @@ void Voice::Init() {
 }
 
 void Voice::noteOn(const Channel *ch, unsigned key, unsigned velocity) {
-  mProgram=ch->program;
+  mChannel=ch;
+  mProgram=ch->getProgram();
   mAlgorithm=FmAlgorithm::getAlgorithm(mProgram->algorithm);
   mKey=key;
   mGate=true;
   mTimestamp=getAudioPathTimestamp();
 
   std::int32_t deltaPhi=theKeyPlayer.midiToPhaseIncrement(key);
-  float com=0.25f/mAlgorithm->getNumCarriers();
+  float com=0.25f/mAlgorithm->getNumOutputs();
   for (unsigned i=0; i<NUM_OPERATORS; ++i) {
-    float outputScaling=mAlgorithm->isCarrier(i)? com : 1.0f;
+    float outputScaling=mAlgorithm->isOutput(i)? com : 1.0f;
     mOp[i].noteOn(&mProgram->op[i], key, velocity, deltaPhi, outputScaling);
   }
 }
@@ -65,6 +66,15 @@ void Voice::noteOff() {
 void Voice::addToBuffer(float *buffer) {
   float pitchMod=1.0;
 
+  
+  // Handle modulation of amplitude
+  float volume=mChannel->getVolume();
+  float lfo=1.0f;
+  for (unsigned i=0; i<NUM_OPERATORS; ++i) {
+    float nextAm=mAlgorithm->isOutput(i)? volume : 1.0f;
+    mOp[i].handleAm(nextAm, lfo);
+  }
+  
   if (mAlgorithm) {
     mAlgorithm->fillBuffer(buffer, buffer, mOp, pitchMod, mProgram->feedback);
   }

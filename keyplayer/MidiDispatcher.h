@@ -21,6 +21,8 @@ class UsbMidiDispatcher {
   void DispatchEvents();
   void noteOn(unsigned channel, unsigned key, unsigned velocity);
   void noteOff(unsigned channel, unsigned key);
+  // channel: 0-15, cc: 0-127, value: 0-127
+  void controlChange(unsigned channel, unsigned cc, unsigned value);
   void programChange(unsigned channel, unsigned program);
 };
 
