@@ -3,7 +3,7 @@
 #include "FmOperator.h"
 #include "Voice.h"
 
-static const float zeroBuffer[BLOCK_SIZE] = {0};
+extern const float zeroBuffer[];
 static float tempBuffer1[BLOCK_SIZE];
 static float tempBuffer2[BLOCK_SIZE];
 
@@ -37,17 +37,18 @@ public:
 			  const float *in,
 			  FmOperator *op,
 			  float pitchMod,
+			  float lfo,
 			  unsigned feedback) const override {
     float *tmp=tempBuffer1;
     const float *zero=zeroBuffer;
     int mask4=~mask0;
     
-    op[0].fillBuffer(tmp, zero, zero, pitchMod, feedback & mask0);
-    op[1].fillBuffer(tmp, zero, tmp,  pitchMod, 0);
-    op[2].fillBuffer(tmp, zero, tmp,  pitchMod, 0);
-    op[3].fillBuffer(out, in,   tmp,  pitchMod, 0);
-    op[4].fillBuffer(tmp, zero, zero, pitchMod, feedback & mask4);
-    op[5].fillBuffer(out, out,  tmp,  pitchMod, 0);
+    op[0].fillBuffer(tmp, zero, zero, pitchMod, lfo, feedback & mask0);
+    op[1].fillBuffer(tmp, zero, tmp,  pitchMod, lfo, 0);
+    op[2].fillBuffer(tmp, zero, tmp,  pitchMod, lfo, 0);
+    op[3].fillBuffer(out, in,   tmp,  pitchMod, lfo, 0);
+    op[4].fillBuffer(tmp, zero, zero, pitchMod, lfo, feedback & mask4);
+    op[5].fillBuffer(out, out,  tmp,  pitchMod, lfo, 0);
   }
 };
 
@@ -70,16 +71,17 @@ public:
 			  const float *in,
 			  FmOperator *op,
 			  float pitchMod,
+			  float lfo,
 			  unsigned feedback) const override {
     float *tmp=tempBuffer1;
     const float *zero=zeroBuffer;
     
-    op[0].fillBuffer(tmp, zero, zero, pitchMod, feedback);
-    op[1].fillBuffer(tmp, zero, tmp,  pitchMod, 0);
-    op[2].fillBuffer(out, in,   tmp,  pitchMod, 0);
-    op[3].fillBuffer(tmp, zero, zero, pitchMod, 0);
-    op[4].fillBuffer(tmp, zero, tmp,  pitchMod, 0);
-    op[5].fillBuffer(out, out,  tmp,  pitchMod, 0);
+    op[0].fillBuffer(tmp, zero, zero, pitchMod, lfo, feedback);
+    op[1].fillBuffer(tmp, zero, tmp,  pitchMod, lfo, 0);
+    op[2].fillBuffer(out, in,   tmp,  pitchMod, lfo, 0);
+    op[3].fillBuffer(tmp, zero, zero, pitchMod, lfo, 0);
+    op[4].fillBuffer(tmp, zero, tmp,  pitchMod, lfo, 0);
+    op[5].fillBuffer(out, out,  tmp,  pitchMod, lfo, 0);
   }
 };
 
@@ -99,16 +101,17 @@ public:
 			  const float *in,
 			  FmOperator *op,
 			  float pitchMod,
+			  float lfo,
 			  unsigned feedback) const override {
     float *tmp=tempBuffer1;
     const float *zero=zeroBuffer;
     
-    op[0].fillBuffer(tmp, zero, zero, pitchMod, feedback);
-    op[1].fillBuffer(out, in,   tmp,  pitchMod, 0);
-    op[2].fillBuffer(tmp, zero, zero, pitchMod, 0);
-    op[3].fillBuffer(out, out,  tmp,  pitchMod, 0);
-    op[4].fillBuffer(tmp, zero, zero, pitchMod, 0);
-    op[5].fillBuffer(out, out,  tmp,  pitchMod, 0);
+    op[0].fillBuffer(tmp, zero, zero, pitchMod, lfo, feedback);
+    op[1].fillBuffer(out, in,   tmp,  pitchMod, lfo, 0);
+    op[2].fillBuffer(tmp, zero, zero, pitchMod, lfo, 0);
+    op[3].fillBuffer(out, out,  tmp,  pitchMod, lfo, 0);
+    op[4].fillBuffer(tmp, zero, zero, pitchMod, lfo, 0);
+    op[5].fillBuffer(out, out,  tmp,  pitchMod, lfo, 0);
   }
 };
 
@@ -135,17 +138,18 @@ public:
 			  const float *in,
 			  FmOperator *op,
 			  float pitchMod,
+			  float lfo,
 			  unsigned feedback) const override {
     float *tmp=tempBuffer1;
     const float *zero=zeroBuffer;
     int mask4=~(mask0 | mask2);
     
-    op[0].fillBuffer(tmp, zero, zero, pitchMod, feedback & mask0);
-    op[1].fillBuffer(tmp, zero, tmp,  pitchMod, 0);
-    op[2].fillBuffer(tmp, tmp,  zero, pitchMod, feedback & mask2);
-    op[3].fillBuffer(out, in,   tmp,  pitchMod, 0);
-    op[4].fillBuffer(tmp, zero, zero, pitchMod, feedback & mask4);
-    op[5].fillBuffer(out, out,  tmp,  pitchMod, 0);
+    op[0].fillBuffer(tmp, zero, zero, pitchMod, lfo, feedback & mask0);
+    op[1].fillBuffer(tmp, zero, tmp,  pitchMod, lfo, 0);
+    op[2].fillBuffer(tmp, tmp,  zero, pitchMod, lfo, feedback & mask2);
+    op[3].fillBuffer(out, in,   tmp,  pitchMod, lfo, 0);
+    op[4].fillBuffer(tmp, zero, zero, pitchMod, lfo, feedback & mask4);
+    op[5].fillBuffer(out, out,  tmp,  pitchMod, lfo, 0);
   }
 
   int mask0, mask2;
@@ -174,17 +178,18 @@ public:
 			  const float *in,
 			  FmOperator *op,
 			  float pitchMod,
+			  float lfo,
 			  unsigned feedback) const override {
     float *tmp=tempBuffer1;
     const float *zero=zeroBuffer;
     int mask3=~mask0;
     
-    op[0].fillBuffer(tmp, zero, zero, pitchMod, feedback & mask0);
-    op[1].fillBuffer(tmp, tmp,  zero, pitchMod, 0);
-    op[2].fillBuffer(out, in,   tmp,  pitchMod, 0);
-    op[3].fillBuffer(tmp, zero, zero, pitchMod, feedback & mask3);
-    op[4].fillBuffer(tmp, zero, tmp,  pitchMod, 0);
-    op[5].fillBuffer(out, out,  tmp,  pitchMod, 0);
+    op[0].fillBuffer(tmp, zero, zero, pitchMod, lfo, feedback & mask0);
+    op[1].fillBuffer(tmp, tmp,  zero, pitchMod, lfo, 0);
+    op[2].fillBuffer(out, in,   tmp,  pitchMod, lfo, 0);
+    op[3].fillBuffer(tmp, zero, zero, pitchMod, lfo, feedback & mask3);
+    op[4].fillBuffer(tmp, zero, tmp,  pitchMod, lfo, 0);
+    op[5].fillBuffer(out, out,  tmp,  pitchMod, lfo, 0);
   }
 };
 
@@ -209,17 +214,18 @@ public:
 			  const float *in,
 			  FmOperator *op,
 			  float pitchMod,
+			  float lfo,
 			  unsigned feedback) const override {
     float *tmp=tempBuffer1;
     const float *zero=zeroBuffer;
     int mask4=~mask0;
     
-    op[0].fillBuffer(tmp, zero, zero, pitchMod, feedback & mask0);
-    op[1].fillBuffer(tmp, tmp,  zero, pitchMod, 0);
-    op[2].fillBuffer(tmp, tmp,  zero, pitchMod, 0);
-    op[3].fillBuffer(out, in,   tmp,  pitchMod, 0);
-    op[4].fillBuffer(tmp, zero, zero, pitchMod, feedback & mask4);
-    op[5].fillBuffer(out, out,  tmp,  pitchMod, 0);
+    op[0].fillBuffer(tmp, zero, zero, pitchMod, lfo, feedback & mask0);
+    op[1].fillBuffer(tmp, tmp,  zero, pitchMod, lfo, 0);
+    op[2].fillBuffer(tmp, tmp,  zero, pitchMod, lfo, 0);
+    op[3].fillBuffer(out, in,   tmp,  pitchMod, lfo, 0);
+    op[4].fillBuffer(tmp, zero, zero, pitchMod, lfo, feedback & mask4);
+    op[5].fillBuffer(out, out,  tmp,  pitchMod, lfo, 0);
   }
 };
 
@@ -247,17 +253,18 @@ public:
 			  const float *in,
 			  FmOperator *op,
 			  float pitchMod,
+			  float lfo,
 			  unsigned feedback) const override {
     float *tmp=tempBuffer1;
     const float *zero=zeroBuffer;
     int mask4=~mask0;
     
-    op[0].fillBuffer(tmp, zero, zero, pitchMod, feedback & mask0);
-    op[1].fillBuffer(tmp, tmp,  zero, pitchMod, 0);
-    op[2].fillBuffer(tmp, zero, tmp,  pitchMod, 0);
-    op[3].fillBuffer(out, in,   tmp,  pitchMod, 0);
-    op[4].fillBuffer(tmp, zero, zero, pitchMod, feedback & mask4);
-    op[5].fillBuffer(out, out,  tmp,  pitchMod, 0);
+    op[0].fillBuffer(tmp, zero, zero, pitchMod, lfo, feedback & mask0);
+    op[1].fillBuffer(tmp, tmp,  zero, pitchMod, lfo, 0);
+    op[2].fillBuffer(tmp, zero, tmp,  pitchMod, lfo, 0);
+    op[3].fillBuffer(out, in,   tmp,  pitchMod, lfo, 0);
+    op[4].fillBuffer(tmp, zero, zero, pitchMod, lfo, feedback & mask4);
+    op[5].fillBuffer(out, out,  tmp,  pitchMod, lfo, 0);
   }
 };
 
@@ -284,18 +291,19 @@ public:
 			  const float *in,
 			  FmOperator *op,
 			  float pitchMod,
+			  float lfo,
 			  unsigned feedback) const override {
     float *tmp1=tempBuffer1;
     float *tmp2=tempBuffer2;
     const float *zero=zeroBuffer;
     int mask4=~mask0;
     
-    op[0].fillBuffer(tmp1, zero, zero, pitchMod, feedback & mask0);
-    op[1].fillBuffer(tmp1, zero, tmp1, pitchMod, 0);
-    op[2].fillBuffer(tmp2, zero, zero, pitchMod, 0);
-    op[3].fillBuffer(tmp1, tmp1, tmp2, pitchMod, 0);
-    op[4].fillBuffer(tmp1, tmp1, zero, pitchMod, feedback & mask4);
-    op[5].fillBuffer(out,  in,   tmp1, pitchMod, 0);
+    op[0].fillBuffer(tmp1, zero, zero, pitchMod, lfo, feedback & mask0);
+    op[1].fillBuffer(tmp1, zero, tmp1, pitchMod, lfo, 0);
+    op[2].fillBuffer(tmp2, zero, zero, pitchMod, lfo, 0);
+    op[3].fillBuffer(tmp1, tmp1, tmp2, pitchMod, lfo, 0);
+    op[4].fillBuffer(tmp1, tmp1, zero, pitchMod, lfo, feedback & mask4);
+    op[5].fillBuffer(out,  in,   tmp1, pitchMod, lfo, 0);
   }
 };
 
@@ -320,16 +328,17 @@ public:
 			  const float *in,
 			  FmOperator *op,
 			  float pitchMod,
+			  float lfo,
 			  unsigned feedback) const override {
     float *tmp=tempBuffer1;
     const float *zero=zeroBuffer;
     
-    op[0].fillBuffer(tmp, zero, zero, pitchMod, 0);
-    op[1].fillBuffer(tmp, zero, tmp,  pitchMod, 0);
-    op[2].fillBuffer(tmp, zero, tmp,  pitchMod, 0);
-    op[3].fillBuffer(tmp, tmp,  zero, pitchMod, feedback);
-    op[4].fillBuffer(tmp, tmp,  zero, pitchMod, 0);
-    op[5].fillBuffer(out, in,   tmp,  pitchMod, 0);
+    op[0].fillBuffer(tmp, zero, zero, pitchMod, lfo, 0);
+    op[1].fillBuffer(tmp, zero, tmp,  pitchMod, lfo, 0);
+    op[2].fillBuffer(tmp, zero, tmp,  pitchMod, lfo, 0);
+    op[3].fillBuffer(tmp, tmp,  zero, pitchMod, lfo, feedback);
+    op[4].fillBuffer(tmp, tmp,  zero, pitchMod, lfo, 0);
+    op[5].fillBuffer(out, in,   tmp,  pitchMod, lfo, 0);
   }
 };
 
@@ -352,16 +361,17 @@ public:
 			  const float *in,
 			  FmOperator *op,
 			  float pitchMod,
+			  float lfo,
 			  unsigned feedback) const override {
     float *tmp=tempBuffer1;
     const float *zero=zeroBuffer;
     
-    op[0].fillBuffer(tmp, zero, zero, pitchMod, feedback);
-    op[1].fillBuffer(out, in,   tmp,  pitchMod, 0);
-    op[2].fillBuffer(out, out,  tmp,  pitchMod, 0);
-    op[3].fillBuffer(tmp, zero, zero, pitchMod, 0);
-    op[4].fillBuffer(tmp, zero, tmp,  pitchMod, 0);
-    op[5].fillBuffer(out, out,  tmp,  pitchMod, 0);
+    op[0].fillBuffer(tmp, zero, zero, pitchMod, lfo, feedback);
+    op[1].fillBuffer(out, in,   tmp,  pitchMod, lfo, 0);
+    op[2].fillBuffer(out, out,  tmp,  pitchMod, lfo, 0);
+    op[3].fillBuffer(tmp, zero, zero, pitchMod, lfo, 0);
+    op[4].fillBuffer(tmp, zero, tmp,  pitchMod, lfo, 0);
+    op[5].fillBuffer(out, out,  tmp,  pitchMod, lfo, 0);
   }
 };
 
@@ -382,16 +392,17 @@ public:
 			  const float *in,
 			  FmOperator *op,
 			  float pitchMod,
+			  float lfo,
 			  unsigned feedback) const override {
     float *tmp=tempBuffer1;
     const float *zero=zeroBuffer;
     
-    op[0].fillBuffer(tmp, zero, zero, pitchMod, 0);
-    op[1].fillBuffer(tmp, tmp,  zero, pitchMod, 0);
-    op[2].fillBuffer(out, in,   tmp,  pitchMod, 0);
-    op[3].fillBuffer(tmp, zero, zero, pitchMod, feedback);
-    op[4].fillBuffer(out, out,  tmp,  pitchMod, 0);
-    op[5].fillBuffer(out, out,  tmp,  pitchMod, 0);
+    op[0].fillBuffer(tmp, zero, zero, pitchMod, lfo, 0);
+    op[1].fillBuffer(tmp, tmp,  zero, pitchMod, lfo, 0);
+    op[2].fillBuffer(out, in,   tmp,  pitchMod, lfo, 0);
+    op[3].fillBuffer(tmp, zero, zero, pitchMod, lfo, feedback);
+    op[4].fillBuffer(out, out,  tmp,  pitchMod, lfo, 0);
+    op[5].fillBuffer(out, out,  tmp,  pitchMod, lfo, 0);
   }
 };
 
@@ -416,16 +427,17 @@ public:
 			  const float *in,
 			  FmOperator *op,
 			  float pitchMod,
+			  float lfo,
 			  unsigned feedback) const override {
     float *tmp=tempBuffer1;
     const float *zero=zeroBuffer;
     
-    op[0].fillBuffer(tmp, zero, zero, pitchMod, is23 & feedback);
-    op[1].fillBuffer(out, in,   tmp,  pitchMod, 0);
-    op[2].fillBuffer(out, out,  tmp,  pitchMod, 0);
-    op[3].fillBuffer(tmp, zero, zero, pitchMod, (~is23) & feedback);
-    op[4].fillBuffer(out, out,  tmp,  pitchMod, 0);
-    op[5].fillBuffer(out, out,  is23? zero : tmp,  pitchMod, 0);
+    op[0].fillBuffer(tmp, zero, zero, pitchMod, lfo, is23 & feedback);
+    op[1].fillBuffer(out, in,   tmp,  pitchMod, lfo, 0);
+    op[2].fillBuffer(out, out,  tmp,  pitchMod, lfo, 0);
+    op[3].fillBuffer(tmp, zero, zero, pitchMod, lfo, (~is23) & feedback);
+    op[4].fillBuffer(out, out,  tmp,  pitchMod, lfo, 0);
+    op[5].fillBuffer(out, out,  is23? zero : tmp,  pitchMod, lfo, 0);
   }
 };
 
@@ -447,16 +459,17 @@ public:
 			  const float *in,
 			  FmOperator *op,
 			  float pitchMod,
+			  float lfo,
 			  unsigned feedback) const override {
     float *tmp=tempBuffer1;
     const float *zero=zeroBuffer;
     
-    op[0].fillBuffer(tmp, zero, zero, pitchMod, feedback);
-    op[1].fillBuffer(out, in,   tmp,  pitchMod, 0);
-    op[2].fillBuffer(out, out,  tmp,  pitchMod, 0);
-    op[3].fillBuffer(out, out,  tmp,  pitchMod, 0);
-    op[4].fillBuffer(tmp, zero, zero, pitchMod, 0);
-    op[5].fillBuffer(out, out,  tmp,  pitchMod, 0);
+    op[0].fillBuffer(tmp, zero, zero, pitchMod, lfo, feedback);
+    op[1].fillBuffer(out, in,   tmp,  pitchMod, lfo, 0);
+    op[2].fillBuffer(out, out,  tmp,  pitchMod, lfo, 0);
+    op[3].fillBuffer(out, out,  tmp,  pitchMod, lfo, 0);
+    op[4].fillBuffer(tmp, zero, zero, pitchMod, lfo, 0);
+    op[5].fillBuffer(out, out,  tmp,  pitchMod, lfo, 0);
   }
 };
 
@@ -483,16 +496,17 @@ public:
 			  const float *in,
 			  FmOperator *op,
 			  float pitchMod,
+			  float lfo,
 			  unsigned feedback) const override {
     float *tmp=tempBuffer1;
     const float *zero=zeroBuffer;
     
-    op[0].fillBuffer(tmp, zero, zero, pitchMod, feedback);
-    op[1].fillBuffer(out, out,  tmp,  pitchMod, 0);
-    op[2].fillBuffer(out, out,  is31? zero : tmp, pitchMod, 0);
-    op[3].fillBuffer(out, out,  is24? tmp : zero, pitchMod, 0);
-    op[4].fillBuffer(out, out,  zero, pitchMod, 0);
-    op[5].fillBuffer(out, out,  zero, pitchMod, 0);
+    op[0].fillBuffer(tmp, zero, zero, pitchMod, lfo, feedback);
+    op[1].fillBuffer(out, out,  tmp,  pitchMod, lfo, 0);
+    op[2].fillBuffer(out, out,  is31? zero : tmp, pitchMod, lfo, 0);
+    op[3].fillBuffer(out, out,  is24? tmp : zero, pitchMod, lfo, 0);
+    op[4].fillBuffer(out, out,  zero, pitchMod, lfo, 0);
+    op[5].fillBuffer(out, out,  zero, pitchMod, lfo, 0);
   }
 };
 
@@ -517,17 +531,18 @@ public:
 			  const float *in,
 			  FmOperator *op,
 			  float pitchMod,
+			  float lfo,
 			  unsigned feedback) const override {
     float *tmp=tempBuffer1;
     const float *zero=zeroBuffer;
     int mask3=~mask0;
     
-    op[0].fillBuffer(tmp,  zero, zero, pitchMod, feedback & mask0);
-    op[1].fillBuffer(tmp,  tmp,  zero, pitchMod, 0);
-    op[2].fillBuffer(out,  in,   tmp, pitchMod, 0);
-    op[3].fillBuffer(tmp,  zero, zero, pitchMod, feedback & mask3);
-    op[4].fillBuffer(out,  out,  tmp, pitchMod, 0);
-    op[5].fillBuffer(out,  out,  tmp,  pitchMod, 0);
+    op[0].fillBuffer(tmp,  zero, zero, pitchMod, lfo, feedback & mask0);
+    op[1].fillBuffer(tmp,  tmp,  zero, pitchMod, lfo, 0);
+    op[2].fillBuffer(out,  in,   tmp,  pitchMod, lfo, 0);
+    op[3].fillBuffer(tmp,  zero, zero, pitchMod, lfo, feedback & mask3);
+    op[4].fillBuffer(out,  out,  tmp,  pitchMod, lfo, 0);
+    op[5].fillBuffer(out,  out,  tmp,  pitchMod, lfo, 0);
   }
 };
 
@@ -550,16 +565,17 @@ public:
 			  const float *in,
 			  FmOperator *op,
 			  float pitchMod,
+			  float lfo,
 			  unsigned feedback) const override {
 	  float *tmp=tempBuffer1;
     const float *zero=zeroBuffer;
 
-    op[0].fillBuffer(out, in,   zero, pitchMod, 0);
-    op[1].fillBuffer(tmp, zero, zero, pitchMod, feedback);
-    op[2].fillBuffer(tmp, zero, tmp,  pitchMod, 0);
-    op[3].fillBuffer(out, out,  tmp,  pitchMod, 0);
-    op[4].fillBuffer(tmp, zero, zero, pitchMod, 0);
-    op[5].fillBuffer(out, out,  tmp,  pitchMod, 0);
+    op[0].fillBuffer(out, in,   zero, pitchMod, lfo, 0);
+    op[1].fillBuffer(tmp, zero, zero, pitchMod, lfo, feedback);
+    op[2].fillBuffer(tmp, zero, tmp,  pitchMod, lfo, 0);
+    op[3].fillBuffer(out, out,  tmp,  pitchMod, lfo, 0);
+    op[4].fillBuffer(tmp, zero, zero, pitchMod, lfo, 0);
+    op[5].fillBuffer(out, out,  tmp,  pitchMod, lfo, 0);
   }
 };
 
@@ -580,16 +596,17 @@ public:
 			  const float *in,
 			  FmOperator *op,
 			  float pitchMod,
+			  float lfo,
 			  unsigned feedback) const override {
 	  float *tmp=tempBuffer1;
     const float *zero=zeroBuffer;
 
-    op[0].fillBuffer(tmp, zero, zero, pitchMod, feedback);
-    op[1].fillBuffer(out, in,   tmp,  pitchMod, 0);
-    op[2].fillBuffer(tmp, zero, zero, pitchMod, 0);
-    op[3].fillBuffer(out, out,  tmp,  pitchMod, 0);
-    op[4].fillBuffer(out, out,  zero, pitchMod, 0);
-    op[5].fillBuffer(out, out,  zero, pitchMod, 0);
+    op[0].fillBuffer(tmp, zero, zero, pitchMod, lfo, feedback);
+    op[1].fillBuffer(out, in,   tmp,  pitchMod, lfo, 0);
+    op[2].fillBuffer(tmp, zero, zero, pitchMod, lfo, 0);
+    op[3].fillBuffer(out, out,  tmp,  pitchMod, lfo, 0);
+    op[4].fillBuffer(out, out,  zero, pitchMod, lfo, 0);
+    op[5].fillBuffer(out, out,  zero, pitchMod, lfo, 0);
   }
 };
 
@@ -612,16 +629,17 @@ public:
 			  const float *in,
 			  FmOperator *op,
 			  float pitchMod,
+			  float lfo,
 			  unsigned feedback) const override {
 	  float *tmp=tempBuffer1;
     const float *zero=zeroBuffer;
 
-    op[0].fillBuffer(out, in,   zero, pitchMod, 0);
-    op[1].fillBuffer(tmp, zero, zero, pitchMod, feedback);
-    op[2].fillBuffer(tmp, zero, tmp,  pitchMod, 0);
-    op[3].fillBuffer(out, out,  tmp,  pitchMod, 0);
-    op[4].fillBuffer(out, out,  zero, pitchMod, 0);
-    op[5].fillBuffer(out, out,  zero, pitchMod, 0);
+    op[0].fillBuffer(out, in,   zero, pitchMod, lfo, 0);
+    op[1].fillBuffer(tmp, zero, zero, pitchMod, lfo, feedback);
+    op[2].fillBuffer(tmp, zero, tmp,  pitchMod, lfo, 0);
+    op[3].fillBuffer(out, out,  tmp,  pitchMod, lfo, 0);
+    op[4].fillBuffer(out, out,  zero, pitchMod, lfo, 0);
+    op[5].fillBuffer(out, out,  zero, pitchMod, lfo, 0);
   }
 };
 
@@ -641,10 +659,11 @@ public:
 			  const float *in,
 			  FmOperator *op,
 			  float pitchMod,
+			  float lfo,
 			  unsigned feedback) const override {
-    op[0].fillBuffer(out, in, zeroBuffer, pitchMod, feedback);
+    op[0].fillBuffer(out, in, zeroBuffer, pitchMod, lfo, feedback);
     for (unsigned i=1; i<6; ++i)
-      op[i].fillBuffer(out, out, zeroBuffer, pitchMod, 0);
+      op[i].fillBuffer(out, out, zeroBuffer, pitchMod, lfo, 0);
   }
 };
 

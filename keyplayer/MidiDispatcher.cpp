@@ -1,4 +1,5 @@
 #include "keyplayer.h"
+#include "Channel.h"
 #include "MidiDispatcher.h"
 #include "Voice.h"
 
@@ -8,13 +9,13 @@ void UsbMidiDispatcher::Init() {
   mMidi.Init(midi_cfg);
 
   for (unsigned ch=0; ch<16; ++ch) {
-    mChannel[ch].reset();
-    mChannel[ch].setMasterVolume(0.5f);
+    Channel::allChannels[ch].reset();
+    Channel::allChannels[ch].setMasterVolume(0.5f);
   }
 }
 
 void UsbMidiDispatcher::noteOn(unsigned channel, unsigned key, unsigned velocity) {
-  const Channel *ch=&mChannel[channel];
+  Channel *ch=&Channel::allChannels[channel];
   Voice *voice=allocateVoice(channel, key);
   voice->noteOn(ch, key, velocity);
   DaisySeedHw.SetLed(true);
@@ -30,11 +31,13 @@ void UsbMidiDispatcher::noteOff(unsigned channel, unsigned key) {
 
 void UsbMidiDispatcher::controlChange(unsigned channel, unsigned cc, unsigned value) {
   if (cc==7)
-    mChannel[channel].setChannelVolume(value*128);
+    Channel::allChannels[channel].setChannelVolume(value*128);
+  else if (cc==10)
+    Channel::allChannels[channel].setPan(value*128);
 }
 
 void UsbMidiDispatcher::programChange(unsigned channel, unsigned program) {
-  mChannel[channel].setProgram(program);
+  Channel::allChannels[channel].setProgram(program);
 }
 
 void UsbMidiDispatcher::DispatchEvents() {

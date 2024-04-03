@@ -40,8 +40,16 @@ void Voice::Init() {
   mAlgorithm=nullptr;
 }
 
-void Voice::noteOn(const Channel *ch, unsigned key, unsigned velocity) {
-  mChannel=ch;
+void Voice::noteOn(Channel *ch, unsigned key, unsigned velocity) {
+  if (mChannel!=ch) {
+    // Unregister with old channel
+    if (mChannel)
+      mChannel->removeVoice(this);
+    
+    // Register with new channel
+    ch->addVoice(this);
+    mChannel=ch;
+  }
   mProgram=ch->getProgram();
   mAlgorithm=FmAlgorithm::getAlgorithm(mProgram->algorithm);
   mKey=key;
@@ -63,19 +71,13 @@ void Voice::noteOff() {
     mOp[i].noteOff(&mProgram->op[i]);
 }
 
-void Voice::addToBuffer(float *buffer) {
+void Voice::fillBuffer(float *monoOut, const float *monoIn) {
   float pitchMod=1.0;
-
-  
-  // Handle modulation of amplitude
-  float volume=mChannel->getVolume();
   float lfo=1.0f;
-  for (unsigned i=0; i<NUM_OPERATORS; ++i) {
-    float nextAm=mAlgorithm->isOutput(i)? volume : 1.0f;
-    mOp[i].handleAm(nextAm, lfo);
-  }
   
   if (mAlgorithm) {
-    mAlgorithm->fillBuffer(buffer, buffer, mOp, pitchMod, mProgram->feedback);
+    mAlgorithm->fillBuffer(monoOut, monoIn, mOp,
+			   pitchMod, lfo,
+			   mProgram->feedback);
   }
 }

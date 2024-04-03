@@ -78,27 +78,25 @@ void FmOperator::noteOn(const FmOperatorParam *param,
   level*=levelCom * velocityScaling(vel, param->velScaling);
   float timeS=timeScaling(key, param->kbdRateScaling);
   mEnvelope.noteOn(&param->envelope, level, timeS);
+  mCurrAm=1.0;
 }
 
 void FmOperator::noteOff(const FmOperatorParam *param) {
   mEnvelope.noteOff(&param->envelope);
 }
 
-void FmOperator::handleAm(float gain, float lfo) {
-  // TODO: LFO -> AM
-  mNextAm=gain;
-}
-
 void FmOperator::fillBuffer(float *out,
 			    const float *in,
 			    const float *mod,
 			    float pitchMod,
+			    float lfo,
 			    int feedback) {
   unsigned phi=mPhi;
   float y1=mDelay1;
   float y2=mDelay2;
-  float linAM=mCurrAm;
-  float dA=(mNextAm-mCurrAm)/BLOCK_SIZE;
+  float linAm=mCurrAm;
+  float nextAm=mCurrAm;
+  float dA=(nextAm-mCurrAm)/BLOCK_SIZE;
   for (unsigned i=0; i<BLOCK_SIZE; ++i) {
     // Modulator is scaled by 4PI, which is the modulation index for ouput 99
     // Feedback is scaled similarly, but there is also an implicit
@@ -107,12 +105,12 @@ void FmOperator::fillBuffer(float *out,
     // = feedback-8.
     float m=(feedback)? ldexpf(y1+y2, feedback-8) : 4.0f*mod[i];
     float s=sinf((ldexpf(phi,-31)+m)*((float) M_PI));
-    float gain=mEnvelope.ProcessSample()*linAM;
+    float gain=mEnvelope.ProcessSample()*linAm;
 
     y2=y1;
     y1=s*gain;
     phi+=mDeltaPhiKey;
-    linAM+=dA;
+    linAm+=dA;
     out[i]=in[i] + y1;
   }
 
@@ -121,5 +119,5 @@ void FmOperator::fillBuffer(float *out,
   mDelay1=y1;
   mDelay2=y2;
   mEnvelope.updateAfterBlock(&mParam->envelope);
-  mCurrAm=mNextAm;
+  mCurrAm=linAm;
 }

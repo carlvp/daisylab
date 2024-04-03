@@ -24,13 +24,14 @@ class FmOperator {
 		  const float *in,
 		  const float *mod,
 		  float pitchMod,
+		  float lfo,
 		  int feedback);
   
  private:
   const FmOperatorParam *mParam;
   unsigned mPhi, mDeltaPhiKey;
   float mDelay1, mDelay2;
-  float mCurrAm, mNextAm;
+  float mCurrAm;
   EnvelopeState mEnvelope;
 };
 

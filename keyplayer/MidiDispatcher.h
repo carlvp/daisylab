@@ -2,7 +2,6 @@
 #define MidiDispatcher_H
 
 #include <daisy_seed.h>
-#include "Channel.h"
 
 class UsbMidiDispatcher {
  public:
@@ -16,7 +15,6 @@ class UsbMidiDispatcher {
   
  private:
   daisy::MidiUsbHandler mMidi;
-  Channel mChannel[16];
   
   void DispatchEvents();
   void noteOn(unsigned channel, unsigned key, unsigned velocity);

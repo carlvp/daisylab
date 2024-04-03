@@ -2,7 +2,7 @@
 #ifndef KEYPLAYER_H
 
 #include <daisy_seed.h>
-#include "KeyplayerConfig.h"
+#include "configuration.h"
 
 extern daisy::DaisySeed DaisySeedHw;
 
@@ -29,6 +29,8 @@ class KeyPlayer {
 };
 
 extern KeyPlayer theKeyPlayer;
+
+extern const float zeroBuffer[];
 
 void initVoices();
 void startAudioPath();

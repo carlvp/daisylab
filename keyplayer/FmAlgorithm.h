@@ -34,6 +34,7 @@ class FmAlgorithm {
 			  const float *in,
 			  FmOperator *op,
 			  float pitchMod,
+			  float lfo,
 			  unsigned feedback) const = 0;
 
  private:

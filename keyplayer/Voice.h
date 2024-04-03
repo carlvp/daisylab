@@ -36,17 +36,17 @@ class Voice {
     }
   }
   
-  void noteOn(const Channel *ch, unsigned key, unsigned velocity);
+  void noteOn(Channel *ch, unsigned key, unsigned velocity);
 
   void noteOff();
 
-  void addToBuffer(float *buf);
+  void fillBuffer(float *monoOut, const float *monoIn);
 
  private:
   unsigned char mKey;
   bool mGate;
   unsigned mTimestamp;
-  const Channel *mChannel;
+  Channel *mChannel;
   const Program *mProgram;
   const FmAlgorithm *mAlgorithm;
   FmOperator mOp[NUM_OPERATORS];

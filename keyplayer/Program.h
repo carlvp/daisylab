@@ -2,7 +2,7 @@
 #ifndef Program_H
 #define Program_H
 
-#include "KeyplayerConfig.h"
+#include "configuration.h"
 
 struct EnvelopeParam {
   float level0;

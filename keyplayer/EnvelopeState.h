@@ -2,7 +2,7 @@
 #ifndef EnvelopeState_H
 #define EnvelopeState_H
 
-#include "KeyplayerConfig.h"
+#include "configuration.h"
 
 class EnvelopeParam;
 
