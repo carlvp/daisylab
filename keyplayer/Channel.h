@@ -10,7 +10,7 @@ class Voice;
 class Channel {
  public:
   Channel()
-    : mMasterVolume{1.0f}, mNumVoices{0}
+    : mMasterVolume{0.5f}, mNumVoices{0}
   {
     reset();
   }
@@ -20,6 +20,8 @@ class Channel {
   void addVoice(Voice *v);
   void removeVoice(Voice *v);
 
+  Voice *findVoice(unsigned key) const;
+  
   // Produce interleaved stereo mix of voices
   const float *mixVoices(float *stereoOut, const float *stereoIn) const {
     if (mNumVoices!=0) {
@@ -30,12 +32,6 @@ class Channel {
       return stereoIn;
   }
 
-  static const float *mixAllChannels(float *stereoOut, const float *stereoIn) {
-    for (Channel &ch: allChannels)
-      stereoIn = ch.mixVoices(stereoOut, stereoIn);
-    return stereoIn;
-  }
-  
   const Program *getProgram() const { return mProgram; }
   void setProgram(unsigned pgm);
 
@@ -60,8 +56,6 @@ class Channel {
 
   // Pan [0,16383] 0=hard left, 8192=center, 16383=hard right
   void setPan(unsigned p);
-
-  static Channel allChannels[NUM_CHANNELS];
 
  private:
   const Program *mProgram;

@@ -6,46 +6,41 @@
  *  To keep the example short, only note on messages are handled, and there
  *  is only a single oscillator voice that tracks the most recent note message.
  */
-#include <daisy_seed.h>
-#include <daisysp.h>
 
+#include "hardware.h"
 #include "keyplayer.h"
+#include "AudioPath.h"
+#include "Instrument.h"
 #include "MidiDispatcher.h"
-#include "Voice.h"
 
-using namespace daisy;
-using namespace daisysp;
-
-DaisySeed DaisySeedHw;
+daisy::DaisySeed DaisySeedHw;
 
 KeyPlayer theKeyPlayer;
 
-void KeyPlayer::Init() {
-  // Basic initialization of Daisy hardware
-  DaisySeedHw.Configure();
-  DaisySeedHw.Init();
+static Instrument theInstrument;
+static UsbMidiDispatcher theMidiDispatcher;
 
+KeyPlayer::KeyPlayer() {
   // Tune the KeyPlayer:
   // Phase is represented as a 32-bit integer and 2PI corresponds to 2^32
   // The phase increment of a 1Hz signal is 2^32/sampleRate
-  float sampleRate=DaisySeedHw.AudioSampleRate();
-  mDeltaPhi1Hz=4294967296.0f/sampleRate;
+  mDeltaPhi1Hz=4294967296.0f/SAMPLE_RATE;
   // In the same way for midi key A4 (440Hz)
   mDeltaPhiA4=440*mDeltaPhi1Hz;
 }
 
+
 int main(void)
 {
-  UsbMidiDispatcher midi;
-  
-  theKeyPlayer.Init();
-  /* TODO: move this stuff into the Keyplayer singleton? */
-  midi.Init();
-  initVoices();
-  
+  // Init
+  DaisySeedHw.Configure();
+  DaisySeedHw.Init();
+  theMidiDispatcher.Init(&theInstrument);
+
+  // Main loop
   startAudioPath();
   while(1) {
-    processAudioPath();
-    midi.Process();
+    processAudioPath(&theInstrument);
+    theMidiDispatcher.Process();
   }
 }

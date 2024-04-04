@@ -1,9 +1,8 @@
-#include "keyplayer.h"
+#include "AudioPath.h"
 #include "FmAlgorithm.h"
 #include "FmOperator.h"
 #include "Voice.h"
 
-extern const float zeroBuffer[];
 static float tempBuffer1[BLOCK_SIZE];
 static float tempBuffer2[BLOCK_SIZE];
 

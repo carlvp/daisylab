@@ -4,43 +4,8 @@
 #include "Voice.h"
 #include "Program.h"
 
-Voice allVoices[NUM_VOICES];
-
-void initVoices() {
-  for (Voice &v: allVoices)
-    v.Init();
-}
-
-Voice *findVoice(unsigned channel, unsigned key) {
-  for (Voice &v: allVoices)
-    if (v.getKey()==key)
-      return &v;
-
-  return nullptr;
-}
-
-Voice *allocateVoice(unsigned channel, unsigned key) {
-  Voice *v=findVoice(channel, key);
-  unsigned timestamp=getAudioPathTimestamp();
-  
-  if (!v) {
-    v=&allVoices[0];
-    
-    for (unsigned i=1; i<NUM_VOICES; ++i) {
-      v = v->voiceStealing(&allVoices[i], timestamp);
-    }
-  }
-  
-  return v;
-}
-
-void Voice::Init() {
-  for (FmOperator &op: mOp)
-    op.Init();
-  mAlgorithm=nullptr;
-}
-
-void Voice::noteOn(Channel *ch, unsigned key, unsigned velocity) {
+void Voice::noteOn(Channel *ch, unsigned key, unsigned velocity,
+		   unsigned timestamp) {
   if (mChannel!=ch) {
     // Unregister with old channel
     if (mChannel)
@@ -54,8 +19,8 @@ void Voice::noteOn(Channel *ch, unsigned key, unsigned velocity) {
   mAlgorithm=FmAlgorithm::getAlgorithm(mProgram->algorithm);
   mKey=key;
   mGate=true;
-  mTimestamp=getAudioPathTimestamp();
-
+  mTimestamp=timestamp;
+  
   std::int32_t deltaPhi=theKeyPlayer.midiToPhaseIncrement(key);
   float com=0.25f/mAlgorithm->getNumOutputs();
   for (unsigned i=0; i<NUM_OPERATORS; ++i) {
@@ -64,11 +29,11 @@ void Voice::noteOn(Channel *ch, unsigned key, unsigned velocity) {
   }
 }
 
-void Voice::noteOff() {
-  mGate=false;
-  mTimestamp=getAudioPathTimestamp();
+void Voice::noteOff(unsigned timestamp) {
   for (unsigned i=0; i<NUM_OPERATORS; ++i)
     mOp[i].noteOff(&mProgram->op[i]);
+  mGate=false;
+  mTimestamp=timestamp;
 }
 
 void Voice::fillBuffer(float *monoOut, const float *monoIn) {

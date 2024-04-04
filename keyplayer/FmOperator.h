@@ -2,14 +2,13 @@
 #ifndef FmOperator_H
 #define FmOperator_H
 
+#include <cstdint>
 #include "EnvelopeState.h"
 
 class FmOperatorParam;
 
 class FmOperator {
  public:
-  void Init();
-  
   void noteOn(const FmOperatorParam *p,
 	      unsigned key,
 	      unsigned velocity,
@@ -29,7 +28,7 @@ class FmOperator {
   
  private:
   const FmOperatorParam *mParam;
-  unsigned mPhi, mDeltaPhiKey;
+  unsigned mPhi{0}, mDeltaPhiKey;
   float mDelay1, mDelay2;
   float mCurrAm;
   EnvelopeState mEnvelope;

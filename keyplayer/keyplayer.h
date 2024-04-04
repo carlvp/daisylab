@@ -1,14 +1,9 @@
 #pragma once
 #ifndef KEYPLAYER_H
 
-#include <daisy_seed.h>
-#include "configuration.h"
-
-extern daisy::DaisySeed DaisySeedHw;
-
 class KeyPlayer {
  public:
-  void Init();
+  KeyPlayer();
 
   static constexpr int MidiKeyA4=69;
 
@@ -29,16 +24,5 @@ class KeyPlayer {
 };
 
 extern KeyPlayer theKeyPlayer;
-
-extern const float zeroBuffer[];
-
-void initVoices();
-void startAudioPath();
-void processAudioPath();
-unsigned getAudioPathTimestamp();
-
-class Voice;
-Voice *findVoice(unsigned channel, unsigned key);
-Voice *allocateVoice(unsigned channel, unsigned key);
 
 #endif

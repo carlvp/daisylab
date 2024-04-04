@@ -3,10 +3,6 @@
 #include "FmOperator.h"
 #include "Program.h"
 
-void FmOperator::Init() {
-   mPhi=0;
-}
-
 // Eight velocity sensitivity curves with 0 - 60 dB dynamic range
 // velocity: 0-127 (a la MIDI)
 // velocity sensitivity: 0-7 ("curve")

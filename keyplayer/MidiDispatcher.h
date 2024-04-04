@@ -3,9 +3,11 @@
 
 #include <daisy_seed.h>
 
+class Instrument;
+
 class UsbMidiDispatcher {
  public:
-  void Init();
+  void Init(Instrument *instrument);
 
   void Process() {
     mMidi.Listen();
@@ -15,13 +17,9 @@ class UsbMidiDispatcher {
   
  private:
   daisy::MidiUsbHandler mMidi;
+  Instrument *mInstrument;
   
-  void DispatchEvents();
-  void noteOn(unsigned channel, unsigned key, unsigned velocity);
-  void noteOff(unsigned channel, unsigned key);
-  // channel: 0-15, cc: 0-127, value: 0-127
-  void controlChange(unsigned channel, unsigned cc, unsigned value);
-  void programChange(unsigned channel, unsigned program);
+  void DispatchEvents();  
 };
 
 #endif

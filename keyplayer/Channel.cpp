@@ -1,9 +1,8 @@
 #include <cmath>
+#include "AudioPath.h"
 #include "Channel.h"
 #include "Program.h"
 #include "Voice.h"
-
-Channel Channel::allChannels[NUM_CHANNELS];
 
 static float monoMix[BLOCK_SIZE];
 
@@ -28,6 +27,14 @@ void Channel::removeVoice(Voice *v) {
       mVoice[i]=mVoice[mNumVoices];
       break;
     }
+}
+
+Voice *Channel::findVoice(unsigned key) const {
+  for (unsigned i=0; i<mNumVoices; ++i)
+    if (mVoice[i]->getKey()==key)
+      return mVoice[i];
+  
+  return nullptr;
 }
 
 void Channel::mixVoicesPrivate(float *stereoMix, const float *stereoIn) const {
