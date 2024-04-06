@@ -8,9 +8,11 @@ static float monoMix[BLOCK_SIZE];
 
 void Channel::reset() {
   setProgram(1);
-  mExpression=16383/16384.0f;
-  setChannelVolume(90*128);
-  setPan(8192);
+  mExpression=16383/16384.0f; // (very close to) full volume
+  setChannelVolume(90*128);   // about 50% linear gain (-6dB)
+  setPan(8192);               // center
+  mPitchBendFactor=1.0f;      // no pitch bend
+  setPitchBendRange(200);     // 200 cents ~ +/-2 semitones
 }
 
 void Channel::addVoice(Voice *v) {
@@ -65,4 +67,14 @@ void Channel::setPan(unsigned p) {
   mPanLeft=cosf(theta);
   mPanRight=sinf(theta);
   updateGain();
+}
+
+void Channel::setPitchBend(int b) {
+  mPitchBendFactor=exp2(b*mPitchBendRange);
+}
+
+void Channel::setPitchBendRange(unsigned cents) {
+  // full pitch bend is +/-8192, a cent is 1/1200 octave
+  // both scale factors are brought into mPitchBendRange
+  mPitchBendRange=cents/(8192*1200.0f);
 }

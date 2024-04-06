@@ -39,6 +39,10 @@ void Instrument::programChange(unsigned ch, unsigned program) {
   mChannel[ch].setProgram(program);
 }
 
+void Instrument::pitchBend(unsigned ch, int value) {
+  mChannel[ch].setPitchBend(value);
+}
+
 Voice *Instrument::allocateVoice(unsigned ch, unsigned key) {
   // First check if we already have am active voice on the channel
   // TODO: mute groups -doesn't have to be the same key, same group is OK

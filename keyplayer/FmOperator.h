@@ -28,7 +28,8 @@ class FmOperator {
   
  private:
   const FmOperatorParam *mParam;
-  unsigned mPhi{0}, mDeltaPhiKey;
+  unsigned mPhi{0};
+  int mDeltaPhiKey, mCurrDeltaPhi;
   float mDelay1, mDelay2;
   float mCurrAm;
   EnvelopeState mEnvelope;

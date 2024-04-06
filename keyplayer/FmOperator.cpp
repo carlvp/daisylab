@@ -59,7 +59,7 @@ void FmOperator::noteOn(const FmOperatorParam *param,
 			float levelCom) {
   mParam=param;
   // oscillator mode (fixed frequency or ratio)
-  mDeltaPhiKey=(param->fixedFreq)?
+  mCurrDeltaPhi=mDeltaPhiKey=(param->fixedFreq)?
     theKeyPlayer.freqToPhaseIncrement(param->freq)
     : param->freq*deltaPhi;
 
@@ -88,11 +88,17 @@ void FmOperator::fillBuffer(float *out,
 			    float lfo,
 			    int feedback) {
   unsigned phi=mPhi;
+  // Pitch modulation
+  int nextDeltaPhi=mDeltaPhiKey*pitchMod;
+  int d2Phi=(nextDeltaPhi-mCurrDeltaPhi)/BLOCK_SIZE;
+  
   float y1=mDelay1;
   float y2=mDelay2;
+  // Amplitude modulation (in addition to envelope)
   float linAm=mCurrAm;
   float nextAm=mCurrAm;
   float dA=(nextAm-mCurrAm)/BLOCK_SIZE;
+  
   for (unsigned i=0; i<BLOCK_SIZE; ++i) {
     // Modulator is scaled by 4PI, which is the modulation index for ouput 99
     // Feedback is scaled similarly, but there is also an implicit
@@ -105,7 +111,8 @@ void FmOperator::fillBuffer(float *out,
 
     y2=y1;
     y1=s*gain;
-    phi+=mDeltaPhiKey;
+    phi+=mCurrDeltaPhi;
+    mCurrDeltaPhi+=d2Phi;
     linAm+=dA;
     out[i]=in[i] + y1;
   }

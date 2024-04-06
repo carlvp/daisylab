@@ -57,10 +57,22 @@ class Channel {
   // Pan [0,16383] 0=hard left, 8192=center, 16383=hard right
   void setPan(unsigned p);
 
+  // Linear pitch-bend factor: no pitch bend (0) ~ 1.0
+  // -12 semitones (-1 octave, -1200 cents) ~ 0.5
+  // +1 semitone (+100 cents) ~ 1.06
+  float getPitchBendFactor() const { return mPitchBendFactor; }
+  
+  // Pitch bend [-8192, +8192]
+  void setPitchBend(int b);
+
+  // Pitch bend range (cents)
+  void setPitchBendRange(unsigned cents);
+  
  private:
   const Program *mProgram;
   float mMasterVolume, mChannelVolume, mExpression, mPanLeft, mPanRight;
   float mLeftGain, mRightGain;
+  float mPitchBendFactor, mPitchBendRange;
   Voice *mVoice[NUM_VOICES];
   unsigned mNumVoices;
   
