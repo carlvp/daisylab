@@ -3,6 +3,7 @@
 #define Channel_H
 
 #include "configuration.h"
+#include "LfoState.h"
 
 class Program;
 class Voice;
@@ -15,6 +16,10 @@ class Channel {
     reset();
   }
 
+  // Avoid accidental usage
+  Channel(const Channel&) = delete;
+  Channel& operator=(const Channel&) = delete;
+  
   void reset();
 
   void addVoice(Voice *v);
@@ -23,7 +28,7 @@ class Channel {
   Voice *findVoice(unsigned key) const;
   
   // Produce interleaved stereo mix of voices
-  const float *mixVoices(float *stereoOut, const float *stereoIn) const {
+  const float *mixVoices(float *stereoOut, const float *stereoIn) {
     if (mNumVoices!=0) {
       mixVoicesPrivate(stereoOut, stereoIn);
       return stereoOut;
@@ -57,11 +62,6 @@ class Channel {
   // Pan [0,16383] 0=hard left, 8192=center, 16383=hard right
   void setPan(unsigned p);
 
-  // Linear pitch-bend factor: no pitch bend (0) ~ 1.0
-  // -12 semitones (-1 octave, -1200 cents) ~ 0.5
-  // +1 semitone (+100 cents) ~ 1.06
-  float getPitchBendFactor() const { return mPitchBendFactor; }
-  
   // Pitch bend [-8192, +8192]
   void setPitchBend(int b);
 
@@ -73,16 +73,17 @@ class Channel {
   float mMasterVolume, mChannelVolume, mExpression, mPanLeft, mPanRight;
   float mLeftGain, mRightGain;
   float mPitchBendFactor, mPitchBendRange;
+  LfoState mLfo;
   Voice *mVoice[NUM_VOICES];
   unsigned mNumVoices;
-  
+
   void updateGain() {
     float volume=mMasterVolume*mChannelVolume*mExpression;
     mLeftGain=volume*mPanLeft;
     mRightGain=volume*mPanRight;
   }
 
-  void mixVoicesPrivate(float *stereoOut, const float *stereoIn) const;
+  void mixVoicesPrivate(float *stereoOut, const float *stereoIn);
 };
 
 #endif

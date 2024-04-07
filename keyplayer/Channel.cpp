@@ -18,6 +18,14 @@ void Channel::reset() {
 void Channel::addVoice(Voice *v) {
   mVoice[mNumVoices]=v;
   mNumVoices++;
+
+  if (mNumVoices==1) {
+    // Sync lfo at first note-on
+    // FIXME: condition for re-trig is overly simple, what if other voice
+    // has decayed to nearly zero..?
+    // TODO: LfoParam should be part of Program
+    mLfo.sync(mProgram->lfo);
+  }
 }
 
 void Channel::removeVoice(Voice *v) {
@@ -39,18 +47,21 @@ Voice *Channel::findVoice(unsigned key) const {
   return nullptr;
 }
 
-void Channel::mixVoicesPrivate(float *stereoMix, const float *stereoIn) const {
-  unsigned i;
-  const float *monoIn=zeroBuffer;
+void Channel::mixVoicesPrivate(float *stereoMix, const float *stereoIn) {
+  // Handle LFO
+  float lfo=mLfo.sampleAndUpdate(mProgram->lfo);
+  float lfoPmDepth=mProgram->lfoPmDepth;
+  float pitchMod=exp2f(lfoPmDepth*lfo)*mPitchBendFactor;
 
   // Mix the channel's voices
-  for (i=0; i<mNumVoices; ++i) {
-    mVoice[i]->fillBuffer(monoMix, monoIn);
+  const float *monoIn=zeroBuffer;
+  for (unsigned i=0; i<mNumVoices; ++i) {
+    mVoice[i]->fillBuffer(monoMix, monoIn, pitchMod, lfo);
     monoIn=monoMix;
   }
 
   // Pan and add to the stero mix
-  for (i=0; i<BLOCK_SIZE; ++i) {
+  for (unsigned i=0; i<BLOCK_SIZE; ++i) {
     float x=monoMix[i];
     stereoMix[2*i] = stereoIn[2*i] + x*mLeftGain;
     stereoMix[2*i+1] = stereoIn[2*i+1] + x*mRightGain;

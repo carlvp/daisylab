@@ -6,7 +6,7 @@
 void Instrument::fillBuffer(float *stereoOutBuffer) {
   const float *stereoMix=zeroBuffer;
 
-  for (Channel ch: mChannel)
+  for (Channel &ch: mChannel)
     stereoMix=ch.mixVoices(stereoOutBuffer, stereoMix);
 
   // zero fill if there were no active channels

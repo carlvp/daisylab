@@ -36,10 +36,10 @@ void Voice::noteOff(unsigned timestamp) {
   mTimestamp=timestamp;
 }
 
-void Voice::fillBuffer(float *monoOut, const float *monoIn) {
-  float pitchMod=mChannel->getPitchBendFactor();
-  float lfo=1.0f;
-  
+void Voice::fillBuffer(float *monoOut,
+		       const float *monoIn,
+		       float pitchMod,
+		       float lfo) {
   if (mAlgorithm) {
     mAlgorithm->fillBuffer(monoOut, monoIn, mOp,
 			   pitchMod, lfo,

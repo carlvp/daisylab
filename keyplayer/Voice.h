@@ -25,7 +25,10 @@ class Voice {
 
   void noteOff(unsigned timestamp);
 
-  void fillBuffer(float *monoOut, const float *monoIn);
+  void fillBuffer(float *monoOut,
+		  const float *monoIn,
+		  float pitchMod,
+		  float lfo);
 
  private:
   unsigned char mKey;

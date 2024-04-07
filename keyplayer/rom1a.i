@@ -2,6 +2,12 @@
     name: "BRASS   1",
     algorithm: 22,
     feedback:   9,
+    lfoPmDepth: 0.005208,
+    lfo: {
+      waveform: 4, // SINE
+      delay:   54,
+      deltaPhi: 0x010b3717
+    },
     op: {
       { // OP6
         fixedFreq:  false,
@@ -123,6 +129,12 @@
     name: "BRASS   2",
     algorithm: 22,
     feedback:   9,
+    lfoPmDepth: 0.000000,
+    lfo: {
+      waveform: 4, // SINE
+      delay:   54,
+      deltaPhi: 0x010b3717
+    },
     op: {
       { // OP6
         fixedFreq:  false,
@@ -244,6 +256,12 @@
     name: "BRASS   3",
     algorithm: 18,
     feedback:   8,
+    lfoPmDepth: 0.005208,
+    lfo: {
+      waveform: 0, // TRIANGL
+      delay:   54,
+      deltaPhi: 0x00fd26b8
+    },
     op: {
       { // OP6
         fixedFreq:  false,
@@ -365,6 +383,12 @@
     name: "STRINGS 1",
     algorithm:  2,
     feedback:   9,
+    lfoPmDepth: 0.008681,
+    lfo: {
+      waveform: 0, // TRIANGL
+      delay:   54,
+      deltaPhi: 0x00d895bf
+    },
     op: {
       { // OP6
         fixedFreq:  false,
@@ -486,6 +510,12 @@
     name: "STRINGS 2",
     algorithm:  2,
     feedback:   9,
+    lfoPmDepth: 0.008681,
+    lfo: {
+      waveform: 4, // SINE
+      delay: 1783,
+      deltaPhi: 0x00d895bf
+    },
     op: {
       { // OP6
         fixedFreq:  false,
@@ -607,6 +637,12 @@
     name: "STRINGS 3",
     algorithm: 15,
     feedback:   9,
+    lfoPmDepth: 0.023438,
+    lfo: {
+      waveform: 4, // SINE
+      delay:  383,
+      deltaPhi: 0x00ca8560
+    },
     op: {
       { // OP6
         fixedFreq:  false,
@@ -728,6 +764,12 @@
     name: "ORCHESTRA",
     algorithm:  2,
     feedback:   9,
+    lfoPmDepth: 0.007812,
+    lfo: {
+      waveform: 4, // SINE
+      delay:  801,
+      deltaPhi: 0x00d895bf
+    },
     op: {
       { // OP6
         fixedFreq:  false,
@@ -849,6 +891,12 @@
     name: "PIANO   1",
     algorithm: 19,
     feedback:   8,
+    lfoPmDepth: 0.000000,
+    lfo: {
+      waveform: 0, // TRIANGL
+      delay:   54,
+      deltaPhi: 0x00fd26b8
+    },
     op: {
       { // OP6
         fixedFreq:  false,
@@ -970,6 +1018,12 @@
     name: "PIANO   2",
     algorithm: 18,
     feedback:   7,
+    lfoPmDepth: 0.000000,
+    lfo: {
+      waveform: 0, // TRIANGL
+      delay:   54,
+      deltaPhi: 0x00d895bf
+    },
     op: {
       { // OP6
         fixedFreq:  false,
@@ -1091,6 +1145,12 @@
     name: "PIANO   3",
     algorithm:  3,
     feedback:   6,
+    lfoPmDepth: 0.000000,
+    lfo: {
+      waveform: 0, // TRIANGL
+      delay:   54,
+      deltaPhi: 0x014648a9
+    },
     op: {
       { // OP6
         fixedFreq:  false,
@@ -1212,6 +1272,12 @@
     name: "E.PIANO 1",
     algorithm:  5,
     feedback:   8,
+    lfoPmDepth: 0.000000,
+    lfo: {
+      waveform: 4, // SINE
+      delay:  222,
+      deltaPhi: 0x00f4b67e
+    },
     op: {
       { // OP6
         fixedFreq:  false,
@@ -1333,6 +1399,12 @@
     name: "GUITAR  1",
     algorithm:  8,
     feedback:   9,
+    lfoPmDepth: 0.000651,
+    lfo: {
+      waveform: 4, // SINE
+      delay:   54,
+      deltaPhi: 0x00fd26b8
+    },
     op: {
       { // OP6
         fixedFreq:  false,
@@ -1454,6 +1526,12 @@
     name: "GUITAR  2",
     algorithm: 16,
     feedback:   9,
+    lfoPmDepth: 0.000000,
+    lfo: {
+      waveform: 0, // TRIANGL
+      delay:   54,
+      deltaPhi: 0x00fd26b8
+    },
     op: {
       { // OP6
         fixedFreq:  false,
@@ -1575,6 +1653,12 @@
     name: "SYN-LEAD 1",
     algorithm: 18,
     feedback:   9,
+    lfoPmDepth: 0.000000,
+    lfo: {
+      waveform: 4, // SINE
+      delay:  320,
+      deltaPhi: 0x010b3717
+    },
     op: {
       { // OP6
         fixedFreq:  false,
@@ -1696,6 +1780,12 @@
     name: "BASS    1",
     algorithm: 16,
     feedback:   9,
+    lfoPmDepth: 0.000000,
+    lfo: {
+      waveform: 0, // TRIANGL
+      delay:   54,
+      deltaPhi: 0x00fd26b8
+    },
     op: {
       { // OP6
         fixedFreq:  false,
@@ -1817,6 +1907,12 @@
     name: "BASS    2",
     algorithm: 17,
     feedback:   9,
+    lfoPmDepth: 0.000000,
+    lfo: {
+      waveform: 4, // SINE
+      delay:  222,
+      deltaPhi: 0x00de35e6
+    },
     op: {
       { // OP6
         fixedFreq:  false,
@@ -1938,6 +2034,12 @@
     name: "E.ORGAN 1",
     algorithm: 32,
     feedback:   0,
+    lfoPmDepth: 0.000000,
+    lfo: {
+      waveform: 0, // TRIANGL
+      delay:   54,
+      deltaPhi: 0x00fd26b8
+    },
     op: {
       { // OP6
         fixedFreq:  false,
@@ -2059,6 +2161,12 @@
     name: "PIPES   1",
     algorithm: 19,
     feedback:   9,
+    lfoPmDepth: 0.000000,
+    lfo: {
+      waveform: 4, // SINE
+      delay:  222,
+      deltaPhi: 0x00f4b67e
+    },
     op: {
       { // OP6
         fixedFreq:  false,
@@ -2180,6 +2288,12 @@
     name: "HARPSICH 1",
     algorithm:  5,
     feedback:   3,
+    lfoPmDepth: 0.000000,
+    lfo: {
+      waveform: 0, // TRIANGL
+      delay:   54,
+      deltaPhi: 0x00fd26b8
+    },
     op: {
       { // OP6
         fixedFreq:  false,
@@ -2301,6 +2415,12 @@
     name: "CLAV    1",
     algorithm:  3,
     feedback:   7,
+    lfoPmDepth: 0.000000,
+    lfo: {
+      waveform: 4, // SINE
+      delay:   54,
+      deltaPhi: 0x00d895bf
+    },
     op: {
       { // OP6
         fixedFreq:  false,
@@ -2422,6 +2542,12 @@
     name: "VIBE    1",
     algorithm: 23,
     feedback:   7,
+    lfoPmDepth: 0.000000,
+    lfo: {
+      waveform: 0, // TRIANGL
+      delay:   54,
+      deltaPhi: 0x00bc7500
+    },
     op: {
       { // OP6
         fixedFreq:  false,
@@ -2543,6 +2669,12 @@
     name: "MARIMBA",
     algorithm:  7,
     feedback:   0,
+    lfoPmDepth: 0.000000,
+    lfo: {
+      waveform: 0, // TRIANGL
+      delay:   54,
+      deltaPhi: 0x00fd26b8
+    },
     op: {
       { // OP6
         fixedFreq:  false,
@@ -2664,6 +2796,12 @@
     name: "KOTO",
     algorithm:  2,
     feedback:   9,
+    lfoPmDepth: 0.024306,
+    lfo: {
+      waveform: 4, // SINE
+      delay:  297,
+      deltaPhi: 0x00d895bf
+    },
     op: {
       { // OP6
         fixedFreq:  false,
@@ -2785,6 +2923,12 @@
     name: "FLUTE   1",
     algorithm: 16,
     feedback:   7,
+    lfoPmDepth: 0.004340,
+    lfo: {
+      waveform: 0, // TRIANGL
+      delay:  144,
+      deltaPhi: 0x00d895bf
+    },
     op: {
       { // OP6
         fixedFreq:  false,
@@ -2906,6 +3050,12 @@
     name: "ORCH-CHIME",
     algorithm:  5,
     feedback:   9,
+    lfoPmDepth: 0.005208,
+    lfo: {
+      waveform: 0, // TRIANGL
+      delay:   54,
+      deltaPhi: 0x00d895bf
+    },
     op: {
       { // OP6
         fixedFreq:  false,
@@ -3027,6 +3177,12 @@
     name: "TUB BELLS",
     algorithm:  5,
     feedback:   9,
+    lfoPmDepth: 0.000000,
+    lfo: {
+      waveform: 1, // SAW DWN
+      delay:   54,
+      deltaPhi: 0x00fd26b8
+    },
     op: {
       { // OP6
         fixedFreq:  false,
@@ -3148,6 +3304,12 @@
     name: "STEEL DRUM",
     algorithm: 15,
     feedback:   7,
+    lfoPmDepth: 0.012153,
+    lfo: {
+      waveform: 4, // SINE
+      delay:   54,
+      deltaPhi: 0x00b404c7
+    },
     op: {
       { // OP6
         fixedFreq:  true,
@@ -3269,6 +3431,12 @@
     name: "TIMPANI",
     algorithm: 16,
     feedback:   9,
+    lfoPmDepth: 0.022569,
+    lfo: {
+      waveform: 0, // TRIANGL
+      delay:   54,
+      deltaPhi: 0x004ec217
+    },
     op: {
       { // OP6
         fixedFreq:  false,
@@ -3390,6 +3558,12 @@
     name: "REFS WHISL",
     algorithm: 18,
     feedback:   4,
+    lfoPmDepth: 0.000000,
+    lfo: {
+      waveform: 5, // S/HOLD
+      delay:   54,
+      deltaPhi: 0x08a8fdc2
+    },
     op: {
       { // OP6
         fixedFreq:  true,
@@ -3511,6 +3685,12 @@
     name: "VOICE   1",
     algorithm:  7,
     feedback:   9,
+    lfoPmDepth: 0.027778,
+    lfo: {
+      waveform: 0, // TRIANGL
+      delay:  250,
+      deltaPhi: 0x00fd26b8
+    },
     op: {
       { // OP6
         fixedFreq:  false,
@@ -3632,6 +3812,12 @@
     name: "TRAIN",
     algorithm:  5,
     feedback:   9,
+    lfoPmDepth: 0.000000,
+    lfo: {
+      waveform: 0, // TRIANGL
+      delay:   54,
+      deltaPhi: 0x01194777
+    },
     op: {
       { // OP6
         fixedFreq:  false,
@@ -3753,6 +3939,12 @@
     name: "TAKE OFF",
     algorithm: 10,
     feedback:   0,
+    lfoPmDepth: 0.000000,
+    lfo: {
+      waveform: 2, // SAW UP
+      delay:   54,
+      deltaPhi: 0x02007083
+    },
     op: {
       { // OP6
         fixedFreq:  false,

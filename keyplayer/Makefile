@@ -10,6 +10,7 @@ CPP_SOURCES = keyplayer.cpp \
   FmAlgorithm.cpp \
   FmOperator.cpp \
   Instrument.cpp \
+  LfoState.cpp \
   MidiDispatcher.cpp \
   Voice.cpp 
 

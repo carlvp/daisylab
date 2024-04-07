@@ -4,6 +4,21 @@
 
 #include "configuration.h"
 
+enum LfoWaveform {
+  WAVE_TRIANGLE,
+  WAVE_SAW_DOWN,
+  WAVE_SAW_UP,
+  WAVE_SINE,
+  WAVE_SQUARE,
+  WAVE_SAMPLE_HOLD,		  
+};
+
+struct LfoParam {
+  unsigned char waveform;
+  unsigned short delay;
+  int deltaPhi;
+};
+  
 struct EnvelopeParam {
   float level0;
   float levels[NUM_ENV_STAGES]; 
@@ -32,6 +47,8 @@ struct Program {
   const char *name;
   unsigned char algorithm;
   unsigned char feedback;
+  float lfoPmDepth;
+  LfoParam lfo;
   FmOperatorParam op[NUM_OPERATORS];
 
   static const Program *getProgram(unsigned programNumber);

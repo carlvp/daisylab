@@ -8,6 +8,12 @@
 
 class Instrument {
  public:
+  Instrument() = default;
+  
+  // Instrument is used as a singleton, we don't ever want to copy it
+  Instrument(const Instrument&) = delete;
+  Instrument& operator=(const Instrument&) = delete;
+  
   void fillBuffer(float *stereoBuffer);
   
   // channel: 0-15, key: 0-127, velocity: 0-127
