@@ -37,6 +37,7 @@ struct FmOperatorParam {
   bool fixedFreq;
   unsigned char velScaling;
   unsigned char kbdRateScaling;
+  unsigned char ams;
   float freq;              // Fixed frequency (Hz) or frequency ratio
   float totalLevel;
   EnvelopeParam envelope;
@@ -48,6 +49,7 @@ struct Program {
   unsigned char algorithm;
   unsigned char feedback;
   float lfoPmDepth;
+  float lfoAmDepth;
   LfoParam lfo;
   FmOperatorParam op[NUM_OPERATORS];
 

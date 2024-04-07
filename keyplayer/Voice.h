@@ -28,7 +28,7 @@ class Voice {
   void fillBuffer(float *monoOut,
 		  const float *monoIn,
 		  float pitchMod,
-		  float lfo);
+		  float ampMod);
 
  private:
   unsigned char mKey;

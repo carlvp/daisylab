@@ -23,7 +23,7 @@ class FmOperator {
 		  const float *in,
 		  const float *mod,
 		  float pitchMod,
-		  float lfo,
+		  float ampMod,
 		  int feedback);
   
  private:

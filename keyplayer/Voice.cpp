@@ -39,10 +39,10 @@ void Voice::noteOff(unsigned timestamp) {
 void Voice::fillBuffer(float *monoOut,
 		       const float *monoIn,
 		       float pitchMod,
-		       float lfo) {
+		       float ampMod) {
   if (mAlgorithm) {
     mAlgorithm->fillBuffer(monoOut, monoIn, mOp,
-			   pitchMod, lfo,
+			   pitchMod, ampMod,
 			   mProgram->feedback);
   }
 }

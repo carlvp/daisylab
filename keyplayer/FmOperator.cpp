@@ -81,11 +81,13 @@ void FmOperator::noteOff(const FmOperatorParam *param) {
   mEnvelope.noteOff(&param->envelope);
 }
 
+static const float sensitivity[]={ 0, 0.25, 0.5, 1.0 };
+
 void FmOperator::fillBuffer(float *out,
 			    const float *in,
 			    const float *mod,
 			    float pitchMod,
-			    float lfo,
+			    float ampMod,
 			    int feedback) {
   unsigned phi=mPhi;
   // Pitch modulation
@@ -96,7 +98,7 @@ void FmOperator::fillBuffer(float *out,
   float y2=mDelay2;
   // Amplitude modulation (in addition to envelope)
   float linAm=mCurrAm;
-  float nextAm=mCurrAm;
+  float nextAm=exp2f(-ampMod*sensitivity[mParam->ams]);
   float dA=(nextAm-mCurrAm)/BLOCK_SIZE;
   
   for (unsigned i=0; i<BLOCK_SIZE; ++i) {

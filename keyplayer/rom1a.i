@@ -3,6 +3,7 @@
     algorithm: 22,
     feedback:   9,
     lfoPmDepth: 0.005208,
+    lfoAmDepth: 0.000000,
     lfo: {
       waveform: 4, // SINE
       delay:   54,
@@ -13,6 +14,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 4,
+        ams: 0,
         freq:       1.000,
         totalLevel: 0.229251,
         envelope: {
@@ -32,6 +34,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       1.003,
         totalLevel: 0.917004,
         envelope: {
@@ -51,6 +54,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       1.000,
         totalLevel: 1.000000,
         envelope: {
@@ -70,6 +74,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       0.994,
         totalLevel: 1.000000,
         envelope: {
@@ -89,6 +94,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       0.512,
         totalLevel: 0.324210,
         envelope: {
@@ -108,6 +114,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       0.512,
         totalLevel: 0.917004,
         envelope: {
@@ -130,6 +137,7 @@
     algorithm: 22,
     feedback:   9,
     lfoPmDepth: 0.000000,
+    lfoAmDepth: 0.000000,
     lfo: {
       waveform: 4, // SINE
       delay:   54,
@@ -140,6 +148,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       0.500,
         totalLevel: 0.192776,
         envelope: {
@@ -159,6 +168,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       0.501,
         totalLevel: 1.000000,
         envelope: {
@@ -178,6 +188,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       0.497,
         totalLevel: 1.000000,
         envelope: {
@@ -197,6 +208,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       0.495,
         totalLevel: 1.000000,
         envelope: {
@@ -216,6 +228,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       0.512,
         totalLevel: 0.272627,
         envelope: {
@@ -235,6 +248,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       0.512,
         totalLevel: 1.000000,
         envelope: {
@@ -257,6 +271,7 @@
     algorithm: 18,
     feedback:   8,
     lfoPmDepth: 0.005208,
+    lfoAmDepth: 0.000000,
     lfo: {
       waveform: 0, // TRIANGL
       delay:   54,
@@ -267,6 +282,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 7,
+        ams: 0,
         freq:       8.470,
         totalLevel: 0.176777,
         envelope: {
@@ -286,6 +302,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       3.171,
         totalLevel: 0.081052,
         envelope: {
@@ -305,6 +322,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       1.000,
         totalLevel: 0.176777,
         envelope: {
@@ -324,6 +342,7 @@
         fixedFreq:  false,
         velScaling: 1,
         kbdRateScaling: 1,
+        ams: 0,
         freq:       1.000,
         totalLevel: 0.148651,
         envelope: {
@@ -343,6 +362,7 @@
         fixedFreq:  false,
         velScaling: 1,
         kbdRateScaling: 2,
+        ams: 0,
         freq:       1.000,
         totalLevel: 0.081052,
         envelope: {
@@ -362,6 +382,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 2,
+        ams: 0,
         freq:       1.000,
         totalLevel: 1.000000,
         envelope: {
@@ -384,6 +405,7 @@
     algorithm:  2,
     feedback:   9,
     lfoPmDepth: 0.008681,
+    lfoAmDepth: 0.000000,
     lfo: {
       waveform: 0, // TRIANGL
       delay:   54,
@@ -394,6 +416,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 2,
+        ams: 0,
         freq:      14.000,
         totalLevel: 0.018581,
         envelope: {
@@ -413,6 +436,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 2,
+        ams: 0,
         freq:       3.000,
         totalLevel: 0.272627,
         envelope: {
@@ -432,6 +456,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 2,
+        ams: 0,
         freq:       1.000,
         totalLevel: 0.148651,
         envelope: {
@@ -451,6 +476,7 @@
         fixedFreq:  false,
         velScaling: 7,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       1.000,
         totalLevel: 0.324210,
         envelope: {
@@ -470,6 +496,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 1,
+        ams: 0,
         freq:       1.000,
         totalLevel: 0.250000,
         envelope: {
@@ -489,6 +516,7 @@
         fixedFreq:  false,
         velScaling: 3,
         kbdRateScaling: 2,
+        ams: 0,
         freq:       1.000,
         totalLevel: 1.000000,
         envelope: {
@@ -511,6 +539,7 @@
     algorithm:  2,
     feedback:   9,
     lfoPmDepth: 0.008681,
+    lfoAmDepth: 0.000000,
     lfo: {
       waveform: 4, // SINE
       delay: 1783,
@@ -521,6 +550,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       8.000,
         totalLevel: 0.081052,
         envelope: {
@@ -540,6 +570,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       2.000,
         totalLevel: 0.057313,
         envelope: {
@@ -559,6 +590,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       2.000,
         totalLevel: 0.136313,
         envelope: {
@@ -578,6 +610,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       2.041,
         totalLevel: 0.545254,
         envelope: {
@@ -597,6 +630,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       1.960,
         totalLevel: 0.114626,
         envelope: {
@@ -616,6 +650,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       2.000,
         totalLevel: 0.545254,
         envelope: {
@@ -638,6 +673,7 @@
     algorithm: 15,
     feedback:   9,
     lfoPmDepth: 0.023438,
+    lfoAmDepth: 0.000000,
     lfo: {
       waveform: 4, // SINE
       delay:  383,
@@ -648,6 +684,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 2,
+        ams: 0,
         freq:      14.000,
         totalLevel: 0.020263,
         envelope: {
@@ -667,6 +704,7 @@
         fixedFreq:  false,
         velScaling: 1,
         kbdRateScaling: 2,
+        ams: 0,
         freq:       3.000,
         totalLevel: 0.272627,
         envelope: {
@@ -686,6 +724,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 2,
+        ams: 0,
         freq:       1.000,
         totalLevel: 0.125000,
         envelope: {
@@ -705,6 +744,7 @@
         fixedFreq:  false,
         velScaling: 1,
         kbdRateScaling: 2,
+        ams: 0,
         freq:       1.000,
         totalLevel: 1.000000,
         envelope: {
@@ -724,6 +764,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 1,
+        ams: 0,
         freq:       1.000,
         totalLevel: 0.324210,
         envelope: {
@@ -743,6 +784,7 @@
         fixedFreq:  false,
         velScaling: 1,
         kbdRateScaling: 2,
+        ams: 0,
         freq:       1.000,
         totalLevel: 1.000000,
         envelope: {
@@ -765,6 +807,7 @@
     algorithm:  2,
     feedback:   9,
     lfoPmDepth: 0.007812,
+    lfoAmDepth: 0.000000,
     lfo: {
       waveform: 4, // SINE
       delay:  801,
@@ -775,6 +818,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       2.000,
         totalLevel: 0.229251,
         envelope: {
@@ -794,6 +838,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       2.000,
         totalLevel: 0.192776,
         envelope: {
@@ -813,6 +858,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       2.000,
         totalLevel: 0.096388,
         envelope: {
@@ -832,6 +878,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       2.041,
         totalLevel: 0.771105,
         envelope: {
@@ -851,6 +898,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       0.980,
         totalLevel: 0.250000,
         envelope: {
@@ -870,6 +918,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       1.000,
         totalLevel: 1.000000,
         envelope: {
@@ -892,6 +941,7 @@
     algorithm: 19,
     feedback:   8,
     lfoPmDepth: 0.000000,
+    lfoAmDepth: 0.000000,
     lfo: {
       waveform: 0, // TRIANGL
       delay:   54,
@@ -902,6 +952,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 5,
+        ams: 0,
         freq:       0.997,
         totalLevel: 0.229251,
         envelope: {
@@ -921,6 +972,7 @@
         fixedFreq:  false,
         velScaling: 1,
         kbdRateScaling: 5,
+        ams: 0,
         freq:       1.575,
         totalLevel: 0.594604,
         envelope: {
@@ -940,6 +992,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 5,
+        ams: 0,
         freq:       1.003,
         totalLevel: 1.000000,
         envelope: {
@@ -959,6 +1012,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 5,
+        ams: 0,
         freq:       3.000,
         totalLevel: 0.026278,
         envelope: {
@@ -978,6 +1032,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 5,
+        ams: 0,
         freq:       1.006,
         totalLevel: 0.353553,
         envelope: {
@@ -997,6 +1052,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 4,
+        ams: 0,
         freq:       0.994,
         totalLevel: 1.000000,
         envelope: {
@@ -1019,6 +1075,7 @@
     algorithm: 18,
     feedback:   7,
     lfoPmDepth: 0.000000,
+    lfoAmDepth: 0.000000,
     lfo: {
       waveform: 0, // TRIANGL
       delay:   54,
@@ -1029,6 +1086,7 @@
         fixedFreq:  false,
         velScaling: 1,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       0.501,
         totalLevel: 0.162105,
         envelope: {
@@ -1048,6 +1106,7 @@
         fixedFreq:  false,
         velScaling: 1,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       0.500,
         totalLevel: 0.648420,
         envelope: {
@@ -1067,6 +1126,7 @@
         fixedFreq:  false,
         velScaling: 1,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       0.997,
         totalLevel: 0.272627,
         envelope: {
@@ -1086,6 +1146,7 @@
         fixedFreq:  false,
         velScaling: 1,
         kbdRateScaling: 5,
+        ams: 0,
         freq:       5.014,
         totalLevel: 0.250000,
         envelope: {
@@ -1105,6 +1166,7 @@
         fixedFreq:  false,
         velScaling: 1,
         kbdRateScaling: 2,
+        ams: 0,
         freq:       1.006,
         totalLevel: 0.324210,
         envelope: {
@@ -1124,6 +1186,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       1.000,
         totalLevel: 0.648420,
         envelope: {
@@ -1146,6 +1209,7 @@
     algorithm:  3,
     feedback:   6,
     lfoPmDepth: 0.000000,
+    lfoAmDepth: 0.000000,
     lfo: {
       waveform: 0, // TRIANGL
       delay:   54,
@@ -1156,6 +1220,7 @@
         fixedFreq:  false,
         velScaling: 5,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       0.503,
         totalLevel: 0.272627,
         envelope: {
@@ -1175,6 +1240,7 @@
         fixedFreq:  false,
         velScaling: 1,
         kbdRateScaling: 2,
+        ams: 0,
         freq:       0.994,
         totalLevel: 0.353553,
         envelope: {
@@ -1194,6 +1260,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       1.010,
         totalLevel: 0.707107,
         envelope: {
@@ -1213,6 +1280,7 @@
         fixedFreq:  false,
         velScaling: 3,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       6.932,
         totalLevel: 0.840896,
         envelope: {
@@ -1232,6 +1300,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 2,
+        ams: 0,
         freq:       1.013,
         totalLevel: 0.297302,
         envelope: {
@@ -1251,6 +1320,7 @@
         fixedFreq:  false,
         velScaling: 3,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       0.987,
         totalLevel: 0.324210,
         envelope: {
@@ -1273,6 +1343,7 @@
     algorithm:  5,
     feedback:   8,
     lfoPmDepth: 0.000000,
+    lfoAmDepth: 0.000000,
     lfo: {
       waveform: 4, // SINE
       delay:  222,
@@ -1283,6 +1354,7 @@
         fixedFreq:  false,
         velScaling: 6,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       1.024,
         totalLevel: 0.176777,
         envelope: {
@@ -1302,6 +1374,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       0.977,
         totalLevel: 1.000000,
         envelope: {
@@ -1321,6 +1394,7 @@
         fixedFreq:  false,
         velScaling: 6,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       1.000,
         totalLevel: 0.420448,
         envelope: {
@@ -1340,6 +1414,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       1.000,
         totalLevel: 1.000000,
         envelope: {
@@ -1359,6 +1434,7 @@
         fixedFreq:  false,
         velScaling: 7,
         kbdRateScaling: 3,
+        ams: 0,
         freq:      14.000,
         totalLevel: 0.028656,
         envelope: {
@@ -1378,6 +1454,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       1.010,
         totalLevel: 1.000000,
         envelope: {
@@ -1400,6 +1477,7 @@
     algorithm:  8,
     feedback:   9,
     lfoPmDepth: 0.000651,
+    lfoAmDepth: 0.011719,
     lfo: {
       waveform: 4, // SINE
       delay:   54,
@@ -1410,6 +1488,7 @@
         fixedFreq:  false,
         velScaling: 6,
         kbdRateScaling: 0,
+        ams: 3,
         freq:      12.000,
         totalLevel: 0.026278,
         envelope: {
@@ -1429,6 +1508,7 @@
         fixedFreq:  false,
         velScaling: 7,
         kbdRateScaling: 4,
+        ams: 0,
         freq:       3.000,
         totalLevel: 1.000000,
         envelope: {
@@ -1448,6 +1528,7 @@
         fixedFreq:  false,
         velScaling: 4,
         kbdRateScaling: 4,
+        ams: 0,
         freq:       3.000,
         totalLevel: 0.420448,
         envelope: {
@@ -1467,6 +1548,7 @@
         fixedFreq:  false,
         velScaling: 7,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       1.000,
         totalLevel: 1.000000,
         envelope: {
@@ -1486,6 +1568,7 @@
         fixedFreq:  false,
         velScaling: 7,
         kbdRateScaling: 2,
+        ams: 0,
         freq:       3.000,
         totalLevel: 0.594604,
         envelope: {
@@ -1505,6 +1588,7 @@
         fixedFreq:  false,
         velScaling: 5,
         kbdRateScaling: 4,
+        ams: 0,
         freq:       1.000,
         totalLevel: 1.000000,
         envelope: {
@@ -1527,6 +1611,7 @@
     algorithm: 16,
     feedback:   9,
     lfoPmDepth: 0.000000,
+    lfoAmDepth: 0.000000,
     lfo: {
       waveform: 0, // TRIANGL
       delay:   54,
@@ -1537,6 +1622,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       3.000,
         totalLevel: 0.105112,
         envelope: {
@@ -1556,6 +1642,7 @@
         fixedFreq:  false,
         velScaling: 7,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       0.500,
         totalLevel: 0.297302,
         envelope: {
@@ -1575,6 +1662,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       0.500,
         totalLevel: 0.081052,
         envelope: {
@@ -1594,6 +1682,7 @@
         fixedFreq:  false,
         velScaling: 7,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       1.500,
         totalLevel: 1.000000,
         envelope: {
@@ -1613,6 +1702,7 @@
         fixedFreq:  false,
         velScaling: 7,
         kbdRateScaling: 1,
+        ams: 0,
         freq:       1.000,
         totalLevel: 0.353553,
         envelope: {
@@ -1632,6 +1722,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       3.000,
         totalLevel: 0.324210,
         envelope: {
@@ -1654,6 +1745,7 @@
     algorithm: 18,
     feedback:   9,
     lfoPmDepth: 0.000000,
+    lfoAmDepth: 2.828125,
     lfo: {
       waveform: 4, // SINE
       delay:  320,
@@ -1664,6 +1756,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 3,
+        ams: 0,
         freq:      17.000,
         totalLevel: 0.011049,
         envelope: {
@@ -1683,6 +1776,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 1,
+        ams: 0,
         freq:       2.981,
         totalLevel: 0.007812,
         envelope: {
@@ -1702,6 +1796,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 6,
+        ams: 0,
         freq:       2.013,
         totalLevel: 0.088388,
         envelope: {
@@ -1721,6 +1816,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       1.000,
         totalLevel: 0.229251,
         envelope: {
@@ -1740,6 +1836,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       0.997,
         totalLevel: 0.088388,
         envelope: {
@@ -1759,6 +1856,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 1,
+        ams: 0,
         freq:       1.003,
         totalLevel: 1.000000,
         envelope: {
@@ -1781,6 +1879,7 @@
     algorithm: 16,
     feedback:   9,
     lfoPmDepth: 0.000000,
+    lfoAmDepth: 0.000000,
     lfo: {
       waveform: 0, // TRIANGL
       delay:   54,
@@ -1791,6 +1890,7 @@
         fixedFreq:  false,
         velScaling: 7,
         kbdRateScaling: 1,
+        ams: 0,
         freq:       9.000,
         totalLevel: 0.297302,
         envelope: {
@@ -1810,6 +1910,7 @@
         fixedFreq:  false,
         velScaling: 3,
         kbdRateScaling: 7,
+        ams: 0,
         freq:       0.500,
         totalLevel: 0.040526,
         envelope: {
@@ -1829,6 +1930,7 @@
         fixedFreq:  false,
         velScaling: 5,
         kbdRateScaling: 5,
+        ams: 0,
         freq:       5.000,
         totalLevel: 0.594604,
         envelope: {
@@ -1848,6 +1950,7 @@
         fixedFreq:  false,
         velScaling: 3,
         kbdRateScaling: 6,
+        ams: 0,
         freq:       0.500,
         totalLevel: 1.000000,
         envelope: {
@@ -1867,6 +1970,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 7,
+        ams: 0,
         freq:       0.500,
         totalLevel: 0.192776,
         envelope: {
@@ -1886,6 +1990,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 7,
+        ams: 0,
         freq:       0.500,
         totalLevel: 1.000000,
         envelope: {
@@ -1908,6 +2013,7 @@
     algorithm: 17,
     feedback:   9,
     lfoPmDepth: 0.000000,
+    lfoAmDepth: 0.000000,
     lfo: {
       waveform: 4, // SINE
       delay:  222,
@@ -1918,6 +2024,7 @@
         fixedFreq:  false,
         velScaling: 7,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       0.501,
         totalLevel: 0.353553,
         envelope: {
@@ -1937,6 +2044,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 4,
+        ams: 0,
         freq:       1.010,
         totalLevel: 0.125000,
         envelope: {
@@ -1956,6 +2064,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       0.500,
         totalLevel: 1.000000,
         envelope: {
@@ -1975,6 +2084,7 @@
         fixedFreq:  false,
         velScaling: 3,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       1.024,
         totalLevel: 0.068157,
         envelope: {
@@ -1994,6 +2104,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 1,
+        ams: 0,
         freq:       0.515,
         totalLevel: 0.192776,
         envelope: {
@@ -2013,6 +2124,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       0.505,
         totalLevel: 1.000000,
         envelope: {
@@ -2035,6 +2147,7 @@
     algorithm: 32,
     feedback:   0,
     lfoPmDepth: 0.000000,
+    lfoAmDepth: 0.000000,
     lfo: {
       waveform: 0, // TRIANGL
       delay:   54,
@@ -2045,6 +2158,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       3.000,
         totalLevel: 0.648420,
         envelope: {
@@ -2064,6 +2178,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       1.006,
         totalLevel: 0.648420,
         envelope: {
@@ -2083,6 +2198,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       0.508,
         totalLevel: 0.648420,
         envelope: {
@@ -2102,6 +2218,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       1.520,
         totalLevel: 0.648420,
         envelope: {
@@ -2121,6 +2238,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       0.990,
         totalLevel: 0.648420,
         envelope: {
@@ -2140,6 +2258,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       0.497,
         totalLevel: 0.648420,
         envelope: {
@@ -2162,6 +2281,7 @@
     algorithm: 19,
     feedback:   9,
     lfoPmDepth: 0.000000,
+    lfoAmDepth: 0.000000,
     lfo: {
       waveform: 4, // SINE
       delay:  222,
@@ -2172,6 +2292,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 3,
+        ams: 0,
         freq:      10.000,
         totalLevel: 0.136313,
         envelope: {
@@ -2191,6 +2312,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       2.000,
         totalLevel: 0.840896,
         envelope: {
@@ -2210,6 +2332,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       4.000,
         totalLevel: 0.385553,
         envelope: {
@@ -2229,6 +2352,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 5,
+        ams: 0,
         freq:       1.000,
         totalLevel: 0.125000,
         envelope: {
@@ -2248,6 +2372,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 4,
+        ams: 0,
         freq:       0.500,
         totalLevel: 0.458502,
         envelope: {
@@ -2267,6 +2392,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 5,
+        ams: 0,
         freq:       0.500,
         totalLevel: 1.000000,
         envelope: {
@@ -2289,6 +2415,7 @@
     algorithm:  5,
     feedback:   3,
     lfoPmDepth: 0.000000,
+    lfoAmDepth: 0.000000,
     lfo: {
       waveform: 0, // TRIANGL
       delay:   54,
@@ -2299,6 +2426,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 1,
+        ams: 0,
         freq:       6.000,
         totalLevel: 0.353553,
         envelope: {
@@ -2318,6 +2446,7 @@
         fixedFreq:  false,
         velScaling: 3,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       3.988,
         totalLevel: 0.250000,
         envelope: {
@@ -2337,6 +2466,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 1,
+        ams: 0,
         freq:       3.000,
         totalLevel: 1.000000,
         envelope: {
@@ -2356,6 +2486,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       0.997,
         totalLevel: 0.297302,
         envelope: {
@@ -2375,6 +2506,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 1,
+        ams: 0,
         freq:       0.500,
         totalLevel: 1.000000,
         envelope: {
@@ -2394,6 +2526,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       4.000,
         totalLevel: 0.420448,
         envelope: {
@@ -2416,6 +2549,7 @@
     algorithm:  3,
     feedback:   7,
     lfoPmDepth: 0.000000,
+    lfoAmDepth: 0.000000,
     lfo: {
       waveform: 4, // SINE
       delay:   54,
@@ -2426,6 +2560,7 @@
         fixedFreq:  false,
         velScaling: 7,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       8.000,
         totalLevel: 0.162105,
         envelope: {
@@ -2445,6 +2580,7 @@
         fixedFreq:  false,
         velScaling: 6,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       0.497,
         totalLevel: 1.000000,
         envelope: {
@@ -2464,6 +2600,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       2.000,
         totalLevel: 1.000000,
         envelope: {
@@ -2483,6 +2620,7 @@
         fixedFreq:  false,
         velScaling: 1,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       6.000,
         totalLevel: 0.088388,
         envelope: {
@@ -2502,6 +2640,7 @@
         fixedFreq:  false,
         velScaling: 1,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       0.499,
         totalLevel: 1.000000,
         envelope: {
@@ -2521,6 +2660,7 @@
         fixedFreq:  false,
         velScaling: 3,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       0.501,
         totalLevel: 1.000000,
         envelope: {
@@ -2543,6 +2683,7 @@
     algorithm: 23,
     feedback:   7,
     lfoPmDepth: 0.000000,
+    lfoAmDepth: 0.000000,
     lfo: {
       waveform: 0, // TRIANGL
       delay:   54,
@@ -2553,6 +2694,7 @@
         fixedFreq:  false,
         velScaling: 7,
         kbdRateScaling: 5,
+        ams: 0,
         freq:      14.000,
         totalLevel: 0.026278,
         envelope: {
@@ -2572,6 +2714,7 @@
         fixedFreq:  false,
         velScaling: 5,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       1.024,
         totalLevel: 1.000000,
         envelope: {
@@ -2591,6 +2734,7 @@
         fixedFreq:  false,
         velScaling: 1,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       0.977,
         totalLevel: 1.000000,
         envelope: {
@@ -2610,6 +2754,7 @@
         fixedFreq:  false,
         velScaling: 4,
         kbdRateScaling: 4,
+        ams: 0,
         freq:       3.000,
         totalLevel: 0.096388,
         envelope: {
@@ -2629,6 +2774,7 @@
         fixedFreq:  false,
         velScaling: 1,
         kbdRateScaling: 2,
+        ams: 0,
         freq:       1.000,
         totalLevel: 1.000000,
         envelope: {
@@ -2648,6 +2794,7 @@
         fixedFreq:  false,
         velScaling: 7,
         kbdRateScaling: 2,
+        ams: 0,
         freq:       4.000,
         totalLevel: 0.014328,
         envelope: {
@@ -2670,6 +2817,7 @@
     algorithm:  7,
     feedback:   0,
     lfoPmDepth: 0.000000,
+    lfoAmDepth: 0.000000,
     lfo: {
       waveform: 0, // TRIANGL
       delay:   54,
@@ -2680,6 +2828,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       4.520,
         totalLevel: 1.000000,
         envelope: {
@@ -2699,6 +2848,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       0.750,
         totalLevel: 0.594604,
         envelope: {
@@ -2718,6 +2868,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       5.000,
         totalLevel: 0.297302,
         envelope: {
@@ -2737,6 +2888,7 @@
         fixedFreq:  false,
         velScaling: 1,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       0.500,
         totalLevel: 1.000000,
         envelope: {
@@ -2756,6 +2908,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       3.000,
         totalLevel: 0.771105,
         envelope: {
@@ -2775,6 +2928,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       0.500,
         totalLevel: 0.707107,
         envelope: {
@@ -2797,6 +2951,7 @@
     algorithm:  2,
     feedback:   9,
     lfoPmDepth: 0.024306,
+    lfoAmDepth: 0.058594,
     lfo: {
       waveform: 4, // SINE
       delay:  297,
@@ -2807,6 +2962,7 @@
         fixedFreq:  false,
         velScaling: 1,
         kbdRateScaling: 6,
+        ams: 0,
         freq:       3.000,
         totalLevel: 0.210224,
         envelope: {
@@ -2826,6 +2982,7 @@
         fixedFreq:  false,
         velScaling: 1,
         kbdRateScaling: 6,
+        ams: 0,
         freq:       4.000,
         totalLevel: 0.250000,
         envelope: {
@@ -2845,6 +3002,7 @@
         fixedFreq:  false,
         velScaling: 1,
         kbdRateScaling: 6,
+        ams: 0,
         freq:       1.000,
         totalLevel: 0.229251,
         envelope: {
@@ -2864,6 +3022,7 @@
         fixedFreq:  false,
         velScaling: 3,
         kbdRateScaling: 5,
+        ams: 0,
         freq:       1.000,
         totalLevel: 1.000000,
         envelope: {
@@ -2883,6 +3042,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 6,
+        ams: 0,
         freq:       4.000,
         totalLevel: 1.000000,
         envelope: {
@@ -2902,6 +3062,7 @@
         fixedFreq:  false,
         velScaling: 3,
         kbdRateScaling: 6,
+        ams: 0,
         freq:       1.000,
         totalLevel: 0.458502,
         envelope: {
@@ -2924,6 +3085,7 @@
     algorithm: 16,
     feedback:   7,
     lfoPmDepth: 0.004340,
+    lfoAmDepth: 0.050781,
     lfo: {
       waveform: 0, // TRIANGL
       delay:  144,
@@ -2934,6 +3096,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       1.550,
         totalLevel: 0.250000,
         envelope: {
@@ -2953,6 +3116,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       2.000,
         totalLevel: 0.024097,
         envelope: {
@@ -2972,6 +3136,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       2.000,
         totalLevel: 0.000000,
         envelope: {
@@ -2991,6 +3156,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 1,
         freq:       0.990,
         totalLevel: 0.136313,
         envelope: {
@@ -3010,6 +3176,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 4,
+        ams: 0,
         freq:       1.013,
         totalLevel: 0.125000,
         envelope: {
@@ -3029,6 +3196,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       0.994,
         totalLevel: 0.917004,
         envelope: {
@@ -3051,6 +3219,7 @@
     algorithm:  5,
     feedback:   9,
     lfoPmDepth: 0.005208,
+    lfoAmDepth: 0.000000,
     lfo: {
       waveform: 0, // TRIANGL
       delay:   54,
@@ -3061,6 +3230,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 7,
+        ams: 0,
         freq:       0.977,
         totalLevel: 0.125000,
         envelope: {
@@ -3080,6 +3250,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       1.024,
         totalLevel: 0.917004,
         envelope: {
@@ -3099,6 +3270,7 @@
         fixedFreq:  false,
         velScaling: 3,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       3.140,
         totalLevel: 0.500000,
         envelope: {
@@ -3118,6 +3290,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       0.500,
         totalLevel: 1.000000,
         envelope: {
@@ -3137,6 +3310,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 7,
+        ams: 0,
         freq:       0.508,
         totalLevel: 0.353553,
         envelope: {
@@ -3156,6 +3330,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       0.508,
         totalLevel: 0.840896,
         envelope: {
@@ -3178,6 +3353,7 @@
     algorithm:  5,
     feedback:   9,
     lfoPmDepth: 0.000000,
+    lfoAmDepth: 0.000000,
     lfo: {
       waveform: 1, // SAW DWN
       delay:   54,
@@ -3188,6 +3364,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 2,
+        ams: 0,
         freq:       1.953,
         totalLevel: 0.297302,
         envelope: {
@@ -3207,6 +3384,7 @@
         fixedFreq:  true,
         velScaling: 5,
         kbdRateScaling: 2,
+        ams: 0,
         freq:     323.594,
         totalLevel: 1.000000,
         envelope: {
@@ -3226,6 +3404,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 2,
+        ams: 0,
         freq:       3.478,
         totalLevel: 0.125000,
         envelope: {
@@ -3245,6 +3424,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 2,
+        ams: 0,
         freq:       0.983,
         totalLevel: 1.000000,
         envelope: {
@@ -3264,6 +3444,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 2,
+        ams: 0,
         freq:       3.535,
         totalLevel: 0.162105,
         envelope: {
@@ -3283,6 +3464,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 2,
+        ams: 0,
         freq:       1.006,
         totalLevel: 0.707107,
         envelope: {
@@ -3305,6 +3487,7 @@
     algorithm: 15,
     feedback:   7,
     lfoPmDepth: 0.012153,
+    lfoAmDepth: 2.828125,
     lfo: {
       waveform: 4, // SINE
       delay:   54,
@@ -3315,6 +3498,7 @@
         fixedFreq:  true,
         velScaling: 0,
         kbdRateScaling: 3,
+        ams: 0,
         freq:     398.107,
         totalLevel: 0.013139,
         envelope: {
@@ -3334,6 +3518,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       5.320,
         totalLevel: 0.048194,
         envelope: {
@@ -3353,6 +3538,7 @@
         fixedFreq:  false,
         velScaling: 1,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       2.048,
         totalLevel: 0.385553,
         envelope: {
@@ -3372,6 +3558,7 @@
         fixedFreq:  false,
         velScaling: 3,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       1.000,
         totalLevel: 1.000000,
         envelope: {
@@ -3391,6 +3578,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 2,
+        ams: 0,
         freq:       1.700,
         totalLevel: 0.048194,
         envelope: {
@@ -3410,6 +3598,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 4,
+        ams: 0,
         freq:       1.000,
         totalLevel: 1.000000,
         envelope: {
@@ -3432,6 +3621,7 @@
     algorithm: 16,
     feedback:   9,
     lfoPmDepth: 0.022569,
+    lfoAmDepth: 0.000000,
     lfo: {
       waveform: 0, // TRIANGL
       delay:   54,
@@ -3442,6 +3632,7 @@
         fixedFreq:  false,
         velScaling: 1,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       0.780,
         totalLevel: 0.105112,
         envelope: {
@@ -3461,6 +3652,7 @@
         fixedFreq:  false,
         velScaling: 1,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       0.500,
         totalLevel: 0.105112,
         envelope: {
@@ -3480,6 +3672,7 @@
         fixedFreq:  false,
         velScaling: 7,
         kbdRateScaling: 7,
+        ams: 0,
         freq:       0.875,
         totalLevel: 0.353553,
         envelope: {
@@ -3499,6 +3692,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       0.673,
         totalLevel: 0.297302,
         envelope: {
@@ -3518,6 +3712,7 @@
         fixedFreq:  false,
         velScaling: 1,
         kbdRateScaling: 1,
+        ams: 0,
         freq:       0.505,
         totalLevel: 0.324210,
         envelope: {
@@ -3537,6 +3732,7 @@
         fixedFreq:  false,
         velScaling: 1,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       0.500,
         totalLevel: 1.000000,
         envelope: {
@@ -3559,6 +3755,7 @@
     algorithm: 18,
     feedback:   4,
     lfoPmDepth: 0.000000,
+    lfoAmDepth: 0.000000,
     lfo: {
       waveform: 5, // S/HOLD
       delay:   54,
@@ -3569,6 +3766,7 @@
         fixedFreq:  true,
         velScaling: 0,
         kbdRateScaling: 1,
+        ams: 0,
         freq:      10.000,
         totalLevel: 0.162105,
         envelope: {
@@ -3588,6 +3786,7 @@
         fixedFreq:  true,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       1.000,
         totalLevel: 0.048194,
         envelope: {
@@ -3607,6 +3806,7 @@
         fixedFreq:  true,
         velScaling: 0,
         kbdRateScaling: 1,
+        ams: 0,
         freq:    6606.934,
         totalLevel: 0.125000,
         envelope: {
@@ -3626,6 +3826,7 @@
         fixedFreq:  true,
         velScaling: 0,
         kbdRateScaling: 4,
+        ams: 0,
         freq:      46.774,
         totalLevel: 0.057313,
         envelope: {
@@ -3645,6 +3846,7 @@
         fixedFreq:  true,
         velScaling: 0,
         kbdRateScaling: 4,
+        ams: 0,
         freq:      33.884,
         totalLevel: 0.594604,
         envelope: {
@@ -3664,6 +3866,7 @@
         fixedFreq:  true,
         velScaling: 1,
         kbdRateScaling: 4,
+        ams: 0,
         freq:    2089.296,
         totalLevel: 0.458502,
         envelope: {
@@ -3686,6 +3889,7 @@
     algorithm:  7,
     feedback:   9,
     lfoPmDepth: 0.027778,
+    lfoAmDepth: 0.007812,
     lfo: {
       waveform: 0, // TRIANGL
       delay:  250,
@@ -3696,6 +3900,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       5.115,
         totalLevel: 0.022097,
         envelope: {
@@ -3715,6 +3920,7 @@
         fixedFreq:  false,
         velScaling: 1,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       1.007,
         totalLevel: 0.018581,
         envelope: {
@@ -3734,6 +3940,7 @@
         fixedFreq:  false,
         velScaling: 1,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       1.030,
         totalLevel: 1.000000,
         envelope: {
@@ -3753,6 +3960,7 @@
         fixedFreq:  false,
         velScaling: 3,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       1.024,
         totalLevel: 1.000000,
         envelope: {
@@ -3772,6 +3980,7 @@
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 0,
+        ams: 2,
         freq:       1.000,
         totalLevel: 1.000000,
         envelope: {
@@ -3791,6 +4000,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       0.977,
         totalLevel: 0.353553,
         envelope: {
@@ -3813,6 +4023,7 @@
     algorithm:  5,
     feedback:   9,
     lfoPmDepth: 0.000000,
+    lfoAmDepth: 2.828125,
     lfo: {
       waveform: 0, // TRIANGL
       delay:   54,
@@ -3823,6 +4034,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       5.000,
         totalLevel: 1.000000,
         envelope: {
@@ -3842,6 +4054,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 3,
         freq:       9.089,
         totalLevel: 0.250000,
         envelope: {
@@ -3861,6 +4074,7 @@
         fixedFreq:  true,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:     971.048,
         totalLevel: 0.420448,
         envelope: {
@@ -3880,6 +4094,7 @@
         fixedFreq:  true,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:     373.903,
         totalLevel: 1.000000,
         envelope: {
@@ -3899,6 +4114,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 5,
+        ams: 0,
         freq:       3.030,
         totalLevel: 0.096388,
         envelope: {
@@ -3918,6 +4134,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 3,
+        ams: 0,
         freq:       1.640,
         totalLevel: 1.000000,
         envelope: {
@@ -3940,6 +4157,7 @@
     algorithm: 10,
     feedback:   0,
     lfoPmDepth: 0.000000,
+    lfoAmDepth: 0.000000,
     lfo: {
       waveform: 2, // SAW UP
       delay:   54,
@@ -3950,6 +4168,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       0.500,
         totalLevel: 1.000000,
         envelope: {
@@ -3969,6 +4188,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       2.020,
         totalLevel: 0.771105,
         envelope: {
@@ -3988,6 +4208,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       0.500,
         totalLevel: 1.000000,
         envelope: {
@@ -4007,6 +4228,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       6.060,
         totalLevel: 1.000000,
         envelope: {
@@ -4026,6 +4248,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       1.000,
         totalLevel: 0.771105,
         envelope: {
@@ -4045,6 +4268,7 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
+        ams: 0,
         freq:       4.040,
         totalLevel: 1.000000,
         envelope: {

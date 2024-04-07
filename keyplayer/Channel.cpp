@@ -52,11 +52,14 @@ void Channel::mixVoicesPrivate(float *stereoMix, const float *stereoIn) {
   float lfo=mLfo.sampleAndUpdate(mProgram->lfo);
   float lfoPmDepth=mProgram->lfoPmDepth;
   float pitchMod=exp2f(lfoPmDepth*lfo)*mPitchBendFactor;
+  float lfoAmDepth=mProgram->lfoAmDepth;
+  float ampMod=lfoAmDepth*(1.0f-lfo);
 
+  
   // Mix the channel's voices
   const float *monoIn=zeroBuffer;
   for (unsigned i=0; i<mNumVoices; ++i) {
-    mVoice[i]->fillBuffer(monoMix, monoIn, pitchMod, lfo);
+    mVoice[i]->fillBuffer(monoMix, monoIn, pitchMod, ampMod);
     monoIn=monoMix;
   }
 
