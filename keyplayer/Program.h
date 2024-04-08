@@ -51,6 +51,7 @@ struct Program {
   float lfoPmDepth;
   float lfoAmDepth;
   LfoParam lfo;
+  EnvelopeParam pitchEnvelope;
   FmOperatorParam op[NUM_OPERATORS];
 
   static const Program *getProgram(unsigned programNumber);

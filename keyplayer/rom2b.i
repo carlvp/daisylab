@@ -1,144 +1,5 @@
   { // Program: 1
-    name: "BRASS   1",
-    algorithm: 22,
-    feedback:   9,
-    lfoPmDepth: 0.005208,
-    lfoAmDepth: 0.000000,
-    lfo: {
-      waveform: 4, // SINE
-      delay:   54,
-      deltaPhi: 0x010b3717
-    },
-    pitchEnvelope: {
-      level0:  1.000000,
-      levels: {1.000000, 1.000000, 1.000000, 1.000000},
-      times:  {0.001333, 0.001333, 0.002594, 0.128018},
-    },
-    op: {
-      { // OP6
-        fixedFreq:  false,
-        velScaling: 2,
-        kbdRateScaling: 4,
-        ams: 0,
-        freq:       1.000,
-        totalLevel: 0.229251,
-        envelope: {
-          level0:  0.000000,
-          levels: {0.917004, 0.917004, 0.500000, 0.000000},
-          times:  {1.496334, 0.001333, 4.467335, 0.051543},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: true,
-          lDepth: -54,
-          rcExp: true,
-          rDepth: -50,
-        }
-      },
-      { // OP5
-        fixedFreq:  false,
-        velScaling: 2,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       1.003,
-        totalLevel: 0.917004,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.917004, 0.917004, 0.000000},
-          times:  {0.066654, 0.049606, 1.024141, 0.038060},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP4
-        fixedFreq:  false,
-        velScaling: 2,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       1.000,
-        totalLevel: 1.000000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.917004, 0.917004, 0.000000},
-          times:  {0.066654, 0.049606, 1.024141, 0.038060},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP3
-        fixedFreq:  false,
-        velScaling: 2,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       0.994,
-        totalLevel: 1.000000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.917004, 0.917004, 0.000000},
-          times:  {0.066654, 0.001333, 0.010836, 0.038060},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP2
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       0.512,
-        totalLevel: 0.324210,
-        envelope: {
-          level0:  0.000000,
-          levels: {0.229251, 0.707107, 0.771105, 0.000000},
-          times:  {0.312735, 0.124317, 3.922883, 0.038060},
-        },
-        keyScaling: {
-          bp: 48,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: true,
-          rDepth: -7,
-        }
-      },
-      { // OP1
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       0.512,
-        totalLevel: 0.917004,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.385553, 0.771105, 0.000000},
-          times:  {0.117061, 0.006574, 0.001682, 0.038060},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth: 14,
-        }
-      }
-    }
-  },
-  { // Program: 2
-    name: "BRASS   2",
+    name: "SYN-LEAD 2",
     algorithm: 22,
     feedback:   9,
     lfoPmDepth: 0.000000,
@@ -159,12 +20,1124 @@
         velScaling: 0,
         kbdRateScaling: 0,
         ams: 0,
-        freq:       0.500,
+        freq:       2.000,
+        totalLevel: 0.136313,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.024097, 0.024097, 0.000000},
+          times:  {0.005891, 1.113743, 7.845766, 0.038060},
+        },
+        keyScaling: {
+          bp: 48,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: true,
+          rDepth: -45,
+        }
+      },
+      { // OP5
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       1.000,
+        totalLevel: 0.917004,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.385553, 0.771105, 0.000000},
+          times:  {0.005891, 0.006574, 0.001682, 0.038060},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth: 14,
+        }
+      },
+      { // OP4
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       1.000,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.385553, 0.771105, 0.000000},
+          times:  {0.005891, 0.006574, 0.001682, 0.038060},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth: 14,
+        }
+      },
+      { // OP3
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       1.000,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.385553, 0.771105, 0.000000},
+          times:  {0.005891, 0.006574, 0.001682, 0.038060},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth: 14,
+        }
+      },
+      { // OP2
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       2.000,
+        totalLevel: 0.162105,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.024097, 0.024097, 0.000000},
+          times:  {0.005891, 1.113743, 7.845766, 0.038060},
+        },
+        keyScaling: {
+          bp: 48,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: true,
+          rDepth: -45,
+        }
+      },
+      { // OP1
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       1.000,
+        totalLevel: 0.594604,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.385553, 0.771105, 0.000000},
+          times:  {0.005891, 0.006574, 0.001682, 0.038060},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth: 14,
+        }
+      }
+    }
+  },
+  { // Program: 2
+    name: "SYN-LEAD 3",
+    algorithm: 22,
+    feedback:   9,
+    lfoPmDepth: 0.000000,
+    lfoAmDepth: 0.000000,
+    lfo: {
+      waveform: 4, // SINE
+      delay:   54,
+      deltaPhi: 0x010b3717
+    },
+    pitchEnvelope: {
+      level0:  1.000000,
+      levels: {1.000000, 1.000000, 1.000000, 1.000000},
+      times:  {0.001333, 0.001333, 0.002594, 0.128018},
+    },
+    op: {
+      { // OP6
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       2.000,
+        totalLevel: 0.162105,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.024097, 0.000000, 0.000000},
+          times:  {0.005891, 1.113743, 2.048282, 0.038060},
+        },
+        keyScaling: {
+          bp: 48,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: true,
+          rDepth: -45,
+        }
+      },
+      { // OP5
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       1.000,
+        totalLevel: 0.250000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.385553, 0.771105, 0.000000},
+          times:  {0.005891, 0.006574, 0.001682, 0.038060},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth: 14,
+        }
+      },
+      { // OP4
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       2.000,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.385553, 0.771105, 0.000000},
+          times:  {0.005891, 0.006574, 0.001682, 0.038060},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth: 14,
+        }
+      },
+      { // OP3
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       2.000,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.385553, 0.771105, 0.000000},
+          times:  {0.005891, 0.006574, 0.001682, 0.038060},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth: 14,
+        }
+      },
+      { // OP2
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       2.000,
+        totalLevel: 0.840896,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.024097, 0.000000, 0.000000},
+          times:  {0.005891, 1.113743, 2.048282, 0.038060},
+        },
+        keyScaling: {
+          bp: 48,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: true,
+          rDepth: -45,
+        }
+      },
+      { // OP1
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       1.000,
+        totalLevel: 0.594604,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.385553, 0.007164, 0.000000},
+          times:  {0.005891, 0.006574, 0.001682, 0.038060},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth: 14,
+        }
+      }
+    }
+  },
+  { // Program: 3
+    name: "SYN-LEAD 4",
+    algorithm: 22,
+    feedback:   9,
+    lfoPmDepth: 0.000000,
+    lfoAmDepth: 0.000000,
+    lfo: {
+      waveform: 4, // SINE
+      delay:   54,
+      deltaPhi: 0x010b3717
+    },
+    pitchEnvelope: {
+      level0:  1.000000,
+      levels: {1.000000, 1.000000, 1.000000, 1.000000},
+      times:  {0.001333, 0.001333, 0.002594, 0.128018},
+    },
+    op: {
+      { // OP6
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       1.000,
+        totalLevel: 0.136313,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.024097, 0.024097, 0.000000},
+          times:  {0.005891, 1.113743, 0.664073, 0.038060},
+        },
+        keyScaling: {
+          bp: 48,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: true,
+          rDepth: -45,
+        }
+      },
+      { // OP5
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       1.000,
+        totalLevel: 0.917004,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.385553, 0.771105, 0.000000},
+          times:  {0.005891, 0.006574, 0.001682, 0.038060},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth: 14,
+        }
+      },
+      { // OP4
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       1.000,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.385553, 0.771105, 0.000000},
+          times:  {0.005891, 0.006574, 0.001682, 0.038060},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth: 14,
+        }
+      },
+      { // OP3
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       1.000,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.385553, 0.771105, 0.000000},
+          times:  {0.005891, 0.006574, 0.001682, 0.038060},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth: 14,
+        }
+      },
+      { // OP2
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       1.000,
+        totalLevel: 0.162105,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.024097, 0.024097, 0.000000},
+          times:  {0.005891, 1.113743, 0.279208, 0.038060},
+        },
+        keyScaling: {
+          bp: 48,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: true,
+          rDepth: -45,
+        }
+      },
+      { // OP1
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       1.000,
+        totalLevel: 0.594604,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.385553, 0.771105, 0.000000},
+          times:  {0.005891, 0.006574, 0.001682, 0.038060},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth: 14,
+        }
+      }
+    }
+  },
+  { // Program: 4
+    name: "SYN-LEAD 5",
+    algorithm:  1,
+    feedback:   9,
+    lfoPmDepth: 0.015625,
+    lfoAmDepth: 2.828125,
+    lfo: {
+      waveform: 4, // SINE
+      delay:  641,
+      deltaPhi: 0x00fd26b8
+    },
+    pitchEnvelope: {
+      level0:  1.000000,
+      levels: {1.000000, 1.000000, 1.000000, 1.000000},
+      times:  {0.001333, 0.001333, 0.001682, 0.001682},
+    },
+    op: {
+      { // OP6
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       7.000,
+        totalLevel: 0.074325,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 1.000000, 0.000000, 0.000000},
+          times:  {0.005891, 0.001333, 20.032000, 0.534742},
+        },
+        keyScaling: {
+          bp: 120,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth: -8,
+        }
+      },
+      { // OP5
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       3.000,
+        totalLevel: 0.148651,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 1.000000, 0.000000, 0.000000},
+          times:  {0.006425, 0.001333, 20.032000, 0.112416},
+        },
+        keyScaling: {
+          bp: 21,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: true,
+          rDepth: -12,
+        }
+      },
+      { // OP4
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       1.000,
+        totalLevel: 0.324210,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 1.000000, 0.000000, 0.000000},
+          times:  {0.005891, 0.001333, 20.032000, 0.112416},
+        },
+        keyScaling: {
+          bp: 21,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: true,
+          rDepth: -15,
+        }
+      },
+      { // OP3
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       2.000,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.162105, 0.000000, 0.000000},
+          times:  {0.005891, 7.642101, 20.032000, 0.112416},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP2
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       3.000,
+        totalLevel: 0.229251,
+        envelope: {
+          level0:  0.000000,
+          levels: {0.771105, 1.000000, 0.297302, 0.000000},
+          times:  {20.032000, 0.050384, 20.032000, 0.058696},
+        },
+        keyScaling: {
+          bp: 36,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: true,
+          rDepth: -6,
+        }
+      },
+      { // OP1
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       3.000,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {0.771105, 1.000000, 0.297302, 0.000000},
+          times:  {20.032000, 0.050384, 20.032000, 0.001682},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      }
+    }
+  },
+  { // Program: 5
+    name: "SYN-CLAV 1",
+    algorithm: 16,
+    feedback:   9,
+    lfoPmDepth: 0.000000,
+    lfoAmDepth: 0.000000,
+    lfo: {
+      waveform: 4, // SINE
+      delay:   54,
+      deltaPhi: 0x010b3717
+    },
+    pitchEnvelope: {
+      level0:  1.000000,
+      levels: {1.000000, 1.000000, 1.000000, 1.000000},
+      times:  {0.001333, 0.001333, 0.002594, 0.128018},
+    },
+    op: {
+      { // OP6
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:      21.000,
         totalLevel: 0.192776,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.917004, 0.385553, 0.000000},
-          times:  {0.005891, 0.036630, 2.773897, 0.038060},
+          levels: {1.000000, 0.037163, 0.009291, 0.000000},
+          times:  {0.005891, 0.638199, 15.026263, 0.038060},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  4,
+          rcExp: false,
+          rDepth: -55,
+        }
+      },
+      { // OP5
+        fixedFreq:  false,
+        velScaling: 4,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       1.000,
+        totalLevel: 0.008520,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.037163, 0.009291, 0.000000},
+          times:  {0.005891, 0.638199, 15.026263, 0.038060},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth: 14,
+        }
+      },
+      { // OP4
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:      12.000,
+        totalLevel: 0.022097,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.081052, 0.040526, 0.000000},
+          times:  {0.005891, 1.158399, 15.026263, 0.038060},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth: 14,
+        }
+      },
+      { // OP3
+        fixedFreq:  false,
+        velScaling: 4,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       3.000,
+        totalLevel: 0.272627,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.037163, 0.009291, 0.000000},
+          times:  {0.005891, 0.638199, 15.026263, 0.038060},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth: 14,
+        }
+      },
+      { // OP2
+        fixedFreq:  false,
+        velScaling: 4,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       2.000,
+        totalLevel: 0.162105,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.037163, 0.009291, 0.000000},
+          times:  {0.005891, 0.638199, 15.026263, 0.038060},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth: 14,
+        }
+      },
+      { // OP1
+        fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       1.000,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.081052, 0.022097, 0.000000},
+          times:  {0.005891, 1.319172, 15.026263, 0.038060},
+        },
+        keyScaling: {
+          bp: 48,
+          lcExp: false,
+          lDepth: 50,
+          rcExp: false,
+          rDepth:  0,
+        }
+      }
+    }
+  },
+  { // Program: 6
+    name: "SYN-CLAV 2",
+    algorithm:  7,
+    feedback:   7,
+    lfoPmDepth: 0.000000,
+    lfoAmDepth: 0.000000,
+    lfo: {
+      waveform: 0, // TRIANGL
+      delay:  144,
+      deltaPhi: 0x00d895bf
+    },
+    pitchEnvelope: {
+      level0:  1.000000,
+      levels: {1.000000, 1.000000, 1.000000, 1.000000},
+      times:  {0.001333, 0.001333, 0.001682, 0.001682},
+    },
+    op: {
+      { // OP6
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       9.902,
+        totalLevel: 0.114626,
+        envelope: {
+          level0:  0.000000,
+          levels: {0.385553, 0.008520, 0.001642, 0.000000},
+          times:  {0.025597, 0.738968, 0.023632, 0.112416},
+        },
+        keyScaling: {
+          bp: 36,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: true,
+          rDepth: -1,
+        }
+      },
+      { // OP5
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       1.000,
+        totalLevel: 0.210224,
+        envelope: {
+          level0:  0.000000,
+          levels: {0.385553, 0.008520, 0.001642, 0.000000},
+          times:  {0.025597, 1.757572, 0.023632, 0.112416},
+        },
+        keyScaling: {
+          bp: 36,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: true,
+          rDepth: -33,
+        }
+      },
+      { // OP4
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       0.507,
+        totalLevel: 0.840896,
+        envelope: {
+          level0:  0.000000,
+          levels: {0.385553, 0.008520, 0.001642, 0.000000},
+          times:  {0.893248, 1.757572, 0.023632, 0.112416},
+        },
+        keyScaling: {
+          bp: 21,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: true,
+          rDepth: -11,
+        }
+      },
+      { // OP3
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       0.499,
+        totalLevel: 0.917004,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.420448, 0.917004, 0.000000},
+          times:  {0.006425, 0.009217, 0.023632, 0.112416},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP2
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       0.500,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {0.385553, 0.008520, 0.001642, 0.000000},
+          times:  {0.893248, 1.757572, 0.023632, 0.112416},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP1
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       1.000,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.420448, 0.917004, 0.000000},
+          times:  {0.006425, 0.009217, 0.023632, 0.112416},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      }
+    }
+  },
+  { // Program: 7
+    name: "SYN-CLAV 3",
+    algorithm:  2,
+    feedback:   4,
+    lfoPmDepth: 0.000000,
+    lfoAmDepth: 2.828125,
+    lfo: {
+      waveform: 5, // S/HOLD
+      delay:  473,
+      deltaPhi: 0x012757d7
+    },
+    pitchEnvelope: {
+      level0:  1.000000,
+      levels: {1.000000, 1.000000, 1.000000, 1.000000},
+      times:  {0.001333, 0.001333, 0.023632, 0.001682},
+    },
+    op: {
+      { // OP6
+        fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 7,
+        ams: 3,
+        freq:      12.118,
+        totalLevel: 0.081052,
+        envelope: {
+          level0:  0.000000,
+          levels: {0.148651, 0.015625, 0.385553, 0.000000},
+          times:  {0.009329, 11.750022, 15.026263, 3.597300},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP5
+        fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 7,
+        ams: 3,
+        freq:      12.000,
+        totalLevel: 0.192776,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.353553, 0.176777, 0.000000},
+          times:  {0.010347, 4.972993, 18.660482, 1.166280},
+        },
+        keyScaling: {
+          bp: 31,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: true,
+          rDepth: -50,
+        }
+      },
+      { // OP4
+        fixedFreq:  false,
+        velScaling: 7,
+        kbdRateScaling: 7,
+        ams: 0,
+        freq:       0.507,
+        totalLevel: 0.771105,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.297302, 0.771105, 0.000000},
+          times:  {0.009086, 6.326935, 18.660482, 3.597300},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP3
+        fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 7,
+        ams: 1,
+        freq:       1.010,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.707107, 0.081052, 0.000000},
+          times:  {0.009086, 1.657664, 15.026263, 0.064009},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP2
+        fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 7,
+        ams: 3,
+        freq:       1.000,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.297302, 0.192776, 0.000000},
+          times:  {0.047132, 17.895275, 9.743326, 3.597300},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP1
+        fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 7,
+        ams: 0,
+        freq:       1.000,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.707107, 0.458502, 0.000000},
+          times:  {0.047132, 0.306010, 13.194954, 0.064009},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      }
+    }
+  },
+  { // Program: 8
+    name: "SYN-PIANO",
+    algorithm:  5,
+    feedback:   9,
+    lfoPmDepth: 0.000000,
+    lfoAmDepth: 0.000000,
+    lfo: {
+      waveform: 2, // SAW UP
+      delay:  222,
+      deltaPhi: 0x08a8fdc2
+    },
+    pitchEnvelope: {
+      level0:  1.000000,
+      levels: {1.000000, 1.000000, 1.000000, 1.000000},
+      times:  {0.001333, 0.001333, 0.002594, 0.128018},
+    },
+    op: {
+      { // OP6
+        fixedFreq:  false,
+        velScaling: 6,
+        kbdRateScaling: 3,
+        ams: 0,
+        freq:      23.551,
+        totalLevel: 0.272627,
+        envelope: {
+          level0:  0.003012,
+          levels: {0.385553, 0.000000, 0.000000, 0.003012},
+          times:  {0.023667, 0.034665, 10.625173, 0.001682},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP5
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 3,
+        ams: 0,
+        freq:       0.977,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.125000, 0.000000, 0.000000},
+          times:  {0.007979, 4.004478, 6.049913, 0.378120},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP4
+        fixedFreq:  false,
+        velScaling: 4,
+        kbdRateScaling: 3,
+        ams: 0,
+        freq:       2.000,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.074325,
+          levels: {1.000000, 0.000000, 0.000000, 0.074325},
+          times:  {0.002146, 0.030561, 10.625173, 0.001682},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP3
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 3,
+        ams: 0,
+        freq:       1.000,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.125000, 0.000000, 0.000000},
+          times:  {0.007979, 4.004478, 6.049913, 0.224831},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP2
+        fixedFreq:  false,
+        velScaling: 3,
+        kbdRateScaling: 3,
+        ams: 0,
+        freq:       1.000,
+        totalLevel: 0.594604,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 1.000000, 1.000000, 0.000000},
+          times:  {20.032000, 0.001333, 2.048282, 0.017451},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP1
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 3,
+        ams: 0,
+        freq:       1.024,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.125000, 0.000000, 0.000000},
+          times:  {0.007979, 4.004478, 6.049913, 0.245180},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      }
+    }
+  },
+  { // Program: 9
+    name: "SYNBRASS 1",
+    algorithm: 22,
+    feedback:   9,
+    lfoPmDepth: 0.000000,
+    lfoAmDepth: 0.000000,
+    lfo: {
+      waveform: 4, // SINE
+      delay:   54,
+      deltaPhi: 0x010b3717
+    },
+    pitchEnvelope: {
+      level0:  1.000000,
+      levels: {1.000000, 1.000000, 1.000000, 1.000000},
+      times:  {0.001333, 0.001333, 0.002594, 0.128018},
+    },
+    op: {
+      { // OP6
+        fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 4,
+        ams: 0,
+        freq:       0.500,
+        totalLevel: 0.250000,
+        envelope: {
+          level0:  0.000000,
+          levels: {0.917004, 0.917004, 0.545254, 0.000000},
+          times:  {0.005845, 0.001333, 4.467335, 0.051543},
         },
         keyScaling: {
           bp: 60,
@@ -183,8 +1156,8 @@
         totalLevel: 1.000000,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.917004, 0.210224, 0.000000},
-          times:  {0.005891, 0.036630, 2.773897, 0.038060},
+          levels: {1.000000, 0.917004, 0.917004, 0.000000},
+          times:  {0.005891, 0.049606, 1.024141, 0.038060},
         },
         keyScaling: {
           bp: 60,
@@ -203,8 +1176,8 @@
         totalLevel: 1.000000,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.917004, 0.210224, 0.000000},
-          times:  {0.005891, 0.036630, 2.773897, 0.038060},
+          levels: {1.000000, 0.917004, 0.917004, 0.000000},
+          times:  {0.005891, 0.049606, 1.024141, 0.038060},
         },
         keyScaling: {
           bp: 60,
@@ -223,8 +1196,8 @@
         totalLevel: 1.000000,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.917004, 0.210224, 0.000000},
-          times:  {0.005891, 0.036630, 2.773897, 0.038060},
+          levels: {1.000000, 0.917004, 0.917004, 0.000000},
+          times:  {0.005891, 0.001333, 0.010836, 0.038060},
         },
         keyScaling: {
           bp: 60,
@@ -240,428 +1213,11 @@
         kbdRateScaling: 0,
         ams: 0,
         freq:       0.512,
-        totalLevel: 0.272627,
+        totalLevel: 0.500000,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.917004, 0.192776, 0.000000},
-          times:  {0.005891, 0.036630, 2.773897, 0.038060},
-        },
-        keyScaling: {
-          bp: 72,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth: 38,
-        }
-      },
-      { // OP1
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       0.512,
-        totalLevel: 1.000000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.917004, 0.192776, 0.000000},
-          times:  {0.005891, 0.036630, 2.773897, 0.038060},
-        },
-        keyScaling: {
-          bp: 72,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth: 38,
-        }
-      }
-    }
-  },
-  { // Program: 3
-    name: "BRASS   3",
-    algorithm: 18,
-    feedback:   8,
-    lfoPmDepth: 0.005208,
-    lfoAmDepth: 0.000000,
-    lfo: {
-      waveform: 0, // TRIANGL
-      delay:   54,
-      deltaPhi: 0x00fd26b8
-    },
-    pitchEnvelope: {
-      level0:  1.000000,
-      levels: {1.000000, 1.000000, 1.000000, 1.000000},
-      times:  {0.001333, 0.001333, 0.002594, 0.128018},
-    },
-    op: {
-      { // OP6
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 7,
-        ams: 0,
-        freq:       8.470,
-        totalLevel: 0.176777,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.000000, 0.000000, 0.000000},
-          times:  {0.066654, 0.691517, 10.625173, 0.041505},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP5
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       3.171,
-        totalLevel: 0.081052,
-        envelope: {
-          level0:  0.000000,
-          levels: {0.917004, 0.037163, 0.040526, 0.000000},
-          times:  {1.631763, 0.229427, 8.555869, 0.378120},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP4
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       1.000,
-        totalLevel: 0.176777,
-        envelope: {
-          level0:  0.000000,
-          levels: {0.018581, 0.037163, 0.040526, 0.000000},
-          times:  {0.142992, 0.001333, 8.555869, 0.378120},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP3
-        fixedFreq:  false,
-        velScaling: 1,
-        kbdRateScaling: 1,
-        ams: 0,
-        freq:       1.000,
-        totalLevel: 0.148651,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.324210, 0.324210, 0.000000},
-          times:  {2.132930, 0.734376, 8.555869, 0.378120},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP2
-        fixedFreq:  false,
-        velScaling: 1,
-        kbdRateScaling: 2,
-        ams: 0,
-        freq:       1.000,
-        totalLevel: 0.081052,
-        envelope: {
-          level0:  0.000000,
-          levels: {0.297302, 0.000000, 0.000000, 0.000000},
-          times:  {5.140223, 6.961175, 18.660482, 0.041505},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP1
-        fixedFreq:  false,
-        velScaling: 2,
-        kbdRateScaling: 2,
-        ams: 0,
-        freq:       1.000,
-        totalLevel: 1.000000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.324210, 0.324210, 0.000000},
-          times:  {0.787492, 2.470138, 12.099826, 0.224831},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      }
-    }
-  },
-  { // Program: 4
-    name: "STRINGS 1",
-    algorithm:  2,
-    feedback:   9,
-    lfoPmDepth: 0.008681,
-    lfoAmDepth: 0.000000,
-    lfo: {
-      waveform: 0, // TRIANGL
-      delay:   54,
-      deltaPhi: 0x00d895bf
-    },
-    pitchEnvelope: {
-      level0:  1.000000,
-      levels: {1.000000, 1.000000, 1.000000, 1.000000},
-      times:  {0.001333, 0.001333, 0.002594, 0.128018},
-    },
-    op: {
-      { // OP6
-        fixedFreq:  false,
-        velScaling: 2,
-        kbdRateScaling: 2,
-        ams: 0,
-        freq:      14.000,
-        totalLevel: 0.018581,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.545254, 0.324210, 0.000000},
-          times:  {0.977953, 2.335946, 10.625173, 0.245180},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP5
-        fixedFreq:  false,
-        velScaling: 2,
-        kbdRateScaling: 2,
-        ams: 0,
-        freq:       3.000,
-        totalLevel: 0.272627,
-        envelope: {
-          level0:  0.000000,
-          levels: {0.324210, 0.545254, 0.324210, 0.000000},
-          times:  {0.877847, 2.002239, 10.625173, 0.245180},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP4
-        fixedFreq:  false,
-        velScaling: 2,
-        kbdRateScaling: 2,
-        ams: 0,
-        freq:       1.000,
-        totalLevel: 0.148651,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.545254, 0.324210, 0.000000},
-          times:  {0.007979, 2.335946, 10.625173, 0.245180},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP3
-        fixedFreq:  false,
-        velScaling: 7,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       1.000,
-        totalLevel: 0.324210,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.297302, 0.229251, 0.000000},
-          times:  {2.648796, 0.256407, 10.625173, 0.245180},
-        },
-        keyScaling: {
-          bp: 77,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth: -97,
-        }
-      },
-      { // OP2
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 1,
-        ams: 0,
-        freq:       1.000,
-        totalLevel: 0.250000,
-        envelope: {
-          level0:  0.000000,
-          levels: {0.229251, 0.545254, 0.040526, 0.000000},
-          times:  {0.071695, 0.010497, 15.026263, 0.430598},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP1
-        fixedFreq:  false,
-        velScaling: 3,
-        kbdRateScaling: 2,
-        ams: 0,
-        freq:       1.000,
-        totalLevel: 1.000000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.297302, 0.081052, 0.000000},
-          times:  {2.325977, 2.660149, 10.625173, 1.024141},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      }
-    }
-  },
-  { // Program: 5
-    name: "STRINGS 2",
-    algorithm:  2,
-    feedback:   9,
-    lfoPmDepth: 0.008681,
-    lfoAmDepth: 0.000000,
-    lfo: {
-      waveform: 4, // SINE
-      delay: 1783,
-      deltaPhi: 0x00d895bf
-    },
-    pitchEnvelope: {
-      level0:  1.000000,
-      levels: {1.000000, 1.000000, 1.000000, 1.000000},
-      times:  {0.001333, 0.001333, 0.002594, 0.128018},
-    },
-    op: {
-      { // OP6
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       8.000,
-        totalLevel: 0.081052,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.545254, 0.000000, 0.000000},
-          times:  {0.117061, 0.004184, 20.032000, 2.773897},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP5
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       2.000,
-        totalLevel: 0.057313,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.545254, 0.000000, 0.000000},
-          times:  {0.075905, 0.005666, 20.032000, 4.467335},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP4
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       2.000,
-        totalLevel: 0.136313,
-        envelope: {
-          level0:  0.000000,
-          levels: {0.917004, 0.917004, 0.004260, 0.000000},
-          times:  {1.496334, 0.001333, 20.032000, 2.773897},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP3
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       2.041,
-        totalLevel: 0.545254,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.545254, 0.000000, 0.000000},
-          times:  {1.214478, 3.602521, 20.032000, 0.534742},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP2
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       1.960,
-        totalLevel: 0.114626,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.545254, 0.002130, 0.000000},
-          times:  {0.043220, 4.473819, 20.032000, 6.049913},
+          levels: {0.545254, 0.707107, 0.594604, 0.000000},
+          times:  {20.022392, 1.355772, 13.194954, 0.038060},
         },
         keyScaling: {
           bp: 60,
@@ -676,607 +1232,51 @@
         velScaling: 0,
         kbdRateScaling: 0,
         ams: 0,
-        freq:       2.000,
-        totalLevel: 0.545254,
-        envelope: {
-          level0:  0.000000,
-          levels: {0.917004, 0.917004, 0.004260, 0.000000},
-          times:  {1.631763, 0.001333, 20.032000, 0.534742},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      }
-    }
-  },
-  { // Program: 6
-    name: "STRINGS 3",
-    algorithm: 15,
-    feedback:   9,
-    lfoPmDepth: 0.023438,
-    lfoAmDepth: 0.000000,
-    lfo: {
-      waveform: 4, // SINE
-      delay:  383,
-      deltaPhi: 0x00ca8560
-    },
-    pitchEnvelope: {
-      level0:  1.000000,
-      levels: {1.000000, 1.000000, 1.000000, 1.000000},
-      times:  {0.001333, 0.001333, 0.002594, 0.128018},
-    },
-    op: {
-      { // OP6
-        fixedFreq:  false,
-        velScaling: 2,
-        kbdRateScaling: 2,
-        ams: 0,
-        freq:      14.000,
-        totalLevel: 0.020263,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.545254, 0.024097, 0.000000},
-          times:  {0.977953, 0.015346, 0.756239, 0.245180},
-        },
-        keyScaling: {
-          bp: 76,
-          lcExp: false,
-          lDepth: 25,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP5
-        fixedFreq:  false,
-        velScaling: 1,
-        kbdRateScaling: 2,
-        ams: 0,
-        freq:       3.000,
-        totalLevel: 0.272627,
-        envelope: {
-          level0:  0.000000,
-          levels: {0.324210, 0.545254, 0.114626, 0.000000},
-          times:  {0.877847, 0.009713, 1.448354, 0.245180},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP4
-        fixedFreq:  false,
-        velScaling: 2,
-        kbdRateScaling: 2,
-        ams: 0,
-        freq:       1.000,
-        totalLevel: 0.125000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.545254, 0.420448, 0.000000},
-          times:  {0.007979, 2.335946, 10.625173, 0.245180},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP3
-        fixedFreq:  false,
-        velScaling: 1,
-        kbdRateScaling: 2,
-        ams: 0,
-        freq:       1.000,
+        freq:       1.024,
         totalLevel: 1.000000,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.545254, 0.500000, 0.000000},
-          times:  {1.324398, 0.058782, 2.048282, 1.024141},
-        },
-        keyScaling: {
-          bp: 72,
-          lcExp: false,
-          lDepth: 98,
-          rcExp: false,
-          rDepth: -60,
-        }
-      },
-      { // OP2
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 1,
-        ams: 0,
-        freq:       1.000,
-        totalLevel: 0.324210,
-        envelope: {
-          level0:  0.000000,
-          levels: {0.229251, 0.545254, 0.353553, 0.000000},
-          times:  {0.005103, 0.010497, 2.048282, 0.346737},
+          levels: {1.000000, 0.385553, 0.771105, 0.000000},
+          times:  {0.005891, 0.006574, 0.001682, 0.038060},
         },
         keyScaling: {
           bp: 60,
           lcExp: false,
           lDepth:  0,
           rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP1
-        fixedFreq:  false,
-        velScaling: 1,
-        kbdRateScaling: 2,
-        ams: 0,
-        freq:       1.000,
-        totalLevel: 1.000000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.545254, 0.458502, 0.000000},
-          times:  {1.066465, 0.694481, 6.049913, 0.824685},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      }
-    }
-  },
-  { // Program: 7
-    name: "ORCHESTRA",
-    algorithm:  2,
-    feedback:   9,
-    lfoPmDepth: 0.007812,
-    lfoAmDepth: 0.000000,
-    lfo: {
-      waveform: 4, // SINE
-      delay:  801,
-      deltaPhi: 0x00d895bf
-    },
-    pitchEnvelope: {
-      level0:  1.000000,
-      levels: {1.000000, 1.000000, 1.000000, 1.000000},
-      times:  {0.001333, 0.001333, 0.002594, 0.128018},
-    },
-    op: {
-      { // OP6
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       2.000,
-        totalLevel: 0.229251,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.545254, 0.000000, 0.000000},
-          times:  {0.117061, 0.004184, 20.032000, 2.773897},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP5
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       2.000,
-        totalLevel: 0.192776,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.545254, 0.000000, 0.000000},
-          times:  {0.075905, 0.005666, 20.032000, 0.224831},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP4
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       2.000,
-        totalLevel: 0.096388,
-        envelope: {
-          level0:  0.000000,
-          levels: {0.917004, 0.917004, 0.004260, 0.000000},
-          times:  {0.686072, 0.001333, 20.032000, 0.664073},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP3
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       2.041,
-        totalLevel: 0.771105,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.545254, 0.000000, 0.000000},
-          times:  {0.858766, 3.602521, 20.032000, 0.534742},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP2
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       0.980,
-        totalLevel: 0.250000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.594604, 0.458502, 0.000000},
-          times:  {0.977953, 0.100768, 2.773897, 0.112416},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP1
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       1.000,
-        totalLevel: 1.000000,
-        envelope: {
-          level0:  0.000000,
-          levels: {0.917004, 0.917004, 0.004260, 0.000000},
-          times:  {0.046760, 0.001333, 20.032000, 0.664073},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      }
-    }
-  },
-  { // Program: 8
-    name: "PIANO   1",
-    algorithm: 19,
-    feedback:   8,
-    lfoPmDepth: 0.000000,
-    lfoAmDepth: 0.000000,
-    lfo: {
-      waveform: 0, // TRIANGL
-      delay:   54,
-      deltaPhi: 0x00fd26b8
-    },
-    pitchEnvelope: {
-      level0:  1.000000,
-      levels: {1.000000, 1.000000, 1.000000, 1.000000},
-      times:  {0.001333, 0.001333, 0.002594, 0.128018},
-    },
-    op: {
-      { // OP6
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 5,
-        ams: 0,
-        freq:       0.997,
-        totalLevel: 0.229251,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.125000, 0.000000, 0.000000},
-          times:  {0.005891, 20.032000, 6.049913, 20.032000},
-        },
-        keyScaling: {
-          bp: 21,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth: -10,
-        }
-      },
-      { // OP5
-        fixedFreq:  false,
-        velScaling: 1,
-        kbdRateScaling: 5,
-        ams: 0,
-        freq:       1.575,
-        totalLevel: 0.594604,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.000488, 0.000000, 0.000000},
-          times:  {0.043220, 0.385842, 1.798650, 1.328147},
-        },
-        keyScaling: {
-          bp: 69,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth: -66,
-        }
-      },
-      { // OP4
-        fixedFreq:  false,
-        velScaling: 2,
-        kbdRateScaling: 5,
-        ams: 0,
-        freq:       1.003,
-        totalLevel: 1.000000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.162105, 0.000000, 0.000000},
-          times:  {0.043220, 4.544020, 8.555869, 0.664073},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP3
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 5,
-        ams: 0,
-        freq:       3.000,
-        totalLevel: 0.026278,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 1.000000, 1.000000, 0.000000},
-          times:  {0.043220, 0.001333, 6.049913, 20.032000},
-        },
-        keyScaling: {
-          bp: 68,
-          lcExp: false,
-          lDepth: 32,
-          rcExp: false,
-          rDepth: -74,
-        }
-      },
-      { // OP2
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 5,
-        ams: 0,
-        freq:       1.006,
-        totalLevel: 0.353553,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.125000, 0.000000, 0.000000},
-          times:  {0.005891, 20.032000, 6.049913, 20.032000},
-        },
-        keyScaling: {
-          bp: 21,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth: -13,
-        }
-      },
-      { // OP1
-        fixedFreq:  false,
-        velScaling: 2,
-        kbdRateScaling: 4,
-        ams: 0,
-        freq:       0.994,
-        totalLevel: 1.000000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.229251, 0.000000, 0.000000},
-          times:  {0.043220, 2.836506, 10.625173, 0.469571},
-        },
-        keyScaling: {
-          bp: 21,
-          lcExp: false,
-          lDepth: 85,
-          rcExp: false,
-          rDepth:  0,
-        }
-      }
-    }
-  },
-  { // Program: 9
-    name: "PIANO   2",
-    algorithm: 18,
-    feedback:   7,
-    lfoPmDepth: 0.000000,
-    lfoAmDepth: 0.000000,
-    lfo: {
-      waveform: 0, // TRIANGL
-      delay:   54,
-      deltaPhi: 0x00d895bf
-    },
-    pitchEnvelope: {
-      level0:  1.000000,
-      levels: {1.000000, 1.000000, 1.000000, 1.000000},
-      times:  {0.001333, 0.001333, 0.002594, 0.128018},
-    },
-    op: {
-      { // OP6
-        fixedFreq:  false,
-        velScaling: 1,
-        kbdRateScaling: 3,
-        ams: 0,
-        freq:       0.501,
-        totalLevel: 0.162105,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.000000, 0.000000, 0.000000},
-          times:  {0.012849, 0.133308, 0.158980, 1.798650},
-        },
-        keyScaling: {
-          bp: 57,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth: -98,
-        }
-      },
-      { // OP5
-        fixedFreq:  false,
-        velScaling: 1,
-        kbdRateScaling: 3,
-        ams: 0,
-        freq:       0.500,
-        totalLevel: 0.648420,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.000000, 0.000000, 0.000000},
-          times:  {0.015957, 0.133308, 2.543675, 3.158883},
-        },
-        keyScaling: {
-          bp: 48,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth: -26,
-        }
-      },
-      { // OP4
-        fixedFreq:  false,
-        velScaling: 1,
-        kbdRateScaling: 3,
-        ams: 0,
-        freq:       0.997,
-        totalLevel: 0.272627,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.324210, 0.012049, 0.000000},
-          times:  {0.007316, 1.746651, 20.032000, 6.049913},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP3
-        fixedFreq:  false,
-        velScaling: 1,
-        kbdRateScaling: 5,
-        ams: 0,
-        freq:       5.014,
-        totalLevel: 0.250000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.297302, 0.000000, 0.000000},
-          times:  {0.015957, 1.881009, 10.625173, 0.378120},
-        },
-        keyScaling: {
-          bp: 53,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth: -27,
-        }
-      },
-      { // OP2
-        fixedFreq:  false,
-        velScaling: 1,
-        kbdRateScaling: 2,
-        ams: 0,
-        freq:       1.006,
-        totalLevel: 0.324210,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.125000, 0.000000, 0.000000},
-          times:  {0.009086, 20.032000, 6.049913, 20.032000},
-        },
-        keyScaling: {
-          bp: 21,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth: -10,
-        }
-      },
-      { // OP1
-        fixedFreq:  false,
-        velScaling: 2,
-        kbdRateScaling: 3,
-        ams: 0,
-        freq:       1.000,
-        totalLevel: 0.648420,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.040526, 0.000000, 0.000000},
-          times:  {0.047132, 7.030392, 20.032000, 0.378120},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
+          rDepth: 14,
         }
       }
     }
   },
   { // Program: 10
-    name: "PIANO   3",
-    algorithm:  3,
-    feedback:   6,
-    lfoPmDepth: 0.000000,
+    name: "SYNBRASS 2",
+    algorithm: 22,
+    feedback:   8,
+    lfoPmDepth: 0.001736,
     lfoAmDepth: 0.000000,
     lfo: {
       waveform: 0, // TRIANGL
-      delay:   54,
-      deltaPhi: 0x014648a9
+      delay: 1282,
+      deltaPhi: 0x012757d7
     },
     pitchEnvelope: {
       level0:  1.000000,
       levels: {1.000000, 1.000000, 1.000000, 1.000000},
-      times:  {0.001333, 0.001333, 20.032000, 20.032000},
+      times:  {0.001333, 0.001333, 0.001682, 0.001682},
     },
     op: {
       { // OP6
         fixedFreq:  false,
-        velScaling: 5,
-        kbdRateScaling: 3,
+        velScaling: 0,
+        kbdRateScaling: 4,
         ams: 0,
-        freq:       0.503,
-        totalLevel: 0.272627,
+        freq:       1.000,
+        totalLevel: 0.385553,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.000896, 0.000000, 0.000000},
-          times:  {0.047132, 0.065562, 18.660482, 20.032000},
+          levels: {1.000000, 1.000000, 0.594604, 0.000000},
+          times:  {0.278420, 0.001333, 2.048282, 0.003221},
         },
         keyScaling: {
           bp: 60,
@@ -1288,35 +1288,35 @@
       },
       { // OP5
         fixedFreq:  false,
-        velScaling: 1,
-        kbdRateScaling: 2,
+        velScaling: 0,
+        kbdRateScaling: 4,
         ams: 0,
-        freq:       0.994,
-        totalLevel: 0.353553,
+        freq:       1.000,
+        totalLevel: 1.000000,
         envelope: {
           level0:  0.000000,
-          levels: {0.500000, 0.458502, 0.000000, 0.000000},
-          times:  {0.006020, 0.293036, 20.032000, 20.032000},
+          levels: {1.000000, 0.917004, 0.917004, 0.000000},
+          times:  {0.037952, 0.001333, 0.001682, 0.003221},
         },
         keyScaling: {
-          bp: 62,
+          bp: 60,
           lcExp: false,
           lDepth:  0,
           rcExp: false,
-          rDepth: -27,
+          rDepth:  0,
         }
       },
       { // OP4
         fixedFreq:  false,
-        velScaling: 2,
-        kbdRateScaling: 3,
+        velScaling: 0,
+        kbdRateScaling: 4,
         ams: 0,
-        freq:       1.010,
-        totalLevel: 0.707107,
+        freq:       1.000,
+        totalLevel: 1.000000,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.840896, 0.000000, 0.000000},
-          times:  {0.015957, 0.004385, 4.467335, 0.664073},
+          levels: {1.000000, 0.917004, 0.917004, 0.000000},
+          times:  {0.030561, 0.001333, 0.001682, 0.003221},
         },
         keyScaling: {
           bp: 60,
@@ -1328,55 +1328,55 @@
       },
       { // OP3
         fixedFreq:  false,
-        velScaling: 3,
-        kbdRateScaling: 3,
+        velScaling: 0,
+        kbdRateScaling: 4,
         ams: 0,
-        freq:       6.932,
-        totalLevel: 0.840896,
+        freq:       1.000,
+        totalLevel: 0.917004,
         envelope: {
           level0:  0.000000,
-          levels: {0.250000, 0.062500, 0.000000, 0.000000},
-          times:  {0.009043, 0.005938, 12.099826, 20.032000},
+          levels: {1.000000, 1.000000, 0.917004, 0.000000},
+          times:  {0.043220, 0.001333, 0.001682, 0.003221},
         },
         keyScaling: {
-          bp: 64,
+          bp: 60,
           lcExp: false,
-          lDepth:  9,
+          lDepth:  0,
           rcExp: false,
-          rDepth: -20,
+          rDepth:  0,
         }
       },
       { // OP2
         fixedFreq:  false,
         velScaling: 0,
-        kbdRateScaling: 2,
+        kbdRateScaling: 4,
         ams: 0,
-        freq:       1.013,
-        totalLevel: 0.297302,
+        freq:       0.512,
+        totalLevel: 0.545254,
         envelope: {
           level0:  0.000000,
-          levels: {0.500000, 0.458502, 0.000000, 0.000000},
-          times:  {0.006020, 0.049606, 20.032000, 2.773897},
+          levels: {1.000000, 1.000000, 0.272627, 0.000000},
+          times:  {0.691517, 0.001333, 0.378120, 0.003221},
         },
         keyScaling: {
-          bp: 71,
+          bp: 60,
           lcExp: false,
-          lDepth: 22,
+          lDepth:  0,
           rcExp: false,
-          rDepth: -50,
+          rDepth:  0,
         }
       },
       { // OP1
         fixedFreq:  false,
-        velScaling: 3,
-        kbdRateScaling: 3,
+        velScaling: 0,
+        kbdRateScaling: 4,
         ams: 0,
-        freq:       0.987,
-        totalLevel: 0.324210,
+        freq:       1.024,
+        totalLevel: 1.000000,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.707107, 0.000000, 0.000000},
-          times:  {0.015957, 0.396846, 4.467335, 0.664073},
+          levels: {1.000000, 1.000000, 0.917004, 0.000000},
+          times:  {0.043220, 0.001333, 0.001682, 0.003221},
         },
         keyScaling: {
           bp: 60,
@@ -1389,9 +1389,148 @@
     }
   },
   { // Program: 11
-    name: "E.PIANO 1",
-    algorithm:  5,
-    feedback:   8,
+    name: "SYNORGAN 1",
+    algorithm: 22,
+    feedback:   9,
+    lfoPmDepth: 0.000000,
+    lfoAmDepth: 0.000000,
+    lfo: {
+      waveform: 4, // SINE
+      delay:   54,
+      deltaPhi: 0x010b3717
+    },
+    pitchEnvelope: {
+      level0:  1.000000,
+      levels: {1.000000, 1.000000, 1.000000, 1.000000},
+      times:  {0.001333, 0.001333, 0.002594, 0.128018},
+    },
+    op: {
+      { // OP6
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:      20.000,
+        totalLevel: 0.250000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.004260, 0.002762, 0.000000},
+          times:  {0.005891, 0.301229, 0.664073, 0.038060},
+        },
+        keyScaling: {
+          bp: 48,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: true,
+          rDepth: -45,
+        }
+      },
+      { // OP5
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       4.000,
+        totalLevel: 0.917004,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 1.000000, 1.000000, 0.000000},
+          times:  {0.278420, 0.001333, 0.015324, 0.038060},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth: 14,
+        }
+      },
+      { // OP4
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       2.000,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 1.000000, 1.000000, 0.000000},
+          times:  {0.278420, 0.001333, 0.015324, 0.038060},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth: 14,
+        }
+      },
+      { // OP3
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       1.000,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 1.000000, 1.000000, 0.000000},
+          times:  {0.278420, 0.001333, 0.015324, 0.038060},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth: 14,
+        }
+      },
+      { // OP2
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       1.000,
+        totalLevel: 0.162105,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.024097, 0.024097, 0.000000},
+          times:  {0.005891, 1.113743, 0.279208, 0.038060},
+        },
+        keyScaling: {
+          bp: 48,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: true,
+          rDepth: -45,
+        }
+      },
+      { // OP1
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       3.000,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.385553, 0.771105, 0.000000},
+          times:  {0.005891, 0.006574, 0.001682, 0.038060},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth: 14,
+        }
+      }
+    }
+  },
+  { // Program: 12
+    name: "SYNORGAN 2",
+    algorithm:  3,
+    feedback:   6,
     lfoPmDepth: 0.000000,
     lfoAmDepth: 0.000000,
     lfo: {
@@ -1407,254 +1546,115 @@
     op: {
       { // OP6
         fixedFreq:  false,
-        velScaling: 6,
+        velScaling: 7,
         kbdRateScaling: 3,
         ams: 0,
-        freq:       1.024,
-        totalLevel: 0.176777,
+        freq:       0.997,
+        totalLevel: 0.125000,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.707107, 0.000000, 0.000000},
-          times:  {0.009086, 0.432764, 10.625173, 0.378120},
+          levels: {1.000000, 1.000000, 0.000000, 0.000000},
+          times:  {0.165550, 0.001333, 7.845766, 0.245180},
         },
         keyScaling: {
-          bp: 62,
+          bp: 60,
           lcExp: false,
           lDepth:  0,
           rcExp: false,
-          rDepth: -19,
+          rDepth:  0,
         }
       },
       { // OP5
+        fixedFreq:  false,
+        velScaling: 4,
+        kbdRateScaling: 3,
+        ams: 0,
+        freq:       0.500,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.272627,
+          levels: {1.000000, 1.000000, 0.000000, 0.272627},
+          times:  {0.019553, 0.001333, 8.555869, 0.245180},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP4
+        fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 3,
+        ams: 0,
+        freq:       0.500,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {0.000000, 0.707107, 0.458502, 0.000000},
+          times:  {0.001333, 0.140795, 3.597300, 0.072893},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP3
+        fixedFreq:  false,
+        velScaling: 7,
+        kbdRateScaling: 3,
+        ams: 0,
+        freq:       9.000,
+        totalLevel: 0.148651,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 1.000000, 0.000000, 0.000000},
+          times:  {20.032000, 0.001333, 6.049913, 0.245180},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP2
+        fixedFreq:  false,
+        velScaling: 3,
+        kbdRateScaling: 3,
+        ams: 0,
+        freq:       0.500,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 1.000000, 1.000000, 0.000000},
+          times:  {20.032000, 0.001333, 20.032000, 0.245180},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP1
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 3,
         ams: 0,
-        freq:       0.977,
-        totalLevel: 1.000000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.707107, 0.000000, 0.000000},
-          times:  {0.009086, 1.172146, 10.625173, 0.378120},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP4
-        fixedFreq:  false,
-        velScaling: 6,
-        kbdRateScaling: 3,
-        ams: 0,
-        freq:       1.000,
-        totalLevel: 0.420448,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.707107, 0.000000, 0.000000},
-          times:  {0.009086, 0.432764, 10.625173, 0.378120},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP3
-        fixedFreq:  false,
-        velScaling: 2,
-        kbdRateScaling: 3,
-        ams: 0,
-        freq:       1.000,
-        totalLevel: 1.000000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.707107, 0.000000, 0.000000},
-          times:  {0.009086, 1.172146, 10.625173, 0.378120},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP2
-        fixedFreq:  false,
-        velScaling: 7,
-        kbdRateScaling: 3,
-        ams: 0,
-        freq:      14.000,
-        totalLevel: 0.028656,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.125000, 0.000000, 0.000000},
-          times:  {0.009086, 0.250280, 2.048282, 0.017451},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP1
-        fixedFreq:  false,
-        velScaling: 2,
-        kbdRateScaling: 3,
-        ams: 0,
-        freq:       1.010,
-        totalLevel: 1.000000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.125000, 0.000000, 0.000000},
-          times:  {0.007979, 4.004478, 6.049913, 0.058696},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      }
-    }
-  },
-  { // Program: 12
-    name: "GUITAR  1",
-    algorithm:  8,
-    feedback:   9,
-    lfoPmDepth: 0.000651,
-    lfoAmDepth: 0.011719,
-    lfo: {
-      waveform: 4, // SINE
-      delay:   54,
-      deltaPhi: 0x00fd26b8
-    },
-    pitchEnvelope: {
-      level0:  1.000000,
-      levels: {1.000000, 1.000000, 1.000000, 1.000000},
-      times:  {0.001333, 0.001333, 0.023632, 0.128018},
-    },
-    op: {
-      { // OP6
-        fixedFreq:  false,
-        velScaling: 6,
-        kbdRateScaling: 0,
-        ams: 3,
-        freq:      12.000,
-        totalLevel: 0.026278,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.000000, 0.000000, 0.000000},
-          times:  {0.005891, 0.607239, 0.001682, 0.023632},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth: -53,
-          rcExp: false,
-          rDepth: -20,
-        }
-      },
-      { // OP5
-        fixedFreq:  false,
-        velScaling: 7,
-        kbdRateScaling: 4,
-        ams: 0,
-        freq:       3.000,
-        totalLevel: 1.000000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.545254, 0.000000, 0.000000},
-          times:  {0.043220, 0.001333, 8.555869, 0.023632},
-        },
-        keyScaling: {
-          bp: 21,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth: -15,
-        }
-      },
-      { // OP4
-        fixedFreq:  false,
-        velScaling: 4,
-        kbdRateScaling: 4,
-        ams: 0,
-        freq:       3.000,
-        totalLevel: 0.420448,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.545254, 0.000000, 0.000000},
-          times:  {0.043220, 0.001333, 8.555869, 0.023632},
-        },
-        keyScaling: {
-          bp: 21,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth: -14,
-        }
-      },
-      { // OP3
-        fixedFreq:  false,
-        velScaling: 7,
-        kbdRateScaling: 3,
-        ams: 0,
-        freq:       1.000,
-        totalLevel: 1.000000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.545254, 0.000000, 0.000000},
-          times:  {0.061122, 0.001333, 8.555869, 0.023632},
-        },
-        keyScaling: {
-          bp: 55,
-          lcExp: false,
-          lDepth: -9,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP2
-        fixedFreq:  false,
-        velScaling: 7,
-        kbdRateScaling: 2,
-        ams: 0,
-        freq:       3.000,
+        freq:       8.051,
         totalLevel: 0.594604,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.324210, 0.000000, 0.000000},
-          times:  {0.014012, 2.169093, 1.328147, 0.128018},
-        },
-        keyScaling: {
-          bp: 21,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth: -65,
-        }
-      },
-      { // OP1
-        fixedFreq:  false,
-        velScaling: 5,
-        kbdRateScaling: 4,
-        ams: 0,
-        freq:       1.000,
-        totalLevel: 1.000000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.707107, 0.000000, 0.000000},
-          times:  {0.094263, 0.001333, 4.871663, 0.041505},
+          levels: {0.000000, 0.707107, 0.458502, 0.000000},
+          times:  {0.001333, 0.140795, 2.233667, 0.072893},
         },
         keyScaling: {
           bp: 60,
@@ -1667,73 +1667,93 @@
     }
   },
   { // Program: 13
-    name: "GUITAR  2",
-    algorithm: 16,
-    feedback:   9,
-    lfoPmDepth: 0.000000,
-    lfoAmDepth: 0.000000,
+    name: "SYN-VOX",
+    algorithm: 25,
+    feedback:   8,
+    lfoPmDepth: 0.031250,
+    lfoAmDepth: 0.261719,
     lfo: {
       waveform: 0, // TRIANGL
-      delay:   54,
-      deltaPhi: 0x00fd26b8
+      delay:  320,
+      deltaPhi: 0x00e6a61f
     },
     pitchEnvelope: {
       level0:  1.000000,
-      levels: {1.000000, 1.000000, 1.000000, 1.000000},
-      times:  {0.001333, 0.001333, 0.002594, 0.128018},
+      levels: {0.978572, 0.983886, 1.000000, 1.000000},
+      times:  {0.047503, 0.025901, 0.001682, 0.001682},
     },
     op: {
       { // OP6
         fixedFreq:  false,
-        velScaling: 2,
-        kbdRateScaling: 0,
+        velScaling: 3,
+        kbdRateScaling: 2,
         ams: 0,
-        freq:       3.000,
-        totalLevel: 0.105112,
+        freq:       0.499,
+        totalLevel: 0.000000,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.771105, 0.125000, 0.000000},
-          times:  {0.005891, 0.062570, 20.032000, 0.038060},
+          levels: {1.000000, 0.000821, 0.000691, 0.000000},
+          times:  {0.005891, 19.349225, 7.845766, 2.773897},
         },
         keyScaling: {
-          bp: 81,
-          lcExp: false,
-          lDepth:  0,
+          bp: 60,
+          lcExp: true,
+          lDepth:  4,
           rcExp: false,
-          rDepth: -46,
+          rDepth: -14,
         }
       },
       { // OP5
         fixedFreq:  false,
-        velScaling: 7,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       0.500,
-        totalLevel: 0.297302,
+        velScaling: 2,
+        kbdRateScaling: 2,
+        ams: 3,
+        freq:       0.495,
+        totalLevel: 0.000000,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 1.000000, 0.136313, 0.000000},
-          times:  {0.005891, 0.001333, 20.032000, 20.032000},
+          levels: {1.000000, 0.000821, 0.000691, 0.000000},
+          times:  {0.005891, 19.349225, 7.845766, 2.773897},
         },
         keyScaling: {
           bp: 60,
-          lcExp: false,
-          lDepth:  0,
+          lcExp: true,
+          lDepth: 10,
           rcExp: false,
-          rDepth:  0,
+          rDepth: -14,
         }
       },
       { // OP4
         fixedFreq:  false,
         velScaling: 0,
-        kbdRateScaling: 0,
+        kbdRateScaling: 2,
         ams: 0,
-        freq:       0.500,
-        totalLevel: 0.081052,
+        freq:       1.000,
+        totalLevel: 0.000000,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.771105, 0.125000, 0.000000},
-          times:  {0.012849, 0.001333, 18.660482, 0.038060},
+          levels: {1.000000, 0.000821, 0.000691, 0.000000},
+          times:  {0.005891, 0.179767, 7.845766, 2.773897},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: true,
+          lDepth:  4,
+          rcExp: false,
+          rDepth: -14,
+        }
+      },
+      { // OP3
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       2.013,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {0.917004, 0.000000, 0.000000, 0.000000},
+          times:  {2.627939, 0.144229, 0.001682, 0.010836},
         },
         keyScaling: {
           bp: 60,
@@ -1743,37 +1763,17 @@
           rDepth:  0,
         }
       },
-      { // OP3
+      { // OP2
         fixedFreq:  false,
-        velScaling: 7,
+        velScaling: 0,
         kbdRateScaling: 0,
         ams: 0,
-        freq:       1.500,
+        freq:       2.026,
         totalLevel: 1.000000,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 1.000000, 1.000000, 0.000000},
-          times:  {0.005891, 0.001333, 0.001682, 0.038060},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth: -40,
-        }
-      },
-      { // OP2
-        fixedFreq:  false,
-        velScaling: 7,
-        kbdRateScaling: 1,
-        ams: 0,
-        freq:       1.000,
-        totalLevel: 0.353553,
-        envelope: {
-          level0:  1.000000,
-          levels: {1.000000, 1.000000, 1.000000, 1.000000},
-          times:  {0.001333, 0.001333, 0.001682, 0.939141},
+          levels: {0.052556, 0.000000, 1.000000, 0.000000},
+          times:  {1.703274, 1.561909, 0.072893, 0.058696},
         },
         keyScaling: {
           bp: 60,
@@ -1785,20 +1785,20 @@
       },
       { // OP1
         fixedFreq:  false,
-        velScaling: 2,
+        velScaling: 0,
         kbdRateScaling: 0,
         ams: 0,
-        freq:       3.000,
-        totalLevel: 0.324210,
+        freq:       1.953,
+        totalLevel: 1.000000,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 1.000000, 1.000000, 0.000000},
-          times:  {0.009086, 0.001333, 0.001682, 0.038060},
+          levels: {0.052556, 0.176777, 1.000000, 0.000000},
+          times:  {1.703274, 0.043405, 0.072893, 0.064009},
         },
         keyScaling: {
-          bp: 21,
+          bp: 60,
           lcExp: false,
-          lDepth: 82,
+          lDepth:  0,
           rcExp: false,
           rDepth:  0,
         }
@@ -1806,53 +1806,53 @@
     }
   },
   { // Program: 14
-    name: "SYN-LEAD 1",
-    algorithm: 18,
+    name: "SYN-ORCH",
+    algorithm: 25,
     feedback:   9,
-    lfoPmDepth: 0.000000,
-    lfoAmDepth: 2.828125,
+    lfoPmDepth: 0.010417,
+    lfoAmDepth: 0.000000,
     lfo: {
-      waveform: 4, // SINE
-      delay:  320,
-      deltaPhi: 0x010b3717
+      waveform: 0, // TRIANGL
+      delay:  367,
+      deltaPhi: 0x00ef1658
     },
     pitchEnvelope: {
       level0:  1.000000,
       levels: {1.000000, 1.000000, 1.000000, 1.000000},
-      times:  {0.001333, 0.001333, 20.032000, 20.032000},
+      times:  {0.001333, 0.001333, 0.001682, 0.001682},
     },
     op: {
       { // OP6
         fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 3,
+        velScaling: 1,
+        kbdRateScaling: 1,
         ams: 0,
-        freq:      17.000,
-        totalLevel: 0.011049,
+        freq:       2.000,
+        totalLevel: 0.125000,
         envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 1.000000, 0.840896, 0.000000},
-          times:  {0.005891, 0.001333, 0.128018, 20.032000},
+          level0:  0.707107,
+          levels: {1.000000, 1.000000, 1.000000, 0.707107},
+          times:  {0.001333, 0.001333, 0.001682, 0.664073},
         },
         keyScaling: {
-          bp: 53,
+          bp: 60,
           lcExp: false,
           lDepth:  0,
           rcExp: false,
-          rDepth: -21,
+          rDepth:  0,
         }
       },
       { // OP5
         fixedFreq:  false,
-        velScaling: 0,
+        velScaling: 1,
         kbdRateScaling: 1,
         ams: 0,
-        freq:       2.981,
-        totalLevel: 0.007812,
+        freq:       2.000,
+        totalLevel: 0.125000,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.052556, 0.034078, 0.000000},
-          times:  {0.005891, 0.001577, 0.002089, 20.032000},
+          levels: {1.000000, 1.000000, 1.000000, 0.000000},
+          times:  {1.872981, 0.001333, 0.001682, 0.664073},
         },
         keyScaling: {
           bp: 60,
@@ -1864,55 +1864,55 @@
       },
       { // OP4
         fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 6,
+        velScaling: 1,
+        kbdRateScaling: 1,
         ams: 0,
-        freq:       2.013,
-        totalLevel: 0.088388,
+        freq:       2.000,
+        totalLevel: 1.000000,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.458502, 0.000000, 0.000000},
-          times:  {0.005891, 0.001333, 4.467335, 0.128018},
+          levels: {1.000000, 1.000000, 0.458502, 0.000000},
+          times:  {1.066465, 0.001333, 5.547795, 1.166280},
         },
         keyScaling: {
-          bp: 69,
+          bp: 60,
           lcExp: false,
           lDepth:  0,
           rcExp: false,
-          rDepth: -60,
+          rDepth:  0,
         }
       },
       { // OP3
         fixedFreq:  false,
         velScaling: 0,
-        kbdRateScaling: 3,
+        kbdRateScaling: 1,
         ams: 0,
-        freq:       1.000,
-        totalLevel: 0.229251,
+        freq:       4.096,
+        totalLevel: 0.917004,
         envelope: {
           level0:  0.000000,
-          levels: {0.594604, 0.458502, 0.000000, 0.000000},
-          times:  {0.005613, 0.001333, 20.032000, 20.032000},
+          levels: {1.000000, 0.917004, 0.707107, 0.000000},
+          times:  {1.508209, 0.028245, 1.166280, 1.166280},
         },
         keyScaling: {
-          bp: 53,
+          bp: 60,
           lcExp: false,
           lDepth:  0,
           rcExp: false,
-          rDepth: -21,
+          rDepth:  0,
         }
       },
       { // OP2
         fixedFreq:  false,
         velScaling: 0,
-        kbdRateScaling: 3,
+        kbdRateScaling: 1,
         ams: 0,
-        freq:       0.997,
-        totalLevel: 0.088388,
+        freq:       2.048,
+        totalLevel: 0.917004,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.771105, 0.420448, 0.000000},
-          times:  {0.005891, 0.001333, 20.032000, 20.032000},
+          levels: {1.000000, 1.000000, 0.458502, 0.000000},
+          times:  {6.299933, 0.001333, 5.547795, 1.166280},
         },
         keyScaling: {
           bp: 60,
@@ -1927,12 +1927,12 @@
         velScaling: 0,
         kbdRateScaling: 1,
         ams: 0,
-        freq:       1.003,
+        freq:       0.977,
         totalLevel: 1.000000,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.707107, 0.707107, 0.000000},
-          times:  {0.005891, 10.678609, 20.032000, 0.041505},
+          levels: {1.000000, 0.917004, 0.707107, 0.000000},
+          times:  {6.299933, 0.028245, 1.166280, 1.166280},
         },
         keyScaling: {
           bp: 60,
@@ -1945,15 +1945,15 @@
     }
   },
   { // Program: 15
-    name: "BASS    1",
-    algorithm: 16,
+    name: "SYN-BASS 1",
+    algorithm:  3,
     feedback:   9,
     lfoPmDepth: 0.000000,
     lfoAmDepth: 0.000000,
     lfo: {
       waveform: 0, // TRIANGL
       delay:   54,
-      deltaPhi: 0x00fd26b8
+      deltaPhi: 0x010b3717
     },
     pitchEnvelope: {
       level0:  1.000000,
@@ -1963,15 +1963,15 @@
     op: {
       { // OP6
         fixedFreq:  false,
-        velScaling: 7,
-        kbdRateScaling: 1,
+        velScaling: 0,
+        kbdRateScaling: 0,
         ams: 0,
-        freq:       9.000,
-        totalLevel: 0.297302,
+        freq:       1.024,
+        totalLevel: 0.125000,
         envelope: {
           level0:  0.000000,
-          levels: {0.594604, 0.002130, 0.000000, 0.000000},
-          times:  {0.009858, 0.353926, 6.889572, 0.224831},
+          levels: {1.000000, 0.096388, 0.096388, 0.000000},
+          times:  {0.393746, 1.078510, 6.049913, 2.773897},
         },
         keyScaling: {
           bp: 60,
@@ -1983,35 +1983,35 @@
       },
       { // OP5
         fixedFreq:  false,
-        velScaling: 3,
-        kbdRateScaling: 7,
+        velScaling: 0,
+        kbdRateScaling: 0,
         ams: 0,
-        freq:       0.500,
-        totalLevel: 0.040526,
+        freq:       1.024,
+        totalLevel: 0.162105,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.000000, 0.000000, 0.000000},
-          times:  {0.005891, 20.032000, 20.032000, 20.032000},
+          levels: {1.000000, 0.088388, 0.048194, 0.000000},
+          times:  {0.005891, 1.025627, 6.049913, 0.038060},
         },
         keyScaling: {
-          bp: 73,
+          bp: 60,
           lcExp: false,
-          lDepth: -75,
+          lDepth:  0,
           rcExp: false,
           rDepth:  0,
         }
       },
       { // OP4
         fixedFreq:  false,
-        velScaling: 5,
-        kbdRateScaling: 5,
+        velScaling: 0,
+        kbdRateScaling: 0,
         ams: 0,
-        freq:       5.000,
-        totalLevel: 0.594604,
+        freq:       1.024,
+        totalLevel: 1.000000,
         envelope: {
           level0:  0.000000,
-          levels: {0.458502, 0.002533, 0.000000, 0.000000},
-          times:  {0.014826, 1.554060, 20.032000, 0.224831},
+          levels: {1.000000, 0.385553, 0.771105, 0.000000},
+          times:  {0.005891, 0.006574, 0.001682, 0.001682},
         },
         keyScaling: {
           bp: 60,
@@ -2023,15 +2023,15 @@
       },
       { // OP3
         fixedFreq:  false,
-        velScaling: 3,
-        kbdRateScaling: 6,
+        velScaling: 0,
+        kbdRateScaling: 0,
         ams: 0,
-        freq:       0.500,
-        totalLevel: 1.000000,
+        freq:       1.000,
+        totalLevel: 0.250000,
         envelope: {
           level0:  0.000000,
-          levels: {0.176777, 0.052556, 0.000000, 0.000000},
-          times:  {0.016696, 0.001333, 2.773897, 3.597300},
+          levels: {1.000000, 0.088388, 0.048194, 0.000000},
+          times:  {0.005891, 1.025627, 6.049913, 2.048282},
         },
         keyScaling: {
           bp: 60,
@@ -2044,14 +2044,14 @@
       { // OP2
         fixedFreq:  false,
         velScaling: 0,
-        kbdRateScaling: 7,
+        kbdRateScaling: 0,
         ams: 0,
-        freq:       0.500,
-        totalLevel: 0.192776,
+        freq:       1.000,
+        totalLevel: 0.136313,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.000000, 0.000000, 0.000000},
-          times:  {0.005891, 20.032000, 20.032000, 20.032000},
+          levels: {1.000000, 0.096388, 0.096388, 0.000000},
+          times:  {0.393746, 1.078510, 6.049913, 0.534742},
         },
         keyScaling: {
           bp: 60,
@@ -2064,35 +2064,35 @@
       { // OP1
         fixedFreq:  false,
         velScaling: 0,
-        kbdRateScaling: 7,
+        kbdRateScaling: 0,
         ams: 0,
-        freq:       0.500,
+        freq:       2.000,
         totalLevel: 1.000000,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.707107, 0.003012, 0.000000},
-          times:  {0.009086, 0.011372, 15.026263, 0.158980},
+          levels: {1.000000, 0.385553, 0.771105, 0.000000},
+          times:  {0.005891, 0.006574, 0.001682, 0.001682},
         },
         keyScaling: {
-          bp: 57,
+          bp: 60,
           lcExp: false,
-          lDepth: 57,
+          lDepth:  0,
           rcExp: false,
-          rDepth: -14,
+          rDepth:  0,
         }
       }
     }
   },
   { // Program: 16
-    name: "BASS    2",
-    algorithm: 17,
-    feedback:   9,
+    name: "SYN-BASS 2",
+    algorithm:  9,
+    feedback:   8,
     lfoPmDepth: 0.000000,
     lfoAmDepth: 0.000000,
     lfo: {
       waveform: 4, // SINE
-      delay:  222,
-      deltaPhi: 0x00de35e6
+      delay:   54,
+      deltaPhi: 0x010b3717
     },
     pitchEnvelope: {
       level0:  1.000000,
@@ -2102,15 +2102,154 @@
     op: {
       { // OP6
         fixedFreq:  false,
-        velScaling: 7,
-        kbdRateScaling: 3,
+        velScaling: 0,
+        kbdRateScaling: 0,
         ams: 0,
-        freq:       0.501,
-        totalLevel: 0.353553,
+        freq:       0.500,
+        totalLevel: 0.192776,
         envelope: {
           level0:  0.000000,
-          levels: {0.771105, 0.840896, 0.000000, 0.000000},
-          times:  {20.032000, 0.010428, 6.889572, 0.224831},
+          levels: {1.000000, 0.917004, 0.081052, 0.000000},
+          times:  {0.005891, 0.036630, 2.773897, 0.038060},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth: -59,
+        }
+      },
+      { // OP5
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       0.501,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.917004, 0.081052, 0.000000},
+          times:  {0.005891, 0.036630, 2.773897, 0.038060},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP4
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       0.497,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.917004, 0.081052, 0.000000},
+          times:  {0.005891, 0.036630, 2.773897, 0.038060},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP3
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       0.990,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.917004, 0.081052, 0.000000},
+          times:  {0.005891, 0.036630, 2.773897, 0.038060},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP2
+        fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       0.512,
+        totalLevel: 0.420448,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.917004, 0.081052, 0.000000},
+          times:  {0.005891, 0.036630, 2.773897, 0.608958},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP1
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       2.048,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.917004, 0.081052, 0.000000},
+          times:  {0.005891, 0.166853, 6.049913, 0.112416},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      }
+    }
+  },
+  { // Program: 17
+    name: "HARP-FLUTE",
+    algorithm:  3,
+    feedback:   9,
+    lfoPmDepth: 0.000000,
+    lfoAmDepth: 0.246094,
+    lfo: {
+      waveform: 4, // SINE
+      delay:   54,
+      deltaPhi: 0x0121b7b0
+    },
+    pitchEnvelope: {
+      level0:  1.000000,
+      levels: {1.000000, 1.000000, 1.000000, 1.000000},
+      times:  {0.001333, 0.001333, 0.002594, 0.128018},
+    },
+    op: {
+      { // OP6
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 3,
+        ams: 1,
+        freq:       9.000,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.004645, 0.001065, 0.000000},
+          times:  {0.007316, 0.021099, 0.378120, 0.224831},
         },
         keyScaling: {
           bp: 60,
@@ -2122,35 +2261,35 @@
       },
       { // OP5
         fixedFreq:  false,
-        velScaling: 2,
-        kbdRateScaling: 4,
+        velScaling: 0,
+        kbdRateScaling: 3,
         ams: 0,
-        freq:       1.010,
-        totalLevel: 0.125000,
+        freq:       1.000,
+        totalLevel: 0.148651,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.114626, 0.000000, 0.000000},
-          times:  {0.005891, 0.239071, 20.032000, 20.032000},
+          levels: {1.000000, 0.917004, 0.771105, 0.000000},
+          times:  {4.085001, 0.414416, 0.378120, 0.224831},
         },
         keyScaling: {
-          bp: 55,
+          bp: 71,
           lcExp: false,
           lDepth:  0,
           rcExp: false,
-          rDepth: -32,
+          rDepth: -47,
         }
       },
       { // OP4
         fixedFreq:  false,
-        velScaling: 2,
+        velScaling: 1,
         kbdRateScaling: 3,
         ams: 0,
-        freq:       0.500,
-        totalLevel: 1.000000,
+        freq:       0.977,
+        totalLevel: 0.594604,
         envelope: {
           level0:  0.000000,
-          levels: {0.594604, 0.026278, 0.000000, 0.000000},
-          times:  {0.044905, 1.318664, 4.467335, 0.279208},
+          levels: {1.000000, 0.917004, 0.771105, 0.000000},
+          times:  {6.299933, 0.414416, 0.378120, 0.224831},
         },
         keyScaling: {
           bp: 60,
@@ -2165,12 +2304,12 @@
         velScaling: 3,
         kbdRateScaling: 3,
         ams: 0,
-        freq:       1.024,
-        totalLevel: 0.068157,
+        freq:       3.000,
+        totalLevel: 0.385553,
         envelope: {
           level0:  0.000000,
-          levels: {0.840896, 0.162105, 0.000000, 0.000000},
-          times:  {0.101176, 3.170212, 2.773897, 3.597300},
+          levels: {1.000000, 0.013139, 0.000000, 0.000000},
+          times:  {0.009086, 0.521416, 0.001682, 2.048282},
         },
         keyScaling: {
           bp: 60,
@@ -2181,75 +2320,16 @@
         }
       },
       { // OP2
-        fixedFreq:  false,
-        velScaling: 2,
-        kbdRateScaling: 1,
-        ams: 0,
-        freq:       0.515,
-        totalLevel: 0.192776,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.000000, 0.000000, 0.000000},
-          times:  {15.647243, 5.777064, 0.939141, 0.378120},
-        },
-        keyScaling: {
-          bp: 62,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth: -35,
-        }
-      },
-      { // OP1
         fixedFreq:  false,
         velScaling: 2,
         kbdRateScaling: 3,
         ams: 0,
-        freq:       0.505,
-        totalLevel: 1.000000,
+        freq:       2.000,
+        totalLevel: 0.057313,
         envelope: {
           level0:  0.000000,
           levels: {1.000000, 0.081052, 0.000000, 0.000000},
-          times:  {0.082775, 1.319172, 13.194954, 0.090522},
-        },
-        keyScaling: {
-          bp: 69,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth: -32,
-        }
-      }
-    }
-  },
-  { // Program: 17
-    name: "E.ORGAN 1",
-    algorithm: 32,
-    feedback:   0,
-    lfoPmDepth: 0.000000,
-    lfoAmDepth: 0.000000,
-    lfo: {
-      waveform: 0, // TRIANGL
-      delay:   54,
-      deltaPhi: 0x00fd26b8
-    },
-    pitchEnvelope: {
-      level0:  1.000000,
-      levels: {1.000000, 1.000000, 1.000000, 1.000000},
-      times:  {0.001333, 0.001333, 0.023632, 0.128018},
-    },
-    op: {
-      { // OP6
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       3.000,
-        totalLevel: 0.648420,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.000000, 0.000000, 0.000000},
-          times:  {0.005891, 0.858766, 8.555869, 0.004556},
+          times:  {0.009086, 0.751129, 0.001682, 4.467335},
         },
         keyScaling: {
           bp: 60,
@@ -2257,99 +2337,19 @@
           lDepth:  0,
           rcExp: false,
           rDepth:  0,
-        }
-      },
-      { // OP5
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       1.006,
-        totalLevel: 0.648420,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 1.000000, 1.000000, 0.000000},
-          times:  {0.005891, 0.001333, 8.555869, 0.004556},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP4
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       0.508,
-        totalLevel: 0.648420,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 1.000000, 1.000000, 0.000000},
-          times:  {0.005891, 0.001333, 8.555869, 0.004556},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP3
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       1.520,
-        totalLevel: 0.648420,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 1.000000, 1.000000, 0.000000},
-          times:  {0.005891, 0.001333, 0.245180, 0.010836},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP2
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       0.990,
-        totalLevel: 0.648420,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 1.000000, 0.840896, 0.000000},
-          times:  {0.005891, 0.001333, 8.555869, 0.004556},
-        },
-        keyScaling: {
-          bp: 21,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth: -10,
         }
       },
       { // OP1
         fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 0,
+        velScaling: 3,
+        kbdRateScaling: 3,
         ams: 0,
-        freq:       0.497,
-        totalLevel: 0.648420,
+        freq:       1.024,
+        totalLevel: 1.000000,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 1.000000, 1.000000, 0.000000},
-          times:  {0.005891, 0.001333, 8.555869, 0.004556},
+          levels: {1.000000, 0.081052, 0.000000, 0.000000},
+          times:  {0.009086, 1.638224, 3.597300, 2.543675},
         },
         keyScaling: {
           bp: 60,
@@ -2362,8 +2362,147 @@
     }
   },
   { // Program: 18
-    name: "PIPES   1",
-    algorithm: 19,
+    name: "BELL-FLUTE",
+    algorithm:  5,
+    feedback:   0,
+    lfoPmDepth: 0.000868,
+    lfoAmDepth: 0.000000,
+    lfo: {
+      waveform: 4, // SINE
+      delay:  844,
+      deltaPhi: 0x00fd26b8
+    },
+    pitchEnvelope: {
+      level0:  1.000000,
+      levels: {1.000000, 1.000000, 1.000000, 1.000000},
+      times:  {0.001333, 0.001333, 0.002594, 0.128018},
+    },
+    op: {
+      { // OP6
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       8.107,
+        totalLevel: 0.136313,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.028656, 0.000000, 0.000000},
+          times:  {0.028025, 11.017339, 6.049913, 0.664073},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP5
+        fixedFreq:  false,
+        velScaling: 3,
+        kbdRateScaling: 1,
+        ams: 0,
+        freq:       1.000,
+        totalLevel: 0.545254,
+        envelope: {
+          level0:  0.000000,
+          levels: {0.000000, 0.917004, 0.000000, 0.000000},
+          times:  {0.001333, 0.005845, 1.649369, 0.664073},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP4
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       5.962,
+        totalLevel: 0.136313,
+        envelope: {
+          level0:  0.000000,
+          levels: {0.545254, 0.028656, 0.000000, 0.000000},
+          times:  {0.026480, 9.136330, 6.049913, 0.664073},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP3
+        fixedFreq:  false,
+        velScaling: 3,
+        kbdRateScaling: 1,
+        ams: 0,
+        freq:       1.024,
+        totalLevel: 0.840896,
+        envelope: {
+          level0:  0.000000,
+          levels: {0.000000, 1.000000, 0.000000, 0.000000},
+          times:  {0.001333, 0.005891, 1.649369, 0.664073},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP2
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       1.006,
+        totalLevel: 0.105112,
+        envelope: {
+          level0:  0.000000,
+          levels: {0.105112, 0.707107, 0.105112, 0.000000},
+          times:  {1.696267, 0.805850, 6.049913, 1.448354},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP1
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       0.977,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.028656, 0.000000, 0.000000},
+          times:  {0.858766, 5.051472, 1.328147, 0.608958},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      }
+    }
+  },
+  { // Program: 19
+    name: "E.P-BRS BC",
+    algorithm:  5,
     feedback:   9,
     lfoPmDepth: 0.000000,
     lfoAmDepth: 0.000000,
@@ -2380,35 +2519,35 @@
     op: {
       { // OP6
         fixedFreq:  false,
-        velScaling: 2,
-        kbdRateScaling: 3,
-        ams: 0,
-        freq:      10.000,
-        totalLevel: 0.136313,
+        velScaling: 0,
+        kbdRateScaling: 2,
+        ams: 2,
+        freq:       1.000,
+        totalLevel: 0.162105,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 1.000000, 1.000000, 0.000000},
-          times:  {0.117061, 0.001333, 6.049913, 0.041505},
+          levels: {1.000000, 1.000000, 0.917004, 0.000000},
+          times:  {0.015957, 0.001333, 6.049913, 0.245180},
         },
         keyScaling: {
-          bp: 67,
+          bp: 60,
           lcExp: false,
-          lDepth: -10,
+          lDepth:  0,
           rcExp: false,
-          rDepth:  1,
+          rDepth:  0,
         }
       },
       { // OP5
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 3,
-        ams: 0,
-        freq:       2.000,
-        totalLevel: 0.840896,
+        ams: 3,
+        freq:       1.000,
+        totalLevel: 1.000000,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 1.000000, 0.594604, 0.000000},
-          times:  {0.393746, 0.001333, 6.049913, 0.112416},
+          levels: {1.000000, 1.000000, 1.000000, 0.000000},
+          times:  {0.117061, 0.001333, 10.625173, 0.173369},
         },
         keyScaling: {
           bp: 60,
@@ -2420,55 +2559,15 @@
       },
       { // OP4
         fixedFreq:  false,
-        velScaling: 0,
+        velScaling: 4,
         kbdRateScaling: 3,
         ams: 0,
-        freq:       4.000,
-        totalLevel: 0.385553,
+        freq:      14.000,
+        totalLevel: 0.007164,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 1.000000, 0.840896, 0.000000},
-          times:  {0.393746, 0.001333, 6.049913, 0.378120},
-        },
-        keyScaling: {
-          bp: 81,
-          lcExp: false,
-          lDepth: -10,
-          rcExp: false,
-          rDepth: -10,
-        }
-      },
-      { // OP3
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 5,
-        ams: 0,
-        freq:       1.000,
-        totalLevel: 0.125000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 1.000000, 0.458502, 0.000000},
-          times:  {0.005891, 0.001333, 0.103086, 0.534742},
-        },
-        keyScaling: {
-          bp: 67,
-          lcExp: false,
-          lDepth: 17,
-          rcExp: false,
-          rDepth: -40,
-        }
-      },
-      { // OP2
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 4,
-        ams: 0,
-        freq:       0.500,
-        totalLevel: 0.458502,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 1.000000, 0.458502, 0.000000},
-          times:  {0.005891, 0.001333, 0.103086, 0.534742},
+          levels: {1.000000, 0.210224, 0.000000, 0.000000},
+          times:  {0.007316, 0.508414, 20.032000, 0.245180},
         },
         keyScaling: {
           bp: 60,
@@ -2478,136 +2577,37 @@
           rDepth:  0,
         }
       },
-      { // OP1
+      { // OP3
         fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 5,
+        velScaling: 2,
+        kbdRateScaling: 3,
         ams: 0,
-        freq:       0.500,
-        totalLevel: 1.000000,
+        freq:       1.024,
+        totalLevel: 0.648420,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 1.000000, 0.917004, 0.000000},
-          times:  {2.325977, 0.001333, 6.049913, 1.798650},
+          levels: {1.000000, 0.192776, 0.000000, 0.000000},
+          times:  {0.009086, 2.552798, 10.625173, 0.245180},
         },
         keyScaling: {
-          bp: 62,
+          bp: 57,
           lcExp: false,
-          lDepth:  0,
+          lDepth: -36,
           rcExp: false,
-          rDepth: -50,
-        }
-      }
-    }
-  },
-  { // Program: 19
-    name: "HARPSICH 1",
-    algorithm:  5,
-    feedback:   3,
-    lfoPmDepth: 0.000000,
-    lfoAmDepth: 0.000000,
-    lfo: {
-      waveform: 0, // TRIANGL
-      delay:   54,
-      deltaPhi: 0x00fd26b8
-    },
-    pitchEnvelope: {
-      level0:  1.000000,
-      levels: {1.000000, 1.000000, 1.000000, 1.000000},
-      times:  {0.001333, 0.001333, 20.032000, 20.032000},
-    },
-    op: {
-      { // OP6
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 1,
-        ams: 0,
-        freq:       6.000,
-        totalLevel: 0.353553,
-        envelope: {
-          level0:  0.917004,
-          levels: {1.000000, 0.840896, 0.500000, 0.917004},
-          times:  {0.001333, 0.001843, 0.038060, 0.001682},
-        },
-        keyScaling: {
-          bp: 85,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth: -55,
+          rDepth:  0,
         }
       },
-      { // OP5
+      { // OP2
         fixedFreq:  false,
         velScaling: 3,
         kbdRateScaling: 3,
         ams: 0,
-        freq:       3.988,
-        totalLevel: 0.250000,
+        freq:       1.000,
+        totalLevel: 0.136313,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.458502, 0.000000, 0.000000},
-          times:  {0.009086, 1.108860, 4.871663, 0.534742},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP4
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 1,
-        ams: 0,
-        freq:       3.000,
-        totalLevel: 1.000000,
-        envelope: {
-          level0:  0.917004,
-          levels: {1.000000, 0.840896, 0.500000, 0.917004},
-          times:  {0.001333, 0.001843, 0.038060, 0.001682},
-        },
-        keyScaling: {
-          bp: 85,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth: -46,
-        }
-      },
-      { // OP3
-        fixedFreq:  false,
-        velScaling: 2,
-        kbdRateScaling: 3,
-        ams: 0,
-        freq:       0.997,
-        totalLevel: 0.297302,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.458502, 0.000000, 0.000000},
-          times:  {0.009086, 1.108860, 4.871663, 0.534742},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP2
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 1,
-        ams: 0,
-        freq:       0.500,
-        totalLevel: 1.000000,
-        envelope: {
-          level0:  0.917004,
-          levels: {1.000000, 0.840896, 0.500000, 0.917004},
-          times:  {0.001333, 0.001843, 0.038060, 0.001682},
+          levels: {1.000000, 0.125000, 0.000000, 0.000000},
+          times:  {0.009086, 20.032000, 6.049913, 0.245180},
         },
         keyScaling: {
           bp: 60,
@@ -2622,12 +2622,12 @@
         velScaling: 2,
         kbdRateScaling: 3,
         ams: 0,
-        freq:       4.000,
-        totalLevel: 0.420448,
+        freq:       1.000,
+        totalLevel: 0.707107,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.458502, 0.000000, 0.000000},
-          times:  {0.009086, 1.108860, 4.871663, 0.534742},
+          levels: {1.000000, 0.125000, 0.000000, 0.000000},
+          times:  {0.007979, 5.193166, 6.049913, 0.245180},
         },
         keyScaling: {
           bp: 60,
@@ -2640,292 +2640,14 @@
     }
   },
   { // Program: 20
-    name: "CLAV    1",
-    algorithm:  3,
+    name: "T.BL-EXPA",
+    algorithm:  5,
     feedback:   7,
     lfoPmDepth: 0.000000,
     lfoAmDepth: 0.000000,
     lfo: {
       waveform: 4, // SINE
-      delay:   54,
-      deltaPhi: 0x00d895bf
-    },
-    pitchEnvelope: {
-      level0:  1.000000,
-      levels: {1.000000, 1.000000, 1.000000, 1.000000},
-      times:  {0.001333, 0.001333, 20.032000, 20.032000},
-    },
-    op: {
-      { // OP6
-        fixedFreq:  false,
-        velScaling: 7,
-        kbdRateScaling: 3,
-        ams: 0,
-        freq:       8.000,
-        totalLevel: 0.162105,
-        envelope: {
-          level0:  0.000000,
-          levels: {0.353553, 0.324210, 0.000000, 0.000000},
-          times:  {0.005818, 0.001333, 20.032000, 20.032000},
-        },
-        keyScaling: {
-          bp: 53,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth: -21,
-        }
-      },
-      { // OP5
-        fixedFreq:  false,
-        velScaling: 6,
-        kbdRateScaling: 3,
-        ams: 0,
-        freq:       0.497,
-        totalLevel: 1.000000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.771105, 0.420448, 0.000000},
-          times:  {0.009086, 0.001333, 20.032000, 20.032000},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP4
-        fixedFreq:  false,
-        velScaling: 2,
-        kbdRateScaling: 3,
-        ams: 0,
-        freq:       2.000,
-        totalLevel: 1.000000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.458502, 0.000000, 0.000000},
-          times:  {0.009086, 0.001333, 4.467335, 0.128018},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP3
-        fixedFreq:  false,
-        velScaling: 1,
-        kbdRateScaling: 3,
-        ams: 0,
-        freq:       6.000,
-        totalLevel: 0.088388,
-        envelope: {
-          level0:  0.000000,
-          levels: {0.353553, 0.324210, 0.000000, 0.000000},
-          times:  {0.005818, 0.001333, 20.032000, 20.032000},
-        },
-        keyScaling: {
-          bp: 53,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth: -21,
-        }
-      },
-      { // OP2
-        fixedFreq:  false,
-        velScaling: 1,
-        kbdRateScaling: 3,
-        ams: 0,
-        freq:       0.499,
-        totalLevel: 1.000000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.771105, 0.420448, 0.000000},
-          times:  {0.009086, 0.001333, 20.032000, 20.032000},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP1
-        fixedFreq:  false,
-        velScaling: 3,
-        kbdRateScaling: 3,
-        ams: 0,
-        freq:       0.501,
-        totalLevel: 1.000000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.458502, 0.000000, 0.000000},
-          times:  {0.009086, 0.001333, 4.467335, 0.128018},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      }
-    }
-  },
-  { // Program: 21
-    name: "VIBE    1",
-    algorithm: 23,
-    feedback:   7,
-    lfoPmDepth: 0.000000,
-    lfoAmDepth: 0.000000,
-    lfo: {
-      waveform: 0, // TRIANGL
-      delay:   54,
-      deltaPhi: 0x00bc7500
-    },
-    pitchEnvelope: {
-      level0:  1.000000,
-      levels: {1.000000, 1.000000, 1.000000, 1.000000},
-      times:  {0.001333, 0.001333, 0.023632, 0.128018},
-    },
-    op: {
-      { // OP6
-        fixedFreq:  false,
-        velScaling: 7,
-        kbdRateScaling: 5,
-        ams: 0,
-        freq:      14.000,
-        totalLevel: 0.026278,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.003012, 0.000000, 0.000000},
-          times:  {0.005891, 0.867684, 0.001682, 0.378120},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth: -12,
-          rcExp: false,
-          rDepth: 12,
-        }
-      },
-      { // OP5
-        fixedFreq:  false,
-        velScaling: 5,
-        kbdRateScaling: 3,
-        ams: 0,
-        freq:       1.024,
-        totalLevel: 1.000000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.458502, 0.007164, 0.000000},
-          times:  {0.047132, 0.001986, 6.889572, 0.378120},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP4
-        fixedFreq:  false,
-        velScaling: 1,
-        kbdRateScaling: 3,
-        ams: 0,
-        freq:       0.977,
-        totalLevel: 1.000000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.458502, 0.000000, 0.000000},
-          times:  {0.047132, 0.001986, 6.889572, 0.378120},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP3
-        fixedFreq:  false,
-        velScaling: 4,
-        kbdRateScaling: 4,
-        ams: 0,
-        freq:       3.000,
-        totalLevel: 0.096388,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.114626, 0.000000, 0.000000},
-          times:  {0.047132, 0.005517, 0.824685, 0.378120},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth: -12,
-          rcExp: false,
-          rDepth: 12,
-        }
-      },
-      { // OP2
-        fixedFreq:  false,
-        velScaling: 1,
-        kbdRateScaling: 2,
-        ams: 0,
-        freq:       1.000,
-        totalLevel: 1.000000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.458502, 0.000000, 0.000000},
-          times:  {0.047132, 0.001986, 6.889572, 0.378120},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth: -4,
-          rcExp: false,
-          rDepth: 12,
-        }
-      },
-      { // OP1
-        fixedFreq:  false,
-        velScaling: 7,
-        kbdRateScaling: 2,
-        ams: 0,
-        freq:       4.000,
-        totalLevel: 0.014328,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.001642, 0.000000, 0.000000},
-          times:  {0.005891, 9.117291, 0.001682, 0.378120},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth: -12,
-          rcExp: false,
-          rDepth: 12,
-        }
-      }
-    }
-  },
-  { // Program: 22
-    name: "MARIMBA",
-    algorithm:  7,
-    feedback:   0,
-    lfoPmDepth: 0.000000,
-    lfoAmDepth: 0.000000,
-    lfo: {
-      waveform: 0, // TRIANGL
-      delay:   54,
+      delay:  574,
       deltaPhi: 0x00fd26b8
     },
     pitchEnvelope: {
@@ -2936,293 +2658,15 @@
     op: {
       { // OP6
         fixedFreq:  false,
-        velScaling: 2,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       4.520,
-        totalLevel: 1.000000,
-        envelope: {
-          level0:  0.000000,
-          levels: {0.162105, 0.162105, 0.000000, 0.000000},
-          times:  {20.032000, 0.001333, 0.224831, 20.032000},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP5
-        fixedFreq:  false,
-        velScaling: 2,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       0.750,
-        totalLevel: 0.594604,
-        envelope: {
-          level0:  0.000000,
-          levels: {0.229251, 0.012049, 0.000000, 0.000000},
-          times:  {0.005103, 0.022160, 20.032000, 20.032000},
-        },
-        keyScaling: {
-          bp: 75,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth: -46,
-        }
-      },
-      { // OP4
-        fixedFreq:  false,
-        velScaling: 2,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       5.000,
-        totalLevel: 0.297302,
-        envelope: {
-          level0:  0.000000,
-          levels: {0.229251, 0.012049, 0.000000, 0.000000},
-          times:  {0.005103, 0.022160, 20.032000, 0.010836},
-        },
-        keyScaling: {
-          bp: 75,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth: -46,
-        }
-      },
-      { // OP3
-        fixedFreq:  false,
-        velScaling: 1,
-        kbdRateScaling: 3,
-        ams: 0,
-        freq:       0.500,
-        totalLevel: 1.000000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.545254, 0.000000, 0.000000},
-          times:  {0.009086, 0.491072, 0.430598, 1.024141},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP2
-        fixedFreq:  false,
-        velScaling: 2,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       3.000,
-        totalLevel: 0.771105,
-        envelope: {
-          level0:  0.000000,
-          levels: {0.229251, 0.012049, 0.000000, 0.000000},
-          times:  {0.005103, 0.031339, 20.032000, 20.032000},
-        },
-        keyScaling: {
-          bp: 75,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth: -46,
-        }
-      },
-      { // OP1
-        fixedFreq:  false,
         velScaling: 0,
-        kbdRateScaling: 3,
+        kbdRateScaling: 2,
         ams: 0,
-        freq:       0.500,
-        totalLevel: 0.707107,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.545254, 0.000000, 0.000000},
-          times:  {0.009086, 0.225158, 0.430598, 0.224831},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      }
-    }
-  },
-  { // Program: 23
-    name: "KOTO",
-    algorithm:  2,
-    feedback:   9,
-    lfoPmDepth: 0.024306,
-    lfoAmDepth: 0.058594,
-    lfo: {
-      waveform: 4, // SINE
-      delay:  297,
-      deltaPhi: 0x00d895bf
-    },
-    pitchEnvelope: {
-      level0:  1.000000,
-      levels: {0.994599, 1.000000, 1.000000, 1.000000},
-      times:  {0.001333, 0.001333, 0.023632, 20.032000},
-    },
-    op: {
-      { // OP6
-        fixedFreq:  false,
-        velScaling: 1,
-        kbdRateScaling: 6,
-        ams: 0,
-        freq:       3.000,
-        totalLevel: 0.210224,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.210224, 0.000000, 0.000000},
-          times:  {0.037952, 0.138607, 1.649369, 0.469571},
-        },
-        keyScaling: {
-          bp: 21,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth: -5,
-        }
-      },
-      { // OP5
-        fixedFreq:  false,
-        velScaling: 1,
-        kbdRateScaling: 6,
-        ams: 0,
-        freq:       4.000,
-        totalLevel: 0.250000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.458502, 0.000000, 0.000000},
-          times:  {0.014012, 0.409398, 3.922883, 3.922883},
-        },
-        keyScaling: {
-          bp: 21,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth: -5,
-        }
-      },
-      { // OP4
-        fixedFreq:  false,
-        velScaling: 1,
-        kbdRateScaling: 6,
-        ams: 0,
-        freq:       1.000,
-        totalLevel: 0.229251,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.136313, 0.000000, 0.000000},
-          times:  {0.015957, 2.833753, 15.026263, 1.328147},
-        },
-        keyScaling: {
-          bp: 31,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: true,
-          rDepth: -17,
-        }
-      },
-      { // OP3
-        fixedFreq:  false,
-        velScaling: 3,
-        kbdRateScaling: 5,
-        ams: 0,
-        freq:       1.000,
-        totalLevel: 1.000000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.545254, 0.000000, 0.000000},
-          times:  {0.010347, 0.015346, 3.597300, 2.543675},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP2
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 6,
-        ams: 0,
-        freq:       4.000,
-        totalLevel: 1.000000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.250000, 0.000000, 0.000000},
-          times:  {0.005891, 0.022744, 4.467335, 0.469571},
-        },
-        keyScaling: {
-          bp: 21,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth: -10,
-        }
-      },
-      { // OP1
-        fixedFreq:  false,
-        velScaling: 3,
-        kbdRateScaling: 6,
-        ams: 0,
-        freq:       1.000,
+        freq:       1.013,
         totalLevel: 0.458502,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.545254, 0.000000, 0.000000},
-          times:  {0.010347, 0.019901, 0.158980, 2.233667},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      }
-    }
-  },
-  { // Program: 24
-    name: "FLUTE   1",
-    algorithm: 16,
-    feedback:   7,
-    lfoPmDepth: 0.004340,
-    lfoAmDepth: 0.050781,
-    lfo: {
-      waveform: 0, // TRIANGL
-      delay:  144,
-      deltaPhi: 0x00d895bf
-    },
-    pitchEnvelope: {
-      level0:  1.000000,
-      levels: {1.000000, 1.000000, 1.000000, 1.000000},
-      times:  {0.001333, 0.001333, 0.002594, 0.128018},
-    },
-    op: {
-      { // OP6
-        fixedFreq:  false,
-        velScaling: 2,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       1.550,
-        totalLevel: 0.250000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.062500, 0.017039, 0.000000},
-          times:  {0.005891, 0.070153, 0.001834, 0.112416},
+          levels: {1.000000, 1.000000, 0.192776, 0.000000},
+          times:  {20.032000, 0.001333, 20.032000, 4.467335},
         },
         keyScaling: {
           bp: 60,
@@ -3234,293 +2678,15 @@
       },
       { // OP5
         fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       2.000,
-        totalLevel: 0.024097,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.000000, 0.000000, 0.000000},
-          times:  {0.255313, 5.072991, 20.032000, 0.112416},
-        },
-        keyScaling: {
-          bp: 74,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth: -43,
-        }
-      },
-      { // OP4
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 3,
-        ams: 0,
-        freq:       2.000,
-        totalLevel: 0.000000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 1.000000, 0.840896, 0.000000},
-          times:  {0.393746, 0.001333, 6.049913, 0.128018},
-        },
-        keyScaling: {
-          bp: 81,
-          lcExp: false,
-          lDepth: -10,
-          rcExp: false,
-          rDepth: -10,
-        }
-      },
-      { // OP3
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 0,
-        ams: 1,
-        freq:       0.990,
-        totalLevel: 0.136313,
-        envelope: {
-          level0:  0.000000,
-          levels: {0.385553, 0.008520, 0.001506, 0.000000},
-          times:  {0.893248, 1.757572, 0.023632, 0.112416},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP2
-        fixedFreq:  false,
         velScaling: 2,
-        kbdRateScaling: 4,
+        kbdRateScaling: 2,
         ams: 0,
-        freq:       1.013,
-        totalLevel: 0.125000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 1.000000, 0.458502, 0.000000},
-          times:  {0.005891, 0.001333, 0.103086, 0.245180},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP1
-        fixedFreq:  false,
-        velScaling: 2,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       0.994,
-        totalLevel: 0.917004,
-        envelope: {
-          level0:  0.000000,
-          levels: {0.594604, 0.420448, 0.917004, 0.000000},
-          times:  {0.375144, 0.006475, 0.041505, 0.072893},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      }
-    }
-  },
-  { // Program: 25
-    name: "ORCH-CHIME",
-    algorithm:  5,
-    feedback:   9,
-    lfoPmDepth: 0.005208,
-    lfoAmDepth: 0.000000,
-    lfo: {
-      waveform: 0, // TRIANGL
-      delay:   54,
-      deltaPhi: 0x00d895bf
-    },
-    pitchEnvelope: {
-      level0:  1.000000,
-      levels: {1.000000, 1.000000, 1.000000, 1.000000},
-      times:  {0.001333, 0.001333, 0.001682, 0.001682},
-    },
-    op: {
-      { // OP6
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 7,
-        ams: 0,
-        freq:       0.977,
-        totalLevel: 0.125000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 1.000000, 1.000000, 0.000000},
-          times:  {0.005891, 0.001333, 20.032000, 20.032000},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP5
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 3,
-        ams: 0,
-        freq:       1.024,
-        totalLevel: 0.917004,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 1.000000, 1.000000, 0.000000},
-          times:  {3.587146, 0.001333, 0.038060, 2.233667},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP4
-        fixedFreq:  false,
-        velScaling: 3,
-        kbdRateScaling: 3,
-        ams: 0,
-        freq:       3.140,
-        totalLevel: 0.500000,
-        envelope: {
-          level0:  0.000000,
-          levels: {0.385553, 0.192776, 0.000000, 0.000000},
-          times:  {0.043049, 0.009157, 20.032000, 20.032000},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP3
-        fixedFreq:  false,
-        velScaling: 2,
-        kbdRateScaling: 3,
-        ams: 0,
-        freq:       0.500,
+        freq:       0.987,
         totalLevel: 1.000000,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.707107, 0.000000, 0.000000},
-          times:  {0.047132, 0.047503, 15.026263, 3.597300},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP2
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 7,
-        ams: 0,
-        freq:       0.508,
-        totalLevel: 0.353553,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 1.000000, 1.000000, 0.000000},
-          times:  {0.005891, 0.001333, 20.032000, 20.032000},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP1
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 3,
-        ams: 0,
-        freq:       0.508,
-        totalLevel: 0.840896,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 1.000000, 1.000000, 0.000000},
-          times:  {7.823621, 0.001333, 0.038060, 2.233667},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      }
-    }
-  },
-  { // Program: 26
-    name: "TUB BELLS",
-    algorithm:  5,
-    feedback:   9,
-    lfoPmDepth: 0.000000,
-    lfoAmDepth: 0.000000,
-    lfo: {
-      waveform: 1, // SAW DWN
-      delay:   54,
-      deltaPhi: 0x00fd26b8
-    },
-    pitchEnvelope: {
-      level0:  1.000000,
-      levels: {1.000000, 1.000000, 1.000000, 1.000000},
-      times:  {0.001333, 0.001333, 0.002594, 0.128018},
-    },
-    op: {
-      { // OP6
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 2,
-        ams: 0,
-        freq:       1.953,
-        totalLevel: 0.297302,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.000000, 0.000000, 0.000000},
-          times:  {0.006425, 0.014012, 20.032000, 4.467335},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP5
-        fixedFreq:  true,
-        velScaling: 5,
-        kbdRateScaling: 2,
-        ams: 0,
-        freq:     323.594,
-        totalLevel: 1.000000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.000000, 0.000000, 0.000000},
-          times:  {0.075905, 0.061122, 0.038060, 0.041505},
+          levels: {1.000000, 1.000000, 0.096388, 0.000000},
+          times:  {5.072991, 0.001333, 20.032000, 2.048282},
         },
         keyScaling: {
           bp: 60,
@@ -3539,7 +2705,7 @@
         totalLevel: 0.125000,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.000000, 0.003012, 0.000000},
+          levels: {1.000000, 0.000000, 0.000000, 0.000000},
           times:  {0.006425, 20.032000, 0.038060, 4.467335},
         },
         keyScaling: {
@@ -3556,10 +2722,10 @@
         kbdRateScaling: 2,
         ams: 0,
         freq:       0.983,
-        totalLevel: 1.000000,
+        totalLevel: 0.707107,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.000000, 0.003012, 0.000000},
+          levels: {1.000000, 0.000000, 0.000000, 0.000000},
           times:  {0.009086, 8.909451, 0.038060, 6.049913},
         },
         keyScaling: {
@@ -3576,11 +2742,11 @@
         kbdRateScaling: 2,
         ams: 0,
         freq:       3.535,
-        totalLevel: 0.162105,
+        totalLevel: 0.229251,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.000000, 0.003012, 0.000000},
-          times:  {0.006425, 20.032000, 0.038060, 4.467335},
+          levels: {1.000000, 0.000000, 0.000000, 0.000000},
+          times:  {0.006425, 13.740252, 0.038060, 4.467335},
         },
         keyScaling: {
           bp: 60,
@@ -3599,8 +2765,8 @@
         totalLevel: 0.707107,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.000000, 0.003012, 0.000000},
-          times:  {0.009086, 8.909451, 0.038060, 6.049913},
+          levels: {1.000000, 0.000000, 0.000000, 0.000000},
+          times:  {0.009086, 20.032000, 12.099826, 6.049913},
         },
         keyScaling: {
           bp: 60,
@@ -3612,312 +2778,173 @@
       }
     }
   },
-  { // Program: 27
-    name: "STEEL DRUM",
-    algorithm: 15,
-    feedback:   7,
-    lfoPmDepth: 0.012153,
-    lfoAmDepth: 2.828125,
-    lfo: {
-      waveform: 4, // SINE
-      delay:   54,
-      deltaPhi: 0x00b404c7
-    },
-    pitchEnvelope: {
-      level0:  1.000000,
-      levels: {1.000000, 1.000000, 1.000000, 1.000000},
-      times:  {0.001333, 0.001333, 0.378120, 0.378120},
-    },
-    op: {
-      { // OP6
-        fixedFreq:  true,
-        velScaling: 0,
-        kbdRateScaling: 3,
-        ams: 0,
-        freq:     398.107,
-        totalLevel: 0.013139,
-        envelope: {
-          level0:  0.000000,
-          levels: {0.500000, 0.229251, 0.000000, 0.000000},
-          times:  {0.005520, 0.106881, 4.467335, 20.032000},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP5
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 3,
-        ams: 0,
-        freq:       5.320,
-        totalLevel: 0.048194,
-        envelope: {
-          level0:  0.000000,
-          levels: {0.500000, 0.229251, 0.000000, 0.000000},
-          times:  {0.005520, 0.289488, 1.448354, 20.032000},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP4
-        fixedFreq:  false,
-        velScaling: 1,
-        kbdRateScaling: 3,
-        ams: 0,
-        freq:       2.048,
-        totalLevel: 0.385553,
-        envelope: {
-          level0:  0.000000,
-          levels: {0.500000, 0.229251, 0.000000, 0.000000},
-          times:  {0.005520, 0.187710, 0.378120, 9.743326},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP3
-        fixedFreq:  false,
-        velScaling: 3,
-        kbdRateScaling: 3,
-        ams: 0,
-        freq:       1.000,
-        totalLevel: 1.000000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.545254, 0.000000, 0.000000},
-          times:  {0.005891, 0.694481, 2.048282, 0.939141},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP2
-        fixedFreq:  false,
-        velScaling: 2,
-        kbdRateScaling: 2,
-        ams: 0,
-        freq:       1.700,
-        totalLevel: 0.048194,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.353553, 0.000000, 0.000000},
-          times:  {0.005891, 4.004478, 10.625173, 20.032000},
-        },
-        keyScaling: {
-          bp: 78,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth: -71,
-        }
-      },
-      { // OP1
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 4,
-        ams: 0,
-        freq:       1.000,
-        totalLevel: 1.000000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.545254, 0.000000, 0.000000},
-          times:  {0.005891, 0.225158, 2.543675, 1.448354},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      }
-    }
-  },
-  { // Program: 28
-    name: "TIMPANI",
-    algorithm: 16,
+  { // Program: 21
+    name: "CHIME-STRG",
+    algorithm:  5,
     feedback:   9,
     lfoPmDepth: 0.022569,
     lfoAmDepth: 0.000000,
     lfo: {
       waveform: 0, // TRIANGL
-      delay:   54,
-      deltaPhi: 0x004ec217
+      delay:  297,
+      deltaPhi: 0x00c21526
     },
     pitchEnvelope: {
       level0:  1.000000,
-      levels: {1.000000, 1.005430, 1.000000, 1.000000},
+      levels: {1.000000, 1.000000, 1.000000, 1.000000},
+      times:  {0.001333, 0.001333, 0.001682, 0.001682},
+    },
+    op: {
+      { // OP6
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 7,
+        ams: 0,
+        freq:       0.488,
+        totalLevel: 0.114626,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 1.000000, 1.000000, 0.000000},
+          times:  {0.005891, 0.001333, 20.032000, 20.032000},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP5
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 3,
+        ams: 0,
+        freq:       0.512,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 1.000000, 1.000000, 0.000000},
+          times:  {5.777064, 0.001333, 0.038060, 2.233667},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP4
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 7,
+        ams: 0,
+        freq:      13.000,
+        totalLevel: 0.081052,
+        envelope: {
+          level0:  0.000000,
+          levels: {0.000000, 0.081052, 0.000000, 0.000000},
+          times:  {0.001333, 0.090331, 3.158883, 15.026263},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP3
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 3,
+        ams: 0,
+        freq:       2.000,
+        totalLevel: 0.840896,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 1.000000, 0.000000, 0.000000},
+          times:  {0.005891, 0.001333, 1.798650, 2.048282},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP2
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 7,
+        ams: 0,
+        freq:       0.508,
+        totalLevel: 0.297302,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 1.000000, 1.000000, 0.000000},
+          times:  {0.005891, 0.001333, 20.032000, 20.032000},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP1
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 3,
+        ams: 0,
+        freq:       1.017,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 1.000000, 1.000000, 0.000000},
+          times:  {5.777064, 0.001333, 0.038060, 2.233667},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      }
+    }
+  },
+  { // Program: 22
+    name: "B.DRM-SNAR",
+    algorithm:  3,
+    feedback:   9,
+    lfoPmDepth: 0.000000,
+    lfoAmDepth: 0.000000,
+    lfo: {
+      waveform: 3, // SQUARE
+      delay:   54,
+      deltaPhi: 0x018c9a87
+    },
+    pitchEnvelope: {
+      level0:  1.000000,
+      levels: {1.000000, 1.000000, 1.000000, 1.000000},
       times:  {0.001333, 0.001333, 0.023632, 0.128018},
     },
     op: {
       { // OP6
-        fixedFreq:  false,
-        velScaling: 1,
-        kbdRateScaling: 3,
-        ams: 0,
-        freq:       0.780,
-        totalLevel: 0.105112,
-        envelope: {
-          level0:  0.000000,
-          levels: {0.917004, 0.000000, 0.000000, 0.000000},
-          times:  {0.006374, 20.032000, 5.547795, 4.871663},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP5
-        fixedFreq:  false,
-        velScaling: 1,
+        fixedFreq:  true,
+        velScaling: 0,
         kbdRateScaling: 0,
         ams: 0,
-        freq:       0.500,
-        totalLevel: 0.105112,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.000000, 0.000000, 0.000000},
-          times:  {0.005891, 1.324398, 5.547795, 12.099826},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP4
-        fixedFreq:  false,
-        velScaling: 7,
-        kbdRateScaling: 7,
-        ams: 0,
-        freq:       0.875,
-        totalLevel: 0.353553,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.125000, 0.000000, 0.000000},
-          times:  {0.005891, 2.090886, 15.026263, 3.597300},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP3
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 3,
-        ams: 0,
-        freq:       0.673,
-        totalLevel: 0.297302,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.096388, 0.000000, 0.000000},
-          times:  {0.005891, 0.014171, 5.547795, 7.845766},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP2
-        fixedFreq:  false,
-        velScaling: 1,
-        kbdRateScaling: 1,
-        ams: 0,
-        freq:       0.505,
-        totalLevel: 0.324210,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.000000, 0.000000, 0.000000},
-          times:  {0.005891, 0.094263, 20.032000, 20.032000},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP1
-        fixedFreq:  false,
-        velScaling: 1,
-        kbdRateScaling: 3,
-        ams: 0,
-        freq:       0.500,
+        freq:    3715.352,
         totalLevel: 1.000000,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.000000, 0.000000, 0.000000},
-          times:  {0.005891, 6.299933, 0.001834, 2.543675},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      }
-    }
-  },
-  { // Program: 29
-    name: "REFS WHISL",
-    algorithm: 18,
-    feedback:   4,
-    lfoPmDepth: 0.000000,
-    lfoAmDepth: 0.000000,
-    lfo: {
-      waveform: 5, // S/HOLD
-      delay:   54,
-      deltaPhi: 0x08a8fdc2
-    },
-    pitchEnvelope: {
-      level0:  1.000000,
-      levels: {0.942172, 1.000000, 1.000000, 1.000000},
-      times:  {0.439393, 0.017807, 0.002594, 0.128018},
-    },
-    op: {
-      { // OP6
-        fixedFreq:  true,
-        velScaling: 0,
-        kbdRateScaling: 1,
-        ams: 0,
-        freq:      10.000,
-        totalLevel: 0.162105,
-        envelope: {
-          level0:  0.000000,
-          levels: {0.771105, 0.162105, 0.000000, 0.000000},
-          times:  {0.010102, 0.098010, 6.889572, 0.224831},
+          levels: {1.000000, 1.000000, 1.000000, 0.000000},
+          times:  {0.005891, 0.001333, 0.001682, 20.032000},
         },
         keyScaling: {
           bp: 60,
@@ -3928,96 +2955,16 @@
         }
       },
       { // OP5
-        fixedFreq:  true,
-        velScaling: 0,
+        fixedFreq:  false,
+        velScaling: 1,
         kbdRateScaling: 0,
         ams: 0,
-        freq:       1.000,
-        totalLevel: 0.048194,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.000000, 0.000000, 0.000000},
-          times:  {0.005891, 20.032000, 20.032000, 20.032000},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP4
-        fixedFreq:  true,
-        velScaling: 0,
-        kbdRateScaling: 1,
-        ams: 0,
-        freq:    6606.934,
-        totalLevel: 0.125000,
-        envelope: {
-          level0:  0.000000,
-          levels: {0.771105, 0.420448, 0.000000, 0.000000},
-          times:  {0.010102, 0.009951, 6.889572, 0.224831},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP3
-        fixedFreq:  true,
-        velScaling: 0,
-        kbdRateScaling: 4,
-        ams: 0,
-        freq:      46.774,
-        totalLevel: 0.057313,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 1.000000, 1.000000, 0.000000},
-          times:  {0.448393, 0.001333, 20.032000, 20.032000},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP2
-        fixedFreq:  true,
-        velScaling: 0,
-        kbdRateScaling: 4,
-        ams: 0,
-        freq:      33.884,
-        totalLevel: 0.594604,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 1.000000, 1.000000, 0.000000},
-          times:  {0.448393, 0.001333, 4.467335, 0.664073},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth:  0,
-        }
-      },
-      { // OP1
-        fixedFreq:  true,
-        velScaling: 1,
-        kbdRateScaling: 4,
-        ams: 0,
-        freq:    2089.296,
+        freq:       0.500,
         totalLevel: 0.458502,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 1.000000, 1.000000, 0.000000},
-          times:  {0.448393, 0.001333, 4.467335, 0.430598},
+          levels: {1.000000, 0.420448, 0.000000, 0.000000},
+          times:  {0.005891, 0.004813, 0.128018, 0.378120},
         },
         keyScaling: {
           bp: 60,
@@ -4026,37 +2973,117 @@
           rcExp: false,
           rDepth:  0,
         }
+      },
+      { // OP4
+        fixedFreq:  true,
+        velScaling: 3,
+        kbdRateScaling: 3,
+        ams: 0,
+        freq:     158.489,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.192776, 0.000000, 0.000000},
+          times:  {0.009086, 0.198138, 0.939141, 0.664073},
+        },
+        keyScaling: {
+          bp: 77,
+          lcExp: false,
+          lDepth: -98,
+          rcExp: false,
+          rDepth: 98,
+        }
+      },
+      { // OP3
+        fixedFreq:  true,
+        velScaling: 1,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       6.695,
+        totalLevel: 0.648420,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.458502, 0.000000, 0.000000},
+          times:  {0.005891, 0.003340, 2.048282, 0.173369},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP2
+        fixedFreq:  true,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:      10.099,
+        totalLevel: 0.917004,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.000000, 0.000000, 0.000000},
+          times:  {0.009086, 0.607239, 20.032000, 20.032000},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP1
+        fixedFreq:  true,
+        velScaling: 0,
+        kbdRateScaling: 3,
+        ams: 0,
+        freq:      81.283,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.000000, 0.000000, 0.000000},
+          times:  {0.015957, 1.324398, 2.543675, 0.103086},
+        },
+        keyScaling: {
+          bp: 72,
+          lcExp: false,
+          lDepth: 98,
+          rcExp: false,
+          rDepth: -98,
+        }
       }
     }
   },
-  { // Program: 30
-    name: "VOICE   1",
-    algorithm:  7,
-    feedback:   9,
-    lfoPmDepth: 0.027778,
-    lfoAmDepth: 0.007812,
+  { // Program: 23
+    name: "SHIMMER",
+    algorithm:  5,
+    feedback:   8,
+    lfoPmDepth: 0.182292,
+    lfoAmDepth: 1.062500,
     lfo: {
-      waveform: 0, // TRIANGL
-      delay:  250,
-      deltaPhi: 0x00fd26b8
+      waveform: 3, // SQUARE
+      delay:   54,
+      deltaPhi: 0x0168098e
     },
     pitchEnvelope: {
       level0:  1.000000,
-      levels: {0.989228, 1.005430, 1.000000, 1.000000},
-      times:  {0.727819, 0.010592, 0.002594, 0.128018},
+      levels: {1.000000, 1.000000, 1.000000, 1.000000},
+      times:  {0.001333, 0.001333, 0.002594, 0.128018},
     },
     op: {
       { // OP6
         fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 0,
+        velScaling: 2,
+        kbdRateScaling: 2,
         ams: 0,
-        freq:       5.115,
-        totalLevel: 0.022097,
+        freq:       1.430,
+        totalLevel: 0.088388,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 1.000000, 1.000000, 0.000000},
-          times:  {0.005891, 0.001333, 0.469571, 15.026263},
+          levels: {1.000000, 0.192776, 0.000000, 0.000000},
+          times:  {0.015957, 1.073319, 10.625173, 0.245180},
         },
         keyScaling: {
           bp: 60,
@@ -4068,15 +3095,15 @@
       },
       { // OP5
         fixedFreq:  false,
-        velScaling: 1,
-        kbdRateScaling: 0,
+        velScaling: 0,
+        kbdRateScaling: 2,
         ams: 0,
-        freq:       1.007,
-        totalLevel: 0.018581,
+        freq:       1.430,
+        totalLevel: 0.840896,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.458502, 0.297302, 0.000000},
-          times:  {7.174292, 2.418440, 1.798650, 0.090522},
+          levels: {1.000000, 0.192776, 0.000000, 0.000000},
+          times:  {0.015957, 1.073319, 10.625173, 0.245180},
         },
         keyScaling: {
           bp: 60,
@@ -4088,15 +3115,15 @@
       },
       { // OP4
         fixedFreq:  false,
-        velScaling: 1,
-        kbdRateScaling: 0,
+        velScaling: 0,
+        kbdRateScaling: 2,
         ams: 0,
-        freq:       1.030,
-        totalLevel: 1.000000,
+        freq:      15.000,
+        totalLevel: 0.028656,
         envelope: {
-          level0:  0.000205,
-          levels: {0.012049, 0.028656, 0.001065, 0.000205},
-          times:  {0.043322, 3.337065, 1.024141, 20.032000},
+          level0:  0.000000,
+          levels: {1.000000, 0.192776, 0.000000, 0.000000},
+          times:  {0.015957, 0.015379, 20.032000, 0.245180},
         },
         keyScaling: {
           bp: 60,
@@ -4108,15 +3135,15 @@
       },
       { // OP3
         fixedFreq:  false,
-        velScaling: 3,
-        kbdRateScaling: 0,
+        velScaling: 2,
+        kbdRateScaling: 2,
         ams: 0,
-        freq:       1.024,
-        totalLevel: 1.000000,
+        freq:       0.955,
+        totalLevel: 0.840896,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.648420, 0.840896, 0.000000},
-          times:  {8.909451, 1.465182, 0.279208, 1.328147},
+          levels: {1.000000, 0.192776, 0.000000, 0.000000},
+          times:  {0.015957, 1.885019, 20.032000, 0.245180},
         },
         keyScaling: {
           bp: 60,
@@ -4128,15 +3155,154 @@
       },
       { // OP2
         fixedFreq:  false,
-        velScaling: 2,
-        kbdRateScaling: 0,
-        ams: 2,
-        freq:       1.000,
+        velScaling: 0,
+        kbdRateScaling: 2,
+        ams: 0,
+        freq:       0.950,
+        totalLevel: 0.081052,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.324210, 0.000000, 0.000000},
+          times:  {0.015957, 1.406482, 20.032000, 0.245180},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP1
+        fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 2,
+        ams: 0,
+        freq:       0.955,
         totalLevel: 1.000000,
         envelope: {
-          level0:  0.015625,
-          levels: {0.015625, 0.037163, 0.136313, 0.015625},
-          times:  {0.001333, 1.530051, 0.279208, 6.049913},
+          level0:  0.000000,
+          levels: {1.000000, 0.192776, 0.026278, 0.000000},
+          times:  {0.015957, 1.073319, 20.032000, 0.245180},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      }
+    }
+  },
+  { // Program: 24
+    name: "EVOLUTION",
+    algorithm:  1,
+    feedback:   9,
+    lfoPmDepth: 0.000000,
+    lfoAmDepth: 0.000000,
+    lfo: {
+      waveform: 0, // TRIANGL
+      delay:   54,
+      deltaPhi: 0x0002d013
+    },
+    pitchEnvelope: {
+      level0:  1.000000,
+      levels: {1.000000, 1.000000, 1.000000, 1.000000},
+      times:  {0.001333, 0.001333, 0.001682, 0.001682},
+    },
+    op: {
+      { // OP6
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 2,
+        ams: 3,
+        freq:       1.073,
+        totalLevel: 0.917004,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.001953, 0.000000, 0.000000},
+          times:  {0.691517, 0.037788, 0.378120, 1.024141},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP5
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 4,
+        ams: 2,
+        freq:       0.499,
+        totalLevel: 0.840896,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.707107, 0.000000, 0.000000},
+          times:  {0.691517, 0.008769, 0.378120, 1.024141},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP4
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 4,
+        ams: 1,
+        freq:       0.506,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.353553, 0.176777, 0.000000},
+          times:  {20.032000, 1.045443, 0.378120, 1.024141},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP3
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 3,
+        ams: 0,
+        freq:       0.500,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.353553, 0.176777, 0.000000},
+          times:  {20.032000, 1.045443, 0.378120, 1.024141},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP2
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 4,
+        ams: 0,
+        freq:       0.498,
+        totalLevel: 0.297302,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.353553, 0.176777, 0.000000},
+          times:  {20.032000, 1.045443, 0.378120, 1.024141},
         },
         keyScaling: {
           bp: 60,
@@ -4149,14 +3315,14 @@
       { // OP1
         fixedFreq:  false,
         velScaling: 0,
-        kbdRateScaling: 0,
+        kbdRateScaling: 3,
         ams: 0,
-        freq:       0.977,
-        totalLevel: 0.353553,
+        freq:       0.512,
+        totalLevel: 1.000000,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.648420, 0.840896, 0.000000},
-          times:  {7.823621, 1.465182, 0.279208, 0.173369},
+          levels: {1.000000, 0.353553, 0.176777, 0.000000},
+          times:  {20.032000, 1.045443, 0.378120, 1.024141},
         },
         keyScaling: {
           bp: 60,
@@ -4168,16 +3334,16 @@
       }
     }
   },
-  { // Program: 31
-    name: "TRAIN",
-    algorithm:  5,
-    feedback:   9,
-    lfoPmDepth: 0.000000,
-    lfoAmDepth: 2.828125,
+  { // Program: 25
+    name: "WATER GDN",
+    algorithm: 32,
+    feedback:   5,
+    lfoPmDepth: 0.000217,
+    lfoAmDepth: 0.000000,
     lfo: {
       waveform: 0, // TRIANGL
       delay:   54,
-      deltaPhi: 0x01194777
+      deltaPhi: 0x0102c6de
     },
     pitchEnvelope: {
       level0:  1.000000,
@@ -4190,12 +3356,12 @@
         velScaling: 0,
         kbdRateScaling: 0,
         ams: 0,
-        freq:       5.000,
+        freq:      12.000,
         totalLevel: 1.000000,
         envelope: {
-          level0:  0.917004,
-          levels: {1.000000, 1.000000, 1.000000, 0.917004},
-          times:  {0.011876, 0.001333, 6.049913, 0.279208},
+          level0:  0.000000,
+          levels: {0.000000, 1.000000, 0.000000, 0.000000},
+          times:  {0.001333, 0.005891, 0.128018, 0.012339},
         },
         keyScaling: {
           bp: 60,
@@ -4209,13 +3375,13 @@
         fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
-        ams: 3,
-        freq:       9.089,
-        totalLevel: 0.250000,
+        ams: 0,
+        freq:       6.000,
+        totalLevel: 0.594604,
         envelope: {
-          level0:  1.000000,
-          levels: {1.000000, 1.000000, 1.000000, 1.000000},
-          times:  {0.001333, 0.001333, 6.049913, 0.279208},
+          level0:  0.000000,
+          levels: {0.000000, 1.000000, 0.000000, 0.000000},
+          times:  {0.001333, 0.005891, 0.128018, 0.013456},
         },
         keyScaling: {
           bp: 60,
@@ -4226,16 +3392,16 @@
         }
       },
       { // OP4
-        fixedFreq:  true,
+        fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
         ams: 0,
-        freq:     971.048,
-        totalLevel: 0.420448,
+        freq:       3.000,
+        totalLevel: 0.707107,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.000000, 0.000000, 0.000000},
-          times:  {0.006425, 13.740252, 4.467335, 4.871663},
+          levels: {0.000000, 1.000000, 0.000000, 0.000000},
+          times:  {0.001333, 0.005891, 0.128018, 0.013456},
         },
         keyScaling: {
           bp: 60,
@@ -4246,21 +3412,21 @@
         }
       },
       { // OP3
-        fixedFreq:  true,
+        fixedFreq:  false,
         velScaling: 0,
         kbdRateScaling: 0,
         ams: 0,
-        freq:     373.903,
+        freq:       2.000,
         totalLevel: 1.000000,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.000000, 0.000000, 0.000000},
-          times:  {0.006425, 13.740252, 4.467335, 2.543675},
+          levels: {0.000000, 1.000000, 0.000000, 0.000000},
+          times:  {0.001333, 0.005891, 0.128018, 0.019030},
         },
         keyScaling: {
-          bp: 120,
-          lcExp: true,
-          lDepth: -98,
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
           rcExp: false,
           rDepth:  0,
         }
@@ -4268,14 +3434,431 @@
       { // OP2
         fixedFreq:  false,
         velScaling: 0,
-        kbdRateScaling: 5,
+        kbdRateScaling: 0,
         ams: 0,
-        freq:       3.030,
-        totalLevel: 0.096388,
+        freq:       1.500,
+        totalLevel: 1.000000,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.037163, 0.057313, 0.000000},
-          times:  {4.651953, 20.032000, 20.032000, 0.033421},
+          levels: {0.000000, 1.000000, 0.000000, 0.000000},
+          times:  {0.001333, 0.005891, 0.128018, 0.033421},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP1
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       1.000,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {0.000000, 1.000000, 0.000000, 0.000000},
+          times:  {0.001333, 0.005891, 0.128018, 0.072893},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      }
+    }
+  },
+  { // Program: 26
+    name: "WASP STING",
+    algorithm: 18,
+    feedback:   9,
+    lfoPmDepth: 0.000000,
+    lfoAmDepth: 0.000000,
+    lfo: {
+      waveform: 5, // S/HOLD
+      delay: 1071,
+      deltaPhi: 0x01b12b7f
+    },
+    pitchEnvelope: {
+      level0:  1.000000,
+      levels: {1.000000, 1.000000, 1.000000, 1.000000},
+      times:  {0.001333, 0.001333, 0.002594, 0.128018},
+    },
+    op: {
+      { // OP6
+        fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 2,
+        ams: 0,
+        freq:       1.010,
+        totalLevel: 0.192776,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.458502, 0.192776, 0.000000},
+          times:  {0.448393, 4.631813, 18.660482, 0.041505},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP5
+        fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 2,
+        ams: 0,
+        freq:       1.010,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.458502, 0.192776, 0.000000},
+          times:  {0.180533, 2.637328, 10.625173, 0.041505},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP4
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 2,
+        ams: 0,
+        freq:       1.000,
+        totalLevel: 0.840896,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.458502, 0.192776, 0.000000},
+          times:  {0.180533, 2.637328, 10.625173, 0.041505},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP3
+        fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 2,
+        ams: 0,
+        freq:       0.500,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.458502, 0.192776, 0.000000},
+          times:  {0.180533, 2.637328, 10.625173, 0.015324},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP2
+        fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 2,
+        ams: 0,
+        freq:       0.500,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.458502, 0.192776, 0.000000},
+          times:  {20.032000, 2.637328, 10.625173, 2.233667},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP1
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 2,
+        ams: 0,
+        freq:       1.000,
+        totalLevel: 0.250000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.458502, 1.000000, 0.000000},
+          times:  {7.174292, 2.637328, 10.625173, 5.547795},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      }
+    }
+  },
+  { // Program: 27
+    name: "LASER GUN",
+    algorithm: 31,
+    feedback:   9,
+    lfoPmDepth: 0.989583,
+    lfoAmDepth: 0.000000,
+    lfo: {
+      waveform: 2, // SAW UP
+      delay:   54,
+      deltaPhi: 0x01356836
+    },
+    pitchEnvelope: {
+      level0:  1.208684,
+      levels: {1.033025, 1.584538, 0.973287, 1.208684},
+      times:  {2.921156, 0.001973, 0.003669, 0.279208},
+    },
+    op: {
+      { // OP6
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       0.505,
+        totalLevel: 0.272627,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.000000, 1.000000, 0.000000},
+          times:  {20.032000, 20.032000, 0.001834, 4.467335},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP5
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       0.505,
+        totalLevel: 0.917004,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.000000, 0.917004, 0.000000},
+          times:  {0.005891, 0.037952, 0.001834, 0.038060},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP4
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       2.220,
+        totalLevel: 0.037163,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.000000, 0.917004, 0.000000},
+          times:  {0.005891, 0.037952, 0.001834, 0.038060},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP3
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:      17.170,
+        totalLevel: 0.052556,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.000000, 0.917004, 0.000000},
+          times:  {0.005891, 0.037952, 0.001834, 0.038060},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP2
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:      19.380,
+        totalLevel: 0.324210,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.003012, 1.000000, 0.000000},
+          times:  {0.005891, 0.415448, 0.023632, 1.024141},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP1
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 0,
+        ams: 0,
+        freq:       5.000,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.000000, 0.000000, 0.000000},
+          times:  {0.005891, 5.072991, 1.166280, 0.430598},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      }
+    }
+  },
+  { // Program: 28
+    name: "DESCENT",
+    algorithm:  1,
+    feedback:   9,
+    lfoPmDepth: 0.040799,
+    lfoAmDepth: 0.000000,
+    lfo: {
+      waveform: 4, // SINE
+      delay: 3206,
+      deltaPhi: 0x01194777
+    },
+    pitchEnvelope: {
+      level0:  1.000000,
+      levels: {1.176397, 1.000000, 1.000000, 1.000000},
+      times:  {0.001518, 8.791092, 0.001834, 0.001834},
+    },
+    op: {
+      { // OP6
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 4,
+        ams: 3,
+        freq:       8.023,
+        totalLevel: 0.148651,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 1.000000, 0.000000, 0.000000},
+          times:  {20.032000, 0.001333, 20.032000, 20.032000},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP5
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 4,
+        ams: 2,
+        freq:       0.997,
+        totalLevel: 0.048194,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 1.000000, 0.000000, 0.000000},
+          times:  {20.032000, 0.001333, 20.032000, 20.032000},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP4
+        fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 4,
+        ams: 1,
+        freq:       3.009,
+        totalLevel: 0.136313,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 1.000000, 0.000000, 0.000000},
+          times:  {20.032000, 0.001333, 20.032000, 20.032000},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP3
+        fixedFreq:  false,
+        velScaling: 5,
+        kbdRateScaling: 3,
+        ams: 0,
+        freq:       0.500,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 1.000000, 0.000000, 0.000000},
+          times:  {12.599867, 0.001333, 20.032000, 3.597300},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP2
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 4,
+        ams: 0,
+        freq:       0.498,
+        totalLevel: 0.707107,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 1.000000, 0.000000, 0.000000},
+          times:  {20.032000, 0.001333, 20.032000, 20.032000},
         },
         keyScaling: {
           bp: 60,
@@ -4290,51 +3873,12 @@
         velScaling: 0,
         kbdRateScaling: 3,
         ams: 0,
-        freq:       1.640,
+        freq:       0.512,
         totalLevel: 1.000000,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.297302, 0.297302, 0.000000},
-          times:  {0.255313, 2.660149, 12.099826, 0.173369},
-        },
-        keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
-          rcExp: false,
-          rDepth: -98,
-        }
-      }
-    }
-  },
-  { // Program: 32
-    name: "TAKE OFF",
-    algorithm: 10,
-    feedback:   0,
-    lfoPmDepth: 0.000000,
-    lfoAmDepth: 0.000000,
-    lfo: {
-      waveform: 2, // SAW UP
-      delay:   54,
-      deltaPhi: 0x02007083
-    },
-    pitchEnvelope: {
-      level0:  2.000000,
-      levels: {1.000000, 0.718688, 1.182785, 2.000000},
-      times:  {3.748626, 5.258212, 0.002954, 16.386256},
-    },
-    op: {
-      { // OP6
-        fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 0,
-        ams: 0,
-        freq:       0.500,
-        totalLevel: 1.000000,
-        envelope: {
-          level0:  0.000000,
-          levels: {1.000000, 0.545254, 0.000000, 0.000000},
-          times:  {0.017401, 1.651763, 10.625173, 1.024141},
+          levels: {1.000000, 1.000000, 0.000000, 0.000000},
+          times:  {12.599867, 0.001333, 20.032000, 3.597300},
         },
         keyScaling: {
           bp: 60,
@@ -4343,18 +3887,196 @@
           rcExp: false,
           rDepth:  0,
         }
+      }
+    }
+  },
+  { // Program: 29
+    name: "OCTAVE WAR",
+    algorithm:  7,
+    feedback:   8,
+    lfoPmDepth: 0.572917,
+    lfoAmDepth: 0.414062,
+    lfo: {
+      waveform: 3, // SQUARE
+      delay:   54,
+      deltaPhi: 0x0097e408
+    },
+    pitchEnvelope: {
+      level0:  1.000000,
+      levels: {1.000000, 1.000000, 1.000000, 1.000000},
+      times:  {0.001333, 0.001333, 0.001834, 0.001834},
+    },
+    op: {
+      { // OP6
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 7,
+        ams: 0,
+        freq:       0.501,
+        totalLevel: 0.074325,
+        envelope: {
+          level0:  0.000094,
+          levels: {1.000000, 1.000000, 0.917004, 0.000094},
+          times:  {0.069739, 0.001333, 1.798650, 0.756239},
+        },
+        keyScaling: {
+          bp: 36,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: true,
+          rDepth: -82,
+        }
       },
       { // OP5
         fixedFreq:  false,
         velScaling: 0,
-        kbdRateScaling: 0,
+        kbdRateScaling: 3,
         ams: 0,
-        freq:       2.020,
-        totalLevel: 0.771105,
+        freq:       1.003,
+        totalLevel: 0.048194,
+        envelope: {
+          level0:  0.000094,
+          levels: {1.000000, 1.000000, 0.917004, 0.000094},
+          times:  {0.039709, 0.001333, 1.798650, 0.756239},
+        },
+        keyScaling: {
+          bp: 36,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: true,
+          rDepth: -11,
+        }
+      },
+      { // OP4
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 3,
+        ams: 0,
+        freq:       8.000,
+        totalLevel: 0.008520,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.458502, 0.000000, 0.000000},
-          times:  {0.019816, 1.710095, 7.845766, 1.649369},
+          levels: {1.000000, 0.096388, 0.420448, 0.000000},
+          times:  {1.644714, 13.895438, 0.245180, 4.467335},
+        },
+        keyScaling: {
+          bp: 36,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: true,
+          rDepth: -96,
+        }
+      },
+      { // OP3
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 3,
+        ams: 0,
+        freq:       2.000,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.096388, 0.420448, 0.000000},
+          times:  {1.644714, 13.895438, 0.245180, 4.467335},
+        },
+        keyScaling: {
+          bp: 36,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: true,
+          rDepth: -96,
+        }
+      },
+      { // OP2
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 3,
+        ams: 0,
+        freq:       3.000,
+        totalLevel: 0.594604,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.096388, 0.420448, 0.000000},
+          times:  {1.644714, 13.895438, 0.245180, 4.467335},
+        },
+        keyScaling: {
+          bp: 36,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: true,
+          rDepth: -96,
+        }
+      },
+      { // OP1
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 3,
+        ams: 0,
+        freq:       3.000,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.096388, 0.420448, 0.000000},
+          times:  {1.644714, 13.895438, 0.245180, 4.467335},
+        },
+        keyScaling: {
+          bp: 36,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: true,
+          rDepth: -96,
+        }
+      }
+    }
+  },
+  { // Program: 30
+    name: "GRAND PRIX",
+    algorithm: 17,
+    feedback:   9,
+    lfoPmDepth: 0.000000,
+    lfoAmDepth: 0.000000,
+    lfo: {
+      waveform: 4, // SINE
+      delay:   54,
+      deltaPhi: 0x08a8fdc2
+    },
+    pitchEnvelope: {
+      level0:  0.500000,
+      levels: {2.000000, 1.303881, 0.779502, 0.500000},
+      times:  {20.032000, 0.004813, 0.664073, 0.001834},
+    },
+    op: {
+      { // OP6
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 2,
+        ams: 0,
+        freq:       0.500,
+        totalLevel: 0.192776,
+        envelope: {
+          level0:  0.000000,
+          levels: {0.229251, 0.068157, 0.000000, 0.000000},
+          times:  {8.415282, 3.762018, 1.448354, 3.597300},
+        },
+        keyScaling: {
+          bp: 54,
+          lcExp: true,
+          lDepth: 13,
+          rcExp: true,
+          rDepth: -18,
+        }
+      },
+      { // OP5
+        fixedFreq:  false,
+        velScaling: 7,
+        kbdRateScaling: 2,
+        ams: 0,
+        freq:       0.492,
+        totalLevel: 0.022097,
+        envelope: {
+          level0:  0.000000,
+          levels: {0.229251, 0.040526, 0.007164, 0.000000},
+          times:  {1.622267, 5.860728, 0.047265, 2.543675},
         },
         keyScaling: {
           bp: 60,
@@ -4366,42 +4088,181 @@
       },
       { // OP4
         fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 0,
+        velScaling: 5,
+        kbdRateScaling: 2,
         ams: 0,
         freq:       0.500,
         totalLevel: 1.000000,
         envelope: {
           level0:  0.000000,
-          levels: {1.000000, 0.707107, 1.000000, 0.000000},
-          times:  {20.032000, 2.344291, 10.625173, 3.597300},
+          levels: {1.000000, 0.068157, 0.000000, 0.000000},
+          times:  {4.085001, 2.371579, 0.009936, 3.597300},
         },
         keyScaling: {
-          bp: 60,
-          lcExp: false,
-          lDepth:  0,
+          bp: 81,
+          lcExp: true,
+          lDepth: 13,
           rcExp: false,
           rDepth:  0,
         }
       },
       { // OP3
         fixedFreq:  false,
-        velScaling: 0,
-        kbdRateScaling: 0,
+        velScaling: 2,
+        kbdRateScaling: 3,
         ams: 0,
-        freq:       6.060,
+        freq:       0.500,
         totalLevel: 1.000000,
         envelope: {
           level0:  0.000000,
-          levels: {0.062500, 0.005066, 0.105112, 0.000000},
-          times:  {0.056779, 1.638224, 0.001682, 20.032000},
+          levels: {1.000000, 0.297302, 0.017039, 0.000000},
+          times:  {0.977953, 1.514673, 6.049913, 3.597300},
         },
         keyScaling: {
-          bp: 60,
+          bp: 64,
           lcExp: false,
-          lDepth:  0,
+          lDepth: -19,
+          rcExp: true,
+          rDepth: -4,
+        }
+      },
+      { // OP2
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 4,
+        ams: 0,
+        freq:       2.000,
+        totalLevel: 0.420448,
+        envelope: {
+          level0:  0.000000,
+          levels: {0.074325, 0.385553, 0.031250, 0.000000},
+          times:  {0.008618, 0.611142, 20.032000, 1.798650},
+        },
+        keyScaling: {
+          bp: 41,
+          lcExp: false,
+          lDepth: -36,
           rcExp: false,
           rDepth:  0,
+        }
+      },
+      { // OP1
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 3,
+        ams: 0,
+        freq:       4.000,
+        totalLevel: 0.545254,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.003906, 0.002130, 0.000000},
+          times:  {13.740252, 17.197797, 10.625173, 0.378120},
+        },
+        keyScaling: {
+          bp: 61,
+          lcExp: true,
+          lDepth: 23,
+          rcExp: false,
+          rDepth:  0,
+        }
+      }
+    }
+  },
+  { // Program: 31
+    name: "ST.HELENS",
+    algorithm: 17,
+    feedback:   9,
+    lfoPmDepth: 0.000000,
+    lfoAmDepth: 0.000000,
+    lfo: {
+      waveform: 4, // SINE
+      delay:   54,
+      deltaPhi: 0x0002d013
+    },
+    pitchEnvelope: {
+      level0:  0.766941,
+      levels: {0.500000, 0.597832, 0.718688, 0.766941},
+      times:  {0.002754, 0.001333, 0.001834, 0.001834},
+    },
+    op: {
+      { // OP6
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 7,
+        ams: 0,
+        freq:       0.745,
+        totalLevel: 0.771105,
+        envelope: {
+          level0:  0.420448,
+          levels: {1.000000, 0.000000, 1.000000, 0.420448},
+          times:  {3.337065, 20.032000, 0.001682, 12.099826},
+        },
+        keyScaling: {
+          bp: 120,
+          lcExp: false,
+          lDepth: 72,
+          rcExp: false,
+          rDepth: -98,
+        }
+      },
+      { // OP5
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 7,
+        ams: 0,
+        freq:       0.600,
+        totalLevel: 0.917004,
+        envelope: {
+          level0:  0.458502,
+          levels: {0.000000, 0.000000, 1.000000, 0.458502},
+          times:  {14.538383, 0.001333, 0.001682, 13.194954},
+        },
+        keyScaling: {
+          bp: 119,
+          lcExp: false,
+          lDepth: 72,
+          rcExp: false,
+          rDepth: -98,
+        }
+      },
+      { // OP4
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 7,
+        ams: 0,
+        freq:       0.615,
+        totalLevel: 0.594604,
+        envelope: {
+          level0:  0.420448,
+          levels: {0.000000, 0.000000, 1.000000, 0.420448},
+          times:  {8.950800, 0.001333, 0.001682, 10.625173},
+        },
+        keyScaling: {
+          bp: 118,
+          lcExp: false,
+          lDepth: 69,
+          rcExp: false,
+          rDepth: -98,
+        }
+      },
+      { // OP3
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 7,
+        ams: 0,
+        freq:       0.545,
+        totalLevel: 0.840896,
+        envelope: {
+          level0:  0.297302,
+          levels: {0.000000, 0.000000, 1.000000, 0.297302},
+          times:  {20.032000, 0.001333, 0.001682, 12.099826},
+        },
+        keyScaling: {
+          bp: 100,
+          lcExp: false,
+          lDepth: 67,
+          rcExp: false,
+          rDepth: -98,
         }
       },
       { // OP2
@@ -4409,12 +4270,12 @@
         velScaling: 0,
         kbdRateScaling: 0,
         ams: 0,
-        freq:       1.000,
-        totalLevel: 0.771105,
+        freq:       0.515,
+        totalLevel: 0.545254,
         envelope: {
-          level0:  0.000000,
-          levels: {0.192776, 0.707107, 0.000000, 0.000000},
-          times:  {0.032275, 0.005567, 12.099826, 20.032000},
+          level0:  0.297302,
+          levels: {1.000000, 0.001381, 0.000000, 0.297302},
+          times:  {0.256407, 20.032000, 20.032000, 12.099826},
         },
         keyScaling: {
           bp: 60,
@@ -4429,12 +4290,151 @@
         velScaling: 0,
         kbdRateScaling: 0,
         ams: 0,
-        freq:       4.040,
+        freq:       0.500,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.324210,
+          levels: {1.000000, 0.001381, 0.000000, 0.324210},
+          times:  {0.238092, 20.032000, 20.032000, 2.773897},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      }
+    }
+  },
+  { // Program: 32
+    name: "EXPLOSION",
+    algorithm: 16,
+    feedback:   5,
+    lfoPmDepth: 0.000000,
+    lfoAmDepth: 0.000000,
+    lfo: {
+      waveform: 0, // TRIANGL
+      delay:   54,
+      deltaPhi: 0x08a8fdc2
+    },
+    pitchEnvelope: {
+      level0:  1.000000,
+      levels: {1.000000, 1.000000, 1.000000, 1.000000},
+      times:  {0.001333, 0.001333, 20.032000, 20.032000},
+    },
+    op: {
+      { // OP6
+        fixedFreq:  false,
+        velScaling: 0,
+        kbdRateScaling: 3,
+        ams: 0,
+        freq:       0.515,
         totalLevel: 1.000000,
         envelope: {
           level0:  0.000000,
-          levels: {0.037163, 0.771105, 0.000000, 0.000000},
-          times:  {20.032000, 20.032000, 15.026263, 2.233667},
+          levels: {1.000000, 0.297302, 0.000000, 0.000000},
+          times:  {0.009086, 0.004184, 20.032000, 20.032000},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP5
+        fixedFreq:  false,
+        velScaling: 7,
+        kbdRateScaling: 3,
+        ams: 0,
+        freq:       8.347,
+        totalLevel: 0.034078,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.707107, 0.000000, 0.000000},
+          times:  {0.005891, 0.073259, 6.889572, 20.032000},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP4
+        fixedFreq:  false,
+        velScaling: 7,
+        kbdRateScaling: 3,
+        ams: 0,
+        freq:       0.510,
+        totalLevel: 1.000000,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.707107, 0.000000, 0.000000},
+          times:  {0.005891, 0.073259, 6.889572, 20.032000},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP3
+        fixedFreq:  false,
+        velScaling: 1,
+        kbdRateScaling: 3,
+        ams: 0,
+        freq:       0.666,
+        totalLevel: 0.250000,
+        envelope: {
+          level0:  0.000000,
+          levels: {0.297302, 1.000000, 0.000000, 0.000000},
+          times:  {0.024935, 0.362614, 6.049913, 20.032000},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP2
+        fixedFreq:  true,
+        velScaling: 2,
+        kbdRateScaling: 3,
+        ams: 0,
+        freq:     100.000,
+        totalLevel: 0.229251,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 0.594604, 0.000000, 0.000000},
+          times:  {0.005891, 0.062570, 8.555869, 15.026263},
+        },
+        keyScaling: {
+          bp: 60,
+          lcExp: false,
+          lDepth:  0,
+          rcExp: false,
+          rDepth:  0,
+        }
+      },
+      { // OP1
+        fixedFreq:  false,
+        velScaling: 2,
+        kbdRateScaling: 3,
+        ams: 0,
+        freq:       0.488,
+        totalLevel: 0.081052,
+        envelope: {
+          level0:  0.000000,
+          levels: {1.000000, 1.000000, 0.000000, 0.000000},
+          times:  {0.005891, 0.001333, 6.889572, 20.032000},
         },
         keyScaling: {
           bp: 60,

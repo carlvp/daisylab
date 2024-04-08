@@ -32,7 +32,7 @@ class FmOperator {
   int mDeltaPhiKey, mCurrDeltaPhi;
   float mDelay1, mDelay2;
   float mCurrAm;
-  EnvelopeState mEnvelope;
+  EnvelopeState mEnvelope{false}; // false=sample envelope at audio rate
 };
 
 #endif

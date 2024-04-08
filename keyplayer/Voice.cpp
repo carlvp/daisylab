@@ -20,6 +20,7 @@ void Voice::noteOn(Channel *ch, unsigned key, unsigned velocity,
   mKey=key;
   mGate=true;
   mTimestamp=timestamp;
+  mEnvelope.noteOn(&mProgram->pitchEnvelope, 1.0f, 1.0f);
   
   std::int32_t deltaPhi=theKeyPlayer.midiToPhaseIncrement(key);
   float com=0.25f/mAlgorithm->getNumOutputs();
@@ -40,6 +41,10 @@ void Voice::fillBuffer(float *monoOut,
 		       const float *monoIn,
 		       float pitchMod,
 		       float ampMod) {
+  // Handle pitch envelope
+  pitchMod*=mEnvelope.ProcessSample();
+  mEnvelope.updateAfterBlock(&mProgram->pitchEnvelope);
+  
   if (mAlgorithm) {
     mAlgorithm->fillBuffer(monoOut, monoIn, mOp,
 			   pitchMod, ampMod,

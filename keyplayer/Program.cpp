@@ -26,6 +26,8 @@ static const Program programBank[]={
     }
   },
 #include "rom1a.i"
+  ,
+#include "rom2b.i"
 };
 
 const Program *Program::getProgram(unsigned programNumber) {

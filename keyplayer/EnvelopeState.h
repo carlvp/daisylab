@@ -8,6 +8,10 @@ class EnvelopeParam;
 
 class EnvelopeState {
  public:
+  explicit EnvelopeState(bool samplePerBlock)
+    : mSamplePerBlock{samplePerBlock}
+  { }
+
   float ProcessSample() {
     float env=mLevel+mVarying;
     mVarying*=mDecay;
@@ -33,7 +37,9 @@ class EnvelopeState {
   }
   
  private:
-  unsigned mStage, mBlocksLeft;
+  bool mSamplePerBlock;
+  unsigned char mStage;
+  unsigned mBlocksLeft;
   float mLevel;
   float mVarying;
   float mDecay;
