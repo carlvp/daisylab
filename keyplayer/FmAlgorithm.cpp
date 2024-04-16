@@ -499,11 +499,13 @@ public:
 			  unsigned feedback) const override {
     float *tmp=tempBuffer1;
     const float *zero=zeroBuffer;
+    const float *mod2=is31? zero : tmp;
+    const float *mod3=is24? tmp : zero;
     
     op[0].fillBuffer(tmp, zero, zero, pitchMod, lfo, feedback);
-    op[1].fillBuffer(out, out,  tmp,  pitchMod, lfo, 0);
-    op[2].fillBuffer(out, out,  is31? zero : tmp, pitchMod, lfo, 0);
-    op[3].fillBuffer(out, out,  is24? tmp : zero, pitchMod, lfo, 0);
+    op[1].fillBuffer(out, in,   tmp,  pitchMod, lfo, 0);
+    op[2].fillBuffer(out, out,  mod2, pitchMod, lfo, 0);
+    op[3].fillBuffer(out, out,  mod3, pitchMod, lfo, 0);
     op[4].fillBuffer(out, out,  zero, pitchMod, lfo, 0);
     op[5].fillBuffer(out, out,  zero, pitchMod, lfo, 0);
   }
