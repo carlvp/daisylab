@@ -12,6 +12,7 @@
 #include "AudioPath.h"
 #include "Instrument.h"
 #include "MidiDispatcher.h"
+#include "Program.h"
 
 daisy::DaisySeed DaisySeedHw;
 
@@ -36,7 +37,8 @@ int main(void)
   DaisySeedHw.Configure();
   DaisySeedHw.Init();
   theMidiDispatcher.Init(&theInstrument);
-
+  Program::load_rom1a();
+  
   // Main loop
   startAudioPath();
   while(1) {

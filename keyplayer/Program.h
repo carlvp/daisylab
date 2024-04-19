@@ -68,6 +68,7 @@ struct Program {
   void load(const SyxVoiceParam &syxVoice);
 
   static const Program *getProgram(unsigned programNumber);
+  static void load_rom1a();
 };
 
 #endif

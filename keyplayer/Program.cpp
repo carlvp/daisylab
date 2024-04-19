@@ -345,3 +345,11 @@ void Program::load(const SyxVoiceParam &syxVoice) {
     convert(syxVoice.op[i], op[i]);
 }
 
+#include "rom1a.i"
+
+void Program::load_rom1a() {
+  const SyxBulkFormat *syxFile=reinterpret_cast<const SyxBulkFormat*>(rom1a);
+
+  for (unsigned i=0; i<32; ++i)
+    programBank[i].load(syxFile->voiceParam[i]);
+}
