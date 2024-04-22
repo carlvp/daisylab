@@ -4,6 +4,7 @@
 
 #include "configuration.h"
 #include "Channel.h"
+#include "Program.h"
 #include "Voice.h"
 
 struct SyxBulkFormat;
@@ -15,7 +16,9 @@ class Instrument {
   // Instrument is used as a singleton, we don't ever want to copy it
   Instrument(const Instrument&) = delete;
   Instrument& operator=(const Instrument&) = delete;
-  
+
+  void Init();
+
   void fillBuffer(float *stereoBuffer);
   
   // channel: 0-15, key: 0-127, velocity: 0-127
@@ -35,11 +38,12 @@ class Instrument {
 
   // system exclusive
   void sysEx(unsigned char *buffer, unsigned length);
-  
+
  private:
   unsigned mCurrTimestamp{0};
   Channel mChannel[NUM_CHANNELS];
   Voice mVoice[NUM_VOICES];
+  Program mProgram[NUM_PROGRAMS];
   static constexpr unsigned SYSEX_BUFFER_SIZE=4104;
   unsigned char mSysExBuffer[SYSEX_BUFFER_SIZE];
   unsigned mSysExPtr{0};

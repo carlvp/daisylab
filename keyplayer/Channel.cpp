@@ -6,8 +6,8 @@
 
 static float monoMix[BLOCK_SIZE];
 
-void Channel::reset() {
-  setProgram(1);
+void Channel::reset(const Program *program) {
+  mProgram=program;
   mExpression=16383/16384.0f; // (very close to) full volume
   setChannelVolume(90*128);   // about 50% linear gain (-6dB)
   setPan(8192);               // center
@@ -69,10 +69,6 @@ void Channel::mixVoicesPrivate(float *stereoMix, const float *stereoIn) {
     stereoMix[2*i] = stereoIn[2*i] + x*mLeftGain;
     stereoMix[2*i+1] = stereoIn[2*i+1] + x*mRightGain;
   }
-}
-
-void Channel::setProgram(unsigned program) {
-  mProgram=Program::getProgram(program);
 }
 
 void Channel::setPan(unsigned p) {

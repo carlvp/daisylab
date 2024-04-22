@@ -44,15 +44,6 @@ Program::Program()
   op[5].totalLevel=1.0f;
 }
 
-static const Program initVoice;
-static Program programBank[32];
-
-const Program *Program::getProgram(unsigned programNumber) {
-  constexpr unsigned N=sizeof(programBank)/sizeof(Program);
-  return (programNumber==0 || programNumber>N)?
-    &initVoice : &programBank[programNumber-1];
-}
-
 //
 // Conversion SyxVoiceParam -> Program
 //
@@ -343,9 +334,4 @@ void Program::load(const SyxVoiceParam &syxVoice) {
   convertPitchEnvelope(syxVoice.pitchEnvelope, pitchEnvelope);
   for (unsigned i=0; i<6; ++i)
     convert(syxVoice.op[i], op[i]);
-}
-
-void Program::load(const SyxBulkFormat *syxFile) {
-  for (unsigned i=0; i<32; ++i)
-    programBank[i].load(syxFile->voiceParam[i]);
 }

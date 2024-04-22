@@ -67,9 +67,6 @@ struct Program {
   FmOperatorParam op[NUM_OPERATORS];
 
   void load(const SyxVoiceParam &syxVoice);
-
-  static const Program *getProgram(unsigned programNumber);
-  static void load(const SyxBulkFormat *syxFile);
 };
 
 #endif

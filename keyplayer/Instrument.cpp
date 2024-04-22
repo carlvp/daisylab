@@ -5,6 +5,13 @@
 #include "Program.h"
 #include "SyxBulkFormat.h"
 
+void Instrument::Init() {
+  const Program *program1 = &mProgram[0];
+
+  for (unsigned ch=0; ch<NUM_CHANNELS; ++ch)
+    mChannel[ch].reset(program1);
+}
+
 void Instrument::fillBuffer(float *stereoOutBuffer) {
   const float *stereoMix=zeroBuffer;
 
@@ -37,7 +44,12 @@ void Instrument::controlChange(unsigned ch, unsigned cc, unsigned value) {
     channel.setPan(value*128);
 }
 
-void Instrument::programChange(unsigned ch, unsigned program) {
+static const Program initVoice;
+
+void Instrument::programChange(unsigned ch, unsigned p) {
+  const Program *program=(p==0 || p>NUM_PROGRAMS)?
+    &initVoice : &mProgram[p-1];
+  
   mChannel[ch].setProgram(program);
 }
 
@@ -123,5 +135,14 @@ Voice *Instrument::allocateVoice(unsigned ch, unsigned key) {
 }
 
 void Instrument::loadSyxBulkFormat(const SyxBulkFormat *syx) {
-  Program::load(syx);
+  for (unsigned i=0; i<32; ++i)
+    mProgram[i].load(syx->voiceParam[i]);
 }
+
+// static const Program initVoice;
+//
+// const Program *Program::getProgram(unsigned programNumber) {
+//   constexpr unsigned N=sizeof(programBank)/sizeof(Program);
+//   return (programNumber==0 || programNumber>N)?
+//     &initVoice : &programBank[programNumber-1];
+// }

@@ -4,6 +4,7 @@
 
 #define SAMPLE_RATE  48000
 #define BLOCK_SIZE      32
+#define NUM_PROGRAMS    32
 #define NUM_CHANNELS    16
 #define NUM_VOICES       4
 #define NUM_OPERATORS    6

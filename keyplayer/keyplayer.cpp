@@ -36,8 +36,9 @@ int main(void)
   // Init
   DaisySeedHw.Configure();
   DaisySeedHw.Init();
+  theInstrument.Init();
   theMidiDispatcher.Init(&theInstrument);
-  
+
   // Main loop
   startAudioPath();
   while(1) {

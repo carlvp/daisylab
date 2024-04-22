@@ -13,14 +13,13 @@ class Channel {
   Channel()
     : mMasterVolume{0.5f}, mNumVoices{0}
   {
-    reset();
   }
 
   // Avoid accidental usage
   Channel(const Channel&) = delete;
   Channel& operator=(const Channel&) = delete;
   
-  void reset();
+  void reset(const Program *program);
 
   void addVoice(Voice *v);
   void removeVoice(Voice *v);
@@ -38,7 +37,10 @@ class Channel {
   }
 
   const Program *getProgram() const { return mProgram; }
-  void setProgram(unsigned pgm);
+
+  void setProgram(const Program *program) {
+    mProgram=program;
+  }
 
   // Master volume [0, 1.0]
   void setMasterVolume(float v) {
