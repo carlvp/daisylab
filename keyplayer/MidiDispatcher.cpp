@@ -45,6 +45,11 @@ void UsbMidiDispatcher::DispatchEvents() {
       mInstrument->pitchBend(msg.channel,
 			     (int) (msg.data[1]*128 + msg.data[0]) - 8192);
       break;
+    case daisy::SystemCommon:
+      if (msg.sc_type==daisy::SystemExclusive) {
+	mInstrument->sysEx(msg.sysex_data, msg.sysex_message_len);
+      }
+      break;
     default:
       break;
     }

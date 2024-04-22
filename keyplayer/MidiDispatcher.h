@@ -18,7 +18,7 @@ class UsbMidiDispatcher {
  private:
   daisy::MidiUsbHandler mMidi;
   Instrument *mInstrument;
-  
+
   void DispatchEvents();  
 };
 

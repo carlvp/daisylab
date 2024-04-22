@@ -6,6 +6,8 @@
 #include "Channel.h"
 #include "Voice.h"
 
+struct SyxBulkFormat;
+
 class Instrument {
  public:
   Instrument() = default;
@@ -30,13 +32,20 @@ class Instrument {
 
   // channel: 0-15, value: -8192..0..+8191
   void pitchBend(unsigned channel, int value);
+
+  // system exclusive
+  void sysEx(unsigned char *buffer, unsigned length);
   
  private:
   unsigned mCurrTimestamp{0};
   Channel mChannel[NUM_CHANNELS];
   Voice mVoice[NUM_VOICES];
-
+  static constexpr unsigned SYSEX_BUFFER_SIZE=4104;
+  unsigned char mSysExBuffer[SYSEX_BUFFER_SIZE];
+  unsigned mSysExPtr{0};
+  
   Voice *allocateVoice(unsigned ch, unsigned key);
+  void loadSyxBulkFormat(const SyxBulkFormat *syx);
 };
 
 #endif

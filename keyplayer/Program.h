@@ -53,6 +53,7 @@ struct FmOperatorParam {
 };
 
 struct SyxVoiceParam;
+struct SyxBulkFormat;
 
 struct Program {
   Program();
@@ -68,7 +69,7 @@ struct Program {
   void load(const SyxVoiceParam &syxVoice);
 
   static const Program *getProgram(unsigned programNumber);
-  static void load_rom1a();
+  static void load(const SyxBulkFormat *syxFile);
 };
 
 #endif

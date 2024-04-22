@@ -37,7 +37,6 @@ int main(void)
   DaisySeedHw.Configure();
   DaisySeedHw.Init();
   theMidiDispatcher.Init(&theInstrument);
-  Program::load_rom1a();
   
   // Main loop
   startAudioPath();

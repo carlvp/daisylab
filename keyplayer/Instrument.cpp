@@ -2,6 +2,8 @@
 
 #include "AudioPath.h"
 #include "Instrument.h"
+#include "Program.h"
+#include "SyxBulkFormat.h"
 
 void Instrument::fillBuffer(float *stereoOutBuffer) {
   const float *stereoMix=zeroBuffer;
@@ -43,6 +45,50 @@ void Instrument::pitchBend(unsigned ch, int value) {
   mChannel[ch].setPitchBend(value);
 }
 
+void Instrument::sysEx(unsigned char *inBuffer, unsigned size) {
+  // SysEx transfers are chopped up in fragments of 128 bytes
+  // due to a limitation of the current MIDI Handler so we need
+  // to glue the buffers back together
+
+  if (!mSysExPtr && size>5) {
+    // Start of new transfer, check if the message is for us
+    static constexpr unsigned char YAMAHA_MANUFACTURER_ID=0x43;
+    static constexpr unsigned char Packed32Voice=0x09;
+
+    unsigned id=inBuffer[0];
+
+    if (id==YAMAHA_MANUFACTURER_ID) {
+      unsigned subStat_devNo=inBuffer[1];
+      unsigned formatNo=inBuffer[2];
+      unsigned byteCount=inBuffer[3]*128 + inBuffer[4];
+
+      if (subStat_devNo==0 && formatNo==Packed32Voice && byteCount==0x1000) {
+	// Start transfer to buffer
+	mSysExBuffer[0]=0xf0;
+	mSysExPtr=1;
+      }
+    }
+  }
+
+  if (mSysExPtr) {
+    if (mSysExPtr+size<sizeof(mSysExBuffer)) {
+      // glue together in buffers 
+      memcpy(mSysExBuffer+mSysExPtr, inBuffer, size);
+      mSysExPtr+=size;
+
+      if (mSysExPtr==sizeof(SyxBulkFormat)-1) {
+	mSysExBuffer[mSysExPtr]=0xf7; // End of SysEx
+	loadSyxBulkFormat(reinterpret_cast<const SyxBulkFormat*>(mSysExBuffer));
+	mSysExPtr=0; // Reset SysEx pointer (start over again)
+      }
+    }
+    else {
+      // Error: reset SysEx pointer (start over again)
+      mSysExPtr=0;
+    }
+  }
+}
+
 Voice *Instrument::allocateVoice(unsigned ch, unsigned key) {
   // First check if we already have am active voice on the channel
   // TODO: mute groups -doesn't have to be the same key, same group is OK
@@ -74,4 +120,8 @@ Voice *Instrument::allocateVoice(unsigned ch, unsigned key) {
   }
   
   return result;
+}
+
+void Instrument::loadSyxBulkFormat(const SyxBulkFormat *syx) {
+  Program::load(syx);
 }
