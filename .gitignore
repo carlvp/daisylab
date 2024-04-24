@@ -31,4 +31,6 @@
 *.out
 *.app
 
+/venv
+__pycache__/
 *~

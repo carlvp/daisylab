@@ -1,0 +1,3 @@
+Created like so: python3 -m venv python-venv
+
+Activated like so: source venv/bin/activate
