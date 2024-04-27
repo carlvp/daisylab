@@ -10,6 +10,8 @@ class Op6App:
         # Create links View<-->Controllers
         self.view.setControllers(self.controller.getControllers())
         self.controller.setViews(self.view.getViews())
+        # Initialize user interface
+        self.controller.initUI()
         # Start displaying the Performance Screen
         self.controller.setActiveScreen(MainView.PERFORMANCE_SCREEN)
 

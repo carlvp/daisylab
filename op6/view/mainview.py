@@ -2,6 +2,7 @@ import tkinter
 from tkinter import ttk
 from .performance import PerformanceScreen;
 from .voice import VoiceEditorScreen;
+from . import colorscheme
 
 class MainView:
     PERFORMANCE_SCREEN=0
@@ -12,12 +13,15 @@ class MainView:
         # root and tabbed screens
         self.root=tkinter.Tk()
         self.setTitle("Op6")
+        self.root.config(background='black')
+        
         # FIXME: icon
         # self.root.iconphoto(True, getPhotoImage('op6-64x64.png'))
         # tabbed screens
         self.screens=TabbedScreens(self.root)
         self.screens.grid(row=0, column=0, sticky=tkinter.N)
         self.screens.setReqDimensions(830, 509)
+        self.screens.config(background='black')
         self.currScreen=None
         # Performance Screen
         self.performanceScreen=PerformanceScreen(self.screens)
@@ -85,6 +89,7 @@ class TabbedScreens(tkinter.Frame):
 
     def add(self, frame):
         '''add frame to the collection of tabs'''
+        frame.config(background='black')
         self.tabs.append(frame)
 
     def select(self, tabId):
@@ -113,11 +118,14 @@ class TabbedScreens(tkinter.Frame):
         return (w,h)
 
 class MenuButtons(tkinter.Frame):
-    SELECTED_SCREEN_COLOR='#d45500'
+    BACKGROUND_COLOR=colorscheme.RETRO_DISPLAY_BACKGROUND
+    FOREGROUND_COLOR=colorscheme.RETRO_DISPLAY_FOREGROUND
+    LIGHT_FOREGROUND_COLOR=colorscheme.RETRO_DISPLAY_HIGHLIGHTED
     
     '''Container for the MenuButtons'''
     def __init__(self, parent, **kwargs):
         tkinter.Frame.__init__(self, parent, kwargs)
+        
         self.controller=None
         buttonText=("Performance", "Voice Editor")
         self.buttons=[]
@@ -143,12 +151,13 @@ class MenuButtons(tkinter.Frame):
         self._updateEnabled(self.buttons[other], True)
 
     def _updateEnabled(self, button, isEnabled):
-        (state, normal, active)=((tkinter.NORMAL,
-                                  self.normalBg,
-                                  self.activeBg) if isEnabled
-                                 else (tkinter.DISABLED,
-                                       MenuButtons.SELECTED_SCREEN_COLOR,
-                                       MenuButtons.SELECTED_SCREEN_COLOR))
+        fg=MenuButtons.FOREGROUND_COLOR
+        bg=MenuButtons.BACKGROUND_COLOR
+        light=MenuButtons.LIGHT_FOREGROUND_COLOR
+        (state, fg, activeFg, bg)=(tkinter.NORMAL, fg, light, bg) if isEnabled \
+                                 else (tkinter.DISABLED, bg, bg, fg)
         normalBg=button.config(state=state,
-                               background=normal,
-                               activebackground=active)
+                               foreground=fg,
+                               activeforeground=activeFg,
+                               background=bg,
+                               activebackground=bg)

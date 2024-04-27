@@ -28,6 +28,9 @@ class MainController:
         self.performanceController.setViews(views)
         self.voiceEditorController.setViews(views)
 
+    def initUI(self):
+        self.performanceController.initUI()
+        
     def setActiveScreen(self, index):
         # TODO: performanceController
         # self.performanceController.setHasActiveScreen(index==0)
