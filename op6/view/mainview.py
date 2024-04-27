@@ -1,8 +1,11 @@
 import tkinter
 from tkinter import ttk
+from .performance import PerformanceScreen;
+from .voice import VoiceEditorScreen;
 
 class MainView:
     PERFORMANCE_SCREEN=0
+    VOICE_EDITOR_SCREEN=1
 
     '''main view class, handles all things relating to Tk and user interface.'''
     def __init__(self):
@@ -11,20 +14,24 @@ class MainView:
         self.setTitle("Op6")
         # FIXME: icon
         # self.root.iconphoto(True, getPhotoImage('op6-64x64.png'))
-        # FIXME: tabbed screens
-        # self.screens=TabbedScreens(self.root)
-        # self.screens.grid(row=0, column=0, sticky=tkinter.N)
-        # self.screens.setReqDimensions(830, 509)
+        # tabbed screens
+        self.screens=TabbedScreens(self.root)
+        self.screens.grid(row=0, column=0, sticky=tkinter.N)
+        self.screens.setReqDimensions(830, 509)
         self.currScreen=None
-        # FIXME: Performance Screen
-        # self.performanceScreen=PerformanceScreen(self.screens)
-        # self.screens.add(self.performanceScreen)
+        # Performance Screen
+        self.performanceScreen=PerformanceScreen(self.screens)
+        self.screens.add(self.performanceScreen)
+        # Voice Editor Screen
+        self.voiceEditorScreen=VoiceEditorScreen(self.screens)
+        self.screens.add(self.voiceEditorScreen)
         # MenuButtons
         self.menuButtons=MenuButtons(self.root)
         self.menuButtons.grid(row=1, column=0, sticky=(tkinter.S,tkinter.W))
         # Register Views
         self.views={'MainView': self}
-        # FIXME self.performanceScreen.registerViewObjects(self.views)
+        self.performanceScreen.registerViewObjects(self.views)
+        self.voiceEditorScreen.registerViewObjects(self.views)
 
     def run(self):
         '''runs Tk mainloop'''
@@ -43,15 +50,14 @@ class MainView:
         sets the controllers of the various views
         controllers is a dictionary from controller name to instance
         '''
-        # FIXME: performanceScreen
-        # self.performanceScreen.setControllers(controllers)
         self.menuButtons.setController(controllers['MainController'])
-
+        self.performanceScreen.setControllers(controllers)
+        self.voiceEditorScreen.setControllers(controllers)
+        
     def selectScreen(self, index):
         if index!=self.currScreen:
             self.currScreen=index
-            # FIXME: perfromanceScreen
-            # self.screens.select(index)
+            self.screens.select(index)
             self.menuButtons.updateSelectedScreen(index)
 
 # TODO: Clipboard
@@ -113,7 +119,7 @@ class MenuButtons(tkinter.Frame):
     def __init__(self, parent, **kwargs):
         tkinter.Frame.__init__(self, parent, kwargs)
         self.controller=None
-        buttonText=("Performance", "Program")
+        buttonText=("Performance", "Voice Editor")
         self.buttons=[]
         for b in range(len(buttonText)):
             button=tkinter.Button(self, text=buttonText[b])

@@ -1,13 +1,18 @@
+from .performance import PerformanceController
+from .voice import VoiceEditorController
+
 class MainController:
     '''
     The main controller manages user interaction and mediates operations 
     between view and model.
     '''
     def __init__(self):
-        # TODO: performanceController 
-        # self.performanceController=PerformanceController(self)
+        self.performanceController=PerformanceController()
+        self.voiceEditorController=VoiceEditorController()
+        
         self.controllers={'MainController': self}
-        # self.perfromanceController.registerControllerObjects(self.controllers)
+        self.performanceController.registerControllerObjects(self.controllers)
+        self.voiceEditorController.registerControllerObjects(self.controllers)
         self.clipboard=None
 
     def getControllers(self):
@@ -20,8 +25,8 @@ class MainController:
         views is a dictionary from controller name to instance
         '''
         self.view=views['MainView']
-        # TODO: performanceController
-        # self.perfromanceController.setViews(views)
+        self.performanceController.setViews(views)
+        self.voiceEditorController.setViews(views)
 
     def setActiveScreen(self, index):
         # TODO: performanceController
@@ -36,4 +41,4 @@ class MainController:
         if self.clipboard!=clipboard:
             self.clipboard=clipboard
             # TODO: notify all controllers
-            # self.perfromanceController.clipboadChangedNotifier(clipboard)
+            # self.performanceController.clipboadChangedNotifier(clipboard)
