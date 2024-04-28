@@ -1,3 +1,6 @@
+import os
+from op6.model.syx import SyxPacked32Voice
+
 # interface (MainController):
 # registerControllerObjects()
 # setView()
@@ -5,6 +8,7 @@
 #
 # interface (View)
 # setVoice(voiceNumber)
+# loadVoiceBank()
 
 class PerformanceController:
     '''
@@ -27,9 +31,23 @@ class PerformanceController:
     def initUI(self):
         self.currVoice=0
         self.performanceScreen.selectVoice(0)
-        self.performanceScreen.setVoiceName(10, "E.PIANO 1")
-        
+
     def setVoice(self, voiceNumber):
         '''called from PerformanceScreen to set new voice'''
         self.performanceScreen.selectVoice(voiceNumber)
         self.currVoice=voiceNumber
+
+    def loadVoiceBank(self):
+        '''called from the PerformanceScreen to load a voice bank'''
+        filename=self.performanceScreen.askSyxFilename()
+        if filename==() or filename=="":
+            return # load cancelled
+        
+        syx=SyxPacked32Voice.load(filename)
+        if syx is None:
+            return # load failed (not a well-formed SyxPacked32Voice file)
+
+        (bankName,_)=os.path.splitext(os.path.basename(filename))
+        self.performanceScreen.setBankName(bankName[:24])
+        for n in range(32):
+            self.performanceScreen.setVoiceName(n, syx.getVoice(n).getName()) 
