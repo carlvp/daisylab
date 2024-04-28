@@ -39,8 +39,7 @@ class PerformanceController:
         self.performanceScreen.selectVoice(voiceNumber)
         self.currVoice=voiceNumber
         if self.midiOut:
-            # FIXME: (but not here :-) it seems Daisy is one off
-            self.midiOut.sendProgramChange(self.baseChannel, voiceNumber+1)
+            self.midiOut.sendProgramChange(self.baseChannel, voiceNumber)
 
 
     def loadVoiceBank(self):
