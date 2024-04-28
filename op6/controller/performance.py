@@ -19,7 +19,9 @@ class PerformanceController:
     def __init__(self):
         self.performanceScreen=None
         self.currVoice=None
-        
+        self.baseChannel=0
+        self.midiOut=None
+
     def registerControllerObjects(self, controllers):
         '''adds controller objects to the dictionary, controllers.'''
         controllers['PerformanceController']=self
@@ -36,6 +38,10 @@ class PerformanceController:
         '''called from PerformanceScreen to set new voice'''
         self.performanceScreen.selectVoice(voiceNumber)
         self.currVoice=voiceNumber
+        if self.midiOut:
+            # FIXME: (but not here :-) it seems Daisy is one off
+            self.midiOut.sendProgramChange(self.baseChannel, voiceNumber+1)
+
 
     def loadVoiceBank(self):
         '''called from the PerformanceScreen to load a voice bank'''
@@ -51,3 +57,6 @@ class PerformanceController:
         self.performanceScreen.setBankName(bankName[:24])
         for n in range(32):
             self.performanceScreen.setVoiceName(n, syx.getVoice(n).getName()) 
+
+    def setMidiOut(self, midiOut):
+        self.midiOut=midiOut

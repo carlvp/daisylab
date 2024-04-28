@@ -45,3 +45,6 @@ class MainController:
             self.clipboard=clipboard
             # TODO: notify all controllers
             # self.performanceController.clipboadChangedNotifier(clipboard)
+
+    def setMidiOut(self, midiOut):
+        self.performanceController.setMidiOut(midiOut)
