@@ -53,6 +53,7 @@ class PerformanceController:
         if syx is None:
             return # load failed (not a well-formed SyxPacked32Voice file)
 
+        self.midiOut.chopUpSysEx(syx.getRawData(), 128) 
         (bankName,_)=os.path.splitext(os.path.basename(filename))
         self.performanceScreen.setBankName(bankName[:24])
         for n in range(32):

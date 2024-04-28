@@ -21,6 +21,7 @@ class Op6App:
         # Connect to Daisy Seed (op6)
         daisysPort=self.midiOut.findPort("Daisy Seed")
         if not daisysPort is None:
+            print("Connected to "+daisysPort.name)
             self.midiOut.connectTo(daisysPort)
             self.controller.setMidiOut(self.midiOut)
 

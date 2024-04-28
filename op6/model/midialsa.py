@@ -1,3 +1,4 @@
+import alsa_midi
 from alsa_midi import SequencerClient, READ_PORT, ProgramChangeEvent
 
 class AlsaMidiOutput:
@@ -41,3 +42,22 @@ class AlsaMidiOutput:
         
     def sendProgramChange(self, channel, program):
         self.sendMidiEvent(ProgramChangeEvent(channel, program))
+
+    def sendSysEx(self, payload):
+        self.sendMidiEvent(alsa_midi.SysExEvent(payload))
+
+    def chopUpSysEx(self, payload, chunkSize):
+        i=1                # Skip first 0xf0, we will add it in each chunk
+        end=len(payload)-1 # Skip last 0xf7, we will add it in each chunk
+        buffer=bytearray(chunkSize+2)
+        buffer[0]=0xf0
+        buffer[chunkSize+1]=0xf7
+
+        while end-i > chunkSize:
+            buffer[1:chunkSize+1]=payload[i:i+chunkSize]
+            self.sendSysEx(buffer)
+            i=i+chunkSize
+        lastChunk=end-i
+        buffer[1:1+lastChunk]=payload[i:end]
+        buffer[1+lastChunk]=0xf7
+        self.sendSysEx(buffer[0:2+lastChunk])

@@ -2,6 +2,9 @@ class SyxPacked32Voice:
     def __init__(self, data):
         self.rawSyxData=data
 
+    def getRawData(self):
+        return self.rawSyxData
+
     def getVoice(self, n):
         i=6+128*n
         return (SyxPacked32Voice.VoiceData(self.rawSyxData[i:i+128])
