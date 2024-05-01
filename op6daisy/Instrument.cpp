@@ -59,8 +59,8 @@ void Instrument::controlChange(unsigned ch, unsigned cc, unsigned value) {
 static const Program initVoice;
 
 void Instrument::programChange(unsigned ch, unsigned p) {
-  const Program *program=(p==0 || p>NUM_PROGRAMS)?
-    &initVoice : &mProgram[p-1];
+  const Program *program=(p>=NUM_PROGRAMS)?
+    &initVoice : &mProgram[p];
   
   mChannel[ch].setProgram(program);
 }
