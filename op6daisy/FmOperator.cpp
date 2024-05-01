@@ -126,3 +126,158 @@ void FmOperator::fillBuffer(float *out,
   mEnvelope.updateAfterBlock(&mParam->envelope);
   mCurrAm=linAm;
 }
+
+void FmOperator::fillBufferFb2(FmOperator op[],
+			       float *out,
+			       const float *in,
+			       float pitchMod,
+			       float ampMod,
+			       int feedback) {
+  FmOperator *op0=&op[0];
+  FmOperator *op1=&op[1];
+  unsigned phi0=op0->mPhi;
+  unsigned phi1=op1->mPhi;
+
+  // Pitch modulation
+  int nextDeltaPhi=op0->mDeltaPhiKey*pitchMod;
+  int currDeltaPhi0=op0->mCurrDeltaPhi;
+  int d2Phi0=(nextDeltaPhi-currDeltaPhi0)/BLOCK_SIZE;
+  nextDeltaPhi=op1->mDeltaPhiKey*pitchMod;
+  int currDeltaPhi1=op1->mCurrDeltaPhi;
+  int d2Phi1=(nextDeltaPhi-currDeltaPhi1)/BLOCK_SIZE;
+
+  // Amplitude modulation (in addition to envelope)
+  float nextAm=exp2f(-ampMod*sensitivity[op0->mParam->ams]);
+  float linAm0=op0->mCurrAm;
+  float dA0=(nextAm-linAm0)/BLOCK_SIZE;
+  nextAm=exp2f(-ampMod*sensitivity[op1->mParam->ams]);
+  float linAm1=op1->mCurrAm;
+  float dA1=(nextAm-linAm1)/BLOCK_SIZE;
+
+  // Feedback
+  float y1=op0->mDelay1;
+  float y2=op0->mDelay2;
+  
+  for (unsigned i=0; i<BLOCK_SIZE; ++i) {
+    // First operator, op0
+    float m=(feedback)? ldexpf(y1+y2, feedback-8) : 0;
+    float s=sinf((ldexpf(phi0,-31)+m)*((float) M_PI));
+    float gain=op0->mEnvelope.ProcessSample()*linAm0;
+    m=4.0f*s*gain;
+    phi0+=currDeltaPhi0;
+    currDeltaPhi0+=d2Phi0;
+    linAm0+=dA0;
+
+    // second operator, op1
+    s=sinf((ldexpf(phi1,-31)+m)*((float) M_PI));
+    gain=op1->mEnvelope.ProcessSample()*linAm1;
+    y2=y1;
+    y1=s*gain;
+    phi1+=currDeltaPhi1;
+    currDeltaPhi1+=d2Phi1;
+    linAm1+=dA1;
+    out[i]=in[i] + y1;
+  }
+
+  // Write back updated state
+  op0->mDelay1=y1;
+  op0->mDelay2=y2;
+  op0->mPhi=phi0;
+  op0->mCurrDeltaPhi=currDeltaPhi0;
+  op0->mCurrAm=linAm0;
+  op1->mPhi=phi1;
+  op1->mCurrDeltaPhi=currDeltaPhi1;
+  op1->mCurrAm=linAm1;
+  // update envelope state
+  op0->mEnvelope.updateAfterBlock(&op0->mParam->envelope);
+  op1->mEnvelope.updateAfterBlock(&op1->mParam->envelope);
+}
+
+void FmOperator::fillBufferFb3(FmOperator op[],
+			       float *out,
+			       const float *in,
+			       float pitchMod,
+			       float ampMod,
+			       int feedback) {
+  FmOperator *op0=&op[0];
+  FmOperator *op1=&op[1];
+  FmOperator *op2=&op[2];
+  unsigned phi0=op0->mPhi;
+  unsigned phi1=op1->mPhi;
+  unsigned phi2=op2->mPhi;
+
+  // Pitch modulation
+  int nextDeltaPhi=op0->mDeltaPhiKey*pitchMod;
+  int currDeltaPhi0=op0->mCurrDeltaPhi;
+  int d2Phi0=(nextDeltaPhi-currDeltaPhi0)/BLOCK_SIZE;
+  nextDeltaPhi=op1->mDeltaPhiKey*pitchMod;
+  int currDeltaPhi1=op1->mCurrDeltaPhi;
+  int d2Phi1=(nextDeltaPhi-currDeltaPhi1)/BLOCK_SIZE;
+  nextDeltaPhi=op2->mDeltaPhiKey*pitchMod;
+  int currDeltaPhi2=op2->mCurrDeltaPhi;
+  int d2Phi2=(nextDeltaPhi-currDeltaPhi2)/BLOCK_SIZE;
+
+  // Amplitude modulation (in addition to envelope)
+  float nextAm=exp2f(-ampMod*sensitivity[op0->mParam->ams]);
+  float linAm0=op0->mCurrAm;
+  float dA0=(nextAm-linAm0)/BLOCK_SIZE;
+  nextAm=exp2f(-ampMod*sensitivity[op1->mParam->ams]);
+  float linAm1=op1->mCurrAm;
+  float dA1=(nextAm-linAm1)/BLOCK_SIZE;
+  nextAm=exp2f(-ampMod*sensitivity[op2->mParam->ams]);
+  float linAm2=op2->mCurrAm;
+  float dA2=(nextAm-linAm2)/BLOCK_SIZE;
+  
+  // Feedback
+  float y1=op0->mDelay1;
+  float y2=op0->mDelay2;
+  
+  for (unsigned i=0; i<BLOCK_SIZE; ++i) {
+    // First operator, op0
+    float m=(feedback)? ldexpf(y1+y2, feedback-8) : 0;
+    float s=sinf((ldexpf(phi0,-31)+m)*((float) M_PI));
+    float gain=op0->mEnvelope.ProcessSample()*linAm0;
+    m=4.0f*s*gain;
+
+    phi0+=currDeltaPhi0;
+    currDeltaPhi0+=d2Phi0;
+    linAm0+=dA0;
+
+    // second operator, op1
+    s=sinf((ldexpf(phi1,-31)+m)*((float) M_PI));
+    gain=op1->mEnvelope.ProcessSample()*linAm1;
+    m=4.0f*s*gain;
+    
+    phi1+=currDeltaPhi1;
+    currDeltaPhi1+=d2Phi1;
+    linAm1+=dA1;
+
+    // third operator, op2
+    s=sinf((ldexpf(phi2,-31)+m)*((float) M_PI));
+    gain=op2->mEnvelope.ProcessSample()*linAm2;    
+    y2=y1;
+    y1=s*gain;
+    phi2+=currDeltaPhi2;
+    currDeltaPhi2+=d2Phi2;
+    linAm2+=dA2;
+    out[i]=in[i] + y1;
+  }
+
+  // Write back updated state
+  op0->mDelay1=y1;
+  op0->mDelay2=y2;
+  op0->mPhi=phi0;
+  op0->mCurrDeltaPhi=currDeltaPhi0;
+  op0->mCurrAm=linAm0;
+  op1->mPhi=phi1;
+  op1->mCurrDeltaPhi=currDeltaPhi1;
+  op1->mCurrAm=linAm1;
+  op2->mPhi=phi2;
+  op2->mCurrDeltaPhi=currDeltaPhi2;
+  op2->mCurrAm=linAm2;
+
+  // update envelope state
+  op0->mEnvelope.updateAfterBlock(&op0->mParam->envelope);
+  op1->mEnvelope.updateAfterBlock(&op1->mParam->envelope);
+  op2->mEnvelope.updateAfterBlock(&op2->mParam->envelope);
+}

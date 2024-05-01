@@ -10,7 +10,7 @@ class FmAlgorithm {
     : mNumOutputs{numOutputs}, mOutputMask{outputMask}
     {}
 
-  // Algorithms are numbered 1..32
+  // Algorithms are numbered 0..31
   static const FmAlgorithm* getAlgorithm(unsigned algorithmNumber);
   
   // Number of output operators in this algorithm 

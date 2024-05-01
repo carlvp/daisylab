@@ -35,7 +35,7 @@ FmOperatorParam::FmOperatorParam()
 }
 
 Program::Program() 
-  : algorithm{1},
+  : algorithm{0},
     feedback{0},
     lfoPmDepth{0.0f},
     lfoAmDepth{0.0f},
@@ -318,7 +318,7 @@ static void convert(const SyxVoiceParam::Lfo &syxLfo, LfoParam lfo) {
 void Program::load(const SyxVoiceParam &syxVoice) {
   unsigned fbl, lpms;
   
-  algorithm=clamp(syxVoice.algorithm, 31)+1;
+  algorithm=clamp(syxVoice.algorithm, 31);
   
   // Map fbl 0..7 onto 0, 3..9
   fbl=syxVoice.opi_fbl & 7;

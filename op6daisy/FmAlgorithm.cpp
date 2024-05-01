@@ -86,6 +86,38 @@ public:
 
 static FmAlgorithm3 alg3;
 
+// 3  0-+
+// |  | |
+// 4  1 |
+// |  | |
+// 5  2-+
+// +--+
+
+class FmAlgorithm4 : public FmAlgorithm {
+public:
+  FmAlgorithm4()
+    : FmAlgorithm{2, BITSET2(2,5)}
+  { }
+
+  virtual void fillBuffer(float *out,
+			  const float *in,
+			  FmOperator *op,
+			  float pitchMod,
+			  float lfo,
+			  unsigned feedback) const override {
+    float *tmp=tempBuffer1;
+    const float *zero=zeroBuffer;
+
+    // triple-operator feedback loop op[0], op[1] and op[2]
+    FmOperator::fillBufferFb3(op, out, in, pitchMod, lfo, feedback);
+    op[3].fillBuffer(tmp, zero, zero, pitchMod, lfo, 0);
+    op[4].fillBuffer(tmp, zero, tmp,  pitchMod, lfo, 0);
+    op[5].fillBuffer(out, out,  tmp,  pitchMod, lfo, 0);
+  }
+};
+
+static FmAlgorithm4 alg4;
+
 // 4 2 0*
 // | | |
 // 5 3 1
@@ -115,6 +147,36 @@ public:
 };
 
 static FmAlgorithm5 alg5;
+
+// 4 2 0-+
+// | | | |
+// 5 3 1-+ 
+// +-+-+
+class FmAlgorithm6 : public FmAlgorithm {
+public:
+  FmAlgorithm6()
+    : FmAlgorithm{3, BITSET3(1,3,5)}
+  { }
+
+  virtual void fillBuffer(float *out,
+			  const float *in,
+			  FmOperator *op,
+			  float pitchMod,
+			  float lfo,
+			  unsigned feedback) const override {
+    float *tmp=tempBuffer1;
+    const float *zero=zeroBuffer;
+
+    // double-operator feedback loop op[0] and op[1]
+    FmOperator::fillBufferFb2(op, out, in, pitchMod, lfo, feedback);
+    op[2].fillBuffer(tmp, zero, zero, pitchMod, lfo, 0);
+    op[3].fillBuffer(out, out,  tmp,  pitchMod, lfo, 0);
+    op[4].fillBuffer(tmp, zero, zero, pitchMod, lfo, 0);
+    op[5].fillBuffer(out, out,  tmp,  pitchMod, lfo, 0);
+  }
+};
+
+static FmAlgorithm6 alg6;
 
 //     0*      0      0
 //     |       |      |
@@ -670,39 +732,41 @@ public:
 
 static FmAlgorithm32 alg32;
 
+static const FmAlgorithm* const algorithmTab[32]={
+  &alg1,
+  &alg2,
+  &alg3,
+  &alg4,
+  &alg5,
+  &alg6,
+  &alg7,
+  &alg8,
+  &alg9,
+  &alg10,
+  &alg11,
+  &alg12,
+  &alg13,
+  &alg14,
+  &alg15,
+  &alg16,
+  &alg17,
+  &alg18,
+  &alg19,
+  &alg20,
+  &alg21,
+  &alg22,
+  &alg23,
+  &alg24,
+  &alg25,
+  &alg26,
+  &alg27,
+  &alg28,
+  &alg29,
+  &alg30,
+  &alg31,
+  &alg32
+};
+
 const FmAlgorithm* FmAlgorithm::getAlgorithm(unsigned algorithmNumber) {
-  switch (algorithmNumber) {
-  case 1:  return &alg1;
-  case 2:  return &alg2;
-  case 3:  return &alg3;
-  case 5:  return &alg5;
-  case 7:  return &alg7;
-  case 8:  return &alg8;
-  case 9:  return &alg9;
-  case 10: return &alg10;
-  case 11: return &alg11;
-  case 12: return &alg12;
-  case 13: return &alg13;
-  case 14: return &alg14;
-  case 15: return &alg15;
-  case 16: return &alg16;
-  case 17: return &alg17;
-  case 18: return &alg18;
-  case 19: return &alg19;
-  case 20: return &alg20;
-  case 21: return &alg21;
-  case 22: return &alg22;
-  case 23: return &alg23;
-  case 24: return &alg24;
-  case 25: return &alg25;
-  case 26: return &alg26;
-  case 27: return &alg27;
-  case 28: return &alg28;
-  case 29: return &alg29;
-  case 30: return &alg30;
-  case 31: return &alg31;
-  case 32:
-  default:
-    return &alg32;
-  }
+  return algorithmTab[algorithmNumber & 31];
 }
