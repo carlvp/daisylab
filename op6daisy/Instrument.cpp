@@ -5,6 +5,18 @@
 #include "Program.h"
 #include "SyxBulkFormat.h"
 
+// Tune the Instrument:
+// Phase is represented as a 32-bit integer and 2PI corresponds to 2^32
+// The phase increment of a 1Hz signal is 2^32/sampleRate
+// In the same way for midi key A4 (440Hz)
+Instrument::Instrument()
+  : mCurrTimestamp{0},
+    mSysExPtr{0},
+    mDeltaPhi1Hz{4294967296.0f/SAMPLE_RATE},
+    mDeltaPhiA4{4294967296.0f*440/SAMPLE_RATE}
+{
+}
+
 void Instrument::Init() {
   const Program *program1 = &mProgram[0];
 

@@ -11,8 +11,8 @@ struct SyxBulkFormat;
 
 class Instrument {
  public:
-  Instrument() = default;
-  
+  Instrument();
+
   // Instrument is used as a singleton, we don't ever want to copy it
   Instrument(const Instrument&) = delete;
   Instrument& operator=(const Instrument&) = delete;
@@ -39,17 +39,37 @@ class Instrument {
   // system exclusive
   void sysEx(unsigned char *buffer, unsigned length);
 
+  // Midi Key A4 (used for tuning)
+  static constexpr int MidiKeyA4=69;
+
+  // Phase increment, which corresponds to the given midi key
+  // The 2PI phase range is mapped onto the range of 32-bit integers
+  constexpr int midiToPhaseIncrement(int key) const {
+    return mDeltaPhiA4*exp2f((key-MidiKeyA4)/12.0f);
+  }
+
+  // Phase increment, which corresponds to a frequency in Hz
+  constexpr int freqToPhaseIncrement(float freq) const {
+    return mDeltaPhi1Hz*freq;
+  }
+
  private:
-  unsigned mCurrTimestamp{0};
+  unsigned mCurrTimestamp;
+  unsigned mSysExPtr;
+  const float mDeltaPhi1Hz;
+  const float mDeltaPhiA4;
   Channel mChannel[NUM_CHANNELS];
   Voice mVoice[NUM_VOICES];
   Program mProgram[NUM_PROGRAMS];
   static constexpr unsigned SYSEX_BUFFER_SIZE=4104;
   unsigned char mSysExBuffer[SYSEX_BUFFER_SIZE];
-  unsigned mSysExPtr{0};
-  
+
   Voice *allocateVoice(unsigned ch, unsigned key);
   void loadSyxBulkFormat(const SyxBulkFormat *syx);
 };
+
+// Instrument singleton
+// "there's only one Op6Daisy and that is theOp6Daisy"
+extern Instrument theOp6Daisy;
 
 #endif

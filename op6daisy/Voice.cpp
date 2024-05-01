@@ -1,6 +1,6 @@
-#include "op6daisy.h"
 #include "Channel.h"
 #include "FmAlgorithm.h"
+#include "Instrument.h"
 #include "Voice.h"
 #include "Program.h"
 

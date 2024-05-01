@@ -1,6 +1,6 @@
 #include <cmath>
-#include "op6daisy.h"
 #include "FmOperator.h"
+#include "Instrument.h"
 #include "Program.h"
 
 // Eight velocity sensitivity curves with 0 - 60 dB dynamic range

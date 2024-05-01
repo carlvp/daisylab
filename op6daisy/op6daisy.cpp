@@ -8,7 +8,6 @@
  */
 
 #include "hardware.h"
-#include "op6daisy.h"
 #include "AudioPath.h"
 #include "Instrument.h"
 #include "MidiDispatcher.h"
@@ -16,33 +15,21 @@
 
 daisy::DaisySeed DaisySeedHw;
 
-Op6Daisy theOp6Daisy;
-
-static Instrument theInstrument;
+Instrument theOp6Daisy;
 static UsbMidiDispatcher theMidiDispatcher;
-
-Op6Daisy::Op6Daisy() {
-  // Tune the Op6Daisy:
-  // Phase is represented as a 32-bit integer and 2PI corresponds to 2^32
-  // The phase increment of a 1Hz signal is 2^32/sampleRate
-  mDeltaPhi1Hz=4294967296.0f/SAMPLE_RATE;
-  // In the same way for midi key A4 (440Hz)
-  mDeltaPhiA4=440*mDeltaPhi1Hz;
-}
-
 
 int main(void)
 {
   // Init
   DaisySeedHw.Configure();
   DaisySeedHw.Init();
-  theInstrument.Init();
-  theMidiDispatcher.Init(&theInstrument);
+  theOp6Daisy.Init();
+  theMidiDispatcher.Init(&theOp6Daisy);
 
   // Main loop
   startAudioPath();
   while(1) {
-    processAudioPath(&theInstrument);
+    processAudioPath(&theOp6Daisy);
     theMidiDispatcher.Process();
   }
 }
