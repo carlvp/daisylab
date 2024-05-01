@@ -1,5 +1,5 @@
 #include <cmath>
-#include "keyplayer.h"
+#include "op6daisy.h"
 #include "FmOperator.h"
 #include "Program.h"
 
@@ -60,7 +60,7 @@ void FmOperator::noteOn(const FmOperatorParam *param,
   mParam=param;
   // oscillator mode (fixed frequency or ratio)
   mCurrDeltaPhi=mDeltaPhiKey=(param->fixedFreq)?
-    theKeyPlayer.freqToPhaseIncrement(param->freq)
+    theOp6Daisy.freqToPhaseIncrement(param->freq)
     : param->freq*deltaPhi;
 
   // delays

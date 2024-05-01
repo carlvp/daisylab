@@ -1,9 +1,9 @@
 #pragma once
-#ifndef KEYPLAYER_H
+#ifndef OP6DAISY_H
 
-class KeyPlayer {
+class Op6Daisy {
  public:
-  KeyPlayer();
+  Op6Daisy();
 
   static constexpr int MidiKeyA4=69;
 
@@ -23,6 +23,6 @@ class KeyPlayer {
   float mDeltaPhiA4;
 };
 
-extern KeyPlayer theKeyPlayer;
+extern Op6Daisy theOp6Daisy;
 
 #endif

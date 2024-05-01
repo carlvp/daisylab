@@ -1,4 +1,4 @@
-#include "keyplayer.h"
+#include "op6daisy.h"
 #include "Channel.h"
 #include "FmAlgorithm.h"
 #include "Voice.h"
@@ -22,7 +22,7 @@ void Voice::noteOn(Channel *ch, unsigned key, unsigned velocity,
   mTimestamp=timestamp;
   mEnvelope.noteOn(&mProgram->pitchEnvelope, 1.0f, 1.0f);
   
-  std::int32_t deltaPhi=theKeyPlayer.midiToPhaseIncrement(key);
+  std::int32_t deltaPhi=theOp6Daisy.midiToPhaseIncrement(key);
   float com=0.25f/mAlgorithm->getNumOutputs();
   for (unsigned i=0; i<NUM_OPERATORS; ++i) {
     float outputScaling=mAlgorithm->isOutput(i)? com : 1.0f;

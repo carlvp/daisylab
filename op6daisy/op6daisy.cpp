@@ -8,7 +8,7 @@
  */
 
 #include "hardware.h"
-#include "keyplayer.h"
+#include "op6daisy.h"
 #include "AudioPath.h"
 #include "Instrument.h"
 #include "MidiDispatcher.h"
@@ -16,13 +16,13 @@
 
 daisy::DaisySeed DaisySeedHw;
 
-KeyPlayer theKeyPlayer;
+Op6Daisy theOp6Daisy;
 
 static Instrument theInstrument;
 static UsbMidiDispatcher theMidiDispatcher;
 
-KeyPlayer::KeyPlayer() {
-  // Tune the KeyPlayer:
+Op6Daisy::Op6Daisy() {
+  // Tune the Op6Daisy:
   // Phase is represented as a 32-bit integer and 2PI corresponds to 2^32
   // The phase increment of a 1Hz signal is 2^32/sampleRate
   mDeltaPhi1Hz=4294967296.0f/SAMPLE_RATE;

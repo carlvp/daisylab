@@ -2,7 +2,7 @@
 #ifndef Voice_H
 #define Voice_H
 
-#include "keyplayer.h"
+#include "op6daisy.h"
 #include "FmOperator.h"
 
 class Channel;

@@ -1,8 +1,8 @@
 # Project Name
-TARGET = keyplayer
+TARGET = op6daisy
 
 # Sources
-CPP_SOURCES = keyplayer.cpp \
+CPP_SOURCES = op6daisy.cpp \
   AudioPath.cpp \
   Channel.cpp \
   Program.cpp \
