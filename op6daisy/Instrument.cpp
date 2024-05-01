@@ -1,6 +1,7 @@
 #include <cstring>
 
 #include "AudioPath.h"
+#include "hardware.h"
 #include "Instrument.h"
 #include "Program.h"
 #include "SyxBulkFormat.h"
@@ -12,6 +13,7 @@
 Instrument::Instrument()
   : mCurrTimestamp{0},
     mSysExPtr{0},
+    mWaitClearUnderrun{0},
     mDeltaPhi1Hz{4294967296.0f/SAMPLE_RATE},
     mDeltaPhiA4{4294967296.0f*440/SAMPLE_RATE}
 {
@@ -33,6 +35,15 @@ void Instrument::fillBuffer(float *stereoOutBuffer) {
   // zero fill if there were no active channels
   if (stereoMix==zeroBuffer)
     memset(stereoOutBuffer, 0, sizeof(float)*2*BLOCK_SIZE);
+
+  // Buffer is bound to underrun after a program bank.
+  // But that's OK. Reset the LED after a little while.
+  // This also means that (after a true underrun), the LED
+  // is cleared after loading a new program bank
+  if (mWaitClearUnderrun) {
+    if (--mWaitClearUnderrun==0)
+      setUnderrunLED(false);
+  }
 }
   
 void Instrument::noteOn(unsigned ch, unsigned key, unsigned velocity) {
@@ -104,6 +115,7 @@ void Instrument::sysEx(unsigned char *inBuffer, unsigned size) {
 	mSysExBuffer[mSysExPtr]=0xf7; // End of SysEx
 	loadSyxBulkFormat(reinterpret_cast<const SyxBulkFormat*>(mSysExBuffer));
 	mSysExPtr=0; // Reset SysEx pointer (start over again)
+	mWaitClearUnderrun=10; // Clear underrun LED after a little while
       }
     }
     else {

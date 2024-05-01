@@ -20,7 +20,8 @@ static void AudioCallback(daisy::AudioHandle::InputBuffer in,
     }
     ++nBlocksConsumed;
   }
-  /* else: buffer overrun */
+  else // else: buffer underrun, turn the LED on
+    setUnderrunLED(true);
 }
 
 void startAudioPath() {

@@ -56,6 +56,7 @@ class Instrument {
  private:
   unsigned mCurrTimestamp;
   unsigned mSysExPtr;
+  unsigned mWaitClearUnderrun;
   const float mDeltaPhi1Hz;
   const float mDeltaPhiA4;
   Channel mChannel[NUM_CHANNELS];

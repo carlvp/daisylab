@@ -17,6 +17,19 @@ daisy::DaisySeed DaisySeedHw;
 
 Instrument theOp6Daisy;
 static UsbMidiDispatcher theMidiDispatcher;
+static bool gateLED, underrunLED;
+
+void setGateLED(bool ledState) {
+  gateLED=ledState;
+  // We just use a single LED
+  DaisySeedHw.SetLed(gateLED | underrunLED);
+}
+
+void setUnderrunLED(bool ledState) {
+  underrunLED=ledState;
+  // We just use a single LED
+  DaisySeedHw.SetLed(gateLED | underrunLED);
+}
 
 int main(void)
 {
@@ -27,6 +40,7 @@ int main(void)
   theMidiDispatcher.Init(&theOp6Daisy);
 
   // Main loop
+  DaisySeedHw.SetLed(false); // LED signals gate + buffer underrun
   startAudioPath();
   while(1) {
     processAudioPath(&theOp6Daisy);
