@@ -2,6 +2,7 @@ import tkinter
 from tkinter import ttk
 from .performance import PerformanceScreen;
 from .voice import VoiceEditorScreen;
+from .resources import getPhotoImage
 from . import colorscheme
 
 class MainView:
@@ -15,8 +16,8 @@ class MainView:
         self.setTitle("Op6")
         self.root.config(background='black')
         
-        # FIXME: icon
-        # self.root.iconphoto(True, getPhotoImage('op6-64x64.png'))
+        # icon
+        self.root.iconphoto(True, getPhotoImage('op6-64x64.png'))
         # tabbed screens
         self.screens=TabbedScreens(self.root)
         self.screens.grid(row=0, column=0, sticky=tkinter.N)
