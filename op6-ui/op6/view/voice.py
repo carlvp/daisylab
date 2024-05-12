@@ -9,7 +9,7 @@ class VoiceEditorScreen(tkinter.Frame):
 
         self.controller=None
         tkinter.Label(self,
-                      text="This label is in the VoiceEditor Screen",
+                      text="TODO: VoiceEditor Screen",
                       anchor=tkinter.N).grid(row=0, column=0)
 
     def registerViewObjects(self, views):
