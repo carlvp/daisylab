@@ -1,3 +1,5 @@
+import os
+
 class SyxPacked32Voice:
     def __init__(self, data):
         self.rawSyxData=data
@@ -17,26 +19,31 @@ class SyxPacked32Voice:
         if (data is None or len(data)!=4104 or
             data[0:6]!=bytes([0xf0, 0x43, 0x00, 0x09, 0x20, 0x00])
             or data[4103]!=0xf7):
-            return True
+            return "Wrong data format"
         # check that all data is in range
         for b in data[6:4103]:
             if b>127:
-                return True
+                return "MIDI byte out-of-range"
         # check that ASCII data (voice names) are printable
         for n in range(32):
             i=6+128*n
             if not data[i+118:i+128].decode().isprintable():
-                return True
+                return f'Voice name {n+1} not printable'
 
-        return False
+        return None
     
     
-    def load(filename):
+    def load(filename, dialogManager):
         '''loads SyxPacked32Voice data from file''' 
         b=None
         with open(filename, 'rb') as f:
             b=f.read()
-        if SyxPacked32Voice.corruptSyx_(b):
+        error=SyxPacked32Voice.corruptSyx_(b)
+        if error is not None:
+            filename=os.path.basename(filename)
+            dialogManager.showErrorDialog("Load SysEx (.syx) file",
+                                          filename+" is corrupt",
+                                          error)
             return None
         return SyxPacked32Voice(b)
 

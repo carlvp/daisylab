@@ -18,6 +18,7 @@ class PerformanceController:
 
     def __init__(self):
         self.performanceScreen=None
+        self.dialogManager=None
         self.currVoice=None
         self.baseChannel=0
         self.midiOut=None
@@ -29,6 +30,7 @@ class PerformanceController:
     def setViews(self, views):
         '''connects to relevant views in the dictionary, views'''
         self.performanceScreen=views['PerformanceScreen']
+        self.dialogManager=views['MainView']
 
     def initUI(self):
         self.currVoice=0
@@ -48,7 +50,7 @@ class PerformanceController:
         if filename==() or filename=="":
             return # load cancelled
         
-        syx=SyxPacked32Voice.load(filename)
+        syx=SyxPacked32Voice.load(filename, self.dialogManager)
         if syx is None:
             return # load failed (not a well-formed SyxPacked32Voice file)
 

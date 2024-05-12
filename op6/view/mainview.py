@@ -65,19 +65,10 @@ class MainView:
             self.screens.select(index)
             self.menuButtons.updateSelectedScreen(index)
 
-# TODO: Clipboard
-#    def getClipboard(self):
-#        '''get the contens of the (Tk) clipboard
-#           returns None if the clipboard is empty'''
-#        try:
-#            clipboard=self.root.clipboard_get()
-#        except tkinter.TclError:
-#            clipboard=None
-#        return clipboard
-#
-#    def clearClipboard(self):
-#        '''clear the (Tk) clipboard'''
-#        self.root.clipboard_clear()
+    def showErrorDialog(self, title, message, detail):
+        tkinter.messagebox.showerror(title=title,
+                                     message=message,
+                                     detail=detail)
 
 class TabbedScreens(tkinter.Frame):
     '''
