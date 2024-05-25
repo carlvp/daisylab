@@ -56,7 +56,7 @@ static void HandleNoteOnEvent(NoteOnEvent p) {
 static void HandleControlChange(ControlChangeEvent p) {
     if (p.control_number==1) {
         // Mod Wheel
-        setEnvMod(p.value/127.0f);
+      setEnvMod(p.value*(8/127.0f));
     }
 }
 
