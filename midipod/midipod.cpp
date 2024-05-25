@@ -10,6 +10,7 @@ DaisyPod   hw;
 Oscillator osc;
 AdEnv      env;
 Svf        filt;
+Parameter  knobCutoff, knobReso;
 
 void AudioCallback(AudioHandle::InterleavingInputBuffer  in,
                    AudioHandle::InterleavingOutputBuffer out,
@@ -30,6 +31,15 @@ static void noteOn(unsigned key, unsigned velocity) {
     osc.SetAmp(velocity/127.0f);
     env.Trigger();
 }
+
+static void setCutoff(float freq) {
+  filt.SetFreq(freq);
+}
+
+static void setReso(float reso) {
+  filt.SetRes(reso);
+}
+
 
 // Typical Switch case for Message Type.
 void HandleMidiMessage(MidiEvent m)
@@ -54,27 +64,10 @@ void HandleMidiMessage(MidiEvent m)
             }
         }
         break;
-        case ControlChange:
-        {
-            ControlChangeEvent p = m.AsControlChange();
-            switch(p.control_number)
-            {
-                case 1:
-                    // CC 1 for cutoff.
-                    filt.SetFreq(mtof((float)p.value));
-                    break;
-                case 2:
-                    // CC 2 for res.
-                    filt.SetRes(((float)p.value / 127.0f));
-                    break;
-                default: break;
-            }
-            break;
-        }
-        default: break;
+    default:
+        break;
     }
 }
-
 
 // Main -- Init, and Midi Handling
 int main(void)
@@ -85,6 +78,9 @@ int main(void)
     hw.SetAudioBlockSize(4);
     hw.seed.usb_handle.Init(UsbHandle::FS_INTERNAL);
     System::Delay(250);
+    knobCutoff.Init(hw.knob1, 0.0001f, 1, Parameter::EXPONENTIAL);
+    knobReso.Init(hw.knob2, 0.0f, 1.0f, Parameter::LINEAR);
+
 
     // Synthesis
     samplerate = hw.AudioSampleRate();
@@ -99,13 +95,27 @@ int main(void)
     hw.StartAdc();
     hw.StartAudio(AudioCallback);
     hw.midi.StartReceive();
-    for(;;)
-    {
+
+    float lastCutoff=knobCutoff.Process();
+    setCutoff(lastCutoff);
+    float lastReso=knobReso.Process();
+    setReso(lastReso);
+    for(;;) {
         hw.midi.Listen();
         // Handle MIDI Events
-        while(hw.midi.HasEvents())
-        {
+        if (hw.midi.HasEvents()) {
             HandleMidiMessage(hw.midi.PopEvent());
-        }
+	}
+	// Handle knobs
+	float cutoff=knobCutoff.Process();
+	if (fabs(cutoff-lastCutoff) > 0.0001) {
+	  setCutoff(cutoff*16000.0f);
+	  lastCutoff=cutoff;
+	}
+	float reso=knobReso.Process();
+	if (fabs(reso-lastReso) > 0.0001) {
+	  setReso(reso);
+	  lastReso=reso;
+	}
     }
 }
