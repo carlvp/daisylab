@@ -1,0 +1,8 @@
+midipod is a very basic synthesizer. It's my first expoeriment with Daisy Pod. Main purpose is to see that MIDI IN works as expected.
+* It expects MIDI input from the 3.5mm MIDI-IN jack. It just responds to Note-on events and CC#1 (Mod Wheel).
+* It's monophonic, single sawtooth oscillator, with single (attack-decay style) envelope that is shared by filter and amp stage. Envelope times are fixed: 10 and 400ms, respectively.
+* POT1=Filter cutoff, POT2=Resonance, Mod Wheel=Envelope->Filter modulation depth.
+* It shouldn't be very hard to move this example to the Daisy Seed. The trickiest part would be MIDI-IN, which works out-of-the-box on Daisy Pod. But it could be modified to use MIDI 
+  over USB, of course. POT1 is read from ADC6 and POT2 from ADC0: pins 28 (A6) and 22 (A0) on Daisy Seed. Line out is where you expect it to be.
+* One thing that I found out was that MIDI data goes on the tip of the 3.5mm TRS connector and the 5V reference voltage is on the ring. Luckily that matched the DIN-to-TRS adaptor that 
+  I already had. I understand that this corresponds to the R79/R83 "jumpers" on the POD. With a bit of soldering, you could get the signals the other way around.
