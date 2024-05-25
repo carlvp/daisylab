@@ -6,23 +6,26 @@
 using namespace daisy;
 using namespace daisysp;
 
-DaisyPod   hw;
-Oscillator osc;
-AdEnv      env;
-Svf        filt;
-Parameter  knobCutoff, knobReso;
+static DaisyPod   hw;
+static Oscillator osc;
+static AdEnv      env;
+static Svf        filt;
+static Parameter  knobCutoff, knobReso;
+static float filterCutoff, filterEnvModPlusOne;
 
 void AudioCallback(AudioHandle::InterleavingInputBuffer  in,
                    AudioHandle::InterleavingOutputBuffer out,
                    size_t                                size)
 {
-    float sig, gain=0;
+    float sig;
     for(size_t i = 0; i < size; i += 2)
     {
+        float e=env.Process();
+        float freq=filterCutoff*filterEnvModPlusOne*e;
         sig = osc.Process();
+        filt.SetFreq(freq);
         filt.Process(sig);
-        gain=env.Process();
-        out[i] = out[i + 1] = gain*filt.Low();
+        out[i] = out[i + 1] = e*filt.Low();
     }
 }
 
@@ -32,37 +35,41 @@ static void noteOn(unsigned key, unsigned velocity) {
     env.Trigger();
 }
 
-static void setCutoff(float freq) {
-  filt.SetFreq(freq);
+static void setCutoff(float c) {
+    filterCutoff=8000*c;
 }
 
 static void setReso(float reso) {
-  filt.SetRes(reso);
+    filt.SetRes(reso);
 }
 
+static void setEnvMod(float m) {
+    filterEnvModPlusOne=m+1;
+}
+
+static void HandleNoteOnEvent(NoteOnEvent p) {
+    if(p.velocity != 0) {
+        noteOn(p.note, p.velocity);
+    }
+}
+
+static void HandleControlChange(ControlChangeEvent p) {
+    if (p.control_number==1) {
+        // Mod Wheel
+        setEnvMod(p.value/127.0f);
+    }
+}
 
 // Typical Switch case for Message Type.
 void HandleMidiMessage(MidiEvent m)
 {
     switch(m.type)
     {
-        case NoteOn:
-        {
-            NoteOnEvent p = m.AsNoteOn();
-            char        buff[512];
-            sprintf(buff,
-                    "Note Received:\t%d\t%d\t%d\r\n",
-                    m.channel,
-                    m.data[0],
-                    m.data[1]);
-            hw.seed.usb_handle.TransmitInternal((uint8_t *)buff, strlen(buff));
-            // This is to avoid Max/MSP Note outs for now..
-            if(m.data[1] != 0)
-            {
-                p = m.AsNoteOn();
-                noteOn(p.note, p.velocity);
-            }
-        }
+    case NoteOn:
+        HandleNoteOnEvent(m.AsNoteOn());
+        break;
+    case ControlChange:
+        HandleControlChange(m.AsControlChange());
         break;
     default:
         break;
@@ -98,6 +105,7 @@ int main(void)
 
     float lastCutoff=knobCutoff.Process();
     setCutoff(lastCutoff);
+    setEnvMod(0);
     float lastReso=knobReso.Process();
     setReso(lastReso);
     for(;;) {
@@ -109,7 +117,7 @@ int main(void)
 	// Handle knobs
 	float cutoff=knobCutoff.Process();
 	if (fabs(cutoff-lastCutoff) > 0.0001) {
-	  setCutoff(cutoff*16000.0f);
+	  setCutoff(lastCutoff);
 	  lastCutoff=cutoff;
 	}
 	float reso=knobReso.Process();
