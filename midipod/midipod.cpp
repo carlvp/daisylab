@@ -8,19 +8,27 @@ using namespace daisysp;
 
 DaisyPod   hw;
 Oscillator osc;
+AdEnv      env;
 Svf        filt;
 
 void AudioCallback(AudioHandle::InterleavingInputBuffer  in,
                    AudioHandle::InterleavingOutputBuffer out,
                    size_t                                size)
 {
-    float sig;
+    float sig, gain=0;
     for(size_t i = 0; i < size; i += 2)
     {
         sig = osc.Process();
         filt.Process(sig);
-        out[i] = out[i + 1] = filt.Low();
+        gain=env.Process();
+        out[i] = out[i + 1] = gain*filt.Low();
     }
+}
+
+static void noteOn(unsigned key, unsigned velocity) {
+    osc.SetFreq(mtof(key));
+    osc.SetAmp(velocity/127.0f);
+    env.Trigger();
 }
 
 // Typical Switch case for Message Type.
@@ -42,8 +50,7 @@ void HandleMidiMessage(MidiEvent m)
             if(m.data[1] != 0)
             {
                 p = m.AsNoteOn();
-                osc.SetFreq(mtof(p.note));
-                osc.SetAmp((p.velocity / 127.0f));
+                noteOn(p.note, p.velocity);
             }
         }
         break;
@@ -84,6 +91,9 @@ int main(void)
     osc.Init(samplerate);
     osc.SetWaveform(Oscillator::WAVE_POLYBLEP_SAW);
     filt.Init(samplerate);
+    env.Init(samplerate);
+    env.SetTime(ADENV_SEG_ATTACK, .01f);
+    env.SetTime(ADENV_SEG_DECAY, .4f);
 
     // Start stuff.
     hw.StartAdc();
