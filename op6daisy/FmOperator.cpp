@@ -84,6 +84,11 @@ void FmOperator::noteOff(const FmOperatorParam *param) {
 
 static const float sensitivity[]={ 0, 0.25, 0.5, 1.0 };
 
+// float constants for scaling of results
+static constexpr float two_to_30=1073741824;
+static constexpr float two_to_7=128;
+static constexpr float two_to_m23=1.0f/8388608;
+
 void FmOperator::fillBuffer(float *out,
 			    const float *in,
 			    const float *mod,
@@ -104,18 +109,16 @@ void FmOperator::fillBuffer(float *out,
   
   for (unsigned i=0; i<BLOCK_SIZE; ++i) {
     // Modulator is scaled by 4PI, which is the modulation index for ouput 99
+    // this range, modulo 2PI, is represented as a 32-bit integer (mod 2^32).
+    // the factor 4PI thus corresponds to 2^33.
+    //    
     // Feedback is scaled similarly, but there is also an implicit
-    // averaging of y1 and y2 and a scaling by 2^(feedback-9):
-    // (2^k)PI, where k=2 {for 4PI} -1 {1/2 averaging} + feedback-9 =
-    // = feedback-8.
-    // To make things even more convolved, the averaged delays are in Q23
-    // format (thus already shifted >> 8), which means that <<feedback
-    // is all that remains.
-    // The regular modulator, mod[i], is converted into Q31 fixed point
-    // representation and multiplied by four (exp=30 to avoid overflow, so
-    // we have to <<3 instead of <<2 to achieve *4).
+    // averaging of delay1 and delay2 and a scaling by 2^(feedback-9).
+    // The delays are represented as 24-bit fixed-points (Q23), which
+    // means that the scaling boils down to (delay1+delay2)<<feedback.
+    // The result (mod 2^32) reprents the real range [-PI,+PI).
     int mint=(feedback)? (delay1+delay2)<<feedback
-                       : ((int) ldexpf(mod[i],30))<<3;
+                       : ((int) (mod[i]*two_to_30))<<3;
     int sint=sine_lut(phi+mint);
     float gain=mEnvelope.ProcessSample()*linAm;
     float y=sint*gain; // y is now scaled by a factor of 2^23
@@ -125,7 +128,7 @@ void FmOperator::fillBuffer(float *out,
     phi+=mCurrDeltaPhi;
     mCurrDeltaPhi+=d2Phi;
     linAm+=dA;
-    out[i]=in[i] + ldexpf(y,-23);
+    out[i]=in[i] + y*two_to_m23;
   }
 
   // Write back updated state
@@ -179,7 +182,7 @@ void FmOperator::fillBufferFb2(FmOperator op[],
     linAm0+=dA0;
 
     // second operator, op1
-    mint=((int) ldexpf(y,7))<<3;
+    mint=((int) (y*two_to_7))<<3;
     sint=sine_lut(phi1+mint);
     gain=op1->mEnvelope.ProcessSample()*linAm1;
     y=sint*gain;
@@ -189,7 +192,7 @@ void FmOperator::fillBufferFb2(FmOperator op[],
     phi1+=currDeltaPhi1;
     currDeltaPhi1+=d2Phi1;
     linAm1+=dA1;
-    out[i]=in[i] + ldexp(y,-23);
+    out[i]=in[i] + y*two_to_m23;
   }
 
   // Write back updated state
@@ -257,7 +260,7 @@ void FmOperator::fillBufferFb3(FmOperator op[],
     linAm0+=dA0;
 
     // second operator, op1
-    mint=((int) ldexpf(y,7))<<3;
+    mint=((int) (y*two_to_7))<<3;
     sint=sine_lut(phi1+mint);
     gain=op1->mEnvelope.ProcessSample()*linAm1;
     y=sint*gain;
@@ -267,7 +270,7 @@ void FmOperator::fillBufferFb3(FmOperator op[],
     linAm1+=dA1;
 
     // third operator, op2
-    mint=((int) ldexpf(y,7))<<3;
+    mint=((int) (y*two_to_7))<<3;
     sint=sine_lut(phi2+mint);
     gain=op2->mEnvelope.ProcessSample()*linAm2;
     y=sint*gain;
@@ -277,7 +280,7 @@ void FmOperator::fillBufferFb3(FmOperator op[],
     phi2+=currDeltaPhi2;
     currDeltaPhi2+=d2Phi2;
     linAm2+=dA2;
-    out[i]=in[i] + ldexp(y,-23);
+    out[i]=in[i] + (y*two_to_m23);
   }
 
   // Write back updated state
