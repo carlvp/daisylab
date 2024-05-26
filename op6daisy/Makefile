@@ -26,6 +26,7 @@ CPP_SOURCES = op6daisy.cpp \
   Instrument.cpp \
   LfoState.cpp \
   MidiDispatcher.cpp \
+  sine_lut.cpp \
   Voice.cpp 
 
 # Core location, and generic Makefile.

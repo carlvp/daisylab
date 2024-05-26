@@ -2,6 +2,7 @@
 #include "FmOperator.h"
 #include "Instrument.h"
 #include "Program.h"
+#include "sine_lut.h"
 
 // Eight velocity sensitivity curves with 0 - 60 dB dynamic range
 // velocity: 0-127 (a la MIDI)
@@ -82,16 +83,6 @@ void FmOperator::noteOff(const FmOperatorParam *param) {
 }
 
 static const float sensitivity[]={ 0, 0.25, 0.5, 1.0 };
-
-// Dummy-implementation of the sine look-up table
-// the 32-bit integer range (input x) is mapped onto [-PI,+PI)
-// This is convenient, since int32_t wraps around modulo 2^32
-// and the sine argument wraps around modulo 2PI.
-// result is in 24-bit fixed-point format (Q23)
-static int sine_lut(int x) {
-  float s=sinf(x*ldexpf(M_PI,-31));
-  return ldexpf(s,23);
-}
 
 void FmOperator::fillBuffer(float *out,
 			    const float *in,
