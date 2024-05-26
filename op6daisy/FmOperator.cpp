@@ -108,7 +108,10 @@ void FmOperator::fillBuffer(float *out,
     // (2^k)PI, where k=2 {for 4PI} -1 {1/2 averaging} + feedback-9 =
     // = feedback-8.
     float m=(feedback)? ldexpf(y1+y2, feedback-8) : 4.0f*mod[i];
-    float s=sinf((ldexpf(phi,-31)+m)*((float) M_PI));
+    // mint is a Q31 fixedpoint representation of m
+    // essentially m*2^31 such that it wraps around modulo [-1.0, 1.0)
+    int mint=((int) ldexpf(m,29))<<2;
+    float s=sinf((phi+mint)*ldexpf(M_PI,-31));
     float gain=mEnvelope.ProcessSample()*linAm;
 
     y2=y1;
@@ -161,7 +164,8 @@ void FmOperator::fillBufferFb2(FmOperator op[],
   for (unsigned i=0; i<BLOCK_SIZE; ++i) {
     // First operator, op0
     float m=(feedback)? ldexpf(y1+y2, feedback-8) : 0;
-    float s=sinf((ldexpf(phi0,-31)+m)*((float) M_PI));
+    int mint=((int) ldexpf(m,29))<<2;
+    float s=sinf((phi0+mint)*ldexpf(M_PI,-31));
     float gain=op0->mEnvelope.ProcessSample()*linAm0;
     m=4.0f*s*gain;
     phi0+=currDeltaPhi0;
@@ -169,7 +173,8 @@ void FmOperator::fillBufferFb2(FmOperator op[],
     linAm0+=dA0;
 
     // second operator, op1
-    s=sinf((ldexpf(phi1,-31)+m)*((float) M_PI));
+    mint=((int) ldexpf(m,29))<<2;
+    s=sinf((phi1+mint)*ldexpf(M_PI,-31));
     gain=op1->mEnvelope.ProcessSample()*linAm1;
     y2=y1;
     y1=s*gain;
@@ -235,7 +240,8 @@ void FmOperator::fillBufferFb3(FmOperator op[],
   for (unsigned i=0; i<BLOCK_SIZE; ++i) {
     // First operator, op0
     float m=(feedback)? ldexpf(y1+y2, feedback-8) : 0;
-    float s=sinf((ldexpf(phi0,-31)+m)*((float) M_PI));
+    int mint=((int) ldexpf(m,29))<<2;
+    float s=sinf((phi0+mint)*ldexpf(M_PI,-31));
     float gain=op0->mEnvelope.ProcessSample()*linAm0;
     m=4.0f*s*gain;
 
@@ -244,7 +250,8 @@ void FmOperator::fillBufferFb3(FmOperator op[],
     linAm0+=dA0;
 
     // second operator, op1
-    s=sinf((ldexpf(phi1,-31)+m)*((float) M_PI));
+    mint=((int) ldexpf(m,29))<<2;
+    s=sinf((phi1+mint)*ldexpf(M_PI,-31));
     gain=op1->mEnvelope.ProcessSample()*linAm1;
     m=4.0f*s*gain;
     
@@ -253,7 +260,8 @@ void FmOperator::fillBufferFb3(FmOperator op[],
     linAm1+=dA1;
 
     // third operator, op2
-    s=sinf((ldexpf(phi2,-31)+m)*((float) M_PI));
+    mint=((int) ldexpf(m,29))<<2;
+    s=sinf((phi2+mint)*ldexpf(M_PI,-31));
     gain=op2->mEnvelope.ProcessSample()*linAm2;    
     y2=y1;
     y1=s*gain;
