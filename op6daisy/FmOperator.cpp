@@ -83,6 +83,16 @@ void FmOperator::noteOff(const FmOperatorParam *param) {
 
 static const float sensitivity[]={ 0, 0.25, 0.5, 1.0 };
 
+// Dummy-implementation of the sine look-up table
+// the 32-bit integer range (input x) is mapped onto [-PI,+PI)
+// This is convenient, since int32_t wraps around modulo 2^32
+// and the sine argument wraps around modulo 2PI.
+// result is in 24-bit fixed-point format (Q23)
+static int sine_lut(int x) {
+  float s=sinf(x*ldexpf(M_PI,-31));
+  return ldexpf(s,23);
+}
+
 void FmOperator::fillBuffer(float *out,
 			    const float *in,
 			    const float *mod,
@@ -115,16 +125,16 @@ void FmOperator::fillBuffer(float *out,
     // we have to <<3 instead of <<2 to achieve *4).
     int mint=(feedback)? (delay1+delay2)<<feedback
                        : ((int) ldexpf(mod[i],30))<<3;
-    float s=sinf((phi+mint)*ldexpf(M_PI,-31));
+    int sint=sine_lut(phi+mint);
     float gain=mEnvelope.ProcessSample()*linAm;
-    float y=s*gain;
+    float y=sint*gain; // y is now scaled by a factor of 2^23
 
     delay2=delay1;
-    delay1=ldexpf(y,23);
+    delay1=(int) y;
     phi+=mCurrDeltaPhi;
     mCurrDeltaPhi+=d2Phi;
     linAm+=dA;
-    out[i]=in[i] + y;
+    out[i]=in[i] + ldexpf(y,-23);
   }
 
   // Write back updated state
@@ -169,26 +179,26 @@ void FmOperator::fillBufferFb2(FmOperator op[],
   for (unsigned i=0; i<BLOCK_SIZE; ++i) {
     // First operator, op0
     int mint=(feedback)? (delay1+delay2)<<feedback : 0;
-    float s=sinf((phi0+mint)*ldexpf(M_PI,-31));
+    int sint=sine_lut(phi0+mint);
     float gain=op0->mEnvelope.ProcessSample()*linAm0;
-    float y=s*gain;
+    float y=sint*gain; // y is now scaled by a factor of 2^23
 
     phi0+=currDeltaPhi0;
     currDeltaPhi0+=d2Phi0;
     linAm0+=dA0;
 
     // second operator, op1
-    mint=((int) ldexpf(y,30))<<3;
-    s=sinf((phi1+mint)*ldexpf(M_PI,-31));
+    mint=((int) ldexpf(y,7))<<3;
+    sint=sine_lut(phi1+mint);
     gain=op1->mEnvelope.ProcessSample()*linAm1;
-    y=s*gain;
+    y=sint*gain;
 
     delay2=delay1;
-    delay1=ldexpf(y,23);
+    delay1=(int) y;
     phi1+=currDeltaPhi1;
     currDeltaPhi1+=d2Phi1;
     linAm1+=dA1;
-    out[i]=in[i] + y;
+    out[i]=in[i] + ldexp(y,-23);
   }
 
   // Write back updated state
@@ -247,36 +257,36 @@ void FmOperator::fillBufferFb3(FmOperator op[],
   for (unsigned i=0; i<BLOCK_SIZE; ++i) {
     // First operator, op0
     int mint=(feedback)? (delay1+delay2)<<feedback : 0;
-    float s=sinf((phi0+mint)*ldexpf(M_PI,-31));
+    int sint=sine_lut(phi0+mint);
     float gain=op0->mEnvelope.ProcessSample()*linAm0;
-    float y=s*gain;
+    float y=sint*gain; // y is now scaled by a factor of 2^23
 
     phi0+=currDeltaPhi0;
     currDeltaPhi0+=d2Phi0;
     linAm0+=dA0;
 
     // second operator, op1
-    mint=((int) ldexpf(y,30))<<3;
-    s=sinf((phi1+mint)*ldexpf(M_PI,-31));
+    mint=((int) ldexpf(y,7))<<3;
+    sint=sine_lut(phi1+mint);
     gain=op1->mEnvelope.ProcessSample()*linAm1;
-    y=s*gain;
+    y=sint*gain;
     
     phi1+=currDeltaPhi1;
     currDeltaPhi1+=d2Phi1;
     linAm1+=dA1;
 
     // third operator, op2
-    mint=((int) ldexpf(y,30))<<3;
-    s=sinf((phi2+mint)*ldexpf(M_PI,-31));
+    mint=((int) ldexpf(y,7))<<3;
+    sint=sine_lut(phi2+mint);
     gain=op2->mEnvelope.ProcessSample()*linAm2;
-    y=s*gain;
+    y=sint*gain;
     
     delay2=delay1;
-    delay1=ldexpf(y,23);
+    delay1=(int) y;
     phi2+=currDeltaPhi2;
     currDeltaPhi2+=d2Phi2;
     linAm2+=dA2;
-    out[i]=in[i] + y;
+    out[i]=in[i] + ldexp(y,-23);
   }
 
   // Write back updated state
