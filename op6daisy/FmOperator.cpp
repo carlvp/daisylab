@@ -94,8 +94,8 @@ void FmOperator::fillBuffer(float *out,
   int nextDeltaPhi=mDeltaPhiKey*pitchMod;
   int d2Phi=(nextDeltaPhi-mCurrDeltaPhi)/BLOCK_SIZE;
   
-  float y1=mDelay1;
-  float y2=mDelay2;
+  int delay1=mDelay1;
+  int delay2=mDelay2;
   // Amplitude modulation (in addition to envelope)
   float linAm=mCurrAm;
   float nextAm=exp2f(-ampMod*sensitivity[mParam->ams]);
@@ -107,25 +107,30 @@ void FmOperator::fillBuffer(float *out,
     // averaging of y1 and y2 and a scaling by 2^(feedback-9):
     // (2^k)PI, where k=2 {for 4PI} -1 {1/2 averaging} + feedback-9 =
     // = feedback-8.
-    float m=(feedback)? ldexpf(y1+y2, feedback-8) : 4.0f*mod[i];
-    // mint is a Q31 fixedpoint representation of m
-    // essentially m*2^31 such that it wraps around modulo [-1.0, 1.0)
-    int mint=((int) ldexpf(m,29))<<2;
+    // To make things even more convolved, the averaged delays are in Q23
+    // format (thus already shifted >> 8), which means that <<feedback
+    // is all that remains.
+    // The regular modulator, mod[i], is converted into Q31 fixed point
+    // representation and multiplied by four (exp=30 to avoid overflow, so
+    // we have to <<3 instead of <<2 to achieve *4).
+    int mint=(feedback)? (delay1+delay2)<<feedback
+                       : ((int) ldexpf(mod[i],30))<<3;
     float s=sinf((phi+mint)*ldexpf(M_PI,-31));
     float gain=mEnvelope.ProcessSample()*linAm;
+    float y=s*gain;
 
-    y2=y1;
-    y1=s*gain;
+    delay2=delay1;
+    delay1=ldexpf(y,23);
     phi+=mCurrDeltaPhi;
     mCurrDeltaPhi+=d2Phi;
     linAm+=dA;
-    out[i]=in[i] + y1;
+    out[i]=in[i] + y;
   }
 
   // Write back updated state
   mPhi=phi;
-  mDelay1=y1;
-  mDelay2=y2;
+  mDelay1=delay1;
+  mDelay2=delay2;
   mEnvelope.updateAfterBlock(&mParam->envelope);
   mCurrAm=linAm;
 }
@@ -158,35 +163,37 @@ void FmOperator::fillBufferFb2(FmOperator op[],
   float dA1=(nextAm-linAm1)/BLOCK_SIZE;
 
   // Feedback
-  float y1=op0->mDelay1;
-  float y2=op0->mDelay2;
+  int delay1=op0->mDelay1;
+  int delay2=op0->mDelay2;
   
   for (unsigned i=0; i<BLOCK_SIZE; ++i) {
     // First operator, op0
-    float m=(feedback)? ldexpf(y1+y2, feedback-8) : 0;
-    int mint=((int) ldexpf(m,29))<<2;
+    int mint=(feedback)? (delay1+delay2)<<feedback : 0;
     float s=sinf((phi0+mint)*ldexpf(M_PI,-31));
     float gain=op0->mEnvelope.ProcessSample()*linAm0;
-    m=4.0f*s*gain;
+    float y=s*gain;
+
     phi0+=currDeltaPhi0;
     currDeltaPhi0+=d2Phi0;
     linAm0+=dA0;
 
     // second operator, op1
-    mint=((int) ldexpf(m,29))<<2;
+    mint=((int) ldexpf(y,30))<<3;
     s=sinf((phi1+mint)*ldexpf(M_PI,-31));
     gain=op1->mEnvelope.ProcessSample()*linAm1;
-    y2=y1;
-    y1=s*gain;
+    y=s*gain;
+
+    delay2=delay1;
+    delay1=ldexpf(y,23);
     phi1+=currDeltaPhi1;
     currDeltaPhi1+=d2Phi1;
     linAm1+=dA1;
-    out[i]=in[i] + y1;
+    out[i]=in[i] + y;
   }
 
   // Write back updated state
-  op0->mDelay1=y1;
-  op0->mDelay2=y2;
+  op0->mDelay1=delay1;
+  op0->mDelay2=delay2;
   op0->mPhi=phi0;
   op0->mCurrDeltaPhi=currDeltaPhi0;
   op0->mCurrAm=linAm0;
@@ -234,46 +241,47 @@ void FmOperator::fillBufferFb3(FmOperator op[],
   float dA2=(nextAm-linAm2)/BLOCK_SIZE;
   
   // Feedback
-  float y1=op0->mDelay1;
-  float y2=op0->mDelay2;
+  int delay1=op0->mDelay1;
+  int delay2=op0->mDelay2;
   
   for (unsigned i=0; i<BLOCK_SIZE; ++i) {
     // First operator, op0
-    float m=(feedback)? ldexpf(y1+y2, feedback-8) : 0;
-    int mint=((int) ldexpf(m,29))<<2;
+    int mint=(feedback)? (delay1+delay2)<<feedback : 0;
     float s=sinf((phi0+mint)*ldexpf(M_PI,-31));
     float gain=op0->mEnvelope.ProcessSample()*linAm0;
-    m=4.0f*s*gain;
+    float y=s*gain;
 
     phi0+=currDeltaPhi0;
     currDeltaPhi0+=d2Phi0;
     linAm0+=dA0;
 
     // second operator, op1
-    mint=((int) ldexpf(m,29))<<2;
+    mint=((int) ldexpf(y,30))<<3;
     s=sinf((phi1+mint)*ldexpf(M_PI,-31));
     gain=op1->mEnvelope.ProcessSample()*linAm1;
-    m=4.0f*s*gain;
+    y=s*gain;
     
     phi1+=currDeltaPhi1;
     currDeltaPhi1+=d2Phi1;
     linAm1+=dA1;
 
     // third operator, op2
-    mint=((int) ldexpf(m,29))<<2;
+    mint=((int) ldexpf(y,30))<<3;
     s=sinf((phi2+mint)*ldexpf(M_PI,-31));
-    gain=op2->mEnvelope.ProcessSample()*linAm2;    
-    y2=y1;
-    y1=s*gain;
+    gain=op2->mEnvelope.ProcessSample()*linAm2;
+    y=s*gain;
+    
+    delay2=delay1;
+    delay1=ldexpf(y,23);
     phi2+=currDeltaPhi2;
     currDeltaPhi2+=d2Phi2;
     linAm2+=dA2;
-    out[i]=in[i] + y1;
+    out[i]=in[i] + y;
   }
 
   // Write back updated state
-  op0->mDelay1=y1;
-  op0->mDelay2=y2;
+  op0->mDelay1=delay1;
+  op0->mDelay2=delay2;
   op0->mPhi=phi0;
   op0->mCurrDeltaPhi=currDeltaPhi0;
   op0->mCurrAm=linAm0;
