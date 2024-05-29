@@ -11,9 +11,72 @@
 #include <math.h>
 #include <daisy_seed.h>
 #include <daisysp.h>
+#include <per/sai.h>
 
-static daisy::DaisySeed    seed;
-static daisy::Switch       sw1;
+using namespace daisy;
+
+static DaisySeed    hw;
+
+// This function is adapted from daisy_patch.cpp
+//
+// In addition to the (usual) SAI1 interface, it sets up a second
+// digital audio interface (SAI2).
+//
+// sai2ClockMaster check databook how that is supposed to work,
+// daisy_patch sets RX to master and TX to slave (weird).
+
+static void InitAudioWithSAI2(AudioHandle::Config audioConfig,
+			      bool sai2ClockMaster)
+{
+  // Handle Seed Audio as-is and then
+  SaiHandle::Config sai_config[2];
+  // Internal Codec
+  if(hw.CheckBoardVersion() == DaisySeed::BoardVersion::DAISY_SEED_1_1)
+  {
+    sai_config[0].pin_config.sa = Pin(PORTE, 6);
+    sai_config[0].pin_config.sb = Pin(PORTE, 3);
+    sai_config[0].a_dir         = SaiHandle::Config::Direction::RECEIVE;
+    sai_config[0].b_dir         = SaiHandle::Config::Direction::TRANSMIT;
+  }
+  else
+  {
+    sai_config[0].pin_config.sa = Pin(PORTE, 6);
+    sai_config[0].pin_config.sb = Pin(PORTE, 3);
+    sai_config[0].a_dir         = SaiHandle::Config::Direction::TRANSMIT;
+    sai_config[0].b_dir         = SaiHandle::Config::Direction::RECEIVE;
+  }
+  sai_config[0].periph          = SaiHandle::Config::Peripheral::SAI_1;
+  sai_config[0].sr              = SaiHandle::Config::SampleRate::SAI_48KHZ;
+  sai_config[0].bit_depth       = SaiHandle::Config::BitDepth::SAI_24BIT;
+  sai_config[0].a_sync          = SaiHandle::Config::Sync::MASTER;
+  sai_config[0].b_sync          = SaiHandle::Config::Sync::SLAVE;
+  sai_config[0].pin_config.fs   = Pin(PORTE, 4);
+  sai_config[0].pin_config.mclk = Pin(PORTE, 2);
+  sai_config[0].pin_config.sck  = Pin(PORTE, 5);
+
+  // External Codec
+  sai_config[1].periph          = SaiHandle::Config::Peripheral::SAI_2;
+  sai_config[1].sr              = SaiHandle::Config::SampleRate::SAI_48KHZ;
+  sai_config[1].bit_depth       = SaiHandle::Config::BitDepth::SAI_24BIT;
+  sai_config[1].a_sync          = SaiHandle::Config::Sync::SLAVE;
+  sai_config[1].b_sync          = SaiHandle::Config::Sync::MASTER;
+  sai_config[1].a_dir           = SaiHandle::Config::Direction::TRANSMIT;
+  sai_config[1].b_dir           = SaiHandle::Config::Direction::RECEIVE;
+  sai_config[1].pin_config.fs   = seed::D27;
+  sai_config[1].pin_config.mclk = seed::D24;
+  sai_config[1].pin_config.sck  = seed::D28;
+  sai_config[1].pin_config.sb   = seed::D25;
+  sai_config[1].pin_config.sa   = seed::D26;
+
+  SaiHandle sai_handle[2];
+  sai_handle[0].Init(sai_config[0]);
+  sai_handle[1].Init(sai_config[1]);
+
+  // Reinit Audio for _both_ codecs...
+  hw.audio_handle.Init(audioConfig, sai_handle[0], sai_handle[1]);
+}
+
+static Switch              sw1;
 static daisysp::Oscillator osc;
 static daisysp::AdEnv      eg;
 static bool                gate;
@@ -31,8 +94,8 @@ static float doubleBuffer[2][BLOCK_SIZE];
 // (the variables are accessed in interrupt context, "at any time").
 static volatile unsigned numBlocksProduced, numBlocksConsumed;
 
-static void AudioCallback(daisy::AudioHandle::InputBuffer  in,
-			  daisy::AudioHandle::OutputBuffer out,
+static void AudioCallback(AudioHandle::InputBuffer  in,
+			  AudioHandle::OutputBuffer out,
 			  size_t size)
 {
   // number of ready blocks will always be 0, 1 or 2
@@ -43,13 +106,13 @@ static void AudioCallback(daisy::AudioHandle::InputBuffer  in,
     float *nextBlock = doubleBuffer[numBlocksConsumed & 1];
     for(unsigned i=0; i<size; i++) {
       // copy to both left and right stereo channels
-      out[0][i] = out[1][i] = nextBlock[i];
+      out[0][i] = out[1][i] = out[3][i] = out[4][i] = nextBlock[i];
     }
     numBlocksConsumed++;
   }
   else {
     // Here the buffer is underrun, turn the LED on to indicate error
-    seed.SetLed(true);
+    hw.SetLed(true);
   }
 }
 
@@ -72,17 +135,23 @@ static void fillBuffer(float *buffer, size_t size) {
 int main(void)
 {
   // Initialization of Daisy hardware
-  seed.Init();
+  hw.Init();
 
   // Initialize button (D15)
-  sw1.Init(daisy::seed::D15, 1000);
+  sw1.Init(seed::D15, 1000);
 
-  // Audio configuration
-  seed.SetAudioBlockSize(BLOCK_SIZE);
-  seed.SetAudioSampleRate(daisy::SaiHandle::Config::SampleRate::SAI_48KHZ);
-
+  // Configure SAI2
+  // AudioHandle::Config defult constructor sets up
+  //   blocksize=48,
+  //   samplerate=SAI_48KHZ,
+  //   postgain=1.0,
+  //   output_compensation=1.0
+  AudioHandle::Config audioConfig;
+  audioConfig.blocksize=BLOCK_SIZE;
+  InitAudioWithSAI2(audioConfig, true);
+  
   // ...and the synth components
-  float samplerate=seed.AudioSampleRate();
+  float samplerate=hw.AudioSampleRate();
   osc.Init(samplerate);
   osc.SetFreq(toneFreqHz);
   osc.SetAmp(1.0f);
@@ -98,7 +167,7 @@ int main(void)
   numBlocksConsumed=0;
     
   // Set block size, sample rate and start the audio callback
-  seed.StartAudio(AudioCallback);
+  hw.StartAudio(AudioCallback);
 
   // Just busy wait for a buffer to be available,
   // which happens when the AudioCallback has consumed it
