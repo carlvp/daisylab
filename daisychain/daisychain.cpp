@@ -80,13 +80,16 @@ static Switch              sw1;
 static daisysp::Oscillator osc;
 static daisysp::AdEnv      eg;
 static bool                gate;
-
+static constexpr float initialAmp=0.25f;
 static constexpr float toneFreqHz=440.0f;
 static constexpr unsigned BLOCK_SIZE=48;  // 1 ms worth of samples @ 48 kHz
+static constexpr unsigned delayInBlocks=378; // 378 ms
 
 // double buffer: a second buffer is filled
 // while the AudioCallback drains a first one
 static float doubleBuffer[2][BLOCK_SIZE];
+static float delayLine[delayInBlocks][BLOCK_SIZE];
+const static float *delayLineEnd=delayLine[delayInBlocks];
 
 // simple synchronization mechanism: just keep track of number
 // of blocks produced and consumed.
@@ -98,15 +101,22 @@ static void AudioCallback(AudioHandle::InputBuffer  in,
 			  AudioHandle::OutputBuffer out,
 			  size_t size)
 {
+  static float *writePtr=delayLine[0];
+
+  if (writePtr==delayLineEnd)
+    writePtr=delayLine[0];
+  
   // number of ready blocks will always be 0, 1 or 2
   // -even when blocks counters wrap around (after about 50 days of streaming)
   unsigned numBlocksReady=numBlocksProduced-numBlocksConsumed;
   if (numBlocksReady != 0) {
     // Here at least one block is ready, doubleBuffer[0] or [1]
-    float *nextBlock = doubleBuffer[numBlocksConsumed & 1];
+    const float *readPtr = doubleBuffer[numBlocksConsumed & 1];
+    
     for(unsigned i=0; i<size; i++) {
       // copy to both left and right stereo channels
-      out[0][i] = out[1][i] = out[3][i] = out[4][i] = nextBlock[i];
+      out[0][i] = out[1][i] = out[3][i] = out[4][i] = *readPtr++;
+      *writePtr++ = 0.5*(in[2][i]+in[3][i]);
     }
     numBlocksConsumed++;
   }
@@ -116,7 +126,7 @@ static void AudioCallback(AudioHandle::InputBuffer  in,
   }
 }
 
-static void fillBuffer(float *buffer, size_t size) {
+static const float *fillBuffer(float *buffer, const float *delay, size_t size) {
   // If the button is pressed, trigger the envelope
   sw1.Debounce();
   bool b=sw1.Pressed();
@@ -125,15 +135,23 @@ static void fillBuffer(float *buffer, size_t size) {
     gate=b;
     if (gate) eg.Trigger();
   }
+
+  if (delay==delayLineEnd)
+    delay=delayLine[0];
   
   for(unsigned i=0; i<size; i++) {
-    float gain=eg.Process();
-    buffer[i] = gain*osc.Process();
+    float gain=initialAmp*eg.Process();
+    float y=0.3*(*delay++);
+    buffer[i] = gain*osc.Process() + y;
   }
+
+  return delay;
 }
 
 int main(void)
 {
+  const float *delayLineReadPtr;
+  
   // Initialization of Daisy hardware
   hw.Init();
 
@@ -165,7 +183,8 @@ int main(void)
   // this inserts 2ms of silence at the start of the stream
   numBlocksProduced=2;
   numBlocksConsumed=0;
-    
+  delayLineReadPtr=delayLine[2];
+  
   // Set block size, sample rate and start the audio callback
   hw.StartAudio(AudioCallback);
 
@@ -178,8 +197,8 @@ int main(void)
     if (numBlocksBuffered<2) {
       // Here at least one block is free, doubleBuffer[0] or [1]
       float *nextBlock=doubleBuffer[numBlocksProduced & 1];
-      fillBuffer(nextBlock, BLOCK_SIZE);
+      delayLineReadPtr=fillBuffer(nextBlock, delayLineReadPtr, BLOCK_SIZE);
       numBlocksProduced++;
-    }
+     }
   }
 }
