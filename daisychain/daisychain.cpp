@@ -1,17 +1,25 @@
-// This program produces a 440 Hz test signal on
-// Audio Out 1 and 2 (left/right stereo channels)
+// This program plays an A4 (440 Hz) note when a switch connected to pin 22 is
+// pressed. It also transmits and receives digital audio on SAI2 (pins 31-35).
+// The input is passed to a delay line and, mixed with the test signal, it is
+// sent to the digital output.
 //
 // Relevant pins on the Daisy Seed board:
-// 18 Audio Out 1
-// 19 Audio Out 2
-// 20 Analog Ground
 // 22 D15, connected to ground via a switch, "sw1".
-// 40 Digital Ground (Analog and Digital Ground should be connected)
+// 31 SAI2 Block B MCLK
+// 32 SAI2 SD B digital audio in (connected to microphone/ADC or digital audio
+//    out of other daisy/Rapberry PI)
+// 33 SAI2 SD A digital audio out (connected to external DAC or digital audio
+//    in of other daisy/Raspberry PI)
+// 34 SAI2 FS frame select/left-right clock
+// 35 SAI2 SCK bit clock
+// 38 3V3 Digital Voltage
+// 40 Digital Ground
 
 #include <math.h>
 #include <daisy_seed.h>
 #include <daisysp.h>
 #include <per/sai.h>
+#include <stm32h750xx.h>
 
 using namespace daisy;
 
@@ -21,9 +29,21 @@ static DaisySeed    hw;
 //
 // In addition to the (usual) SAI1 interface, it sets up a second
 // digital audio interface (SAI2).
-//
-// sai2ClockMaster check databook how that is supposed to work,
-// daisy_patch sets RX to master and TX to slave (weird).
+// audioConfig     Configuration, which is used to set up both SAI1, which
+//                 is the serial audio interface of the usual, on-board codec,
+//                 and SAI2, which is available on pins 31-35. 
+//                 Default constructor AudioHandle::Config() sets up
+//                 blocksize=48,
+//                 samplerate=SAI_48KHZ,
+//                 postgain=1.0,
+//                 output_compensation=1.0
+// sai2ClockMaster=true makes SAI2 Audio Block B a clock master, which means
+//                 that it generates clock signals on pins 31, 34 and 35.
+//                 This is useful when driving an external codec.
+//                =false makes it instead sync to the clocks received on pins
+//                 34 and 35 (pin 31 unused in this case).
+//                 Audio block A (serial data output on pin 33) is synced to
+//                 the same clock as audio block B in both cases.
 
 static void InitAudioWithSAI2(AudioHandle::Config audioConfig,
 			      bool sai2ClockMaster)
@@ -58,8 +78,14 @@ static void InitAudioWithSAI2(AudioHandle::Config audioConfig,
   sai_config[1].periph          = SaiHandle::Config::Peripheral::SAI_2;
   sai_config[1].sr              = SaiHandle::Config::SampleRate::SAI_48KHZ;
   sai_config[1].bit_depth       = SaiHandle::Config::BitDepth::SAI_24BIT;
+  // There is no use making Audio Block A a master, since none of Daisy Seed's
+  // pins has those functions (FS, SCK, MCLK).
   sai_config[1].a_sync          = SaiHandle::Config::Sync::SLAVE;
-  sai_config[1].b_sync          = SaiHandle::Config::Sync::MASTER;
+  // but Audio Block B *can* be MASTER
+  sai_config[1].b_sync          = (sai2ClockMaster)?
+    SaiHandle::Config::Sync::MASTER : SaiHandle::Config::Sync::SLAVE;
+  // if we want to use the AudioCallback, I think we need to keep these as is,
+  // but in theory we could have two stereo outputs or two stereo inputs.
   sai_config[1].a_dir           = SaiHandle::Config::Direction::TRANSMIT;
   sai_config[1].b_dir           = SaiHandle::Config::Direction::RECEIVE;
   sai_config[1].pin_config.fs   = seed::D27;
@@ -74,6 +100,14 @@ static void InitAudioWithSAI2(AudioHandle::Config audioConfig,
 
   // Reinit Audio for _both_ codecs...
   hw.audio_handle.Init(audioConfig, sai_handle[0], sai_handle[1]);
+
+  // When SAI2 Audio Block B is set up to receive clock signal, it should be
+  // in asynchronous mode (SCK and FS are inputs in this case).
+  // SaiHandle::Init assumes it is synchronous, so we have to fix it here.
+  if (!(sai2ClockMaster)) {
+    // SYNCEN[1:0]=00 means ASYNC (master/slave)
+    SAI2_Block_B->CR1 &= ~SAI_xCR1_SYNCEN_Msk;
+  }
 }
 
 static Switch              sw1;
@@ -115,14 +149,10 @@ static void AudioCallback(AudioHandle::InputBuffer  in,
     
     for(unsigned i=0; i<size; i++) {
       // copy to both left and right stereo channels
-      out[0][i] = out[1][i] = out[3][i] = out[4][i] = *readPtr++;
-      *writePtr++ = 0.5*(in[2][i]+in[3][i]);
+      out[0][i] = out[1][i] = out[2][i] = out[3][i] = *readPtr++;
+      *writePtr++ = 0.5*(in[2][i] + in[3][i]);
     }
     numBlocksConsumed++;
-  }
-  else {
-    // Here the buffer is underrun, turn the LED on to indicate error
-    hw.SetLed(true);
   }
 }
 
@@ -154,19 +184,21 @@ int main(void)
   
   // Initialization of Daisy hardware
   hw.Init();
-
-  // Initialize button (D15)
+  
+  // Initialize button (D15) 
+  // if D15 is grounded when starting up, this devices won't generate the clocks
   sw1.Init(seed::D15, 1000);
+  // practice has shown that incorrect (LOW) readouts are avoided by a delay
+  hw.DelayMs(1);
+  gate=sw1.RawState(); 
+  bool generateClock=!gate;
 
+  hw.SetLed(generateClock);
+  
   // Configure SAI2
-  // AudioHandle::Config defult constructor sets up
-  //   blocksize=48,
-  //   samplerate=SAI_48KHZ,
-  //   postgain=1.0,
-  //   output_compensation=1.0
   AudioHandle::Config audioConfig;
   audioConfig.blocksize=BLOCK_SIZE;
-  InitAudioWithSAI2(audioConfig, true);
+  InitAudioWithSAI2(audioConfig, generateClock);
   
   // ...and the synth components
   float samplerate=hw.AudioSampleRate();
@@ -184,8 +216,8 @@ int main(void)
   numBlocksProduced=2;
   numBlocksConsumed=0;
   delayLineReadPtr=delayLine[2];
-  
-  // Set block size, sample rate and start the audio callback
+
+  // Start the audio callback
   hw.StartAudio(AudioCallback);
 
   // Just busy wait for a buffer to be available,
