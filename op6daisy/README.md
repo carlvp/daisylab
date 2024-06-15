@@ -22,8 +22,8 @@ op6daisy is a six-operator FM synthesizer.
   single operator sine wave. There is currently no practical way of
   creating voices yourself -so you'll need some .syx files. These
   are two good places:
-  ** http://bobbyblues.recup.ch/yamaha_dx7/dx7_patches.html
-  ** https://yamahablackboxes.com/collection/yamaha-dx7-synthesizer/patches
+  ** [http://bobbyblues.recup.ch/yamaha_dx7/dx7_patches.html]
+  ** [https://yamahablackboxes.com/collection/yamaha-dx7-synthesizer/patches]
   
 * In a addition to SysEx, the op6daisy listens to MIDI note-on/off,
   program change, pitch-bend and controls 7 (channel volume) and
