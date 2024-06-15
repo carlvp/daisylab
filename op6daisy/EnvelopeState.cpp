@@ -5,11 +5,15 @@
 
 void EnvelopeState::noteOn(const EnvelopeParam *param,
 			   float levelScaling,
-			   float timeScaling) {
+			   float timeScaling,
+			   bool retrig) {
   mLevelScaling=levelScaling;
   mTimeScaling=timeScaling;
-  mLevel=param->level0*levelScaling;
-  mVarying=0;
+  if (retrig) {
+    // Re-trigger envelope: set level to level0
+    mLevel=param->level0*levelScaling;
+    mVarying=0;
+  }
   initStage(0, param);
 }
 

@@ -13,7 +13,8 @@ class FmOperator {
 	      unsigned key,
 	      unsigned velocity,
 	      std::int32_t deltaPhi,
-	      float levelCom);
+	      float levelCom,
+	      bool retrig);
 
   void noteOff(const FmOperatorParam *param);
 

@@ -57,7 +57,8 @@ void FmOperator::noteOn(const FmOperatorParam *param,
 			unsigned key,
 			unsigned vel,
 			std::int32_t deltaPhi,
-			float levelCom) {
+			float levelCom,
+			bool retrig) {
   mParam=param;
   // oscillator mode (fixed frequency or ratio)
   mCurrDeltaPhi=mDeltaPhiKey=(param->fixedFreq)?
@@ -74,7 +75,7 @@ void FmOperator::noteOn(const FmOperatorParam *param,
   if (level > 1.0f) level=1.0f;
   level*=levelCom * velocityScaling(vel, param->velScaling);
   float timeS=timeScaling(key, param->kbdRateScaling);
-  mEnvelope.noteOn(&param->envelope, level, timeS);
+  mEnvelope.noteOn(&param->envelope, level, timeS, retrig);
   mCurrAm=1.0;
 }
 

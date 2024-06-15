@@ -20,7 +20,8 @@ class EnvelopeState {
   
   void noteOn(const EnvelopeParam *param,
 	      float levelScaling,
-	      float timeScaling);
+	      float timeScaling,
+	      bool retrig);
 
   void noteOff(const EnvelopeParam *param) {
     if (mStage<RELEASE_STAGE)
