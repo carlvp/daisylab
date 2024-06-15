@@ -5,21 +5,31 @@
 
 class Instrument;
 
-class UsbMidiDispatcher {
+class BasicMidiDispatcher {
+protected:
+  void DispatchEvent(daisy::MidiEvent &msg);
+  
+  Instrument *mInstrument;
+};
+  
+template<typename Transport>
+class MidiDispatcher: public BasicMidiDispatcher {
  public:
-  void Init(Instrument *instrument);
+  void Init(Instrument *instrument, daisy::MidiHandler<Transport> *handler)  {
+    mInstrument=instrument;
+    mMidi=handler;
+  }
 
   void Process() {
-    mMidi.Listen();
-    if (mMidi.HasEvents())
-      DispatchEvents();
+    mMidi->Listen();
+    if (mMidi->HasEvents()) {
+      daisy::MidiEvent msg=mMidi->PopEvent();
+      DispatchEvent(msg);
+    }
   }
   
  private:
-  daisy::MidiUsbHandler mMidi;
-  Instrument *mInstrument;
-
-  void DispatchEvents();  
+  daisy::MidiHandler<Transport> *mMidi;
 };
 
 #endif

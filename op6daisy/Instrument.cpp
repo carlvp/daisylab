@@ -80,7 +80,7 @@ void Instrument::pitchBend(unsigned ch, int value) {
   mChannel[ch].setPitchBend(value);
 }
 
-void Instrument::sysEx(unsigned char *inBuffer, unsigned size) {
+void Instrument::sysEx(const unsigned char *inBuffer, unsigned size) {
   // SysEx transfers are chopped up in fragments of 128 bytes
   // due to a limitation of the current MIDI Handler so we need
   // to glue the buffers back together

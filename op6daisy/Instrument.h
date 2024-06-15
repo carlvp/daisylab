@@ -37,7 +37,7 @@ class Instrument {
   void pitchBend(unsigned channel, int value);
 
   // system exclusive
-  void sysEx(unsigned char *buffer, unsigned length);
+  void sysEx(const unsigned char *buffer, unsigned length);
 
   // Midi Key A4 (used for tuning)
   static constexpr int MidiKeyA4=69;

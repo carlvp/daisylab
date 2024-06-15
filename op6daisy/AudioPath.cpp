@@ -27,8 +27,7 @@ static void AudioCallback(daisy::AudioHandle::InputBuffer in,
 void startAudioPath() {
   nBlocksProduced=2; /* two empty blocks */
   nBlocksConsumed=0;
-  DaisySeedHw.SetAudioBlockSize(BLOCK_SIZE);
-  DaisySeedHw.StartAudio(AudioCallback);
+  startAudioCallback(AudioCallback, BLOCK_SIZE);
 }
 
 void processAudioPath(Instrument *instrument) {
