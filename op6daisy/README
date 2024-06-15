@@ -30,14 +30,14 @@ op6daisy is a six-operator FM synthesizer.
   10 (pan).
 
 * This is a multi-timbral synth. Each of the 16 MIDI channels can have
-  a distinct program/patch/voice. But polyphony is very modest (4 voices
-  work consistently, 6 don't work at all) -so you won't be able to play
-  all 16 sounds at once, anyway.
+  a distinct program/patch/voice.
 
-* I haven't even started looking into optimization, but there is some
-  hope that the number of voices can be increased.
+* Polyphony is now 16 voices (up from 4). It still seems possible to streamline
+  the code a bit more, so perhaps the polyphony can be improved further. With
+  6 FM operators per voice that is 6 x 16 = 96 FM Operators in total.
+  That's 4.6M samples/s at 48kHz sample rate.
 
-* and, yeah, work in progress, I hope to add to this list soon. But I think
+* This is work in progress, I hope to add to this list soon. But I think
   -despite its limitations- it's actually possible to use it as-is.
 
 Hope you like it!
