@@ -107,6 +107,12 @@ void FmOperator::fillBuffer(float *out,
   float linAm=mCurrAm;
   float nextAm=exp2f(-ampMod*sensitivity[mParam->ams]);
   float dA=(nextAm-mCurrAm)/BLOCK_SIZE;
+
+  // Waveform #5 "half sine" is a sine wave at x2 frequency,
+  // amplitude modulated by a square wave such that the output is zero
+  // for half of the duty cycle, like so (in asciiart): ^v--
+  bool waveform5=mParam->waveform5;
+  int squareWaveMask=0xffffffff;
   
   for (unsigned i=0; i<BLOCK_SIZE; ++i) {
     // Modulator is scaled by 4PI, which is the modulation index for ouput 99
@@ -120,7 +126,12 @@ void FmOperator::fillBuffer(float *out,
     // The result (mod 2^32) reprents the real range [-PI,+PI).
     int mint=(feedback)? (delay1+delay2)<<feedback
                        : ((int) (mod[i]*two_to_30))<<3;
-    int sint=sine_lut(phi+mint);
+    int x=phi+mint;
+    if (waveform5) {
+      squareWaveMask=x>>31; // -1 or zero
+      x<<=1; // double the frequency of the sine
+    }
+    int sint=sine_lut(x) & squareWaveMask;
     float gain=mEnvelope.ProcessSample()*linAm;
     float y=sint*gain; // y is now scaled by a factor of 2^23
 

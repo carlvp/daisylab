@@ -20,7 +20,7 @@ Instrument::Instrument()
 }
 
 void Instrument::Init() {
-  const Program *program1 = &mProgram[0];
+  const Program *program1 = &lateBloomer;
 
   for (unsigned ch=0; ch<NUM_CHANNELS; ++ch)
     mChannel[ch].reset(program1);
@@ -67,12 +67,8 @@ void Instrument::controlChange(unsigned ch, unsigned cc, unsigned value) {
     channel.setPan(value*128);
 }
 
-static const Program initVoice;
-
 void Instrument::programChange(unsigned ch, unsigned p) {
-  const Program *program=(p>=NUM_PROGRAMS)?
-    &initVoice : &mProgram[p];
-  
+  const Program *program=&lateBloomer;
   mChannel[ch].setProgram(program);
 }
 
@@ -81,48 +77,7 @@ void Instrument::pitchBend(unsigned ch, int value) {
 }
 
 void Instrument::sysEx(const unsigned char *inBuffer, unsigned size) {
-  // SysEx transfers are chopped up in fragments of 128 bytes
-  // due to a limitation of the current MIDI Handler so we need
-  // to glue the buffers back together
-
-  if (!mSysExPtr && size>5) {
-    // Start of new transfer, check if the message is for us
-    static constexpr unsigned char YAMAHA_MANUFACTURER_ID=0x43;
-    static constexpr unsigned char Packed32Voice=0x09;
-
-    unsigned id=inBuffer[0];
-
-    if (id==YAMAHA_MANUFACTURER_ID) {
-      unsigned subStat_devNo=inBuffer[1];
-      unsigned formatNo=inBuffer[2];
-      unsigned byteCount=inBuffer[3]*128 + inBuffer[4];
-
-      if (subStat_devNo==0 && formatNo==Packed32Voice && byteCount==0x1000) {
-	// Start transfer to buffer
-	mSysExBuffer[0]=0xf0;
-	mSysExPtr=1;
-      }
-    }
-  }
-
-  if (mSysExPtr) {
-    if (mSysExPtr+size<sizeof(mSysExBuffer)) {
-      // glue together in buffers 
-      memcpy(mSysExBuffer+mSysExPtr, inBuffer, size);
-      mSysExPtr+=size;
-
-      if (mSysExPtr==sizeof(SyxBulkFormat)-1) {
-	mSysExBuffer[mSysExPtr]=0xf7; // End of SysEx
-	loadSyxBulkFormat(reinterpret_cast<const SyxBulkFormat*>(mSysExBuffer));
-	mSysExPtr=0; // Reset SysEx pointer (start over again)
-	mWaitClearUnderrun=10; // Clear underrun LED after a little while
-      }
-    }
-    else {
-      // Error: reset SysEx pointer (start over again)
-      mSysExPtr=0;
-    }
-  }
+  // sysEx support removed in Late Bloomer
 }
 
 Voice *Instrument::allocateVoice(unsigned ch, unsigned key) {
@@ -158,15 +113,3 @@ Voice *Instrument::allocateVoice(unsigned ch, unsigned key) {
   return result;
 }
 
-void Instrument::loadSyxBulkFormat(const SyxBulkFormat *syx) {
-  for (unsigned i=0; i<32; ++i)
-    mProgram[i].load(syx->voiceParam[i]);
-}
-
-// static const Program initVoice;
-//
-// const Program *Program::getProgram(unsigned programNumber) {
-//   constexpr unsigned N=sizeof(programBank)/sizeof(Program);
-//   return (programNumber==0 || programNumber>N)?
-//     &initVoice : &programBank[programNumber-1];
-// }

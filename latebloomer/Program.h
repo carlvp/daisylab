@@ -14,16 +14,12 @@ enum LfoWaveform {
 };
 
 struct LfoParam {
-  LfoParam();
-  
   unsigned char waveform;
   unsigned short delay;
   int deltaPhi;
 };
   
 struct EnvelopeParam {
-  EnvelopeParam(float l0);
-  
   float level0;
   float levels[NUM_ENV_STAGES]; 
   float times[NUM_ENV_STAGES]; 
@@ -40,9 +36,8 @@ struct KeyScalingParam {
 };
 
 struct FmOperatorParam {
-  FmOperatorParam();
-  
   bool fixedFreq;
+  bool waveform5;          // Waveform #5 of TX81z
   unsigned char velScaling;
   unsigned char kbdRateScaling;
   unsigned char ams;
@@ -56,8 +51,6 @@ struct SyxVoiceParam;
 struct SyxBulkFormat;
 
 struct Program {
-  Program();
-  
   unsigned char algorithm;
   unsigned char feedback;
   float lfoPmDepth;
@@ -68,5 +61,7 @@ struct Program {
 
   void load(const SyxVoiceParam &syxVoice);
 };
+
+extern Program lateBloomer;
 
 #endif

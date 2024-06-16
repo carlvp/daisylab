@@ -13,10 +13,10 @@
 # https://forum.electro-smith.com/t/welcome-to-daisy-get-started-here
 
 # Project Name
-TARGET = op6daisy
+TARGET = latebloomer
 
 # Sources
-CPP_SOURCES = op6daisy.cpp \
+CPP_SOURCES = main.cpp \
   AudioPath.cpp \
   Channel.cpp \
   Program.cpp \

@@ -61,12 +61,10 @@ class Instrument {
   const float mDeltaPhiA4;
   Channel mChannel[NUM_CHANNELS];
   Voice mVoice[NUM_VOICES];
-  Program mProgram[NUM_PROGRAMS];
   static constexpr unsigned SYSEX_BUFFER_SIZE=4104;
   unsigned char mSysExBuffer[SYSEX_BUFFER_SIZE];
 
   Voice *allocateVoice(unsigned ch, unsigned key);
-  void loadSyxBulkFormat(const SyxBulkFormat *syx);
 };
 
 // Instrument singleton
