@@ -49,7 +49,7 @@ class VoiceEditorScreen(tkinter.Frame):
     def _makeTopRow(self, row):
         '''Creates the row with voice name and number'''
         self._makeLabel("Voice", row, 0, 2)
-        self._makeEntry("Voice Number", 2, row, 2)
+        self._makeBase1Entry("Voice Number", 2, row, 2)
         voiceName = self._makeEntry("Voice Name", 24, row, 3, 9)
         voiceName.configure(justify=tkinter.LEFT)
 
@@ -72,7 +72,7 @@ class VoiceEditorScreen(tkinter.Frame):
         self._makeLabel("Rate", row, 20)
 
     def _makeVoiceParamRow(self, row):
-        self._makeEntry("Algorithm", 2, row, 1)
+        self._makeBase1Entry("Algorithm", 2, row, 1)
         self._makeEntry("Feedback", 1, row, 2)
         self._makeCombobox("Oscillator Sync", ('', 'x'), 1, row, 3)
         self._makeLabel("|", row, 4)
@@ -124,7 +124,7 @@ class VoiceEditorScreen(tkinter.Frame):
     def _makeOpParamRow(self, opNumber, row):
         prefix="Op"+str(opNumber)+" "
         self._makeLabel(str(opNumber), row, 0)
-        self._makeEntry(prefix+"Frequency", 6, row, 1, 2)
+        self._makeFpEntry(prefix+"Frequency", 6, row, 1, 2)
         self._makeCombobox(prefix+"Frequency Mode", ('x', 'Hz'), 2, row, 3)
         self._makeLabel("|", row, 4)
         self._makeEntry(prefix+"Total Output Level", 2, row, 5)
@@ -161,8 +161,8 @@ class VoiceEditorScreen(tkinter.Frame):
         self._makeEntry("LFO Speed", 2, row, 1) # Speed
         self._makeEntry("LFO Delay", 2, row, 2) # Delay
         self._makeCombobox("LFO Sync", ('', 'x'), 1, row, 3) # Sync
-        self._makeCombobox("LFO Waveform", ('Triang', 'Saw Dn', 'Saw Up',
-                                            'Sine',   'Square', 'S/H'),
+        self._makeCombobox("LFO Waveform", ('TRIANG', 'SAW DN', 'SAW UP',
+                                            'SINE',   'SQUARE', 'S/HOLD'),
                            6, row, 5, 3)
         self._makeEntry("LFO Initial Pitch Modulation Depth", 2, row, 9, 2)
         self._makeEntry("LFO Initial Amplitude Modulation Depth", 2, row, 11, 2)
@@ -190,17 +190,69 @@ class VoiceEditorScreen(tkinter.Frame):
         self.parameterValue[paramName]=var
         return id
 
+    def _makeBase1Entry(self, paramName, width, row, column, columnspan=1):
+        '''Formats a value in the range 0..N-1 as 1..N'''
+        id=self._makeEntry(paramName, width, row, column, columnspan)
+        var=self.parameterValue[paramName]
+        self.parameterValue[paramName]=Base1Formatter(var)
+        return id
+
+    def _makeFpEntry(self, paramName, width, row, column, columnspan=1):
+        '''Formats a frequency (floating-point) entry'''
+        id=self._makeEntry(paramName, width, row, column, columnspan)
+        var=self.parameterValue[paramName]
+        self.parameterValue[paramName]=FpFormatter(var)
+        return id
+
     def _makeCombobox(self, paramName, values, width, row, column, columnspan=1):
         var=tkinter.StringVar(master=self, value=values[0])
-        id=RetroCombobox(self,
-                         values,
+        id=tkinter.Label(self,
                          textvariable=var,
                          foreground=FOREGROUND_COLOR,
                          background=BACKGROUND_COLOR,
                          width=width)
         id.grid(row=row, column=column, columnspan=columnspan)
-        self.parameterValue[paramName]=var
+        self.parameterValue[paramName]=ComboboxFormatter(var, values)
         return id
+
+class Base1Formatter:
+    '''Formats an 0..N-1 integer range as 1..N'''
+    def __init__(self, var):
+        self.var=var
+
+    def set(self, value):
+        self.var.set(str(int(value)+1))
+
+    def get(self):
+        return int(self.var.get())-1
+
+class FpFormatter:
+    '''Formats the frequency field which is floating point'''
+    def __init__(self, var):
+        self.var=var
+
+    def set(self, value):
+        freq=float(value)
+        # frequencies < 100 Hz and ratios are formatted with three decimals
+        value=(f'{freq:.3f}' if freq<99.9995 else
+               f'{freq:.2f}' if freq<999.995 else
+               f'{freq:.1f}')
+        self.var.set(value)
+
+    def get(self):
+        return self.var.get()
+
+class ComboboxFormatter:
+    '''Formats a 0..N-1 as the values[i] strings'''
+    def __init__(self, var, values):
+        self.var=var
+        self.values=values
+
+    def set(self, value):
+        self.var.set(self.values[int(value)])
+
+    def get(self):
+        return self.values.find(self.var.get())
 
 class RetroCombobox(tkinter.Label):
     '''Retro-style multi-value entry widget'''

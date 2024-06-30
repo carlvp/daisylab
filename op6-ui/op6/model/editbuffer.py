@@ -82,6 +82,8 @@ class EditBuffer:
         # Unused parameter numbers
         for i in range(6*_paramsPerOp, _firstCommon):
             self.parameters[i]=None
+        # PEG Depth
+        self.parameters[_firstCommon+12]=12
         # LFO Speed
         self.parameters[_firstCommon+16]=35
         # Voice Name

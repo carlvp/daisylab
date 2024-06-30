@@ -50,7 +50,7 @@ class VoiceEditorController:
             else:
                 self.editBuffer.loadFromSyx(self.currSyx.getVoice(self.currProgram))
             # Update VoiceEditScreen from editBuffer
-            self.voiceEditorScreen.setVoiceParameter("Voice Number", str(self.currProgram+1))
+            self.voiceEditorScreen.setVoiceParameter("Voice Number", str(self.currProgram))
             for (name, value) in self.editBuffer.getAllVoiceParameters():
                self.voiceEditorScreen.setVoiceParameter(name, str(value))
 
