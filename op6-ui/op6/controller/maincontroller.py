@@ -1,5 +1,6 @@
 from .performance import PerformanceController
 from .voice import VoiceEditorController
+from op6.model.editbuffer import EditBuffer
 
 class MainController:
     '''
@@ -7,13 +8,14 @@ class MainController:
     between view and model.
     '''
     def __init__(self):
-        self.performanceController=PerformanceController()
-        self.voiceEditorController=VoiceEditorController()
-        
+        editBuffer=EditBuffer()
+        self.voiceEditorController=VoiceEditorController(editBuffer)
+        self.performanceController=PerformanceController(self.voiceEditorController)
         self.controllers={'MainController': self}
         self.performanceController.registerControllerObjects(self.controllers)
         self.voiceEditorController.registerControllerObjects(self.controllers)
         self.clipboard=None
+        self.program=None
 
     def getControllers(self):
         '''returns a dictionary containing the controllers'''
@@ -30,11 +32,10 @@ class MainController:
 
     def initUI(self):
         self.performanceController.initUI()
-        
+
     def setActiveScreen(self, index):
-        # TODO: performanceController
-        # self.performanceController.setHasActiveScreen(index==0)
-        # self.otherController.setHasActiveScreen(index==1)
+        if index==1:
+            self.voiceEditorController.updateUI()
         self.view.selectScreen(index)
 
     def setClipboard(self, clipboard):

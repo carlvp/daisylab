@@ -16,7 +16,8 @@ class PerformanceController:
     and mediates user interaction and operations in the performace mode
     '''
 
-    def __init__(self):
+    def __init__(self, changeListener):
+        self.changeListener=changeListener
         self.performanceScreen=None
         self.dialogManager=None
         self.currVoice=None
@@ -35,6 +36,10 @@ class PerformanceController:
     def initUI(self):
         self.currVoice=0
         self.performanceScreen.selectVoice(0)
+        self.changeListener.notifyProgramChange(0)
+
+    def setHasActiveScreen(self, hasActiveScreen):
+        pass
 
     def setVoice(self, voiceNumber):
         '''called from PerformanceScreen to set new voice'''
@@ -42,7 +47,7 @@ class PerformanceController:
         self.currVoice=voiceNumber
         if self.midiOut:
             self.midiOut.sendProgramChange(self.baseChannel, voiceNumber)
-
+        self.changeListener.notifyProgramChange(voiceNumber)
 
     def loadVoiceBank(self):
         '''called from the PerformanceScreen to load a voice bank'''
@@ -54,11 +59,14 @@ class PerformanceController:
         if syx is None:
             return # load failed (not a well-formed SyxPacked32Voice file)
 
-        self.midiOut.chopUpSysEx(syx.getRawData(), 128) 
+        if self.midiOut:
+            self.midiOut.chopUpSysEx(syx.getRawData(), 128)
         (bankName,_)=os.path.splitext(os.path.basename(filename))
         self.performanceScreen.setBankName(bankName[:24])
         for n in range(32):
-            self.performanceScreen.setVoiceName(n, syx.getVoice(n).getName()) 
+            self.performanceScreen.setVoiceName(n, syx.getVoice(n).getName())
+        self.changeListener.notifyBankChange(syx)
+        self.changeListener.notifyProgramChange(self.currVoice)
 
     def setMidiOut(self, midiOut):
         self.midiOut=midiOut
