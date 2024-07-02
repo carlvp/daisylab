@@ -53,3 +53,6 @@ class SyxPacked32Voice:
 
         def getName(self):
             return self.rawSyxData[118:128].decode().rstrip()
+
+        def __getitem__(self, index):
+            return self.rawSyxData.__getitem__(index)
