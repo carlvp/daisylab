@@ -197,10 +197,9 @@ class VoiceEditorScreen(tkinter.Frame):
                          validate="key",
                          validatecommand=vcmd,
                          justify=tkinter.RIGHT,
-                         foreground=FOREGROUND_COLOR,
-                         background=BACKGROUND_COLOR,
                          width=width)
         id.grid(row=row, column=column, columnspan=columnspan)
+        _setRetroStyle(id)
         self.parameterValue[paramName]=var
         return id
 
@@ -224,10 +223,9 @@ class VoiceEditorScreen(tkinter.Frame):
                          validate="key",
                          validatecommand=vcmd,
                          justify=tkinter.RIGHT,
-                         foreground=FOREGROUND_COLOR,
-                         background=BACKGROUND_COLOR,
                          width=width)
         id.grid(row=row, column=column, columnspan=columnspan)
+        _setRetroStyle(id)
         self.parameterValue[paramName]=FpFormatter(var)
         return id
 
@@ -239,10 +237,9 @@ class VoiceEditorScreen(tkinter.Frame):
                          validate="key",
                          validatecommand=vcmd,
                          justify=tkinter.LEFT,
-                         foreground=FOREGROUND_COLOR,
-                         background=BACKGROUND_COLOR,
                          width=width)
         id.grid(row=row, column=column, columnspan=columnspan)
+        _setRetroStyle(id)
         self.parameterValue[paramName]=var
         return id
 
@@ -338,4 +335,13 @@ class RetroCombobox(tkinter.Label):
         tkinter.Label.__init__(self, parent, kwargs)
         self.values=values
         self.index=0
-        
+
+def _setRetroStyle(widget):
+    widget.config(foreground=FOREGROUND_COLOR,
+                  background=BACKGROUND_COLOR,
+                  borderwidth='0',
+                  highlightthickness='0',
+                  selectborderwidth='0',
+                  selectbackground=FOREGROUND_COLOR,
+                  selectforeground=BACKGROUND_COLOR,
+                  insertbackground=FOREGROUND_COLOR)
