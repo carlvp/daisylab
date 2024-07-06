@@ -24,6 +24,11 @@ class VoiceEditorScreen(tkinter.Frame):
 
         self.controller=None
         self.parameterValue={}
+        # register Tk validation functions
+        self.validateWidth=self.register(_onValidateWidth)
+        self.validateInt=self.register(_onValidateInt)
+        self.validateFp=self.register(_onValidateFp)
+        # create layout
         self._makeTopRow(0)
         self._makeVoiceParamHeading(1)
         self._makeVoiceParamRow(2)
@@ -49,9 +54,8 @@ class VoiceEditorScreen(tkinter.Frame):
     def _makeTopRow(self, row):
         '''Creates the row with voice name and number'''
         self._makeLabel("Voice", row, 0, 2)
-        self._makeBase1Entry("Voice Number", 2, row, 2)
-        voiceName = self._makeEntry("Voice Name", 24, row, 3, 9)
-        voiceName.configure(justify=tkinter.LEFT)
+        self._makeBase1Entry("Voice Number", 2, row, 2, maxValue=32)
+        voiceName = self._makeStringEntry("Voice Name", 24, row, 3, 9)
 
     def _makeVoiceParamHeading(self, row):
         '''Create the headings of the Voice Params and Pitch EG'''
@@ -72,22 +76,23 @@ class VoiceEditorScreen(tkinter.Frame):
         self._makeLabel("Rate", row, 20)
 
     def _makeVoiceParamRow(self, row):
-        self._makeBase1Entry("Algorithm", 2, row, 1)
-        self._makeEntry("Feedback", 1, row, 2)
+        self._makeBase1Entry("Algorithm", 2, row, 1, maxValue=32)
+        self._makeIntEntry("Feedback", 1, row, 2)
         self._makeCombobox("Oscillator Sync", ('', 'x'), 1, row, 3)
         self._makeLabel("|", row, 4)
-        self._makeEntry("Pitch Envelope Depth", 2, row, 5)
-        self._makeEntry("Pitch Modulation Sensitivity", 2, row, 6)
-        self._makeEntry("Velocity Sensitivity", 2, row, 7)
+        self._makeIntEntry("Pitch Envelope Depth", 2, row, 5)
+        self._makeIntEntry("Pitch Modulation Sensitivity", 2, row, 6)
+        self._makeIntEntry("Velocity Sensitivity", 2, row, 7)
         self._makeLabel("|", row, 8)
         for i in range(4):
-            self._makeEntry("Pitch Envelope Time "+str(i+1),
+            self._makeIntEntry("Pitch Envelope Time "+str(i+1),
                                            2, row, 9+i)
         self._makeLabel("|", row, 13)
         for i in range(5):
-            self._makeEntry("Pitch Envelope Level "+str(i), 2, row, 14+i)
+            self._makeIntEntry("Pitch Envelope Level "+str(i), 3, row, 14+i,
+                               minValue=-99, maxValue=99)
         self._makeLabel("|", row, 19)
-        self._makeEntry("Keyboard Rate Scaling", 2, row, 20)
+        self._makeIntEntry("Keyboard Rate Scaling", 2, row, 20)
 
     def _makeOpParamHeading1(self, row):
         '''Create the headings of the FM Operator rows (line #1)'''
@@ -127,22 +132,24 @@ class VoiceEditorScreen(tkinter.Frame):
         self._makeFpEntry(prefix+"Frequency", 6, row, 1, 2)
         self._makeCombobox(prefix+"Frequency Mode", ('x', 'Hz'), 2, row, 3)
         self._makeLabel("|", row, 4)
-        self._makeEntry(prefix+"Total Output Level", 2, row, 5)
-        self._makeEntry(prefix+"Amplitude Modulation Sensitivity", 2, row, 6)
-        self._makeEntry(prefix+"Velocity Sensitivity", 2, row, 7)
+        self._makeIntEntry(prefix+"Total Output Level", 2, row, 5)
+        self._makeIntEntry(prefix+"Amplitude Modulation Sensitivity", 2, row, 6)
+        self._makeIntEntry(prefix+"Velocity Sensitivity", 2, row, 7)
         self._makeLabel("|", row, 8)
         for i in range(4):
-            self._makeEntry(prefix+"Envelope Time "+str(i+1), 2, row, 9+i)
+            self._makeIntEntry(prefix+"Envelope Time "+str(i+1), 2, row, 9+i)
         self._makeLabel("|", row, 13)
         for i in range(5):
-            self._makeEntry(prefix+"Envelope Level "+str(i), 2, row, 14+i)
+            self._makeIntEntry(prefix+"Envelope Level "+str(i), 2, row, 14+i)
         self._makeLabel("|", row, 19)
-        self._makeEntry(prefix+"Keyboard Rate Scaling", 2, row, 20)
-        self._makeEntry(prefix+"Keyboard Level Scaling Left Depth", 3, row, 21)
+        self._makeIntEntry(prefix+"Keyboard Rate Scaling", 2, row, 20)
+        self._makeIntEntry(prefix+"Keyboard Level Scaling Left Depth", 3, row, 21,
+                        minValue=-99, maxValue=99)
         self._makeCombobox(prefix+"Keyboard Level Scaling Left Curve",
                            ('Lin', 'Exp'), 3, row, 22)
-        self._makeEntry(prefix+"Keyboard Level Scaling Breakpoint", 3, row, 23)
-        self._makeEntry(prefix+"Keyboard Level Scaling Right Depth", 3, row, 24)
+        self._makeIntEntry(prefix+"Keyboard Level Scaling Breakpoint", 3, row, 23)
+        self._makeIntEntry(prefix+"Keyboard Level Scaling Right Depth", 3, row, 24,
+                        minValue=-99, maxValue=99)
         self._makeCombobox(prefix+"Keyboard Level Scaling Right Curve",
                            ('Lin', 'Exp'), 3, row, 25)
 
@@ -158,14 +165,14 @@ class VoiceEditorScreen(tkinter.Frame):
         self._makeLabel("|", row, 19)
 
     def _makeLfoParamRow(self, row):
-        self._makeEntry("LFO Speed", 2, row, 1) # Speed
-        self._makeEntry("LFO Delay", 2, row, 2) # Delay
+        self._makeIntEntry("LFO Speed", 2, row, 1) # Speed
+        self._makeIntEntry("LFO Delay", 2, row, 2) # Delay
         self._makeCombobox("LFO Sync", ('', 'x'), 1, row, 3) # Sync
         self._makeCombobox("LFO Waveform", ('TRIANG', 'SAW DN', 'SAW UP',
                                             'SINE',   'SQUARE', 'S/HOLD'),
                            6, row, 5, 3)
-        self._makeEntry("LFO Initial Pitch Modulation Depth", 2, row, 9, 2)
-        self._makeEntry("LFO Initial Amplitude Modulation Depth", 2, row, 11, 2)
+        self._makeIntEntry("LFO Initial Pitch Modulation Depth", 2, row, 9, 2)
+        self._makeIntEntry("LFO Initial Amplitude Modulation Depth", 2, row, 11, 2)
         self._makeLabel("|", row, 13)
         self._makeLabel("|", row, 19)
 
@@ -178,10 +185,17 @@ class VoiceEditorScreen(tkinter.Frame):
         id.grid(row=row, column=column, columnspan=columnspan)
         return id
 
-    def _makeEntry(self, paramName, width, row, column, columnspan=1):
+    def _makeIntEntry(self, paramName, width, row, column,
+                   columnspan=1, minValue=0, maxValue=None):
+        if maxValue is None:
+            maxValue=10**width - 1
+        vcmd=(self.validateInt, '%P', width, minValue, maxValue)
+
         var=tkinter.StringVar(master=self, value='')
         id=tkinter.Entry(self,
                          textvariable=var,
+                         validate="key",
+                         validatecommand=vcmd,
                          justify=tkinter.RIGHT,
                          foreground=FOREGROUND_COLOR,
                          background=BACKGROUND_COLOR,
@@ -190,18 +204,46 @@ class VoiceEditorScreen(tkinter.Frame):
         self.parameterValue[paramName]=var
         return id
 
-    def _makeBase1Entry(self, paramName, width, row, column, columnspan=1):
+    def _makeBase1Entry(self, paramName, width, row, column,
+                        columnspan=1, maxValue=None):
         '''Formats a value in the range 0..N-1 as 1..N'''
-        id=self._makeEntry(paramName, width, row, column, columnspan)
+        id=self._makeIntEntry(paramName, width, row, column,
+                           columnspan, 0, maxValue)
         var=self.parameterValue[paramName]
         self.parameterValue[paramName]=Base1Formatter(var)
         return id
 
-    def _makeFpEntry(self, paramName, width, row, column, columnspan=1):
+    def _makeFpEntry(self, paramName, width, row, column,
+                     columnspan=1, maxValue=9999.9):
         '''Formats a frequency (floating-point) entry'''
-        id=self._makeEntry(paramName, width, row, column, columnspan)
-        var=self.parameterValue[paramName]
+        vcmd=(self.validateFp, '%P', width, 0.0, maxValue)
+
+        var=tkinter.StringVar(master=self, value='')
+        id=tkinter.Entry(self,
+                         textvariable=var,
+                         validate="key",
+                         validatecommand=vcmd,
+                         justify=tkinter.RIGHT,
+                         foreground=FOREGROUND_COLOR,
+                         background=BACKGROUND_COLOR,
+                         width=width)
+        id.grid(row=row, column=column, columnspan=columnspan)
         self.parameterValue[paramName]=FpFormatter(var)
+        return id
+
+    def _makeStringEntry(self, paramName, width, row, column, columnspan=1):
+        vcmd=(self.validateWidth, '%P', width)
+        var=tkinter.StringVar(master=self, value='')
+        id=tkinter.Entry(self,
+                         textvariable=var,
+                         validate="key",
+                         validatecommand=vcmd,
+                         justify=tkinter.LEFT,
+                         foreground=FOREGROUND_COLOR,
+                         background=BACKGROUND_COLOR,
+                         width=width)
+        id.grid(row=row, column=column, columnspan=columnspan)
+        self.parameterValue[paramName]=var
         return id
 
     def _makeCombobox(self, paramName, values, width, row, column, columnspan=1):
@@ -253,6 +295,42 @@ class ComboboxFormatter:
 
     def get(self):
         return self.values.find(self.var.get())
+
+def _onValidateWidth(newValue, width):
+    '''validates the width of an entry (i.e. that it's not too long)'''
+    return len(newValue)<=int(width)
+
+def _onValidateInt(newValue, width, minValue, maxValue):
+    '''validates a numeric (int) Entry, while it's being edited
+
+    final saying when the update is sent to controller so it's useful to
+    not to be too picky here (or editing becomes cumbersome)'''
+    length=len(newValue)
+    if (length>int(width)):
+        return False
+    elif length==0 or (newValue=="-" and int(minValue)<0):
+        return True
+    try:
+        newValue=int(newValue)
+        return int(minValue)<=newValue<=int(maxValue)
+    except ValueError:
+        return False
+
+def _onValidateFp(newValue, width, minValue, maxValue):
+    '''validates a numeric (float) Entry, while it's being edited
+
+    final saying when the update is sent to controller so it's useful to
+    not to be too picky here (or editing becomes cumbersome)'''
+    length=len(newValue)
+    if (length>int(width)):
+        return False
+    elif length==0 or newValue==".":
+        return True
+    try:
+        newValue=float(newValue)
+        return float(minValue)<=newValue<=float(maxValue)
+    except ValueError:
+        return False
 
 class RetroCombobox(tkinter.Label):
     '''Retro-style multi-value entry widget'''
