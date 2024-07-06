@@ -66,27 +66,25 @@ class EditBuffer:
     def setInitialVoice(self):
         self.parameters=[0 for param in range(_lastCommon+1)]
         for op in range(6):
-            i=op*_paramsPerOp
-            # Envelope Levels L1, L2, L3
-            self.parameters[i+5]=99
-            self.parameters[i+6]=99
-            self.parameters[i+7]=99
+            d0=op*_paramsPerOp
+            # Envelope
+            self._setOpParameter(d0, "Envelope Level 1", 99)
+            self._setOpParameter(d0, "Envelope Level 2", 99)
+            self._setOpParameter(d0, "Envelope Level 3", 99)
             # Breakpoint
-            self.parameters[i+9]=60
+            self._setOpParameter(d0, "Keyboard Level Scaling Breakpoint", 60)
             # Frequency
-            self.parameters[i+15]=1.0
+            self._setOpParameter(d0, "Frequency", 1.0)
             # Output Level (op1)
             if op==5:
-                self.parameters[i+16]=99
+                self._setOpParameter(d0, "Total Output Level", 99)
         # Unused parameter numbers
         for i in range(6*_paramsPerOp, _firstCommon):
             self.parameters[i]=None
-        # PEG Depth
-        self.parameters[_firstCommon+12]=12
-        # LFO Speed
-        self.parameters[_firstCommon+16]=35
-        # Voice Name
-        self.parameters[_firstCommon+22]="INIT VOICE"
+        # Common Voice Parameters
+        self._setCommonParameter("Pitch Envelope Depth", 12)
+        self._setCommonParameter("LFO Speed", 35)
+        self._setCommonParameter("Voice Name", "INIT VOICE")
 
     def loadFromSyx(self, syxVoiceData):
         for op in range(6):
