@@ -51,10 +51,15 @@ class VoiceEditorScreen(tkinter.Frame):
         var=self.parameterValue[paramName]
         var.set(paramValue)
 
+    def _onVoiceParamChanged(self, paramName, *_):
+        var=self.parameterValue[paramName]
+        paramValue=var.get()
+        self.controller.updateVoiceParameter(paramName, paramValue)
+
     def _makeTopRow(self, row):
         '''Creates the row with voice name and number'''
         self._makeLabel("Voice", row, 0, 2)
-        self._makeBase1Entry("Voice Number", 2, row, 2, maxValue=32)
+        self._makeIntEntry("Voice Number", 2, row, 2, maxValue=32)
         voiceName = self._makeStringEntry("Voice Name", 24, row, 3, 9)
 
     def _makeVoiceParamHeading(self, row):
@@ -76,7 +81,7 @@ class VoiceEditorScreen(tkinter.Frame):
         self._makeLabel("Rate", row, 20)
 
     def _makeVoiceParamRow(self, row):
-        self._makeBase1Entry("Algorithm", 2, row, 1, maxValue=32)
+        self._makeIntEntry("Algorithm", 2, row, 1, maxValue=32)
         self._makeIntEntry("Feedback", 1, row, 2)
         self._makeCombobox("Oscillator Sync", ('', 'x'), 1, row, 3)
         self._makeLabel("|", row, 4)
@@ -191,7 +196,8 @@ class VoiceEditorScreen(tkinter.Frame):
             maxValue=10**width - 1
         vcmd=(self.validateInt, '%P', width, minValue, maxValue)
 
-        var=tkinter.StringVar(master=self, value='')
+        var=tkinter.StringVar(master=self, value='', name=paramName)
+        var.trace_add("write", self._onVoiceParamChanged)
         id=tkinter.Entry(self,
                          textvariable=var,
                          validate="key",
@@ -217,7 +223,8 @@ class VoiceEditorScreen(tkinter.Frame):
         '''Formats a frequency (floating-point) entry'''
         vcmd=(self.validateFp, '%P', width, 0.0, maxValue)
 
-        var=tkinter.StringVar(master=self, value='')
+        var=tkinter.StringVar(master=self, value='', name=paramName)
+        var.trace_add("write", self._onVoiceParamChanged)
         id=tkinter.Entry(self,
                          textvariable=var,
                          validate="key",
@@ -231,7 +238,8 @@ class VoiceEditorScreen(tkinter.Frame):
 
     def _makeStringEntry(self, paramName, width, row, column, columnspan=1):
         vcmd=(self.validateWidth, '%P', width)
-        var=tkinter.StringVar(master=self, value='')
+        var=tkinter.StringVar(master=self, value='', name=paramName)
+        var.trace_add("write", self._onVoiceParamChanged)
         id=tkinter.Entry(self,
                          textvariable=var,
                          validate="key",
@@ -253,18 +261,7 @@ class VoiceEditorScreen(tkinter.Frame):
         id.grid(row=row, column=column, columnspan=columnspan)
         self.parameterValue[paramName]=ComboboxFormatter(var, values)
         return id
-
-class Base1Formatter:
-    '''Formats an 0..N-1 integer range as 1..N'''
-    def __init__(self, var):
-        self.var=var
-
-    def set(self, value):
-        self.var.set(str(int(value)+1))
-
-    def get(self):
-        return int(self.var.get())-1
-
+    
 class FpFormatter:
     '''Formats the frequency field which is floating point'''
     def __init__(self, var):

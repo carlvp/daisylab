@@ -5,9 +5,10 @@ PARAMETERS_PER_OPERATOR=128
 # setView()
 # updateUI()
 #
-# interface (View)
+# interface (View):
+# updateVoiceParameter()
 #
-# interface (ProgramChangeListener)
+# interface (ProgramChangeListener):
 # notifyProgramChange()
 
 class VoiceEditorController:
@@ -18,6 +19,7 @@ class VoiceEditorController:
 
     def __init__(self, editBuffer):
         self.editBuffer=editBuffer
+        self.disableParameterUpdates=False
         self.voiceEditorScreen=None
         self.screenIsUpToDate=False
         self.currSyx=None
@@ -41,6 +43,24 @@ class VoiceEditorController:
         self.screenIsUpToDate=False
         self.currProgram=program
 
+    def updateVoiceParameter(self, paramName, paramValue):
+        if self.disableParameterUpdates:
+            # updates are disabled when this controller sets parameters
+            # this is not critical, but it avoids unnecessary processing
+            return
+
+        if _isBaseOne(paramName) and paramValue!="":
+            paramValue=int(paramValue)-1
+
+        if paramName=="Voice Number":
+            # The voice number is not part of the edit buffer
+            # TODO: we will need to keep track of the voice number for store
+            # TODO: Voice number is "base 1": "1" represents voice #0
+            pass
+        else:
+            # TODO
+            changed=self.editBuffer.setVoiceParameter(paramName, paramValue) 
+
     def updateUI(self):
         '''Updates the UI before switching to the VoiceEditScreen'''
         if not self.screenIsUpToDate:
@@ -50,9 +70,14 @@ class VoiceEditorController:
             else:
                 self.editBuffer.loadFromSyx(self.currSyx.getVoice(self.currProgram))
             # Update VoiceEditScreen from editBuffer
-            self.voiceEditorScreen.setVoiceParameter("Voice Number", str(self.currProgram))
+            self.disableParameterUpdates=True
+            self.voiceEditorScreen.setVoiceParameter("Voice Number", str(self.currProgram+1))
             for (name, value) in self.editBuffer.getAllVoiceParameters():
-               self.voiceEditorScreen.setVoiceParameter(name, str(value))
+                if _isBaseOne(name):
+                    value=value+1
+                self.voiceEditorScreen.setVoiceParameter(name, str(value))
+            self.disableParameterUpdates=False
 
-        
-
+def _isBaseOne(paramName):
+    # Some integer parameters 0..N-1 are represented as 1..N in the UI
+    return (paramName=="Voice Number" or paramName=="Algorithm")

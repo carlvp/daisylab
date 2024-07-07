@@ -2,7 +2,7 @@ from math import log2, log10
 
 IntParamType=1
 FpParamType=2
-StringParam=3
+StringParamType=3
 
 _opParameters={
     "Envelope Time 1": (0, IntParamType),
@@ -54,7 +54,7 @@ _commonParameters={
     "LFO Waveform": (_firstCommon+19, IntParamType),
     "LFO Initial Pitch Modulation Depth": (_firstCommon+20, IntParamType),
     "LFO Initial Amplitude Modulation Depth": (_firstCommon+21, IntParamType),
-    "Voice Name": (_firstCommon+22, IntParamType),
+    "Voice Name": (_firstCommon+22, StringParamType),
 }
 
 _lastCommon=_firstCommon+22
@@ -212,7 +212,26 @@ class EditBuffer:
         return (t[0]+firstParam, t[1])
 
     def setVoiceParameter(self, paramName, paramValue):
-        pass
+        (paramIndex, paramType) = self._getParameterTuple(paramName)
+        if paramType==IntParamType:
+            try:
+                paramValue=int(paramValue)
+            except ValueError:
+                return False
+        elif paramType==FpParamType:
+            try:
+                paramValue=float(paramValue)
+            except ValueError:
+                return False
+        else:
+            assert paramType==StringParamType
+            paramValue=str(paramValue)
+
+        if self.parameters[paramIndex]!=paramValue:
+            self.parameters[paramIndex]=paramValue
+            return True
+        else:
+            return False
 
     def getVoiceParameter(self, paramName):
         (paramIndex, _) = self._getParameterTuple(paramName)
