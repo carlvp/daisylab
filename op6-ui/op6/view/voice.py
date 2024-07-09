@@ -1,6 +1,7 @@
 import tkinter
 from tkinter import ttk
 from . import colorscheme
+from .resources import getPhotoImage
 
 # interface (MainView):
 # * registerViewObjects()
@@ -24,20 +25,23 @@ class VoiceEditorScreen(tkinter.Frame):
 
         self.controller=None
         self.parameterValue={}
+        self.algorithmDisplay=None
         # register Tk validation functions
         self.validateWidth=self.register(_onValidateWidth)
         self.validateInt=self.register(_onValidateInt)
         self.validateFp=self.register(_onValidateFp)
         # create layout
-        self._makeTopRow(0)
-        self._makeVoiceParamHeading(1)
-        self._makeVoiceParamRow(2)
-        self._makeOpParamHeading1(3)
-        self._makeOpParamHeading2(4)
+        self._makeAlgorithmLegend(0)
+        self._makeTopRow(1)
+        self._makeDisplayRow(2)
+        self._makeVoiceParamHeading(3)
+        self._makeVoiceParamRow(4)
+        self._makeOpParamHeading1(5)
+        self._makeOpParamHeading2(6)
         for r in range(6):
-            self._makeOpParamRow(6-r, 5+r)
-        self._makeLfoParamHeading(11)
-        self._makeLfoParamRow(12)
+            self._makeOpParamRow(6-r, 7+r)
+        self._makeLfoParamHeading(13)
+        self._makeLfoParamRow(14)
 
     def registerViewObjects(self, views):
         '''adds view objects to the dictionary, views.'''
@@ -56,11 +60,19 @@ class VoiceEditorScreen(tkinter.Frame):
         paramValue=var.get()
         self.controller.updateVoiceParameter(paramName, paramValue)
 
+    def _makeAlgorithmLegend(self, row):
+        '''Creates the legend (image) showing all algorithms'''
+        self._makeImage('algorithms.png', row, 0, columnspan=27)
+        
     def _makeTopRow(self, row):
         '''Creates the row with voice name and number'''
         self._makeLabel("Voice", row, 0, 2)
         self._makeIntEntry("Voice Number", 2, row, 2, maxValue=32)
         voiceName = self._makeStringEntry("Voice Name", 24, row, 3, 9)
+
+    def _makeDisplayRow(self, row):
+        '''Creates the row with displays: algorithm and envelope'''
+        self.algorithmDisplay=self._makeImage('algorithm1.png', row, 0, columnspan=7)
 
     def _makeVoiceParamHeading(self, row):
         '''Create the headings of the Voice Params and Pitch EG'''
@@ -205,7 +217,7 @@ class VoiceEditorScreen(tkinter.Frame):
                          justify=tkinter.RIGHT,
                          width=width)
         id.grid(row=row, column=column, columnspan=columnspan)
-        _setRetroStyle(id)
+        _setRetroEntryStyle(id)
         self.parameterValue[paramName]=var
         return id
 
@@ -232,7 +244,7 @@ class VoiceEditorScreen(tkinter.Frame):
                          justify=tkinter.RIGHT,
                          width=width)
         id.grid(row=row, column=column, columnspan=columnspan)
-        _setRetroStyle(id)
+        _setRetroEntryStyle(id)
         self.parameterValue[paramName]=FpFormatter(var)
         return id
 
@@ -247,7 +259,7 @@ class VoiceEditorScreen(tkinter.Frame):
                          justify=tkinter.LEFT,
                          width=width)
         id.grid(row=row, column=column, columnspan=columnspan)
-        _setRetroStyle(id)
+        _setRetroEntryStyle(id)
         self.parameterValue[paramName]=var
         return id
 
@@ -261,7 +273,16 @@ class VoiceEditorScreen(tkinter.Frame):
         id.grid(row=row, column=column, columnspan=columnspan)
         self.parameterValue[paramName]=ComboboxFormatter(var, values)
         return id
-    
+
+    def _makeImage(self, name, row, column, rowspan=1, columnspan=1):
+        img=getPhotoImage(name)
+        id=tkinter.Label(self,
+                         image=img,
+                         anchor=tkinter.N)
+        id.grid(row=row, column=column, rowspan=rowspan, columnspan=columnspan)
+        _setRetroImageStyle(id)
+        return id
+
 class FpFormatter:
     '''Formats the frequency field which is floating point'''
     def __init__(self, var):
@@ -333,7 +354,7 @@ class RetroCombobox(tkinter.Label):
         self.values=values
         self.index=0
 
-def _setRetroStyle(widget):
+def _setRetroEntryStyle(widget):
     widget.config(foreground=FOREGROUND_COLOR,
                   background=BACKGROUND_COLOR,
                   borderwidth='0',
@@ -342,3 +363,9 @@ def _setRetroStyle(widget):
                   selectbackground=FOREGROUND_COLOR,
                   selectforeground=BACKGROUND_COLOR,
                   insertbackground=FOREGROUND_COLOR)
+
+def _setRetroImageStyle(widget):
+    widget.config(foreground=FOREGROUND_COLOR,
+                  background=BACKGROUND_COLOR,
+                  borderwidth='0',
+                  highlightthickness='0')
