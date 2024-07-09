@@ -59,9 +59,44 @@ _commonParameters={
 
 _lastCommon=_firstCommon+22
 
+
+def _checkParam(paramValue, paramType):
+    if paramType==IntParamType:
+        try:
+            paramValue=int(paramValue)
+        except ValueError:
+            paramValue=None
+    elif paramType==FpParamType:
+        try:
+            paramValue=float(paramValue)
+        except ValueError:
+            paramValue=None
+    else:
+        assert paramType==StringParamType
+        paramValue=str(paramValue)
+    return paramValue
+
 class EditBuffer:
     def __init__(self):
+        self.parameters=None
         self.setInitialVoice()
+
+    def getVoiceParameters():
+        return tuple(self.parameters)
+
+    def setVoiceParameters(parameters):
+        for op in range(6):
+            d0=(5-op)*_paramsPerOp
+            for (name, (index, paramType)) in _opParameters.items():
+                value=parameters[d0+index]
+                value=_checkParam(value, paramType)
+                if value is not None:
+                    self.parameters[d0+index]=value
+        for (name, (index, paramType)) in _commonParameters.items():
+            value=parameters[index]
+            value=_checkParam(value, paramType)
+            if value is not None:
+                self.parameters[index]=value
 
     def setInitialVoice(self):
         self.parameters=[0 for param in range(_lastCommon+1)]
@@ -85,7 +120,7 @@ class EditBuffer:
         self._setCommonParameter("Pitch Envelope Depth", 12)
         self._setCommonParameter("LFO Speed", 35)
         self._setCommonParameter("Voice Name", "INIT VOICE")
-
+    
     def loadFromSyx(self, syxVoiceData):
         for op in range(6):
             s0=17*op
@@ -213,19 +248,9 @@ class EditBuffer:
 
     def setVoiceParameter(self, paramName, paramValue):
         (paramIndex, paramType) = self._getParameterTuple(paramName)
-        if paramType==IntParamType:
-            try:
-                paramValue=int(paramValue)
-            except ValueError:
-                return False
-        elif paramType==FpParamType:
-            try:
-                paramValue=float(paramValue)
-            except ValueError:
-                return False
-        else:
-            assert paramType==StringParamType
-            paramValue=str(paramValue)
+        paramValue=_checkParam(paramValue, paramType)
+        if paramValue is None:
+            return False
 
         if self.parameters[paramIndex]!=paramValue:
             self.parameters[paramIndex]=paramValue
