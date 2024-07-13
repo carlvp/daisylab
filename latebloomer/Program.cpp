@@ -45,7 +45,7 @@ Program lateBloomer = {
    // op[1] ~ OP3 on TX81z
    {
      fixedFreq: false,
-     waveform5: false,   // <-- The secret sauce
+     waveform5: true,   // <-- The secret sauce
      velScaling: 1,
      kbdRateScaling: 1,
      ams: 0,
