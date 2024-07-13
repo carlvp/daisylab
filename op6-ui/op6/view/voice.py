@@ -54,11 +54,19 @@ class VoiceEditorScreen(tkinter.Frame):
     def setVoiceParameter(self, paramName, paramValue):
         var=self.parameterValue[paramName]
         var.set(paramValue)
+        self._extraUpdateAction(paramName, paramValue)
 
     def _onVoiceParamChanged(self, paramName, *_):
+        '''listens to parameter values changed via UI'''
         var=self.parameterValue[paramName]
         paramValue=var.get()
         self.controller.updateVoiceParameter(paramName, paramValue)
+        self._extraUpdateAction(paramName, paramValue)
+
+    def _extraUpdateAction(self, paramName, paramValue):
+        '''some parameters have extra update actions, handled here'''
+        if paramName=="Algorithm":
+            self._updateAlgorithmDisplay(paramValue)
 
     def _makeAlgorithmLegend(self, row):
         '''Creates the legend (image) showing all algorithms'''
@@ -73,6 +81,12 @@ class VoiceEditorScreen(tkinter.Frame):
     def _makeDisplayRow(self, row):
         '''Creates the row with displays: algorithm and envelope'''
         self.algorithmDisplay=self._makeImage('algorithm1.png', row, 0, columnspan=7)
+
+    def _updateAlgorithmDisplay(self, number):
+        '''Update the display to show the algorithm with the given number'''
+        if number!="" and 1<=int(number)<=32:
+            img=getPhotoImage("algorithm"+str(number)+".png")
+            self.algorithmDisplay.config(image=img)
 
     def _makeVoiceParamHeading(self, row):
         '''Create the headings of the Voice Params and Pitch EG'''
