@@ -143,18 +143,16 @@ class EditBuffer:
         self._setOpParameter(d0, "Envelope Level 3", min(syxOpData[6], 99))
         self._setOpParameter(d0, "Envelope Level 4", L0_L4)
         # Keyboard level scaling
-        def depthAndCurve(syxDepth, syxCurve):
-            # curves: -LIN (0) -EXP (1) +EXP(2) +LIN(3)
-            return (syxDepth if syxCurve>=2 else -syxDepth,
-                    1 if syxCurve==1 or syxCurve==2 else 0)
-
         self._setOpParameter(d0, "Keyboard Level Scaling Breakpoint",
                              max(min(syxOpData[8]+60-39,127),0))
+        # curves: -LIN (0) -EXP (1) +EXP(2) +LIN(3)
         RC_LC=syxOpData[11]
-        (lDepth, lCurve)=depthAndCurve(min(syxOpData[9], 99), RC_LC & 3)
+        lDepth=min(syxOpData[9], 99)
+        lCurve=RC_LC & 3
         self._setOpParameter(d0, "Keyboard Level Scaling Left Depth", lDepth)
         self._setOpParameter(d0, "Keyboard Level Scaling Left Curve", lCurve)
-        (rDepth, rCurve)=depthAndCurve(min(syxOpData[10], 99), (RC_LC >> 2) & 3)
+        rDepth=min(syxOpData[10], 99)
+        rCurve=(RC_LC >> 2) & 3
         self._setOpParameter(d0, "Keyboard Level Scaling Right Depth", rDepth)
         self._setOpParameter(d0, "Keyboard Level Scaling Right Curve", rCurve)
         # Other stuff

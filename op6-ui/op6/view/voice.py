@@ -26,6 +26,7 @@ class VoiceEditorScreen(tkinter.Frame):
         self.controller=None
         self.parameterValue={}
         self.algorithmDisplay=None
+        self.kbdScalingDisplay=None
         # register Tk validation functions
         self.validateWidth=self.register(_onValidateWidth)
         self.validateInt=self.register(_onValidateInt)
@@ -42,6 +43,8 @@ class VoiceEditorScreen(tkinter.Frame):
             self._makeOpParamRow(6-r, 7+r)
         self._makeLfoParamHeading(13)
         self._makeLfoParamRow(14)
+        # initialize keyboard display
+        self._displayOperator(6)
 
     def registerViewObjects(self, views):
         '''adds view objects to the dictionary, views.'''
@@ -63,14 +66,43 @@ class VoiceEditorScreen(tkinter.Frame):
         self.controller.updateVoiceParameter(paramName, paramValue)
         self._extraUpdateAction(paramName, paramValue)
 
+    def _displayOperator(self, opNumber):
+        '''-1=None, 0=pitch envelope, 1..6=operator envelope and kbd scaling'''
+        if opNumber<1:
+            leftDepth=None
+            leftCurve=None
+            rightDepth=None
+            rightCurve=None
+            self.currDisplayed=None
+        else:
+            self.currDisplayed="Op"+str(opNumber)
+            prefix=self.currDisplayed+" Keyboard Level Scaling "
+            leftDepth=self.parameterValue[prefix+"Left Depth"]
+            leftCurve=self.parameterValue[prefix+"Left Curve"]
+            rightDepth=self.parameterValue[prefix+"Right Depth"]
+            rightCurve=self.parameterValue[prefix+"Right Curve"]
+        self.kbdScalingDisplay.setVariables(leftDepth, leftCurve,
+                                            rightDepth, rightCurve)
+        self.kbdScalingDisplay.onParameterChanged()
+
     def _extraUpdateAction(self, paramName, paramValue):
         '''some parameters have extra update actions, handled here'''
         if paramName=="Algorithm":
+            # Update Algorithm Display
             self._updateAlgorithmDisplay(paramValue)
+        elif paramName[4:12]=="Keyboard":
+            # Update Keyboard-level Scaling Display
+            # filter out Depth and Curve parameters of currently displayed Op
+            # (not critical to filter, but doesn't hurt I suppose)
+            if (self.currDisplayed is not None
+                and paramName[0:3]==self.currDisplayed
+                and (paramName.endswith("Depth") or
+                     paramName.endswith("Curve"))):
+                self.kbdScalingDisplay.onParameterChanged()
 
     def _makeAlgorithmLegend(self, row):
         '''Creates the legend (image) showing all algorithms'''
-        self._makeImage('algorithms.png', row, 0, columnspan=27)
+        self._makeImage('algorithms.png', row, 0, columnspan=26)
         
     def _makeTopRow(self, row):
         '''Creates the row with voice name and number'''
@@ -81,7 +113,9 @@ class VoiceEditorScreen(tkinter.Frame):
     def _makeDisplayRow(self, row):
         '''Creates the row with displays: algorithm and envelope'''
         self.algorithmDisplay=self._makeImage('algorithm1.png', row, 0, columnspan=7)
-
+        self.kbdScalingDisplay=KeyboardDisplay(self)
+        self.kbdScalingDisplay.grid(row=row, column=21, rowspan=3, columnspan=5)
+        
     def _updateAlgorithmDisplay(self, number):
         '''Update the display to show the algorithm with the given number'''
         if number!="" and 1<=int(number)<=32:
@@ -174,15 +208,15 @@ class VoiceEditorScreen(tkinter.Frame):
             self._makeIntEntry(prefix+"Envelope Level "+str(i), 2, row, 14+i)
         self._makeLabel("|", row, 19)
         self._makeIntEntry(prefix+"Keyboard Rate Scaling", 2, row, 20)
-        self._makeIntEntry(prefix+"Keyboard Level Scaling Left Depth", 3, row, 21,
-                        minValue=-99, maxValue=99)
+        self._makeIntEntry(prefix+"Keyboard Level Scaling Left Depth",
+                           2, row, 21)
         self._makeCombobox(prefix+"Keyboard Level Scaling Left Curve",
-                           ('Lin', 'Exp'), 3, row, 22)
+                           ('-Lin', '-Exp', '+Exp', '+Lin'), 4, row, 22)
         self._makeIntEntry(prefix+"Keyboard Level Scaling Breakpoint", 3, row, 23)
-        self._makeIntEntry(prefix+"Keyboard Level Scaling Right Depth", 3, row, 24,
-                        minValue=-99, maxValue=99)
+        self._makeIntEntry(prefix+"Keyboard Level Scaling Right Depth",
+                           2, row, 24)
         self._makeCombobox(prefix+"Keyboard Level Scaling Right Curve",
-                           ('Lin', 'Exp'), 3, row, 25)
+                           ('-Lin', '-Exp', '+Exp', '+Lin'), 4, row, 25)
 
     def _makeLfoParamHeading(self, row):
         '''Create the headings of the Voice Params and Pitch EG'''
@@ -296,7 +330,7 @@ class VoiceEditorScreen(tkinter.Frame):
         id.grid(row=row, column=column, rowspan=rowspan, columnspan=columnspan)
         _setRetroImageStyle(id)
         return id
-
+    
 class FpFormatter:
     '''Formats the frequency field which is floating point'''
     def __init__(self, var):
@@ -323,7 +357,7 @@ class ComboboxFormatter:
         self.var.set(self.values[int(value)])
 
     def get(self):
-        return self.values.find(self.var.get())
+        return self.values.index(self.var.get())
 
 def _onValidateWidth(newValue, width):
     '''validates the width of an entry (i.e. that it's not too long)'''
@@ -383,3 +417,76 @@ def _setRetroImageStyle(widget):
                   background=BACKGROUND_COLOR,
                   borderwidth='0',
                   highlightthickness='0')
+
+
+# LED states in keyboard scaling display is -1 (all off) or led# 0..3 lit
+ALL_LEDS_OFF=-1
+
+class KeyboardDisplay(tkinter.Canvas):
+    '''Represents the Keyboard-level Scaling Display'''
+    
+    _leftLedCoord  =  ((75, 109),  (61,  89),  (53,  48),  (70,  30))
+    _rightLedCoord = ((179, 109), (194,  89), (195,  48), (180,  30))
+
+    def __init__(self, parent, **kwargs):
+        tkinter.Canvas.__init__(self, parent, kwargs)
+        self.config(width=256,
+                    height=160,
+                    background=BACKGROUND_COLOR,
+                    borderwidth='0',
+                    highlightthickness='0')
+
+        # background image, "graphics"
+        img=getPhotoImage('kbd-scaling.png')
+        self.create_image(0, 0, anchor=tkinter.NW, image=img)
+
+        # LEDs
+        img=getPhotoImage('led-on.png')
+        leftLed=self.create_image(0, 0, anchor=tkinter.NW, image=img, state='hidden')
+        rightLed=self.create_image(0, 0, anchor=tkinter.NW, image=img, state='hidden')
+        self.leftHalf=HalfKeyboardDisplay(self, leftLed,
+                                          KeyboardDisplay._leftLedCoord)
+        self.rightHalf=HalfKeyboardDisplay(self, rightLed,
+                                           KeyboardDisplay._rightLedCoord)
+
+    def onParameterChanged(self):
+        self.leftHalf.onParameterChanged()
+        self.rightHalf.onParameterChanged()
+
+    def setVariables(self, leftDepth, leftCurve, rightDepth, rightCurve):
+        self.leftHalf.setVariables(leftDepth, leftCurve)
+        self.rightHalf.setVariables(rightDepth, rightCurve)
+
+class HalfKeyboardDisplay:
+    '''Left/Right half of Keyboard-level Scaling Display'''
+    def __init__(self, canvas, ledId, coordinates):
+        self.canvas=canvas
+        self.ledId=ledId
+        self.coordinates=coordinates
+        self.depthVar=None
+        self.curveVar=None
+        self.state=ALL_LEDS_OFF
+
+    def setVariables(self, depthVar, curveVar):
+        '''track new pair of variables (or None)'''
+        self.depthVar=depthVar
+        self.curveVar=curveVar
+
+    def onParameterChanged(self):
+        '''determine new state and update canvas if needed'''
+        newState=self.state
+        if self.depthVar is None or self.curveVar is None:
+            newState=ALL_LEDS_OFF
+        else:
+            depth=self.depthVar.get()
+            if depth!="":
+                newState=ALL_LEDS_OFF if int(depth)==0 else int(self.curveVar.get())
+        if newState != self.state:
+            if newState==ALL_LEDS_OFF:
+                self.canvas.itemconfig(self.ledId, state='hidden')
+            else:
+                if self.state==ALL_LEDS_OFF:
+                    self.canvas.itemconfig(self.ledId, state='normal')
+                (x,y)=self.coordinates[newState]
+                self.canvas.moveto(self.ledId, x, y)
+            self.state=newState
