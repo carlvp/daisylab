@@ -327,14 +327,12 @@ class VoiceEditorScreen(tkinter.Frame):
         return id
 
     def _makeCombobox(self, paramName, values, width, row, column, columnspan=1):
-        var=tkinter.StringVar(master=self, value=values[0])
-        id=tkinter.Label(self,
-                         textvariable=var,
-                         foreground=FOREGROUND_COLOR,
-                         background=BACKGROUND_COLOR,
-                         width=width)
+        var=tkinter.StringVar(master=self, value=values[0], name=paramName)
+        var.trace_add("write", self._onVoiceParamChanged)
+        id=RetroCombobox(self, var, values, width=width)
         id.grid(row=row, column=column, columnspan=columnspan)
-        self.parameterValue[paramName]=ComboboxFormatter(var, values)
+        cboxFormatter=ComboboxFormatter(var, values)
+        self.parameterValue[paramName]=cboxFormatter
         return id
 
     def _makeImage(self, name, row, column, rowspan=1, columnspan=1):
@@ -421,12 +419,40 @@ def _onValidateFp(newValue, width, minValue, maxValue):
     except ValueError:
         return False
 
-class RetroCombobox(tkinter.Label):
+class RetroCombobox(tkinter.Button):
     '''Retro-style multi-value entry widget'''
-    def __init__(self, parent, values, **kwargs):
-        tkinter.Label.__init__(self, parent, kwargs)
+    def __init__(self, parent, var, values, **kwargs):
+        tkinter.Button.__init__(self, parent, kwargs)
+        self.config(foreground=FOREGROUND_COLOR,
+                    background=BACKGROUND_COLOR,
+                    activeforeground=LIGHT_FOREGROUND_COLOR,
+                    activebackground=BACKGROUND_COLOR,
+                    highlightcolor=FOREGROUND_COLOR,
+                    highlightbackground=BACKGROUND_COLOR,
+                    highlightthickness=1,
+                    borderwidth=0,
+                    padx=1,
+                    pady=1,
+                    textvariable=var,
+                    command=self.buttonHandler)
         self.values=values
-        self.index=0
+        self.var=var
+        self.bind('<FocusIn>', self._focusInListener)
+
+    def _focusInListener(self, e):
+        info=e.widget.grid_info()
+        row=info["row"]
+        self.master._focusOnRow(row)
+        # clear any selection elsewhere
+        self.master.selection_clear()
+
+    def buttonHandler(self):
+        if self.focus_get()!=self:
+            self.focus_set()
+        n=self.values.index(self.var.get())+1
+        if n==len(self.values):
+            n=0
+        self.var.set(self.values[n])
 
 def _setRetroEntryStyle(widget):
     widget.config(foreground=FOREGROUND_COLOR,
