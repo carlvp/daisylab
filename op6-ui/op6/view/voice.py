@@ -13,6 +13,7 @@ from .resources import getPhotoImage
 BACKGROUND_COLOR=colorscheme.RETRO_DISPLAY_BACKGROUND
 FOREGROUND_COLOR=colorscheme.RETRO_DISPLAY_FOREGROUND
 LIGHT_FOREGROUND_COLOR=colorscheme.RETRO_DISPLAY_HIGHLIGHTED
+DARK_FOREGROUND_COLOR=colorscheme.RETRO_DISPLAY_DARK
 
 class VoiceEditorScreen(tkinter.Frame):
     '''
@@ -26,6 +27,7 @@ class VoiceEditorScreen(tkinter.Frame):
         self.controller=None
         self.parameterValue={}
         self.algorithmDisplay=None
+        self.envelopeDisplay=None
         self.kbdScalingDisplay=None
         # register Tk validation functions
         self.validateWidth=self.register(_onValidateWidth)
@@ -43,8 +45,9 @@ class VoiceEditorScreen(tkinter.Frame):
             self._makeOpParamRow(6-r, 7+r)
         self._makeLfoParamHeading(13)
         self._makeLfoParamRow(14)
-        # initialize keyboard display
-        self._displayOperator(6)
+        # initialize displays
+        self._connectEnvelopeVariables()
+        self.currDisplayed=None
 
     def registerViewObjects(self, views):
         '''adds view objects to the dictionary, views.'''
@@ -84,21 +87,25 @@ class VoiceEditorScreen(tkinter.Frame):
         self.kbdScalingDisplay.setVariables(leftDepth, leftCurve,
                                             rightDepth, rightCurve)
         self.kbdScalingDisplay.onParameterChanged()
+        self.envelopeDisplay.setOperator(opNumber)
 
     def _extraUpdateAction(self, paramName, paramValue):
         '''some parameters have extra update actions, handled here'''
         if paramName=="Algorithm":
             # Update Algorithm Display
             self._updateAlgorithmDisplay(paramValue)
-        elif paramName[4:12]=="Keyboard":
-            # Update Keyboard-level Scaling Display
-            # filter out Depth and Curve parameters of currently displayed Op
-            # (not critical to filter, but doesn't hurt I suppose)
-            if (self.currDisplayed is not None
-                and paramName[0:3]==self.currDisplayed
-                and (paramName.endswith("Depth") or
-                     paramName.endswith("Curve"))):
-                self.kbdScalingDisplay.onParameterChanged()
+        elif (self.currDisplayed is not None and
+              paramName.startswith(self.currDisplayed)):
+            if paramName[4:12]=="Keyboard":
+                # Update Keyboard-level Scaling Display
+                # filter out Depth and Curve parameters
+                # (not critical to filter, but doesn't hurt I suppose)
+                if paramName.endswith("Depth") or paramName.endswith("Curve"):
+                    self.kbdScalingDisplay.onParameterChanged()
+            else:
+                p=len(self.currDisplayed)+1
+                if paramName[p:p+8]=="Envelope":
+                    self.envelopeDisplay.onParameterChanged()
 
     def _makeAlgorithmLegend(self, row):
         '''Creates the legend (image) showing all algorithms'''
@@ -113,6 +120,8 @@ class VoiceEditorScreen(tkinter.Frame):
     def _makeDisplayRow(self, row):
         '''Creates the row with displays: algorithm and envelope'''
         self.algorithmDisplay=self._makeImage('algorithm1.png', row, 0, columnspan=7)
+        self.envelopeDisplay=EnvelopeDisplay(self)
+        self.envelopeDisplay.grid(row=row, column=7, columnspan=13)
         self.kbdScalingDisplay=KeyboardDisplay(self)
         self.kbdScalingDisplay.grid(row=row, column=21, rowspan=3, columnspan=5)
         
@@ -330,7 +339,18 @@ class VoiceEditorScreen(tkinter.Frame):
         id.grid(row=row, column=column, rowspan=rowspan, columnspan=columnspan)
         _setRetroImageStyle(id)
         return id
-    
+
+    def _connectEnvelopeVariables(self):
+        for op in range(0,7):
+            # 0 = pitch envelope, 1..6 for the operators
+            prefix="Pitch" if op==0 else "Op"+str(op)
+            self.envelopeDisplay.setTimeVar(op,
+                [self.parameterValue[prefix+" Envelope Time "+str(i+1)]
+                 for i in range(4)])
+            self.envelopeDisplay.setLevelVar(op,
+                [self.parameterValue[prefix+" Envelope Level "+str(i)]
+                 for i in range(5)])
+
 class FpFormatter:
     '''Formats the frequency field which is floating point'''
     def __init__(self, var):
@@ -417,6 +437,112 @@ def _setRetroImageStyle(widget):
                   background=BACKGROUND_COLOR,
                   borderwidth='0',
                   highlightthickness='0')
+
+
+ENVELOPE_HIDDEN=-1
+PITCH_ENVELOPE=0
+# Op# 1..6 for the other envelope curves
+
+class EnvelopeDisplay(tkinter.Frame):
+    '''The Display, which illustrates envelope parameters'''
+    WIDTH=408
+    HEIGHT=120
+    ORIGINX=4
+    ORIGINY=8
+
+    def __init__(self, parent, **kwargs):
+        tkinter.Frame.__init__(self, parent, kwargs)
+        self.canvas=tkinter.Canvas(self,
+                                   width=EnvelopeDisplay.WIDTH,
+                                   height=EnvelopeDisplay.HEIGHT,
+                                   background=BACKGROUND_COLOR,
+                                   borderwidth='0',
+                                   highlightthickness='0')
+        # draw background grid
+        x0=EnvelopeDisplay.ORIGINX
+        y0=EnvelopeDisplay.ORIGINY
+        x1=x0+400
+        y1=y0+100
+        self.canvas.create_line(x0, y0, x0, y1, fill=DARK_FOREGROUND_COLOR)
+        self.canvas.create_line(x1, y0, x1, y1, fill=DARK_FOREGROUND_COLOR)
+        for y in range(y0, y0+101, 10):
+            self.canvas.create_line(x0, y, x1, y, fill=DARK_FOREGROUND_COLOR)
+        self.canvas.pack(fill=tkinter.NONE, expand=False)
+        # variables (pitch envelope and op1-op6 envelope)
+        self.levelVar=[None, None, None, None, None, None, None]
+        self.timeVar=[None, None, None, None, None, None, None]
+        # start w/o any curve displayed
+        self.operator=-1
+        self.coordinates=[x0, y1, x0+1, y0, x0+2, y0, x0+3, y0, x0+4, y1]
+        self.curve=self.canvas.create_line(*self.coordinates,
+                                           fill=FOREGROUND_COLOR,
+                                           width=2,
+                                           state='hidden')
+
+    def setOperator(self, index):
+        if index!=self.operator:
+            if 0<=index<=6:
+                if self.operator==ENVELOPE_HIDDEN:
+                    self.canvas.itemconfig(self.curve, state='normal')
+                self.operator=index
+                self.onParameterChanged()
+            else:
+                self.operator=ENVELOPE_HIDDEN
+                self.canvas.itemconfig(self.curve, state='hidden')
+
+    def setTimeVar(self, index, variables):
+        '''set envelope time variables.
+
+        index=0 for pitch envelope, 1..6 for the envelopes of the operators
+        variables is a tuple of StringVar (t1, t2, t3, t4)
+        '''
+        self.timeVar[index]=variables
+
+    def setLevelVar(self, index, variables):
+        '''set envelope level variables.
+
+        index=0 for pitch envelope, 1..6 for the envelopes of the operators
+        variables is a tuple of StringVar (l0, l1, l2, l3, l4)
+        '''
+        self.levelVar[index]=variables
+
+    def level2y(self, level):
+        # operator=1..6 or 0 for pitch envelope
+        (y0, scale) = (50, 0.5) if self.operator==PITCH_ENVELOPE else (100, 1)
+        return EnvelopeDisplay.ORIGINY + y0 - level*scale
+
+    def y2level(self, y):
+        # operator=1..6 or 0 for pitch envelope
+        (y0, scale, low) = (50, 2, -99) if self.operator==PITCH_ENVELOPE else (100, 1, 0)
+        return max(low, min(99, (EnvelopeDisplay.ORIGINY + y0 - y)*scale))
+
+    def onParameterChanged(self):
+        '''checks if the curve has changed, in which case it's updated'''
+        if self.operator==ENVELOPE_HIDDEN:
+            self.canvas.itemconfig(self.curve, state='hidden')
+
+        updateCurve=False
+        for i in range(0,5):
+            level=self.levelVar[self.operator][i].get()
+            if level!="" and level!="-":
+                y=self.level2y(int(level))
+                if self.coordinates[2*i+1] != y:
+                    updateCurve=True
+                    self.coordinates[2*i+1]=y
+        x=EnvelopeDisplay.ORIGINX
+        for i in range(0,4):
+            time=self.timeVar[self.operator][i].get()
+            if time!="":
+                x=x+int(time)+1
+            else:
+                x=max(self.coordinates[2*i]+1, self.coordinates[2*i]+2)
+
+            if self.coordinates[2*i+2] != x:
+                updateCurve=True
+                self.coordinates[2*i+2]=x
+
+        if updateCurve:
+            self.canvas.coords(self.curve, *self.coordinates)
 
 
 # LED states in keyboard scaling display is -1 (all off) or led# 0..3 lit
