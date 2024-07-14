@@ -15,6 +15,9 @@ FOREGROUND_COLOR=colorscheme.RETRO_DISPLAY_FOREGROUND
 LIGHT_FOREGROUND_COLOR=colorscheme.RETRO_DISPLAY_HIGHLIGHTED
 DARK_FOREGROUND_COLOR=colorscheme.RETRO_DISPLAY_DARK
 
+VOICE_PARAM_ROW=4
+OP6_ROW=7
+
 class VoiceEditorScreen(tkinter.Frame):
     '''
     The UI of the voice-edit mode
@@ -38,11 +41,11 @@ class VoiceEditorScreen(tkinter.Frame):
         self._makeTopRow(1)
         self._makeDisplayRow(2)
         self._makeVoiceParamHeading(3)
-        self._makeVoiceParamRow(4)
+        self._makeVoiceParamRow(VOICE_PARAM_ROW)
         self._makeOpParamHeading1(5)
         self._makeOpParamHeading2(6)
         for r in range(6):
-            self._makeOpParamRow(6-r, 7+r)
+            self._makeOpParamRow(6-r, OP6_ROW+r)
         self._makeLfoParamHeading(13)
         self._makeLfoParamRow(14)
         # initialize displays
@@ -69,6 +72,11 @@ class VoiceEditorScreen(tkinter.Frame):
         self.controller.updateVoiceParameter(paramName, paramValue)
         self._extraUpdateAction(paramName, paramValue)
 
+    def _focusOnRow(self, row):
+        opNumber=(0             if row==VOICE_PARAM_ROW   else
+                  OP6_ROW+6-row if OP6_ROW<=row<OP6_ROW+6 else -1) 
+        self._displayOperator(opNumber)
+
     def _displayOperator(self, opNumber):
         '''-1=None, 0=pitch envelope, 1..6=operator envelope and kbd scaling'''
         if opNumber<1:
@@ -76,7 +84,7 @@ class VoiceEditorScreen(tkinter.Frame):
             leftCurve=None
             rightDepth=None
             rightCurve=None
-            self.currDisplayed=None
+            self.currDisplayed="Pitch"
         else:
             self.currDisplayed="Op"+str(opNumber)
             prefix=self.currDisplayed+" Keyboard Level Scaling "
@@ -259,6 +267,10 @@ class VoiceEditorScreen(tkinter.Frame):
         id.grid(row=row, column=column, columnspan=columnspan)
         return id
 
+    def _focusInListener(self, e, row):
+        self._focusOnRow(row)
+        e.widget.select_range(0, tkinter.END)
+
     def _makeIntEntry(self, paramName, width, row, column,
                    columnspan=1, minValue=0, maxValue=None):
         if maxValue is None:
@@ -274,17 +286,9 @@ class VoiceEditorScreen(tkinter.Frame):
                          justify=tkinter.RIGHT,
                          width=width)
         id.grid(row=row, column=column, columnspan=columnspan)
+        id.bind('<FocusIn>', lambda e, row=row: self._focusInListener(e, row))
         _setRetroEntryStyle(id)
         self.parameterValue[paramName]=var
-        return id
-
-    def _makeBase1Entry(self, paramName, width, row, column,
-                        columnspan=1, maxValue=None):
-        '''Formats a value in the range 0..N-1 as 1..N'''
-        id=self._makeIntEntry(paramName, width, row, column,
-                           columnspan, 0, maxValue)
-        var=self.parameterValue[paramName]
-        self.parameterValue[paramName]=Base1Formatter(var)
         return id
 
     def _makeFpEntry(self, paramName, width, row, column,
@@ -301,6 +305,7 @@ class VoiceEditorScreen(tkinter.Frame):
                          justify=tkinter.RIGHT,
                          width=width)
         id.grid(row=row, column=column, columnspan=columnspan)
+        id.bind('<FocusIn>', lambda e, row=row: self._focusInListener(e, row))
         _setRetroEntryStyle(id)
         self.parameterValue[paramName]=FpFormatter(var)
         return id
@@ -316,6 +321,7 @@ class VoiceEditorScreen(tkinter.Frame):
                          justify=tkinter.LEFT,
                          width=width)
         id.grid(row=row, column=column, columnspan=columnspan)
+        id.bind('<FocusIn>', lambda e, row=row: self._focusInListener(e, row))
         _setRetroEntryStyle(id)
         self.parameterValue[paramName]=var
         return id
