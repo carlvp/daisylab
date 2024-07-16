@@ -20,7 +20,7 @@ class MainView:
         self.root.iconphoto(True, getPhotoImage('op6-64x64.png'))
         # tabbed screens
         self.screens=TabbedScreens(self.root)
-        self.screens.grid(row=0, column=0, sticky=tkinter.N)
+        self.screens.grid(row=0, column=0, columnspan=2, sticky=tkinter.N)
         self.screens.setReqDimensions(830, 509)
         self.screens.config(background='black')
         self.currScreen=None
@@ -33,6 +33,14 @@ class MainView:
         # MenuButtons
         self.menuButtons=MenuButtons(self.root)
         self.menuButtons.grid(row=1, column=0, sticky=(tkinter.S,tkinter.W))
+        # Logo
+        logo=getPhotoImage('op6-fm-synthesizer.png')
+        tkinter.Label(self.root,
+                      image=logo,
+                      background=colorscheme.RETRO_DISPLAY_BACKGROUND,
+                      borderwidth=0,
+                      highlightthickness=0).grid(row=1, column=1,
+                                                 sticky=(tkinter.S,tkinter.E))
         # Register Views
         self.views={'MainView': self}
         self.performanceScreen.registerViewObjects(self.views)

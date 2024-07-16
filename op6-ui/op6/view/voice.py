@@ -244,7 +244,6 @@ class VoiceEditorScreen(tkinter.Frame):
         self._makeLabel("PMD", row, 9, 2)
         self._makeLabel("AMD", row, 11, 2)
         self._makeLabel("|", row, 13)
-        self._makeLabel("|", row, 19)
 
     def _makeLfoParamRow(self, row):
         self._makeIntEntry("LFO Speed", 2, row, 1) # Speed
@@ -256,7 +255,6 @@ class VoiceEditorScreen(tkinter.Frame):
         self._makeIntEntry("LFO Initial Pitch Modulation Depth", 2, row, 9, 2)
         self._makeIntEntry("LFO Initial Amplitude Modulation Depth", 2, row, 11, 2)
         self._makeLabel("|", row, 13)
-        self._makeLabel("|", row, 19)
 
     def _makeLabel(self, text, row, column, columnspan=1):
         id=tkinter.Label(self,
