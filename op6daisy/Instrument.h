@@ -61,6 +61,7 @@ class Instrument {
     NUM_HIRES_CC
   };
 
+  unsigned mBaseChannel;
   unsigned mCurrTimestamp;
   unsigned mSysExPtr;
   unsigned mWaitClearUnderrun;

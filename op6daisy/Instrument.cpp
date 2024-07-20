@@ -11,7 +11,8 @@
 // The phase increment of a 1Hz signal is 2^32/sampleRate
 // In the same way for midi key A4 (440Hz)
 Instrument::Instrument()
-  : mCurrTimestamp{0},
+  : mBaseChannel{0},
+    mCurrTimestamp{0},
     mSysExPtr{0},
     mWaitClearUnderrun{0},
     mDeltaPhi1Hz{4294967296.0f/SAMPLE_RATE},
@@ -103,6 +104,19 @@ void Instrument::controlChange(unsigned ch, unsigned cc, unsigned value) {
 #define PARAM_MODULATION_DEPTH_RANGE (RPN_PREFIX | 0x0005)
 #define PARAM_RPN_NULL               (RPN_PREFIX | 0x3fff)
 
+#define PARAM_LSB_MASK    0x007f
+#define PARAM_GET_PAGE(X) (((X) >> 7) & 0x7f)
+
+enum NrpnPage {
+  // First seven NRPN pages deal with the Voice Edit Buffer  
+  kOp6Page, kOp5Page, kOp4Page, kOp3Page, kOp2Page, kOp1Page,
+  kCommonVoicePage,
+  // Then there are (other) system parameters
+  kSystemPage,
+  // and parameters, which are specific to a channel
+  kChannelPage
+};
+
 void Instrument::controlChangeHires(unsigned ch, HiresCC cc, unsigned value) {
   mHiresControls[ch][cc]=value;
 
@@ -122,6 +136,29 @@ void Instrument::controlChangeHires(unsigned ch, HiresCC cc, unsigned value) {
 }
 
 void Instrument::setParameter(unsigned ch, unsigned paramNumber, unsigned value) {
+  if ((paramNumber & PARAM_PREFIX_MASK) == RPN_PREFIX) {
+    // Handle registered parameters
+    switch (paramNumber) {
+    case PARAM_RPN_NULL:
+      // Data Entry is ignored until set to new, valid value 
+      mDataEntryRouting[ch]=0;
+      break;
+    case PARAM_PITCH_BEND_SENSITIVITY:
+    case PARAM_CHANNEL_FINE_TUNING:
+    case PARAM_CHANNEL_COARSE_TUNING:
+    case PARAM_MODULATION_DEPTH_RANGE:
+    default:
+      /* no action */
+      break;
+    }
+  }
+  else if ((paramNumber & PARAM_PREFIX_MASK) == NRPN_PREFIX) {
+    unsigned page=PARAM_GET_PAGE(paramNumber);
+    paramNumber &= PARAM_LSB_MASK;
+
+    if (page<=kCommonVoicePage) {
+    }
+  }
 }
 
 static const Program initVoice;
