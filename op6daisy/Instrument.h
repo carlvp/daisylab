@@ -54,12 +54,21 @@ class Instrument {
   }
 
  private:
+  enum HiresCC {
+    DataEntry,
+    NRPN,
+    RPN,
+    NUM_HIRES_CC
+  };
+
   unsigned mCurrTimestamp;
   unsigned mSysExPtr;
   unsigned mWaitClearUnderrun;
   const float mDeltaPhi1Hz;
   const float mDeltaPhiA4;
   Channel mChannel[NUM_CHANNELS];
+  unsigned short mDataEntryRouting[NUM_CHANNELS];
+  unsigned short mHiresControls[NUM_CHANNELS][HiresCC::NUM_HIRES_CC];
   Voice mVoice[NUM_VOICES];
   Program mProgram[NUM_PROGRAMS];
   static constexpr unsigned SYSEX_BUFFER_SIZE=4104;
@@ -67,6 +76,18 @@ class Instrument {
 
   Voice *allocateVoice(unsigned ch, unsigned key);
   void loadSyxBulkFormat(const SyxBulkFormat *syx);
+  void setParameter(unsigned ch, unsigned paramNumber, unsigned value);
+  void controlChangeHires(unsigned ch, HiresCC cc, unsigned value);
+
+  void controlChangeCoarse(unsigned ch, HiresCC cc, unsigned value) {
+    // set most significant part of the high-resolution control
+    controlChangeHires(ch, cc, value*128);
+  }
+
+  void controlChangeFine(unsigned ch, HiresCC cc, unsigned value) {
+    // combine value with most significant part of the high-resolution control
+    controlChangeHires(ch, cc, (mHiresControls[ch][cc] & 0xff80) | (value & 0x7f));
+  }
 };
 
 // Instrument singleton

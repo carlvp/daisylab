@@ -15,7 +15,8 @@ Instrument::Instrument()
     mSysExPtr{0},
     mWaitClearUnderrun{0},
     mDeltaPhi1Hz{4294967296.0f/SAMPLE_RATE},
-    mDeltaPhiA4{4294967296.0f*440/SAMPLE_RATE}
+    mDeltaPhiA4{4294967296.0f*440/SAMPLE_RATE},
+    mDataEntryRouting{0}
 {
 }
 
@@ -24,6 +25,8 @@ void Instrument::Init() {
 
   for (unsigned ch=0; ch<NUM_CHANNELS; ++ch)
     mChannel[ch].reset(program1);
+  memset(mDataEntryRouting, 0, sizeof(unsigned short)*NUM_CHANNELS);
+  memset(mHiresControls, 0, sizeof(unsigned short)*HiresCC::NUM_HIRES_CC*NUM_CHANNELS);
 }
 
 void Instrument::fillBuffer(float *stereoOutBuffer) {
@@ -36,10 +39,10 @@ void Instrument::fillBuffer(float *stereoOutBuffer) {
   if (stereoMix==zeroBuffer)
     memset(stereoOutBuffer, 0, sizeof(float)*2*BLOCK_SIZE);
 
-  // Buffer is bound to underrun after a program bank.
+  // Buffer is bound to underrun after loading a program bank.
   // But that's OK. Reset the LED after a little while.
   // This also means that (after a true underrun), the LED
-  // is cleared after loading a new program bank
+  // is cleared when loading a new program bank
   if (mWaitClearUnderrun) {
     if (--mWaitClearUnderrun==0)
       setUnderrunLED(false);
@@ -61,10 +64,64 @@ void Instrument::noteOff(unsigned ch, unsigned key) {
 
 void Instrument::controlChange(unsigned ch, unsigned cc, unsigned value) {
   Channel &channel=mChannel[ch];
-  if (cc==7)
+  switch (cc) {
+  case 7:
     channel.setChannelVolume(value*128);
-  else if (cc==10)
+    break;
+  case 6:
+    controlChangeCoarse(ch, HiresCC::DataEntry, value);
+    break;
+  case 38:
+    controlChangeFine(ch, HiresCC::DataEntry, value);
+    break;
+  case 10:
     channel.setPan(value*128);
+    break;
+  case 98:
+    controlChangeFine(ch, HiresCC::NRPN, value);
+    break;
+  case 99:
+    controlChangeCoarse(ch, HiresCC::NRPN, value);
+    break;
+  case 100:
+    controlChangeFine(ch, HiresCC::RPN, value);
+    break;
+  case 101:
+    controlChangeCoarse(ch, HiresCC::RPN, value);
+    break;
+  }
+}
+
+// Parameters, RPN=registered parameter number, NRPN=non-registered ditto
+#define RPN_PREFIX        0x4000
+#define NRPN_PREFIX       0x8000
+#define PARAM_PREFIX_MASK 0xC000
+
+#define PARAM_PITCH_BEND_SENSITIVITY (RPN_PREFIX | 0x0000)
+#define PARAM_CHANNEL_FINE_TUNING    (RPN_PREFIX | 0x0001)
+#define PARAM_CHANNEL_COARSE_TUNING  (RPN_PREFIX | 0x0002)
+#define PARAM_MODULATION_DEPTH_RANGE (RPN_PREFIX | 0x0005)
+#define PARAM_RPN_NULL               (RPN_PREFIX | 0x3fff)
+
+void Instrument::controlChangeHires(unsigned ch, HiresCC cc, unsigned value) {
+  mHiresControls[ch][cc]=value;
+
+  switch (cc) {
+  case DataEntry:
+    setParameter(ch, mDataEntryRouting[ch], value);
+    break;
+  case NRPN:
+    mDataEntryRouting[ch]=(NRPN_PREFIX | (value & 0x3fff));
+    break;
+  case RPN:
+    mDataEntryRouting[ch]=(RPN_PREFIX | (value & 0x3fff));
+    break;
+  case NUM_HIRES_CC:
+    break;
+  }
+}
+
+void Instrument::setParameter(unsigned ch, unsigned paramNumber, unsigned value) {
 }
 
 static const Program initVoice;
@@ -162,11 +219,3 @@ void Instrument::loadSyxBulkFormat(const SyxBulkFormat *syx) {
   for (unsigned i=0; i<32; ++i)
     mProgram[i].load(syx->voiceParam[i]);
 }
-
-// static const Program initVoice;
-//
-// const Program *Program::getProgram(unsigned programNumber) {
-//   constexpr unsigned N=sizeof(programBank)/sizeof(Program);
-//   return (programNumber==0 || programNumber>N)?
-//     &initVoice : &programBank[programNumber-1];
-// }
