@@ -16,6 +16,9 @@ class MainController:
         self.voiceEditorController.registerControllerObjects(self.controllers)
         self.clipboard=None
         self.program=None
+        self.midiOut=None
+        self.baseChannel=0
+        self.currOpMode=0
 
     def getControllers(self):
         '''returns a dictionary containing the controllers'''
@@ -37,6 +40,7 @@ class MainController:
         if index==1:
             self.voiceEditorController.updateUI()
         self.view.selectScreen(index)
+        self._setOperationalMode(index)
 
     def setClipboard(self, clipboard):
         '''
@@ -48,4 +52,19 @@ class MainController:
             # self.performanceController.clipboadChangedNotifier(clipboard)
 
     def setMidiOut(self, midiOut):
+        self.midiOut=midiOut
         self.performanceController.setMidiOut(midiOut)
+        self.voiceEditorController.setMidiOut(midiOut)
+
+    def _setOperationalMode(self, mode):
+        if self.currOpMode!=mode:
+            SWITCH_MODE=7*128
+            PERFORMANCE_MODE=0
+            EDIT_MODE=1
+            COMPARE_MODE=2
+            if mode==EDIT_MODE:
+                self.voiceEditorController.prepareEditMode()
+            self.midiOut.sendParameter(self.baseChannel, SWITCH_MODE, 128*mode)
+            self.currOpMode=mode
+
+

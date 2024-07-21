@@ -232,20 +232,23 @@ class EditBuffer:
     def _setCommonParameter(self, paramName, value):
         (index, _)=_commonParameters[paramName]
         self.parameters[index]=value
+  
+    def _getParameterPage(self, paramName):
+        '''Parameter Page: Op6 (0), Op5 (1), ..., Op1 (5), Common (6)'''
+        return (6-int(paramName[2])) if paramName.startswith("Op") else 6
 
     def _getParameterTuple(self, paramName):
-        firstParam=0
-        parameters=_commonParameters
-        if paramName.startswith("Op"):
-            op=int(paramName[2])
-            firstParam=(6-op)*_paramsPerOp
-            paramName=paramName[4:]
-            parameters=_opParameters
-        t=parameters[paramName]
-        return (t[0]+firstParam, t[1])
+        '''returns (index, parameter type, midi nrpn)'''
+        page=self._getParameterPage(paramName)
+        (parameters, key)=((_commonParameters, paramName) if page==6 else
+                           (_opParameters, paramName[4:]))
+        t=parameters[key]
+        index=t[0] if page==6 else t[0] + page*_paramsPerOp
+        lsb=t[0]-_firstCommon if page==6 else t[0]
+        return (index, t[1], 128*page+lsb)
 
     def setVoiceParameter(self, paramName, paramValue):
-        (paramIndex, paramType) = self._getParameterTuple(paramName)
+        (paramIndex, paramType, *_) = self._getParameterTuple(paramName)
         paramValue=_checkParam(paramValue, paramType)
         if paramValue is None:
             return False
@@ -257,7 +260,7 @@ class EditBuffer:
             return False
 
     def getVoiceParameter(self, paramName):
-        (paramIndex, _) = self._getParameterTuple(paramName)
+        (paramIndex, *_) = self._getParameterTuple(paramName)
         return self.parameters[paramIndex]
         
     def getAllVoiceParameters(self):
@@ -273,6 +276,13 @@ class EditBuffer:
             value=self.parameters[index]
             result.append((name, value))
         return result
+
+    def sendVoiceParameter(self, paramName, midiOut, channel):
+        (index, _, nrpn) = self._getParameterTuple(paramName)
+        # TODO: this conversion needs to be done on a per-parameter basis
+        x=128*self.parameters[index]
+        # TODO: check if we have an active midi connection
+        midiOut.sendParameter(channel, nrpn, x)
 
 # Conversion of envelope times
 

@@ -1,5 +1,6 @@
 import alsa_midi
-from alsa_midi import SequencerClient, READ_PORT, ProgramChangeEvent
+from alsa_midi import SequencerClient, READ_PORT, ProgramChangeEvent, \
+                      ControlChangeEvent
 
 class AlsaMidiOutput:
     '''
@@ -42,6 +43,41 @@ class AlsaMidiOutput:
         
     def sendProgramChange(self, channel, program):
         self.sendMidiEvent(ProgramChangeEvent(channel, program))
+
+    def _sendParameterNumber(self, channel, paramNumber, isRegistered):
+        NRPN=98
+        RPN=100
+        fineCC=RPN if isRegistered else NRPN
+        coarseCC=fineCC+1
+        msb=paramNumber>>7
+        lsb=paramNumber & 127
+        # TODO: we can be smart about not sending redundant messages
+        # cache basechannel, number, (NRPN/RPN)
+        print(f'CC {channel}, {coarseCC}, {msb} # parameter number')
+        self.client.event_output(ControlChangeEvent(channel, coarseCC, msb))
+        print(f'CC {channel}, {fineCC}, {lsb}')
+        self.client.event_output(ControlChangeEvent(channel, fineCC, lsb))
+
+    def sendParameterCoarse(self, channel, param, value, isRegistered=False):
+        DataEntry=6
+        self._sendParameterNumber(channel, param, isRegistered)
+        print(f'CC {channel}, 06, {value} # parameter value')
+        self.client.event_output(ControlChangeEvent(channel, DataEntry, value))
+        self.client.drain_output()
+        
+    def sendParameter(self, channel, param, value, isRegistered=False):
+        '''
+        sends a registered or non-registered parameter
+        param and value are 14-bit unsigned integers
+        '''
+        DataEntryFine=38
+        msb=value>>7
+        lsb=value & 127
+        # TODO: we can be smart about not sending redundant messages
+        # cache basechannel, number and value (msb/lsb)
+        self.sendParameterCoarse(channel, param, msb, isRegistered)
+        print(f'CC {channel}, 38, {lsb}')
+        self.sendMidiEvent(ControlChangeEvent(channel, DataEntryFine, lsb))
 
     def sendSysEx(self, payload):
         self.sendMidiEvent(alsa_midi.SysExEvent(payload))
