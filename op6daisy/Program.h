@@ -52,9 +52,6 @@ struct FmOperatorParam {
   KeyScalingParam keyScaling;
 };
 
-struct SyxVoiceParam;
-struct SyxBulkFormat;
-
 struct Program {
   Program();
   
@@ -65,8 +62,6 @@ struct Program {
   LfoParam lfo;
   EnvelopeParam pitchEnvelope;
   FmOperatorParam op[NUM_OPERATORS];
-
-  void load(const SyxVoiceParam &syxVoice);
 };
 
 #endif

@@ -27,7 +27,8 @@ CPP_SOURCES = op6daisy.cpp \
   LfoState.cpp \
   MidiDispatcher.cpp \
   sine_lut.cpp \
-  Voice.cpp 
+  Voice.cpp \
+  VoiceEditBuffer.cpp
 
 # Core location, and generic Makefile.
 SYSTEM_FILES_DIR = $(LIBDAISY_DIR)/core

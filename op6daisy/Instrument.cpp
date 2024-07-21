@@ -156,7 +156,9 @@ void Instrument::setParameter(unsigned ch, unsigned paramNumber, unsigned value)
     unsigned page=PARAM_GET_PAGE(paramNumber);
     paramNumber &= PARAM_LSB_MASK;
 
-    if (page<=kCommonVoicePage) {
+    if (page<=kCommonVoicePage && ch==mBaseChannel) {
+      // Voice Edit buffer ignores parameter changes unless on the base channel 
+      mVoiceEditBuffer.setParameter(page, paramNumber, value); 
     }
   }
 }
@@ -253,6 +255,9 @@ Voice *Instrument::allocateVoice(unsigned ch, unsigned key) {
 }
 
 void Instrument::loadSyxBulkFormat(const SyxBulkFormat *syx) {
-  for (unsigned i=0; i<32; ++i)
-    mProgram[i].load(syx->voiceParam[i]);
+  for (unsigned i=0; i<32; ++i) {
+    mVoiceEditBuffer.loadSyx(syx->voiceParam[i]);
+    mVoiceEditBuffer.storeProgram(mProgram[i]);
+  }
+  mVoiceEditBuffer.loadInitialProgram(); // don't leave state behind
 }

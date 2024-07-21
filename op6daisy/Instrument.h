@@ -6,6 +6,7 @@
 #include "Channel.h"
 #include "Program.h"
 #include "Voice.h"
+#include "VoiceEditBuffer.h"
 
 struct SyxBulkFormat;
 
@@ -71,6 +72,7 @@ class Instrument {
   unsigned short mDataEntryRouting[NUM_CHANNELS];
   unsigned short mHiresControls[NUM_CHANNELS][HiresCC::NUM_HIRES_CC];
   Voice mVoice[NUM_VOICES];
+  VoiceEditBuffer mVoiceEditBuffer;
   Program mProgram[NUM_PROGRAMS];
   static constexpr unsigned SYSEX_BUFFER_SIZE=4104;
   unsigned char mSysExBuffer[SYSEX_BUFFER_SIZE];
