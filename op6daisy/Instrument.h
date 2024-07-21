@@ -63,10 +63,11 @@ class Instrument {
   };
 
   unsigned mBaseChannel;
-  enum {
+  enum OperationalMode {
     kPerformanceMode,
     kEditMode,
     kCompareMode,
+    NUM_OPERATIONAL_MODES
   } mOperationalMode;
   unsigned mCurrTimestamp;
   unsigned mSysExPtr;
@@ -81,6 +82,7 @@ class Instrument {
   Program mProgram[NUM_PROGRAMS];
   Program mTempPrograms[NUM_VOICES];
   Program *mLastTempProgram;
+  const Program *mSavedProgram;
   unsigned char mTempRefCount[NUM_VOICES];
   Program mEditBuffer;
   static constexpr unsigned SYSEX_BUFFER_SIZE=4104;
@@ -95,6 +97,8 @@ class Instrument {
   Voice *allocateVoice(unsigned ch, unsigned key);
   void loadSyxBulkFormat(const SyxBulkFormat *syx);
   void setParameter(unsigned ch, unsigned paramNumber, unsigned value);
+  void setSystemParameter(unsigned parameterNumber, unsigned value);
+  void setOperationalMode(unsigned mode);
   void controlChangeHires(unsigned ch, HiresCC cc, unsigned value);
 
   void controlChangeCoarse(unsigned ch, HiresCC cc, unsigned value) {

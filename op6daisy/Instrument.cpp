@@ -18,7 +18,8 @@ Instrument::Instrument()
     mWaitClearUnderrun{0},
     mDeltaPhi1Hz{4294967296.0f/SAMPLE_RATE},
     mDeltaPhiA4{4294967296.0f*440/SAMPLE_RATE},
-    mLastTempProgram{nullptr}
+    mLastTempProgram{nullptr},
+    mSavedProgram{nullptr}
 {
 }
 
@@ -171,11 +172,61 @@ void Instrument::setParameter(unsigned ch, unsigned paramNumber, unsigned value)
     paramNumber &= PARAM_LSB_MASK;
 
     if (page<=kCommonVoicePage && ch==mBaseChannel) {
-      // Voice Edit buffer ignores parameter changes unless on the base channel 
+      // Voice Edit buffer ignores parameter changes unless on the base channel
       mVoiceEditBuffer.setParameter(page, paramNumber, value);
       // Voice Edit Buffer changed: mustn't recycle Last Temp Program
       mLastTempProgram=nullptr;
     }
+    else if (page==kSystemPage && ch==mBaseChannel) {
+      setSystemParameter(paramNumber, value);
+    }
+  }
+}
+
+enum SystemParameter {
+  kSwitchMode,
+  kInitBuffer,
+  kLoadProgramToBuffer,
+  kStoreProgramFromBuffer,
+};
+
+void Instrument::setSystemParameter(unsigned paramNumber, unsigned value) {
+  unsigned msb=value>>7;
+  
+  switch (paramNumber) {
+  case kSwitchMode:
+    if (msb<NUM_OPERATIONAL_MODES)
+	setOperationalMode(msb);
+    break;
+  case kInitBuffer:
+    mVoiceEditBuffer.loadInitialProgram();
+    mLastTempProgram=nullptr; // VoiceEditBuffer changed, reload Temp Program
+    break;
+  case kLoadProgramToBuffer:
+    if (msb<NUM_PROGRAMS) {
+      mVoiceEditBuffer.loadProgram(mProgram[msb]);
+      mLastTempProgram=nullptr; // VoiceEditBuffer changed, reload Temp Program
+    }
+    break;
+  case kStoreProgramFromBuffer:
+    if (msb<NUM_PROGRAMS) {
+      mVoiceEditBuffer.storeProgram(mProgram[msb]);
+    }
+    break;
+  }
+}
+
+void Instrument::setOperationalMode(unsigned mode) {
+  if (mode!=mOperationalMode) {
+    // save/restore the program on the base channel
+    // when switching to/from Edit Mode
+    if (mode==kEditMode) {
+      mSavedProgram=mChannel[mBaseChannel].getProgram();
+    }
+    else {
+      mChannel[mBaseChannel].setProgram(mSavedProgram);
+    }
+    mOperationalMode=static_cast<OperationalMode>(mode);
   }
 }
 
@@ -272,7 +323,11 @@ Program *Instrument::getTempProgram(const Program *tryThisNext) {
 
   if (i<NUM_VOICES) {
     mTempRefCount[i]++;
-    mLastTempProgram=program;
+    if (program != mLastTempProgram) {
+      // Voice Edit Buffer has changed and needs to be stored to temp program
+      mVoiceEditBuffer.storeProgram(*program);
+      mLastTempProgram=program;
+    }
   }
   return program; 
 }
