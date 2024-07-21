@@ -225,9 +225,22 @@ static void setOpParameter(FmOperatorParam &op, unsigned param, unsigned x) {
   }
 }
 
+// The unsigned scale 0..99, where 50 is unity (as used by DX7)
+static float computePitchLevel(unsigned l99) {
+  static const signed char first[18]={
+    0, 12, 24, 33, 43, 52, 60, 67, 72, 76, 79, 82, 85, 87, 89, 91, 93, 95
+  };
+  int t=(l99<18)? first[l99] :
+        (l99<82)? l99+78 :
+        (l99<99)? 256-first[99-l99] : 256;
+
+  return exp2f((t-128)/128.0);
+}
+
+// Level +/-99 with unity at zero, as used by op6
 static float paramToPmEnvelopeLevel(signed char s8) {
-  // FIXME: Implementation missing
-  return 1.0f;
+  unsigned l99 = (s8>>1) + 50;
+  return computePitchLevel(l99);
 }
 
 static void setPmEnvelopeParameter(EnvelopeParam &envelope,
@@ -411,17 +424,6 @@ static void convertAmpEnvelope(const SyxVoiceParam::Envelope &syxEnv,
   env.level0=env.levels[3];
 
   convertEnvelopeTimes(syxEnv, env);
-}
-
-static float computePitchLevel(unsigned l99) {
-  static const signed char first[18]={
-    0, 12, 24, 33, 43, 52, 60, 67, 72, 76, 79, 82, 85, 87, 89, 91, 93, 95
-  };
-  int t=(l99<18)? first[l99] :
-        (l99<82)? l99+78 :
-        (l99<99)? 256-first[99-l99] : 256;
-
-  return exp2f((t-128)/128.0);
 }
 
 static void convertPitchEnvelope(const SyxVoiceParam::Envelope &syxEnv,

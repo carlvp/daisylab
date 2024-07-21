@@ -280,7 +280,12 @@ class EditBuffer:
     def sendVoiceParameter(self, paramName, midiOut, channel):
         (index, _, nrpn) = self._getParameterTuple(paramName)
         # TODO: this conversion needs to be done on a per-parameter basis
-        x=128*self.parameters[index]
+        paramValue=self.parameters[index]
+        if 6*128+4 <= nrpn <= 6*128+8:
+            # Pitch envelope levels (-99..+99)
+            x=(64*paramValue) & 0x3fff
+        else:
+            x=128*paramValue
         # TODO: check if we have an active midi connection
         midiOut.sendParameter(channel, nrpn, x)
 
