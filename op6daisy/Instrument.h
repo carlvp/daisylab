@@ -63,6 +63,11 @@ class Instrument {
   };
 
   unsigned mBaseChannel;
+  enum {
+    kPerformanceMode,
+    kEditMode,
+    kCompareMode,
+  } mOperationalMode;
   unsigned mCurrTimestamp;
   unsigned mSysExPtr;
   unsigned mWaitClearUnderrun;
@@ -74,9 +79,19 @@ class Instrument {
   Voice mVoice[NUM_VOICES];
   VoiceEditBuffer mVoiceEditBuffer;
   Program mProgram[NUM_PROGRAMS];
+  Program mTempPrograms[NUM_VOICES];
+  Program *mLastTempProgram;
+  unsigned char mTempRefCount[NUM_VOICES];
+  Program mEditBuffer;
   static constexpr unsigned SYSEX_BUFFER_SIZE=4104;
   unsigned char mSysExBuffer[SYSEX_BUFFER_SIZE];
 
+  bool isTempProgram(const Program *pgm) const {
+    return mTempPrograms<=pgm && pgm<mTempPrograms+NUM_VOICES;
+  }
+  
+  Program *getTempProgram(const Program *tryThisFirst);
+  Program *releaseTempProgram(const Program *pgm);
   Voice *allocateVoice(unsigned ch, unsigned key);
   void loadSyxBulkFormat(const SyxBulkFormat *syx);
   void setParameter(unsigned ch, unsigned paramNumber, unsigned value);

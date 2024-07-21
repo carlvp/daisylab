@@ -12,12 +12,13 @@
 // In the same way for midi key A4 (440Hz)
 Instrument::Instrument()
   : mBaseChannel{0},
+    mOperationalMode{kPerformanceMode},
     mCurrTimestamp{0},
     mSysExPtr{0},
     mWaitClearUnderrun{0},
     mDeltaPhi1Hz{4294967296.0f/SAMPLE_RATE},
     mDeltaPhiA4{4294967296.0f*440/SAMPLE_RATE},
-    mDataEntryRouting{0}
+    mLastTempProgram{nullptr}
 {
 }
 
@@ -28,6 +29,7 @@ void Instrument::Init() {
     mChannel[ch].reset(program1);
   memset(mDataEntryRouting, 0, sizeof(unsigned short)*NUM_CHANNELS);
   memset(mHiresControls, 0, sizeof(unsigned short)*HiresCC::NUM_HIRES_CC*NUM_CHANNELS);
+  memset(mTempRefCount, 0, sizeof(unsigned char)*NUM_CHANNELS);
 }
 
 void Instrument::fillBuffer(float *stereoOutBuffer) {
@@ -51,12 +53,22 @@ void Instrument::fillBuffer(float *stereoOutBuffer) {
 }
   
 void Instrument::noteOn(unsigned ch, unsigned key, unsigned velocity) {
-  Channel *channel=&mChannel[ch];
-  Voice *voice=allocateVoice(ch, key);
-  voice->noteOn(channel, key, velocity, mCurrTimestamp++);
+  // When editing voices, just allow note-on events on the base channel
+  if (mOperationalMode==kPerformanceMode || ch==mBaseChannel) {
+    Channel *channel=&mChannel[ch];
+    Voice *voice=allocateVoice(ch, key);
+    // Manage temporary programs (in Voice Edit Mode)
+    const Program *oldProgram=releaseTempProgram(voice->getProgram());
+    if (mOperationalMode==kEditMode) {
+      Program *program=getTempProgram(oldProgram);
+      mChannel[mBaseChannel].setProgram(program);
+    }
+    voice->noteOn(channel, key, velocity, mCurrTimestamp++);
+  }
 }
 
 void Instrument::noteOff(unsigned ch, unsigned key) {
+  // Don't filter: always send note-off if there is an active voice
   Voice *voice=mChannel[ch].findVoice(key);
   if (voice) {
     voice->noteOff(mCurrTimestamp++);
@@ -64,6 +76,8 @@ void Instrument::noteOff(unsigned ch, unsigned key) {
 }
 
 void Instrument::controlChange(unsigned ch, unsigned cc, unsigned value) {
+  // In general don't filter: there is no harm sending CC to unused channels
+  // and doing so facilitates control logic when switching modes 
   Channel &channel=mChannel[ch];
   switch (cc) {
   case 7:
@@ -158,7 +172,9 @@ void Instrument::setParameter(unsigned ch, unsigned paramNumber, unsigned value)
 
     if (page<=kCommonVoicePage && ch==mBaseChannel) {
       // Voice Edit buffer ignores parameter changes unless on the base channel 
-      mVoiceEditBuffer.setParameter(page, paramNumber, value); 
+      mVoiceEditBuffer.setParameter(page, paramNumber, value);
+      // Voice Edit Buffer changed: mustn't recycle Last Temp Program
+      mLastTempProgram=nullptr;
     }
   }
 }
@@ -166,13 +182,18 @@ void Instrument::setParameter(unsigned ch, unsigned paramNumber, unsigned value)
 static const Program initVoice;
 
 void Instrument::programChange(unsigned ch, unsigned p) {
-  const Program *program=(p>=NUM_PROGRAMS)?
-    &initVoice : &mProgram[p];
+  // In general, don't filter: there is no harm sending PC to unused channels
+  // However, don't change the program of the base channel when editing voices
+  if (mOperationalMode==kPerformanceMode || ch!=mBaseChannel) {
+    const Program *program=(p>=NUM_PROGRAMS)?
+      &initVoice : &mProgram[p];
   
-  mChannel[ch].setProgram(program);
+    mChannel[ch].setProgram(program);
+  }
 }
 
 void Instrument::pitchBend(unsigned ch, int value) {
+  // Don't filter: there is no harm sending PB to unused channels
   mChannel[ch].setPitchBend(value);
 }
 
@@ -221,6 +242,50 @@ void Instrument::sysEx(const unsigned char *inBuffer, unsigned size) {
   }
 }
 
+Program *Instrument::getTempProgram(const Program *tryThisNext) {
+  Program *program=nullptr;
+  unsigned i=NUM_VOICES;
+
+  if (mLastTempProgram) {
+    // First, use the last Temp Program (provided Edit Buffer hasn't changed)
+    program=mLastTempProgram;
+    i=program - mTempPrograms;
+  }
+  else if (isTempProgram(tryThisNext)) {
+    // Second, check if proposed program is free
+    unsigned j=tryThisNext - mTempPrograms;
+
+    if (mTempRefCount[j]==0) {
+      i=j;
+      program=mTempPrograms+i;
+    }
+  }
+
+  if (!program) {
+    // Otherwise search for a free Temp Program
+    for (i=0; i<NUM_VOICES; ++i)
+      if (mTempRefCount[i]==0) {
+	program=mTempPrograms+i;
+	break;
+      }
+  }
+
+  if (i<NUM_VOICES) {
+    mTempRefCount[i]++;
+    mLastTempProgram=program;
+  }
+  return program; 
+}
+
+Program *Instrument::releaseTempProgram(const Program *pgm) {
+  if (isTempProgram(pgm)) {
+    unsigned i=pgm - mTempPrograms;
+    if (--mTempRefCount[i]==0)
+      return mTempPrograms+i;
+  }
+  return nullptr; 
+}
+
 Voice *Instrument::allocateVoice(unsigned ch, unsigned key) {
   // First check if we already have am active voice on the channel
   // TODO: mute groups -doesn't have to be the same key, same group is OK
@@ -260,4 +325,5 @@ void Instrument::loadSyxBulkFormat(const SyxBulkFormat *syx) {
     mVoiceEditBuffer.storeProgram(mProgram[i]);
   }
   mVoiceEditBuffer.loadInitialProgram(); // don't leave state behind
+  mLastTempProgram=nullptr; // Last Temp Program and buffer differ
 }

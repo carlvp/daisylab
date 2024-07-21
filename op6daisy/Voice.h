@@ -29,6 +29,10 @@ class Voice {
 		  float pitchMod,
 		  float ampMod);
 
+  const Program *getProgram() const {
+    return mProgram;
+  }
+
  private:
   unsigned char mKey;
   bool mGate;
