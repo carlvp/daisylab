@@ -112,13 +112,26 @@ static inline unsigned clamp(unsigned x, unsigned max) {
 }
 
 static float paramToEnvelopeTime(unsigned t99) {
-  // FIXME: missing implementation
-  return 0.1f;
+  if (t99>=12) {
+    // Time doubles every 8 snaps
+    return 20.032f*exp2f(((int)t99-99)/8.0);
+  }
+  unsigned blocks=(t99==11)? 14 : t99+2;
+  return blocks*(0.002f/3);
 }
 
-static float paramToAmEnvelopeLevel(unsigned l99) {
-  // FIXME: missing implementation
-  return 1.0f;
+// Level, negative logcale 2^(-t/8), so unit is 1/8 octave
+static int logLevel(int tl99) {
+  static const int first20[]={
+    127, 122, 118, 114, 110, 107, 104, 102, 100,  98,
+     96,  94,  92,  90,  88,  86,  85,  84,  82,  81
+  };
+
+  return (tl99<20)? first20[tl99] : 99-tl99;
+}
+
+static float computeAmpLevel(unsigned l99) {
+  return (l99==0)? 0.0f : exp2f(-logLevel(l99)/8.0);
 }
 
 static void setAmEnvelopeParameter(EnvelopeParam &envelope,
@@ -128,7 +141,7 @@ static void setAmEnvelopeParameter(EnvelopeParam &envelope,
   if (paramNumber<=kEnvelopeTime4)
     envelope.times[paramNumber-kEnvelopeTime1]=paramToEnvelopeTime(msb);
   else if (paramNumber<=kEnvelopeLevel4) {
-    float level=paramToAmEnvelopeLevel(msb);
+    float level=computeAmpLevel(msb);
     if (paramNumber==kEnvelopeLevel0)
       envelope.level0=level;
     else
@@ -182,6 +195,7 @@ static void setFrequencyParameter(bool &fixedFreq,
 				  float &freq,
 				  unsigned param,
 				  unsigned x) {
+  // FIXME: Implementatin missing
 }
 
 static void setOpParameter(FmOperatorParam &op, unsigned param, unsigned x) {
@@ -192,11 +206,20 @@ static void setOpParameter(FmOperatorParam &op, unsigned param, unsigned x) {
   else if (param<=kFrequency)
     setFrequencyParameter(op.fixedFreq, op.freq, param, x);
   else {
+    unsigned msb=clamp(paramMsb(x), 99);
+
     switch (param) {
     case kTotalOutputLevel:
+      op.totalLevel=computeAmpLevel(msb);
+      break;
     case kAmSensitivity:
+      op.ams=clamp(msb,3);
+      break;
     case kVelocitySensitivity:
+      op.velScaling=clamp(msb,7);
+      break;
     case kKeyboardToEnvelopeRate:
+      op.kbdRateScaling=clamp(msb,7);
       break;
     }
   }
@@ -318,17 +341,6 @@ static_assert(sizeof(SyxVoiceParam)==128);
 static_assert(sizeof(Syx::Postamble)==2);
 static_assert(sizeof(SyxBulkFormat)==SyxBulkFormat::Size);
 
-
-// Level, negative logcale 2^(-t/8), so unit is 1/8 octave
-static int logLevel(int tl99) {
-  static const int first20[]={
-    127, 122, 118, 114, 110, 107, 104, 102, 100,  98,
-     96,  94,  92,  90,  88,  86,  85,  84,  82,  81
-  };
-
-  return (tl99<20)? first20[tl99] : 99-tl99;
-}
-
 static float level_dB(int tl99) {
   int x=logLevel(tl99);
   return -x*(20*log10f(2)/8);
@@ -388,10 +400,6 @@ static void convertEnvelopeTimes(const SyxVoiceParam::Envelope &syxEnv,
   env.times[2]=matchEnvelopeRate(rate);
   rate=clamp(syxEnv.rate[3], 99);
   env.times[3]=matchEnvelopeRate(rate);
-}
-
-static float computeAmpLevel(unsigned l99) {
-  return (l99==0)? 0.0f : exp2f(-logLevel(l99)/8.0);
 }
 
 static void convertAmpEnvelope(const SyxVoiceParam::Envelope &syxEnv,
