@@ -66,7 +66,6 @@ class Instrument {
   enum OperationalMode {
     kPerformanceMode,
     kEditMode,
-    kCompareMode,
     NUM_OPERATIONAL_MODES
   } mOperationalMode;
   unsigned mCurrTimestamp;
