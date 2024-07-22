@@ -239,16 +239,14 @@ class VoiceEditorScreen(tkinter.Frame):
         '''Create the headings of the Voice Params and Pitch EG'''
         self._makeLabel("LFO Sp", row, 0, 2)
         self._makeLabel("Del", row, 2)
-        self._makeLabel("Sync", row, 3)
         self._makeLabel("Wave", row, 5, 3)
         self._makeLabel("PMD", row, 9, 2)
         self._makeLabel("AMD", row, 11, 2)
         self._makeLabel("|", row, 13)
 
     def _makeLfoParamRow(self, row):
-        self._makeIntEntry("LFO Speed", 2, row, 1) # Speed
-        self._makeIntEntry("LFO Delay", 2, row, 2) # Delay
-        self._makeCombobox("LFO Sync", ('', 'x'), 1, row, 3) # Sync
+        self._makeIntEntry("LFO Speed", 2, row, 1)
+        self._makeIntEntry("LFO Delay", 2, row, 2)
         self._makeCombobox("LFO Waveform", ('TRIANG', 'SAW DN', 'SAW UP',
                                             'SINE',   'SQUARE', 'S/HOLD'),
                            6, row, 5, 3)

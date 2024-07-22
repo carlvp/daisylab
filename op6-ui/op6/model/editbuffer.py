@@ -50,7 +50,6 @@ _commonParameters={
 #    "Keyboard Rate Scaling": (_firstCommon+15, IntParamType),
     "LFO Speed": (_firstCommon+16, IntParamType),
     "LFO Delay": (_firstCommon+17, IntParamType),
-    "LFO Sync": (_firstCommon+18, IntParamType),
     "LFO Waveform": (_firstCommon+19, IntParamType),
     "LFO Initial Pitch Modulation Depth": (_firstCommon+20, IntParamType),
     "LFO Initial Amplitude Modulation Depth": (_firstCommon+21, IntParamType),
@@ -217,7 +216,6 @@ class EditBuffer:
         # LFO
         self._setCommonParameter("LFO Speed", min(syxVoiceData[112],99))
         self._setCommonParameter("LFO Delay", min(syxVoiceData[113],99))
-        self._setCommonParameter("LFO Sync", LPMS_LFW_LFKS & 1)
         self._setCommonParameter("LFO Waveform", min((LPMS_LFW_LFKS>>1) & 7, 5))
         self._setCommonParameter("LFO Initial Pitch Modulation Depth",
                                  min(syxVoiceData[114],99))

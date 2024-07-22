@@ -18,14 +18,6 @@ void Channel::reset(const Program *program) {
 void Channel::addVoice(Voice *v) {
   mVoice[mNumVoices]=v;
   mNumVoices++;
-
-  if (mNumVoices==1) {
-    // Sync lfo at first note-on
-    // FIXME: condition for re-trig is overly simple, what if other voice
-    // has decayed to nearly zero..?
-    // TODO: LfoParam should be part of Program
-    mLfo.sync(mProgram->lfo);
-  }
 }
 
 void Channel::removeVoice(Voice *v) {

@@ -96,7 +96,7 @@ enum ComonParameters {
   kLfoSpeed,
   kLfoDelay,
   kLfoWaveform,
-  kLfoSync,
+  kWasLfoSyncNotUsed,
   kLfoPMD,
   kLfoAmDepth,
   NUM_COMMON_PARAMETERS
@@ -365,7 +365,6 @@ static void setCommonParameter(Program &common, unsigned param, unsigned x) {
     case kLfoAmDepth:
       common.lfoAmDepth=computeLfoAmDepth(msb);
       break;
-    //  TODO: kLfoSync remove!
     //  TODO: kLfoPmDepth and kPmSensitivity: Merge to single float
     }
   }
