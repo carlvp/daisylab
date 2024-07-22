@@ -147,7 +147,7 @@ class VoiceEditorScreen(tkinter.Frame):
         self._makeLabel("|", row, 4)
         # self._makeLabel("PEG", row, 5)
         self._makeLabel("PM", row, 6)
-        self._makeLabel("Vel", row, 7)
+        # self._makeLabel("Vel", row, 7)
         self._makeLabel("|", row, 8)
         for i in range(4):
             self._makeLabel("T"+str(i+1), row, 9+i)
@@ -164,7 +164,7 @@ class VoiceEditorScreen(tkinter.Frame):
         self._makeLabel("|", row, 4)
         # self._makeIntEntry("Pitch Envelope Depth", 2, row, 5)
         self._makeIntEntry("Pitch Modulation Sensitivity", 2, row, 6)
-        self._makeIntEntry("Velocity Sensitivity", 2, row, 7)
+        # self._makeIntEntry("Velocity Sensitivity", 2, row, 7)
         self._makeLabel("|", row, 8)
         for i in range(4):
             self._makeIntEntry("Pitch Envelope Time "+str(i+1),
