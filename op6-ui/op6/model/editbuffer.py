@@ -1,4 +1,4 @@
-from math import log2, log10
+from math import log2, log10, frexp
 
 IntParamType=1
 FpParamType=2
@@ -225,6 +225,10 @@ class EditBuffer:
         # ...and the name
         self._setCommonParameter("Voice Name", syxVoiceData.getName())
 
+    def _getOpParameter(self, d0, paramName):
+        (index, _)=_opParameters[paramName]
+        return self.parameters[d0+index]
+
     def _setOpParameter(self, d0, paramName, value):
         (index, _)=_opParameters[paramName]
         self.parameters[d0+index]=value
@@ -277,15 +281,55 @@ class EditBuffer:
             result.append((name, value))
         return result
 
+    def _repackFrequencyParameters(self, op):
+        FIXED_FREQUENCY=14
+        FREQUENCY_RATIO=15
+        d0=op*_paramsPerOp
+        freqMode=self._getOpParameter(d0, "Frequency Mode");
+        freq=self._getOpParameter(d0, "Frequency");
+        # The float value is represented with 3 bits of exponent
+        # and 1+11 bits of mantissa (with an implicit msb).
+        # Range for ratios [0, 64) fixed frequencies [0, 16kHz]
+        (nrpn, expBias)=((FREQUENCY_RATIO, 0) if freqMode==0 else
+                         (FIXED_FREQUENCY, 7))
+        (f, e)=frexp(freq)
+        e-=expBias
+        m=round(f*0x1000)
+        if m==0x1000:
+            # rounded to next exponent
+            e+=1
+            m>>=1
+        if e>7:
+            # max value
+            e=7
+            m=0x7ff
+        elif e<=0:
+            # gradual/underflow
+            m>>=1-e
+            e=0
+        return (op*128+nrpn, (e<<11)|(m & 0x7ff))
+
     def sendVoiceParameter(self, paramName, midiOut, channel):
-        (index, _, nrpn) = self._getParameterTuple(paramName)
+        (index, paramType, nrpn) = self._getParameterTuple(paramName)
         # TODO: this conversion needs to be done on a per-parameter basis
+        # this is quickly becoming messy
         paramValue=self.parameters[index]
-        if 6*128+4 <= nrpn <= 6*128+8:
+        x=128*paramValue
+        if nrpn < 6*128:
+            # OP(n)
+            PARAM_FREQUENCY_MODE=14
+            PARAM_FREQUENCY=15
+            lsb=(nrpn & 127)
+            if lsb==PARAM_FREQUENCY_MODE or lsb==PARAM_FREQUENCY:
+                # Frequency Mode and Frequency are repackaged
+                # as FixedFrequency and FrequencyRatio parameters
+                (newNRPN, value)=self._repackFrequencyParameters(nrpn>>7)
+                nrpn=newNRPN # FixedFreq or FreqRatio
+                x=value
+        elif 6*128+4 <= nrpn <= 6*128+8:
             # Pitch envelope levels (-99..+99)
             x=(64*paramValue) & 0x3fff
-        else:
-            x=128*paramValue
+            
         # TODO: check if we have an active midi connection
         midiOut.sendParameter(channel, nrpn, x)
 

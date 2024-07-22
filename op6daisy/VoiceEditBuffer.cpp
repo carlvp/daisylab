@@ -76,8 +76,8 @@ enum OpParameters {
   kKlsLeftCurve,
   kKlsRightDepth,
   kKlsRightCurve,
-  kFrequencyMode,
-  kFrequency,
+  kFixedFrequency,
+  kFrequencyRatio,
   kTotalOutputLevel,
   kAmSensitivity,
   kVelocitySensitivity,
@@ -191,11 +191,35 @@ static void setKeyScalingParameter(KeyScalingParam &ks,
   }
 }
 
-static void setFrequencyParameter(bool &fixedFreq,
-				  float &freq,
-				  unsigned param,
-				  unsigned x) {
-  // FIXME: Implementatin missing
+// Frequency is transferred as a 14-bit fixed point number, x:
+// eee|mmmmmmmmmmmm with an implicit one in the mantissa: 1.mmmmmmmmmmmm
+// except when e=0.
+// e=0 range [0,1) ulp=2^(-11)  e=4 range [8,16) ulp=2^(-8)
+// e=1       [1,2)     2^(-11)  e=5      [16,32)     2^(-7)
+// e=2       [2,4)     2^(-10)  e=6      [32,64)     2^(-6)
+// e=3       [4,8)     2^(-9)   e=7      [64,128)    2^(-5)
+//
+// Optionally, "noise" is added when converting float
+
+static float unpackFp14(unsigned x14, bool addNoise=false) {
+  unsigned e=x14>>11;
+  unsigned m=x14 & 0x7ff;
+
+  if (e!=0) {
+    m|=0x800; // implicit leading one
+    e--;
+  }
+  unsigned i=m & 0xf;
+  m<<=12; // now the mantissa is 24-bit
+  if (addNoise) {
+    static const short noise[16]= {
+         0,  465,  714, -491,  132,  773, -133,  137,
+      -235, -280,  -33,-1452, -245,  726, -189, -586
+    };
+    m+=noise[i];
+  }
+
+  return ldexpf(m, e-23);
 }
 
 static void setOpParameter(FmOperatorParam &op, unsigned param, unsigned x) {
@@ -203,12 +227,19 @@ static void setOpParameter(FmOperatorParam &op, unsigned param, unsigned x) {
     setAmEnvelopeParameter(op.envelope, param, x);
   else if (param<=kKlsRightCurve)
     setKeyScalingParameter(op.keyScaling, param, x);
-  else if (param<=kFrequency)
-    setFrequencyParameter(op.fixedFreq, op.freq, param, x);
   else {
     unsigned msb=clamp(paramMsb(x), 99);
-
     switch (param) {
+    case kFixedFrequency:
+      // Fixed frequency range [0, 16383.9)
+      op.fixedFreq=true;
+      op.freq=128*unpackFp14(x);
+      break;
+    case kFrequencyRatio:
+      // Frequency ratio range [0, 63.9)
+      op.fixedFreq=false;
+      op.freq=unpackFp14(x, true);
+      break;
     case kTotalOutputLevel:
       op.totalLevel=computeAmpLevel(msb);
       break;
