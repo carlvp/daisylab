@@ -143,7 +143,7 @@ class VoiceEditorScreen(tkinter.Frame):
         '''Create the headings of the Voice Params and Pitch EG'''
         self._makeLabel("Alg", row, 1)
         self._makeLabel("Fb", row, 2)
-        self._makeLabel("Sync", row, 3)
+        # self._makeLabel("Sync", row, 3)
         self._makeLabel("|", row, 4)
         # self._makeLabel("PEG", row, 5)
         self._makeLabel("PM", row, 6)
@@ -160,7 +160,7 @@ class VoiceEditorScreen(tkinter.Frame):
     def _makeVoiceParamRow(self, row):
         self._makeIntEntry("Algorithm", 2, row, 1, maxValue=32)
         self._makeIntEntry("Feedback", 1, row, 2)
-        self._makeCombobox("Oscillator Sync", ('', 'x'), 1, row, 3)
+        # self._makeCombobox("Oscillator Sync", ('', 'x'), 1, row, 3)
         self._makeLabel("|", row, 4)
         # self._makeIntEntry("Pitch Envelope Depth", 2, row, 5)
         self._makeIntEntry("Pitch Modulation Sensitivity", 2, row, 6)

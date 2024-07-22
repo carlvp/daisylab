@@ -43,7 +43,7 @@ _commonParameters={
     "Pitch Envelope Level 4": (_firstCommon+8, IntParamType),
     "Algorithm": (_firstCommon+9, IntParamType),
     "Feedback":  (_firstCommon+10, IntParamType),
-    "Oscillator Sync": (_firstCommon+11, IntParamType),
+#    "Oscillator Sync": (_firstCommon+11, IntParamType),
 #    "Pitch Envelope Depth": (_firstCommon+12, IntParamType),
     "Pitch Modulation Sensitivity": (_firstCommon+13, IntParamType),
 #    "Velocity Sensitivity": (_firstCommon+14, IntParamType),
@@ -207,7 +207,7 @@ class EditBuffer:
         self._setCommonParameter("Algorithm", syxVoiceData[110] & 31)
         OPI_FB=syxVoiceData[111]
         self._setCommonParameter("Feedback", OPI_FB & 7)
-        self._setCommonParameter("Oscillator Sync", (OPI_FB & 8)>>3)
+#        self._setCommonParameter("Oscillator Sync", (OPI_FB & 8)>>3)
         LPMS_LFW_LFKS=syxVoiceData[116]
         self._setCommonParameter("Pitch Modulation Sensitivity",
                                  (LPMS_LFW_LFKS>>4) & 7)
