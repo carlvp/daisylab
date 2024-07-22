@@ -155,7 +155,7 @@ class VoiceEditorScreen(tkinter.Frame):
         for i in range(5):
             self._makeLabel("L"+str(i), row, 14+i)
         self._makeLabel("|", row, 19)
-        self._makeLabel("Rate", row, 20)
+        # self._makeLabel("Rate", row, 20)
 
     def _makeVoiceParamRow(self, row):
         self._makeIntEntry("Algorithm", 2, row, 1, maxValue=32)
@@ -174,7 +174,7 @@ class VoiceEditorScreen(tkinter.Frame):
             self._makeIntEntry("Pitch Envelope Level "+str(i), 3, row, 14+i,
                                minValue=-99, maxValue=99)
         self._makeLabel("|", row, 19)
-        self._makeIntEntry("Keyboard Rate Scaling", 2, row, 20)
+        # self._makeIntEntry("Keyboard Rate Scaling", 2, row, 20)
 
     def _makeOpParamHeading1(self, row):
         '''Create the headings of the FM Operator rows (line #1)'''

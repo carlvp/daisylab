@@ -47,7 +47,7 @@ _commonParameters={
     "Pitch Envelope Depth": (_firstCommon+12, IntParamType),
     "Pitch Modulation Sensitivity": (_firstCommon+13, IntParamType),
     "Velocity Sensitivity": (_firstCommon+14, IntParamType),
-    "Keyboard Rate Scaling": (_firstCommon+15, IntParamType),
+#    "Keyboard Rate Scaling": (_firstCommon+15, IntParamType),
     "LFO Speed": (_firstCommon+16, IntParamType),
     "LFO Delay": (_firstCommon+17, IntParamType),
     "LFO Sync": (_firstCommon+18, IntParamType),
@@ -213,6 +213,7 @@ class EditBuffer:
                                  (LPMS_LFW_LFKS>>4) & 7)
         self._setCommonParameter("Pitch Envelope Depth", 12)
         self._setCommonParameter("Velocity Sensitivity", 0)
+        # ...and don't forget (pitch) "Keyboard Rate Scaling" (wasn't here)
         # LFO
         self._setCommonParameter("LFO Speed", min(syxVoiceData[112],99))
         self._setCommonParameter("LFO Delay", min(syxVoiceData[113],99))
