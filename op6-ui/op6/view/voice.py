@@ -507,22 +507,37 @@ class EnvelopeDisplay(tkinter.Frame):
         self.timeVar=[None, None, None, None, None, None, None]
         # start w/o any curve displayed
         self.operator=-1
-        self.coordinates=[x0, y1, x0+1, y0, x0+2, y0, x0+3, y0, x0+4, y1]
-        self.curve=self.canvas.create_line(*self.coordinates,
-                                           fill=FOREGROUND_COLOR,
-                                           width=2,
-                                           state='hidden')
+        self.coordinates=[x0, y1, x0+1, y0,   # attack
+                          x0+2, y0, x0+3, y0, # decay 1 and 2
+                          x1-1, y0, x1, y1]   # sustain and release
+        self.ad1d2Curve=self.canvas.create_line(*self.coordinates[:8],
+                                                fill=FOREGROUND_COLOR,
+                                                width=2,
+                                                state='hidden')
+        self.sLine=self.canvas.create_line(*self.coordinates[6:10],
+                                            fill=FOREGROUND_COLOR,
+                                            width=2,
+                                            dash=(3,5),
+                                            state='hidden')
+        self.rLine=self.canvas.create_line(*self.coordinates[8:],
+                                            fill=FOREGROUND_COLOR,
+                                            width=2,
+                                            state='hidden')
+    def _setCurveState(self, s):
+        self.canvas.itemconfig(self.ad1d2Curve, state=s)
+        self.canvas.itemconfig(self.sLine, state=s)
+        self.canvas.itemconfig(self.rLine, state=s)
 
     def setOperator(self, index):
         if index!=self.operator:
             if 0<=index<=6:
                 if self.operator==ENVELOPE_HIDDEN:
-                    self.canvas.itemconfig(self.curve, state='normal')
+                    self._setCurveState('normal')
                 self.operator=index
                 self.onParameterChanged()
             else:
                 self.operator=ENVELOPE_HIDDEN
-                self.canvas.itemconfig(self.curve, state='hidden')
+                self._setCurveState('hidden')
 
     def setTimeVar(self, index, variables):
         '''set envelope time variables.
@@ -550,33 +565,54 @@ class EnvelopeDisplay(tkinter.Frame):
         (y0, scale, low) = (50, 2, -99) if self.operator==PITCH_ENVELOPE else (100, 1, 0)
         return max(low, min(99, (EnvelopeDisplay.ORIGINY + y0 - y)*scale))
 
+    def _updateLevel(self, lIndex, coordIndex, changed):
+        level=self.levelVar[self.operator][lIndex].get()
+        if level!="" and level!="-":
+            y=self.level2y(int(level))
+            if self.coordinates[coordIndex] != y:
+                self.coordinates[coordIndex]=y
+                return True
+        return changed
+
     def onParameterChanged(self):
         '''checks if the curve has changed, in which case it's updated'''
         if self.operator==ENVELOPE_HIDDEN:
-            self.canvas.itemconfig(self.curve, state='hidden')
+            self._setCurveState('hidden')
 
         updateCurve=False
-        for i in range(0,5):
-            level=self.levelVar[self.operator][i].get()
-            if level!="" and level!="-":
-                y=self.level2y(int(level))
-                if self.coordinates[2*i+1] != y:
-                    updateCurve=True
-                    self.coordinates[2*i+1]=y
-        x=EnvelopeDisplay.ORIGINX
+        # first process levels L0, L1, L2, L3
         for i in range(0,4):
+            updateCurve=self._updateLevel(i, 2*i+1, updateCurve)
+        # sustain point shares y-coordinate L3
+        self.coordinates[2*4+1]=self.coordinates[2*3+1]
+        # finally process L4, the release point
+        updateCurve=self._updateLevel(4, 2*5+1, updateCurve)
+
+        # first process times T1, T2, T3
+        x=EnvelopeDisplay.ORIGINX
+        for i in range(0,3):
             time=self.timeVar[self.operator][i].get()
             if time!="":
                 x=x+int(time)+1
             else:
-                x=max(self.coordinates[2*i]+1, self.coordinates[2*i]+2)
-
+                # use old coordinates otherwise
+                x=max(self.coordinates[2*i]+1, self.coordinates[2*i+2])
             if self.coordinates[2*i+2] != x:
                 updateCurve=True
                 self.coordinates[2*i+2]=x
 
+        # Now process T4
+        t4=self.timeVar[self.operator][3].get()
+        if t4!="":
+            x=EnvelopeDisplay.ORIGINX+400-1-int(t4)
+            if self.coordinates[2*3+2] != x:
+                updateCurve=True
+                self.coordinates[2*3+2]=x
+                
         if updateCurve:
-            self.canvas.coords(self.curve, *self.coordinates)
+            self.canvas.coords(self.ad1d2Curve, *self.coordinates[:8])
+            self.canvas.coords(self.sLine, *self.coordinates[6:10])
+            self.canvas.coords(self.rLine, *self.coordinates[8:])
 
 
 # LED states in keyboard scaling display is -1 (all off) or led# 0..3 lit
