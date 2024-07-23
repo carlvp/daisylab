@@ -55,6 +55,16 @@ class VoiceEditorController:
             self.midiOut.sendParameter(self.baseChannel, LOAD_BUFFER, programAs14bit)
             self.editBufferLoadedFrom=self.currProgram
 
+    def _updateUIField(self, name, value):
+        if _isBaseOne(name):
+            value=value+1
+        self.voiceEditorScreen.setVoiceParameter(name, str(value))
+
+    def requestUIFieldUpdate(self, paramName):
+        '''Updates a single field of the UI when it loses focus'''
+        value=self.editBuffer.getVoiceParameter(paramName)
+        self._updateUIField(paramName, value)
+
     def updateUI(self):
         '''Updates the UI before switching to the VoiceEditScreen'''
         # FIXME: switching back and forth between screens doesn't work
@@ -72,12 +82,11 @@ class VoiceEditorController:
             self.disableParameterUpdates=True
             self.voiceEditorScreen.setVoiceParameter("Voice Number", str(self.currProgram+1))
             for (name, value) in self.editBuffer.getAllVoiceParameters():
-                if _isBaseOne(name):
-                    value=value+1
-                self.voiceEditorScreen.setVoiceParameter(name, str(value))
+                self._updateUIField(name, value)
             self.disableParameterUpdates=False
 
     def updateVoiceParameter(self, paramName, paramValue):
+        '''called from view object when parameter changed'''
         if self.disableParameterUpdates:
             # updates are disabled when this controller sets parameters
             # this is not critical, but it avoids unnecessary processing
@@ -94,13 +103,28 @@ class VoiceEditorController:
         else:
             changed=self.editBuffer.setVoiceParameter(paramName, paramValue)
             if changed:
+                # special tweak for frequency mode "fixed" -> "ratio",
+                # which may render an out-of-range ratio
+                if paramName[4:]=="Frequency Mode" and int(paramValue)==0:
+                    # parmeterName[:13]="Opx Frequency"
+                    self._checkFrequencyRatio(paramName[:13])
+
                 self.editBuffer.sendVoiceParameter(paramName,
                                                    self.midiOut,
                                                    self.baseChannel)
 
+    def _checkFrequencyRatio(self, paramName):
+        '''tweak to put frequency in range when shifting to ratio mode'''
+        freq=self.editBuffer.getVoiceParameter(paramName[:13])
+        if freq>99.999:
+            self.editBuffer.setVoiceParameter(paramName[:13], "99.999")
+            old=self.disableParameterUpdates
+            self.disableParameterUpdates=True
+            self._updateUIField(paramName, "99.999")
+            self.disableParameterUpdates=old
+
     def setMidiOut(self, midiOut):
         self.midiOut=midiOut
-
 
 def _isBaseOne(paramName):
     # Some integer parameters 0..N-1 are represented as 1..N in the UI

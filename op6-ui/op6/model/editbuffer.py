@@ -1,99 +1,114 @@
 from math import log2, log10, frexp
 
-IntParamType=1
-FpParamType=2
-StringParamType=3
+def _checkIntParam(value, maxValue=99, minValue=0):
+    try:
+        value=max(minValue, min(int(value), maxValue))
+    except ValueError:
+        value=None
+    return value
+
+def _checkBoolParam(value):
+    return _checkIntParam(value, maxValue=1)
+
+def _checkSingleDigitParam(value):
+    return _checkIntParam(value, maxValue=9)
+
+def _checkPmLevelParam(value):
+    return _checkIntParam(value, minValue=-99)
+
+def _checkFreqParam(value, maxValue):
+    try:
+        value=min(float(value), maxValue)
+    except ValueError:
+        value=None
+    return value
+
+def _checkStringParam(value):
+    return str(value)
 
 _opParameters={
-    "Envelope Time 1": (0, IntParamType),
-    "Envelope Time 2": (1, IntParamType),
-    "Envelope Time 3": (2, IntParamType),
-    "Envelope Time 4": (3, IntParamType),
-    "Envelope Level 0": (4, IntParamType),
-    "Envelope Level 1": (5, IntParamType),
-    "Envelope Level 2": (6, IntParamType),
-    "Envelope Level 3": (7, IntParamType),
-    "Envelope Level 4": (8, IntParamType),
-    "Keyboard Level Scaling Breakpoint": (9, IntParamType),
-    "Keyboard Level Scaling Left Depth": (10, IntParamType),
-    "Keyboard Level Scaling Left Curve": (11, IntParamType),
-    "Keyboard Level Scaling Right Depth": (12, IntParamType),
-    "Keyboard Level Scaling Right Curve": (13, IntParamType),
-    "Frequency Mode": (14, IntParamType),
-    "Frequency": (15, FpParamType),
-    "Total Output Level": (16, IntParamType),
-    "Amplitude Modulation Sensitivity": (17, IntParamType),
-    "Velocity Sensitivity": (18, IntParamType),
-    "Keyboard Rate Scaling": (19, IntParamType),
-#    "Operator Enable": (20, IntParamType)
+    "Envelope Time 1": (0, _checkIntParam),
+    "Envelope Time 2": (1, _checkIntParam),
+    "Envelope Time 3": (2, _checkIntParam),
+    "Envelope Time 4": (3, _checkIntParam),
+    "Envelope Level 0": (4, _checkIntParam),
+    "Envelope Level 1": (5, _checkIntParam),
+    "Envelope Level 2": (6, _checkIntParam),
+    "Envelope Level 3": (7, _checkIntParam),
+    "Envelope Level 4": (8, _checkIntParam),
+    "Keyboard Level Scaling Breakpoint": (9, lambda x: _checkIntParam(x, 127)),
+    "Keyboard Level Scaling Left Depth": (10, _checkIntParam),
+    "Keyboard Level Scaling Left Curve": (11, lambda x: _checkIntParam(x, 3)),
+    "Keyboard Level Scaling Right Depth": (12, _checkIntParam),
+    "Keyboard Level Scaling Right Curve": (13, lambda x: _checkIntParam(x, 3)),
+    "Frequency Mode": (14, _checkBoolParam),
+    "Frequency": (15, _checkFreqParam),
+    "Total Output Level": (16, _checkIntParam),
+    "Amplitude Modulation Sensitivity": (17, lambda x: _checkIntParam(x, 3)),
+    "Velocity Sensitivity": (18, lambda x: _checkIntParam(x, 7)),
+    "Keyboard Rate Scaling": (19, lambda x: _checkIntParam(x, 7)),
+#    "Operator Enable": (20, _checkIntParam)
 }
 
 _paramsPerOp=21
 _firstCommon=128
 
 _commonParameters={
-    "Pitch Envelope Time 1": (_firstCommon, IntParamType),
-    "Pitch Envelope Time 2": (_firstCommon+1, IntParamType),
-    "Pitch Envelope Time 3": (_firstCommon+2, IntParamType),
-    "Pitch Envelope Time 4": (_firstCommon+3, IntParamType),
-    "Pitch Envelope Level 0": (_firstCommon+4, IntParamType),
-    "Pitch Envelope Level 1": (_firstCommon+5, IntParamType),
-    "Pitch Envelope Level 2": (_firstCommon+6, IntParamType),
-    "Pitch Envelope Level 3": (_firstCommon+7, IntParamType),
-    "Pitch Envelope Level 4": (_firstCommon+8, IntParamType),
-    "Algorithm": (_firstCommon+9, IntParamType),
-    "Feedback":  (_firstCommon+10, IntParamType),
-#    "Oscillator Sync": (_firstCommon+11, IntParamType),
-#    "Pitch Envelope Depth": (_firstCommon+12, IntParamType),
-    "Pitch Modulation Sensitivity": (_firstCommon+13, IntParamType),
-#    "Velocity Sensitivity": (_firstCommon+14, IntParamType),
-#    "Keyboard Rate Scaling": (_firstCommon+15, IntParamType),
-    "LFO Speed": (_firstCommon+16, IntParamType),
-    "LFO Delay": (_firstCommon+17, IntParamType),
-    "LFO Waveform": (_firstCommon+19, IntParamType),
-    "LFO Initial Pitch Modulation Depth": (_firstCommon+20, IntParamType),
-    "LFO Initial Amplitude Modulation Depth": (_firstCommon+21, IntParamType),
-    "Voice Name": (_firstCommon+22, StringParamType),
+    "Pitch Envelope Time 1": (_firstCommon, _checkIntParam),
+    "Pitch Envelope Time 2": (_firstCommon+1, _checkIntParam),
+    "Pitch Envelope Time 3": (_firstCommon+2, _checkIntParam),
+    "Pitch Envelope Time 4": (_firstCommon+3, _checkIntParam),
+    "Pitch Envelope Level 0": (_firstCommon+4, _checkPmLevelParam),
+    "Pitch Envelope Level 1": (_firstCommon+5, _checkPmLevelParam),
+    "Pitch Envelope Level 2": (_firstCommon+6, _checkPmLevelParam),
+    "Pitch Envelope Level 3": (_firstCommon+7, _checkPmLevelParam),
+    "Pitch Envelope Level 4": (_firstCommon+8, _checkPmLevelParam),
+    "Algorithm": (_firstCommon+9, lambda x: _checkIntParam(x, 31)),
+    "Feedback":  (_firstCommon+10, _checkSingleDigitParam),
+#    "Oscillator Sync": (_firstCommon+11, _checkBoolParam),
+#    "Pitch Envelope Depth": (_firstCommon+12, lambda x: _checkIntParam(x, 12)),
+    "Pitch Modulation Sensitivity": (_firstCommon+13, lambda x: _checkIntParam(x, 7)),
+#    "Velocity Sensitivity": (_firstCommon+14, _checkSingleDigitParam),
+#    "Keyboard Rate Scaling": (_firstCommon+15, _checkSingleDigitParam),
+    "LFO Speed": (_firstCommon+16, _checkIntParam),
+    "LFO Delay": (_firstCommon+17, _checkIntParam),
+    "LFO Waveform": (_firstCommon+19, lambda x: _checkIntParam(x, 5)),
+    "LFO Initial Pitch Modulation Depth": (_firstCommon+20, _checkIntParam),
+    "LFO Initial Amplitude Modulation Depth": (_firstCommon+21, _checkIntParam),
+    "Voice Name": (_firstCommon+22, _checkStringParam),
 }
 
 _lastCommon=_firstCommon+22
-
-
-def _checkParam(paramValue, paramType):
-    if paramType==IntParamType:
-        try:
-            paramValue=int(paramValue)
-        except ValueError:
-            paramValue=None
-    elif paramType==FpParamType:
-        try:
-            paramValue=float(paramValue)
-        except ValueError:
-            paramValue=None
-    else:
-        assert paramType==StringParamType
-        paramValue=str(paramValue)
-    return paramValue
 
 class EditBuffer:
     def __init__(self):
         self.parameters=None
         self.setInitialVoice()
 
-    def getVoiceParameters():
+    def getVoiceParameters(self):
         return tuple(self.parameters)
 
-    def setVoiceParameters(parameters):
+    def _checkParameter(self, value, checker, page):
+        if checker==_checkFreqParam:
+            d0=page*_paramsPerOp
+            freqMode=self._getOpParameter(d0, "Frequency Mode")
+            maxValue=9999.9 if freqMode==1 else 99.999
+            return _checkFreqParam(value, maxValue)
+        else:
+            return checker(value)
+        
+    def setVoiceParameters(self, parameters):
         for op in range(6):
             d0=(5-op)*_paramsPerOp
-            for (name, (index, paramType)) in _opParameters.items():
+            for (name, (index, checker)) in _opParameters.items():
                 value=parameters[d0+index]
-                value=_checkParam(value, paramType)
+                value=self._checkParameter(value, checker, op)
                 if value is not None:
                     self.parameters[d0+index]=value
-        for (name, (index, paramType)) in _commonParameters.items():
+        COMMON_PAGE=6
+        for (name, (index, checker)) in _commonParameters.items():
             value=parameters[index]
-            value=_checkParam(value, paramType)
+            value=self._checkParameter(value, checker, COMMON_PAGE)
             if value is not None:
                 self.parameters[index]=value
 
@@ -251,8 +266,9 @@ class EditBuffer:
         return (index, t[1], 128*page+lsb)
 
     def setVoiceParameter(self, paramName, paramValue):
-        (paramIndex, paramType, *_) = self._getParameterTuple(paramName)
-        paramValue=_checkParam(paramValue, paramType)
+        (paramIndex, checker, nrpn) = self._getParameterTuple(paramName)
+        page=nrpn>>7
+        paramValue=self._checkParameter(paramValue, checker, page)
         if paramValue is None:
             return False
 
@@ -309,7 +325,7 @@ class EditBuffer:
         return (op*128+nrpn, (e<<11)|(m & 0x7ff))
 
     def sendVoiceParameter(self, paramName, midiOut, channel):
-        (index, paramType, nrpn) = self._getParameterTuple(paramName)
+        (index, _, nrpn) = self._getParameterTuple(paramName)
         # TODO: this conversion needs to be done on a per-parameter basis
         # this is quickly becoming messy
         paramValue=self.parameters[index]

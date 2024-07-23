@@ -5,7 +5,7 @@ from .resources import getPhotoImage
 
 # interface (MainView):
 # * registerViewObjects()
-# * setControllers()
+# * setController()
 #
 # interface (VoiceEditorController):
 # * setVoiceParameter()
@@ -283,6 +283,8 @@ class VoiceEditorScreen(tkinter.Frame):
                          width=width)
         id.grid(row=row, column=column, columnspan=columnspan)
         id.bind('<FocusIn>', lambda e, row=row: self._focusInListener(e, row))
+        id.bind('<FocusOut>', lambda _, name=paramName:
+                self.controller.requestUIFieldUpdate(name))
         _setRetroEntryStyle(id)
         self.parameterValue[paramName]=var
         return id
@@ -302,6 +304,8 @@ class VoiceEditorScreen(tkinter.Frame):
                          width=width)
         id.grid(row=row, column=column, columnspan=columnspan)
         id.bind('<FocusIn>', lambda e, row=row: self._focusInListener(e, row))
+        id.bind('<FocusOut>', lambda _, name=paramName:
+                self.controller.requestUIFieldUpdate(name))
         _setRetroEntryStyle(id)
         self.parameterValue[paramName]=FpFormatter(var)
         return id
@@ -318,6 +322,8 @@ class VoiceEditorScreen(tkinter.Frame):
                          width=width)
         id.grid(row=row, column=column, columnspan=columnspan)
         id.bind('<FocusIn>', lambda e, row=row: self._focusInListener(e, row))
+        id.bind('<FocusOut>', lambda _, name=paramName:
+                self.controller.requestUIFieldUpdate(name))
         _setRetroEntryStyle(id)
         self.parameterValue[paramName]=var
         return id
