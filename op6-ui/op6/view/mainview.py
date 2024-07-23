@@ -21,7 +21,7 @@ class MainView:
         # tabbed screens
         self.screens=TabbedScreens(self.root)
         self.screens.grid(row=0, column=0, columnspan=2, sticky=tkinter.N)
-        self.screens.setReqDimensions(830, 509)
+        self.screens.setReqDimensions(1024, 640)
         self.screens.config(background='black')
         self.currScreen=None
         # Performance Screen
@@ -38,9 +38,16 @@ class MainView:
         tkinter.Label(self.root,
                       image=logo,
                       background=colorscheme.RETRO_DISPLAY_BACKGROUND,
-                      borderwidth=0,
+                      borderwidth=8,
                       highlightthickness=0).grid(row=1, column=1,
                                                  sticky=(tkinter.S,tkinter.E))
+        # Make the bottom row expand. It sticks/stays at the bottom,
+        # but disappears if the window gets too small
+        self.root.rowconfigure(1, weight=1)
+        # Leftmost/rightmost columns expand, buttons stay to the left,
+        # logo to the right and the screen stays centered at the top
+        self.root.columnconfigure(0, weight=1)
+        self.root.columnconfigure(1, weight=1)
         # Register Views
         self.views={'MainView': self}
         self.performanceScreen.registerViewObjects(self.views)
