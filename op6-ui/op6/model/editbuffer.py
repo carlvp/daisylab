@@ -47,7 +47,7 @@ _opParameters={
     "Amplitude Modulation Sensitivity": (17, lambda x: _checkIntParam(x, 3)),
     "Velocity Sensitivity": (18, lambda x: _checkIntParam(x, 7)),
     "Keyboard Rate Scaling": (19, lambda x: _checkIntParam(x, 7)),
-#    "Operator Enable": (20, _checkIntParam)
+    "Operator Enable": (20, _checkBoolParam)
 }
 
 _paramsPerOp=21
@@ -127,6 +127,9 @@ class EditBuffer:
             # Output Level (op1)
             if op==5:
                 self._setOpParameter(d0, "Total Output Level", 99)
+            # Operator Enable
+            self._setOpParameter(d0, "Operator Enable", 1)
+
         # Unused parameter numbers
         for i in range(6*_paramsPerOp, _firstCommon):
             self.parameters[i]=None
@@ -136,6 +139,7 @@ class EditBuffer:
         self._setCommonParameter("Voice Name", "INIT VOICE")
     
     def loadFromSyx(self, syxVoiceData):
+        self.setInitialVoice()
         for op in range(6):
             s0=17*op
             d0=_paramsPerOp*op

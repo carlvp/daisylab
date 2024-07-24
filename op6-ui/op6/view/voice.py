@@ -69,6 +69,7 @@ class VoiceEditorScreen(tkinter.Frame):
         '''listens to parameter values changed via UI'''
         var=self.parameterValue[paramName]
         paramValue=var.get()
+
         self.controller.updateVoiceParameter(paramName, paramValue)
         self._extraUpdateAction(paramName, paramValue)
 
@@ -114,6 +115,7 @@ class VoiceEditorScreen(tkinter.Frame):
                 p=len(self.currDisplayed)+1
                 if paramName[p:p+8]=="Envelope":
                     self.envelopeDisplay.onParameterChanged()
+        
 
     def _makeAlgorithmLegend(self, row):
         '''Creates the legend (image) showing all algorithms'''
@@ -209,8 +211,9 @@ class VoiceEditorScreen(tkinter.Frame):
         self._makeLabel("Right", row, 24, 2)
         
     def _makeOpParamRow(self, opNumber, row):
-        prefix="Op"+str(opNumber)+" "
-        self._makeLabel(str(opNumber), row, 0)
+        opStr=str(opNumber)
+        prefix="Op"+opStr+" "
+        self._makeToggle(prefix+"Operator Enable", "1", opStr, 1, row, 0)
         self._makeFpEntry(prefix+"Frequency", 6, row, 1, 2)
         self._makeCombobox(prefix+"Frequency Mode", ('x', 'Hz'), 2, row, 3)
         self._makeLabel("|", row, 4)
@@ -337,6 +340,19 @@ class VoiceEditorScreen(tkinter.Frame):
         self.parameterValue[paramName]=cboxFormatter
         return id
 
+    def _makeToggle(self, paramName, initialValue,
+                    text, width, row, column, columnspan=1):
+        var=tkinter.StringVar(master=self, value=str(initialValue),
+                              name=paramName)
+        id=RetroToggle(self, var, text=text, width=width)
+        id.grid(row=row, column=column, columnspan=columnspan)
+        self.parameterValue[paramName]=var
+        var.trace_add("write",
+                      lambda name, index, op, widget=id:
+                          (widget.master._onVoiceParamChanged(name, index, op),
+                           widget.update()))
+        return id
+
     def _makeImage(self, name, row, column, rowspan=1, columnspan=1):
         img=getPhotoImage(name)
         id=tkinter.Label(self,
@@ -356,6 +372,13 @@ class VoiceEditorScreen(tkinter.Frame):
             self.envelopeDisplay.setLevelVar(op,
                 [self.parameterValue[prefix+" Envelope Level "+str(i)]
                  for i in range(5)])
+
+    def _setOpRowForeground(self, opNumber, color):
+        widgets=self.grid_slaves(row=OP6_ROW+6-opNumber)
+        for w in widgets:
+            if type(w)!=tkinter.Label and type(w)!=RetroToggle:
+                w.config(foreground=color)
+
 
 class FpFormatter:
     '''Formats the frequency field which is floating point'''
@@ -455,6 +478,62 @@ class RetroCombobox(tkinter.Button):
         if n==len(self.values):
             n=0
         self.var.set(self.values[n])
+
+class RetroToggle(tkinter.Button):
+    '''Retro-style toggle widget'''
+    def __init__(self, parent, var, **kwargs):
+        tkinter.Button.__init__(self, parent, kwargs)
+        self.config(highlightcolor=FOREGROUND_COLOR,
+                    highlightbackground=BACKGROUND_COLOR,
+                    highlightthickness=1,
+                    borderwidth=0,
+                    padx=1,
+                    pady=1,
+                    command=self._buttonHandler)
+        self.var=var
+        self.bind('<FocusIn>', self._focusInListener)
+        self._updateConfig(self._getValue())
+
+    def update(self):
+        self._updateConfig(self._getValue())
+
+    def _focusInListener(self, e):
+        info=e.widget.grid_info()
+        row=info["row"]
+        self.master._focusOnRow(row)
+        # clear any selection elsewhere
+        self.master.selection_clear()
+
+    def _buttonHandler(self):
+        if self.focus_get()!=self:
+            self.focus_set()
+        self._setValue(1-self._getValue())
+        
+    def _getValue(self):
+        return int(self.var.get())
+    
+    def _setValue(self, newValue):
+        self.var.set(str(newValue))
+        self._updateConfig(newValue)
+        op=int(self['text'])
+        color=FOREGROUND_COLOR if newValue==1 else DARK_FOREGROUND_COLOR
+        self.master._setOpRowForeground(op, color)
+
+    def _updateConfig(self, value):
+        # Reverse (black on green) when value=1
+        (fg, bg, activeFg, activeBg)=(
+            (BACKGROUND_COLOR,
+             FOREGROUND_COLOR,
+             BACKGROUND_COLOR,
+             LIGHT_FOREGROUND_COLOR) if value==1 else
+            (DARK_FOREGROUND_COLOR,
+             BACKGROUND_COLOR,
+             LIGHT_FOREGROUND_COLOR,
+             BACKGROUND_COLOR))
+        self.config(foreground=fg,
+                    background=bg,
+                    activeforeground=activeFg,
+                    activebackground=activeBg)
 
 def _setRetroEntryStyle(widget):
     widget.config(foreground=FOREGROUND_COLOR,
