@@ -123,9 +123,14 @@ class VoiceEditorScreen(tkinter.Frame):
         
     def _makeTopRow(self, row):
         '''Creates the row with voice name and number'''
-        self._makeLabel("Voice", row, 0, 2)
-        self._makeIntEntry("Voice Number", 2, row, 2, maxValue=32)
-        voiceName = self._makeStringEntry("Voice Name", 24, row, 3, 9)
+        self._makeLabel("Voice", row, 4, 2)
+        self._makeIntEntry("Voice Number", 2, row, 6, maxValue=32)
+        voiceName = self._makeStringEntry("Voice Name", 24, row, 7, columnspan=7)
+        # load button
+        button=tkinter.Button(self,
+                              text="Init",
+                              command=lambda: self.controller.initVoiceEditor())
+        button.grid(row=row, column=17, columnspan=2, sticky=tkinter.E)
 
     def _makeDisplayRow(self, row):
         '''Creates the row with displays: algorithm and envelope'''

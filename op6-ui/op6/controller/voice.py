@@ -7,6 +7,7 @@ PARAMETERS_PER_OPERATOR=128
 #
 # interface (View):
 # updateVoiceParameter()
+# initVoiceEditor()
 #
 # interface (ProgramChangeListener):
 # notifyProgramChange()
@@ -84,6 +85,17 @@ class VoiceEditorController:
             for (name, value) in self.editBuffer.getAllVoiceParameters():
                 self._updateUIField(name, value)
             self.disableParameterUpdates=False
+
+    def initVoiceEditor(self):
+        INIT_BUFFER=7*128 + 1
+        '''called from view object to initialize voice editor'''
+        self.editBuffer.setInitialVoice()
+        self.midiOut.sendParameter(self.baseChannel, INIT_BUFFER, 0)
+        old=self.disableParameterUpdates
+        self.disableParameterUpdates=True
+        for (name, value) in self.editBuffer.getAllVoiceParameters():
+            self._updateUIField(name, value)
+        self.disableParameterUpdates=old
 
     def updateVoiceParameter(self, paramName, paramValue):
         '''called from view object when parameter changed'''
