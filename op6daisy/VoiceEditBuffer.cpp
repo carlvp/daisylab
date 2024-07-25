@@ -18,12 +18,20 @@ void VoiceEditBuffer::loadProgram(const Program &program) {
   mOpEnabled=(1<<NUM_OPERATORS)-1; // All operators on
 }
 
-void VoiceEditBuffer::storeProgram(Program &program) {
+void VoiceEditBuffer::storeProgram(Program &program) const {
   program=mProgram;
   // Turn off output if operator is disabled
   for (unsigned i=0, b=1; i<NUM_OPERATORS; ++i, b<<=1)
     if ((mOpEnabled & b)==0)
-      mProgram.op[i].totalLevel=0;
+      program.op[i].totalLevel=0;
+}
+
+void VoiceEditBuffer::setOperatorEnable(unsigned page, bool isEnabled) {
+  // page: the operators are numbered Op6(0), Op5(1), ..., Op1(5)
+  if (isEnabled)
+    mOpEnabled |= 1<<page;
+  else
+    mOpEnabled &= ~(1<<page);
 }
 
 static void convertOp(const SyxVoiceParam::Op &syxOp, FmOperatorParam &op);
@@ -44,18 +52,6 @@ void VoiceEditBuffer::loadSyx(const SyxVoiceParam &syxVoice) {
 //
 // Voice parameter settings
 //
-
-static void setOpParameter(FmOperatorParam &op, unsigned param, unsigned x);
-static void setCommonParameter(Program &common, unsigned param, unsigned x);
-
-void VoiceEditBuffer::setParameter(unsigned page,
-				   unsigned paramNumber,
-				   unsigned paramValue) {
-  if (page<6)
-    setOpParameter(mProgram.op[page], paramNumber, paramValue);
-  else if (page==6)
-    setCommonParameter(mProgram, paramNumber, paramValue);
-}
 
 enum EnvelopeParameters {
   kEnvelopeTime1,
@@ -82,6 +78,7 @@ enum OpParameters {
   kAmSensitivity,
   kVelocitySensitivity,
   kKeyboardToEnvelopeRate,
+  kOperatorEnable,
   NUM_OP_PARAMETERS
 };
 
@@ -101,6 +98,21 @@ enum ComonParameters {
   kLfoAmDepth,
   NUM_COMMON_PARAMETERS
 };
+
+static void setOpParameter(FmOperatorParam &op, unsigned param, unsigned x);
+static void setCommonParameter(Program &common, unsigned param, unsigned x);
+
+void VoiceEditBuffer::setParameter(unsigned page,
+				   unsigned paramNumber,
+				   unsigned paramValue) {
+  if (page<6)
+    if (paramNumber==kOperatorEnable)
+      setOperatorEnable(page, paramValue!=0);
+    else
+      setOpParameter(mProgram.op[page], paramNumber, paramValue);
+  else if (page==6)
+    setCommonParameter(mProgram, paramNumber, paramValue);
+}
 
 static inline unsigned paramMsb(unsigned x) {
   // general 14-bit parameter to high 7 bits
