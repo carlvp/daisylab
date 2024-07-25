@@ -109,9 +109,10 @@ class VoiceEditorController:
                     # parmeterName[:13]="Opx Frequency"
                     self._checkFrequencyRatio(paramName[:13])
 
-                self.editBuffer.sendVoiceParameter(paramName,
-                                                   self.midiOut,
-                                                   self.baseChannel)
+                if paramName!="Voice Name":
+                    self.editBuffer.sendVoiceParameter(paramName,
+                                                       self.midiOut,
+                                                       self.baseChannel)
 
     def _checkFrequencyRatio(self, paramName):
         '''tweak to put frequency in range when shifting to ratio mode'''
