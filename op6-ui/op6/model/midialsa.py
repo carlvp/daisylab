@@ -53,15 +53,12 @@ class AlsaMidiOutput:
         lsb=paramNumber & 127
         # TODO: we can be smart about not sending redundant messages
         # cache basechannel, number, (NRPN/RPN)
-        print(f'CC {channel}, {coarseCC}, {msb} # parameter number')
         self.client.event_output(ControlChangeEvent(channel, coarseCC, msb))
-        print(f'CC {channel}, {fineCC}, {lsb}')
         self.client.event_output(ControlChangeEvent(channel, fineCC, lsb))
 
     def sendParameterCoarse(self, channel, param, value, isRegistered=False):
         DataEntry=6
         self._sendParameterNumber(channel, param, isRegistered)
-        print(f'CC {channel}, 06, {value} # parameter value')
         self.client.event_output(ControlChangeEvent(channel, DataEntry, value))
         self.client.drain_output()
         
@@ -76,7 +73,6 @@ class AlsaMidiOutput:
         # TODO: we can be smart about not sending redundant messages
         # cache basechannel, number and value (msb/lsb)
         self.sendParameterCoarse(channel, param, msb, isRegistered)
-        print(f'CC {channel}, 38, {lsb}')
         self.sendMidiEvent(ControlChangeEvent(channel, DataEntryFine, lsb))
 
     def sendSysEx(self, payload):
