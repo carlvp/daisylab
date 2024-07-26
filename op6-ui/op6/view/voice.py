@@ -500,7 +500,7 @@ class RetroToggle(tkinter.Button):
         self._updateConfig(self._getValue())
 
     def update(self):
-        self._updateConfig(self._getValue())
+        self._update(self._getValue())
 
     def _focusInListener(self, e):
         info=e.widget.grid_info()
@@ -519,10 +519,7 @@ class RetroToggle(tkinter.Button):
     
     def _setValue(self, newValue):
         self.var.set(str(newValue))
-        self._updateConfig(newValue)
-        op=int(self['text'])
-        color=FOREGROUND_COLOR if newValue==1 else DARK_FOREGROUND_COLOR
-        self.master._setOpRowForeground(op, color)
+        self._update(newValue)
 
     def _updateConfig(self, value):
         # Reverse (black on green) when value=1
@@ -539,6 +536,12 @@ class RetroToggle(tkinter.Button):
                     background=bg,
                     activeforeground=activeFg,
                     activebackground=activeBg)
+
+    def _update(self, value):
+        self._updateConfig(value)
+        op=int(self['text'])
+        color=FOREGROUND_COLOR if value==1 else DARK_FOREGROUND_COLOR
+        self.master._setOpRowForeground(op, color)
 
 def _setRetroEntryStyle(widget):
     widget.config(foreground=FOREGROUND_COLOR,
