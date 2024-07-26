@@ -88,6 +88,9 @@ class EditBuffer:
     def getVoiceParameters(self):
         return tuple(self.parameters)
 
+    def setVoiceParameters(self, parameters):
+        self.parameters=list(parameters)
+
     def _checkParameter(self, value, checker, page):
         if checker==_checkFreqParam:
             d0=page*_paramsPerOp

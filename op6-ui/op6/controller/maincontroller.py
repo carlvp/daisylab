@@ -37,15 +37,11 @@ class MainController:
         self.performanceController.initUI()
 
     def setActiveScreen(self, index):
-        if index==1:
-            self.voiceEditorController.updateUI()
-        self.view.selectScreen(index)
         self._setOperationalMode(index)
+        self.view.selectScreen(index)
 
     def setClipboard(self, clipboard):
-        '''
-        set clipboard (or clear it using clipboard=None)
-        '''
+        '''set clipboard (or clear it using clipboard=None)'''
         if self.clipboard!=clipboard:
             self.clipboard=clipboard
             # TODO: notify all controllers
@@ -64,7 +60,8 @@ class MainController:
             COMPARE_MODE=2
             if mode==EDIT_MODE:
                 self.voiceEditorController.prepareEditMode()
-            self.midiOut.sendParameter(self.baseChannel, SWITCH_MODE, 128*mode)
+            if self.midiOut is not None:
+                self.midiOut.sendParameter(self.baseChannel,
+                                           SWITCH_MODE,
+                                           128*mode)
             self.currOpMode=mode
-
-
