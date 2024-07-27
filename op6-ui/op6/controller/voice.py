@@ -112,7 +112,7 @@ class VoiceEditorController:
 
     def requestUIFieldUpdate(self, paramName):
         '''Updates a single field of the UI when it loses focus'''
-        value=self.editBuffer.getVoiceParameter(paramName)
+        value=self._getVoiceParameter(paramName)
         self._updateUIField(paramName, value)
 
     def _updateUI(self):
@@ -123,7 +123,17 @@ class VoiceEditorController:
         for (name, value) in self.editBuffer.getAllVoiceParameters():
             self._updateUIField(name, value)
         self.disableParameterUpdates=old
-        
+
+    def _getVoiceParameter(self, paramName):
+        '''
+        get voice parameter (incl. voice number, not in the buffer)
+
+        note that Algorithm and Voice Number are base-zero, which
+        mean that the minium value is zero (not one)
+        '''
+        return (self.editBuffer.getVoiceParameter(paramName)
+                if paramName!="Voice Number" else self.currProgram)
+
     def updateVoiceParameter(self, paramName, paramValue):
         '''called from view object when parameter changed'''
         if self.disableParameterUpdates:
