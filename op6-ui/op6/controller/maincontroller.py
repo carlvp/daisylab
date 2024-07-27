@@ -10,28 +10,27 @@ class MainController:
     def __init__(self):
         editBuffer=EditBuffer()
         self.voiceEditorController=VoiceEditorController(editBuffer)
-        self.performanceController=PerformanceController(self.voiceEditorController)
-        self.controllers={'MainController': self}
-        self.performanceController.registerControllerObjects(self.controllers)
-        self.voiceEditorController.registerControllerObjects(self.controllers)
+        self.performanceController=PerformanceController()
         self.clipboard=None
         self.program=None
         self.midiOut=None
         self.baseChannel=0
         self.currOpMode=0
 
-    def getControllers(self):
-        '''returns a dictionary containing the controllers'''
-        return self.controllers
+    def registerModules(self, modules):
+        '''registers this module instance and those of possible submodules'''
+        modules['MainController']=self
+        self.performanceController.registerModules(modules)
+        self.voiceEditorController.registerModules(modules)
 
-    def setViews(self, views):
+    def resolveModules(self, modules):
         '''
-        sets the views of the various controllers
-        views is a dictionary from controller name to instance
+        create connections to other modules (module is the dictionary
+        that was created by registerModules).
         '''
-        self.view=views['MainView']
-        self.performanceController.setViews(views)
-        self.voiceEditorController.setViews(views)
+        self.view=modules['MainView']
+        self.performanceController.resolveModules(modules)
+        self.voiceEditorController.resolveModules(modules)
 
     def initUI(self):
         self.performanceController.initUI()

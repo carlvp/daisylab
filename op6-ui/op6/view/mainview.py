@@ -48,10 +48,6 @@ class MainView:
         # logo to the right and the screen stays centered at the top
         self.root.columnconfigure(0, weight=1)
         self.root.columnconfigure(1, weight=1)
-        # Register Views
-        self.views={'MainView': self}
-        self.performanceScreen.registerViewObjects(self.views)
-        self.voiceEditorScreen.registerViewObjects(self.views)
 
     def run(self):
         '''runs Tk mainloop'''
@@ -61,19 +57,18 @@ class MainView:
         '''sets the title of the topmost window'''
         self.root.title(title)
 
-    def getViews(self):
-        '''returns a dictionary containing the views'''
-        return self.views
-    
-    def setControllers(self, controllers):
-        '''
-        sets the controllers of the various views
-        controllers is a dictionary from controller name to instance
-        '''
-        self.menuButtons.setController(controllers['MainController'])
-        self.performanceScreen.setControllers(controllers)
-        self.voiceEditorScreen.setControllers(controllers)
-        
+    def registerModules(self, modules):
+        '''adds the view object to the module dictionary.'''
+        modules['MainView']=self
+        self.performanceScreen.registerModules(modules)
+        self.voiceEditorScreen.registerModules(modules)
+
+    def resolveModules(self, modules):
+        '''connects to relevant modules in the module dictionary'''
+        self.menuButtons.setController(modules['MainController'])
+        self.performanceScreen.resolveModules(modules)
+        self.voiceEditorScreen.resolveModules(modules)
+
     def selectScreen(self, index):
         if index!=self.currScreen:
             self.currScreen=index

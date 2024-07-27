@@ -11,9 +11,13 @@ class Op6App:
         self.controller=MainController()
 
     def startUp_(self):
-        # Create links View<-->Controllers
-        self.view.setControllers(self.controller.getControllers())
-        self.controller.setViews(self.view.getViews())
+        # Register Modules
+        modules={}
+        self.view.registerModules(modules)
+        self.controller.registerModules(modules)
+        # Connect modules
+        self.controller.resolveModules(modules)
+        self.view.resolveModules(modules)
         # Initialize user interface
         self.controller.initUI()
         # Start displaying the Performance Screen

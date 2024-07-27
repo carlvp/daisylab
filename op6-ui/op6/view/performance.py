@@ -28,13 +28,14 @@ class PerformanceScreen(tkinter.Frame):
         self.voiceBank.grid(row=1, column=0)
         self.voiceBank.config(background=colorscheme.RETRO_DISPLAY_BACKGROUND)
         self.selectedVoiceNumber=None
-        
-    def registerViewObjects(self, views):
-        '''adds view objects to the dictionary, views.'''
-        views['PerformanceScreen']=self
 
-    def setControllers(self, controllers):
-        performanceController=controllers['PerformanceController']
+    def registerModules(self, modules):
+        '''adds this view object to the module dictionary.'''
+        modules['PerformanceScreen']=self
+
+    def resolveModules(self, modules):
+        '''connects to relevant modules in the module dictionary'''
+        performanceController=modules['PerformanceController']
         self.controller=performanceController
         self.voiceBank.setController(performanceController)
 

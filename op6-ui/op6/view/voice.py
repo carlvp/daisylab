@@ -52,13 +52,13 @@ class VoiceEditorScreen(tkinter.Frame):
         self._connectEnvelopeVariables()
         self.currDisplayed=None
 
-    def registerViewObjects(self, views):
-        '''adds view objects to the dictionary, views.'''
-        views['VoiceEditorScreen']=self
+    def registerModules(self, modules):
+        '''adds this view object to the module dictionary.'''
+        modules['VoiceEditorScreen']=self
 
-    def setControllers(self, controllers):
-        voiceEditorController=controllers['VoiceEditorController']
-        self.controller=voiceEditorController
+    def resolveModules(self, modules):
+        '''connects to relevant modules in the module dictionary'''
+        self.controller=modules['VoiceEditorController']
 
     def setVoiceParameter(self, paramName, paramValue):
         var=self.parameterValue[paramName]

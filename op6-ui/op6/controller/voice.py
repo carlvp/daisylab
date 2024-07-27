@@ -29,13 +29,13 @@ class VoiceEditorController:
         self.midiOut=None
         self.baseChannel=0
 
-    def registerControllerObjects(self, controllers):
-        '''adds controller objects to the dictionary, controllers.'''
-        controllers['VoiceEditorController']=self
+    def registerModules(self, modules):
+        '''adds this controller object to the module dictionary.'''
+        modules['VoiceEditorController']=self
 
-    def setViews(self, views):
-        '''connects to relevant views in the dictionary, views'''
-        self.voiceEditorScreen=views['VoiceEditorScreen']
+    def resolveModules(self, modules):
+        '''connects to relevant modules in the module dictionary'''
+        self.voiceEditorScreen=modules['VoiceEditorScreen']
 
     def notifyBankChange(self, syx):
         '''Called when a new bank has been loaded'''
