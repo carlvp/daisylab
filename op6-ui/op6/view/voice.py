@@ -32,6 +32,7 @@ class VoiceEditorScreen(tkinter.Frame):
         self.algorithmDisplay=None
         self.envelopeDisplay=None
         self.kbdScalingDisplay=None
+        self.saveButton=None
         # register Tk validation functions
         self.validateWidth=self.register(_onValidateWidth)
         self.validateInt=self.register(_onValidateInt)
@@ -126,11 +127,16 @@ class VoiceEditorScreen(tkinter.Frame):
         self._makeLabel("Voice", row, 4, 2)
         self._makeIntEntry("Voice Number", 2, row, 6, maxValue=32)
         voiceName = self._makeStringEntry("Voice Name", 24, row, 7, columnspan=7)
-        # load button
+        # buttons
+        self.saveButton=tkinter.Button(self,
+                                       text="Save",
+                                       command=(lambda:
+                                                self.controller.saveVoice()))
+        self.saveButton.grid(row=row, column=15, columnspan=2, sticky=tkinter.S)
         button=tkinter.Button(self,
                               text="Init",
                               command=lambda: self.controller.initVoiceEditor())
-        button.grid(row=row, column=17, columnspan=2, sticky=tkinter.E)
+        button.grid(row=row, column=17, columnspan=2, sticky=(tkinter.S, tkinter.E))
 
     def _makeDisplayRow(self, row):
         '''Creates the row with displays: algorithm and envelope'''

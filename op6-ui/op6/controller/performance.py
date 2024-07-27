@@ -6,6 +6,9 @@ from op6.model.syx import SyxPacked32Voice
 # setView()
 # initUI()
 #
+# interface (VoiceEditorController)
+# notifyBufferStored()
+#
 # interface (View)
 # setVoice(voiceNumber)
 # loadVoiceBank()
@@ -42,13 +45,14 @@ class PerformanceController:
     def setHasActiveScreen(self, hasActiveScreen):
         pass
 
-    def setVoice(self, voiceNumber):
+    def setVoice(self, voiceNumber, notifyVoiceEditor=True):
         '''called from PerformanceScreen to set new voice'''
         self.performanceScreen.selectVoice(voiceNumber)
         self.currVoice=voiceNumber
         if self.midiOut:
             self.midiOut.sendProgramChange(self.baseChannel, voiceNumber)
-        self.voiceEditor.notifyProgramChange(voiceNumber)
+        if notifyVoiceEditor:
+            self.voiceEditor.notifyProgramChange(voiceNumber)
 
     def loadVoiceBank(self):
         '''called from the PerformanceScreen to load a voice bank'''
@@ -71,3 +75,13 @@ class PerformanceController:
 
     def setMidiOut(self, midiOut):
         self.midiOut=midiOut
+
+    def notifyBufferStored(self, voiceNumber, voiceName):
+        '''
+        update voice name and (possibly) switch voiceNumber
+        in response of the voice editor updating the voice parameters
+        (and possibly the number as well)
+        '''
+        self.performanceScreen.setVoiceName(voiceNumber, voiceName)
+        if self.currVoice!=voiceNumber:
+            self.setVoice(voiceNumber, notifyVoiceEditor=False)

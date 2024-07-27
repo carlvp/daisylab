@@ -6,10 +6,11 @@
 # interface (View):
 # updateVoiceParameter()
 # initVoiceEditor()
+# saveVoice()
 #
 # interface (ProgramChangeListener):
 # notifyProgramChange()
-# notifyBanckChange()
+# notifyBankChange()
 
 NUM_PROGRAMS=32
 
@@ -23,6 +24,7 @@ class VoiceEditorController:
         self.editBuffer=editBuffer
         self.programBank=[None]*NUM_PROGRAMS
         self.disableParameterUpdates=False
+        self.performanceController=None
         self.voiceEditorScreen=None
         self.voiceIsUpToDate=False
         self.currProgram=0
@@ -35,6 +37,7 @@ class VoiceEditorController:
 
     def resolveModules(self, modules):
         '''connects to relevant modules in the module dictionary'''
+        self.performanceController=modules['PerformanceController']
         self.voiceEditorScreen=modules['VoiceEditorScreen']
 
     def notifyBankChange(self, syx):
@@ -59,6 +62,26 @@ class VoiceEditorController:
             else:
                 self._loadCurrProgram()
             self.voiceIsUpToDate=True
+
+    def saveVoice(self):
+        '''
+        saves voice-editor buffer
+
+        updates program bank
+        sends SAVE_BUFFER <program#> nrpn to midi device
+        notifies the performance controller about updated voice
+        '''
+        SAVE_BUFFER=7*128 + 3
+        self.programBank[self.currProgram]=self.editBuffer.getVoiceParameters()
+        if self.midiOut:
+            program14bit=self.currProgram*128
+            self.midiOut.sendParameter(self.baseChannel,
+                                       SAVE_BUFFER,
+                                       program14bit)
+
+        # notify performace controller
+        name=self.editBuffer.getVoiceParameter("Voice Name")
+        self.performanceController.notifyBufferStored(self.currProgram, name)
 
     def initVoiceEditor(self):
         '''initialize UI and voice editor'''
@@ -113,9 +136,7 @@ class VoiceEditorController:
 
         if paramName=="Voice Number":
             # The voice number is not part of the edit buffer
-            # TODO: we will need to keep track of the voice number for store
-            # TODO: Voice number is "base 1": "1" represents voice #0
-            pass
+            if paramValue!="": self.currProgram=paramValue
         else:
             changed=self.editBuffer.setVoiceParameter(paramName, paramValue)
             if changed:
