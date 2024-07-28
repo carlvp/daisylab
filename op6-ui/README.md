@@ -13,4 +13,3 @@ won't connect to the Daisy). Start like so: python -m op6
 (or similarly).
 
 * Dependence tkinter and alsa_midi.
-* TODO: voice editor
