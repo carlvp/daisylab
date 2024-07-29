@@ -54,11 +54,14 @@ class Instrument {
   }
 
  private:
+  unsigned mBaseChannel;
   unsigned mCurrTimestamp;
   unsigned mSysExPtr;
   unsigned mWaitClearUnderrun;
   const float mDeltaPhi1Hz;
   const float mDeltaPhiA4;
+  unsigned short mCurrCutoff;
+  unsigned short mCurrReso;
   Channel mChannel[NUM_CHANNELS];
   Voice mVoice[NUM_VOICES];
   static constexpr unsigned SYSEX_BUFFER_SIZE=4104;

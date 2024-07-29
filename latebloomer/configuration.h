@@ -15,9 +15,17 @@
 #define CONFIG_DAISY_SEED
 //#define CONFIG_DAISY_POD
 
+#if defined(CONFIG_DAISY_SEED) && defined(CONFIG_DAISY_POD)
+#error Configure ONE hardware platform
+#endif
+
 // MIDI over USB or MIDI-in from MIDI Port
 // configure exactly one of them, comment out the other
 #define CONFIG_USB_MIDI
 //#define CONFIG_UART_MIDI
 
+// Manual filter control, POT1=Cutoff frequency, POT2=Resonance
+// Works out-of-the-box with daisy POD, use pin 28 (A6) and pin 22 (A0)
+// on a Daisy Seed
+// #define WITH_FILTER_KNOBS
 #endif

@@ -88,7 +88,6 @@ int main(void)
     knobCutoff.Init(hw.knob1, 0.0001f, 1, Parameter::EXPONENTIAL);
     knobReso.Init(hw.knob2, 0.0f, 1.0f, Parameter::LINEAR);
 
-
     // Synthesis
     samplerate = hw.AudioSampleRate();
     osc.Init(samplerate);

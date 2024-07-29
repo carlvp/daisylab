@@ -2,6 +2,7 @@
 #ifndef Channel_H
 #define Channel_H
 
+#include <daisysp.h>
 #include "configuration.h"
 #include "LfoState.h"
 
@@ -13,6 +14,7 @@ class Channel {
   Channel()
     : mMasterVolume{0.5f}, mNumVoices{0}
   {
+    mFilter.Init(SAMPLE_RATE);
   }
 
   // Avoid accidental usage
@@ -69,6 +71,14 @@ class Channel {
 
   // Pitch bend range (cents)
   void setPitchBendRange(unsigned cents);
+
+  // Filter cutoff [0,16383] (it's an exponential scale, i.e. not in Hz)
+  void setFilterCutoff(unsigned v);
+  
+  // Filter resonance [0,16383]
+  void setFilterResonance(unsigned v) {
+    mFilter.SetRes(v/16384.0f);
+  }
   
  private:
   const Program *mProgram;
@@ -78,7 +88,8 @@ class Channel {
   LfoState mLfo;
   Voice *mVoice[NUM_VOICES];
   unsigned mNumVoices;
-
+  daisysp::Svf mFilter;
+  
   void updateGain() {
     float volume=mMasterVolume*mChannelVolume*mExpression;
     mLeftGain=volume*mPanLeft;

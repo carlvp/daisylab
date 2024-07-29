@@ -81,6 +81,30 @@ static daisy::MidiUartHandler *createMidiHandler() {
 #endif
 #endif
 
+#ifdef WITH_FILTER_KNOBS
+#ifdef CONFIG_DAISY_POD
+
+static daisy::Parameter  knob[2];
+
+unsigned short getKnob(unsigned knobIndex) {
+  return (knobIndex<2)? knob[knobIndex].Process() : 0;
+}
+
+#define INIT_KNOBS initKnobs()
+
+static void initKnobs() {
+  knob[0].Init(DaisyHw.knob1, 0, 16383, daisy::Parameter::LINEAR);
+  knob[1].Init(DaisyHw.knob2, 0, 16383, daisy::Parameter::LINEAR);
+  DaisyHw.StartAdc();
+}
+
+#else
+#error "At this point WITH_FILTER_KNOBS has only been implemented with DAISY_POD" 
+#endif
+#else // not WITH_FILTER_KNOBS
+#define INIT_KNOBS
+#endif
+
 int main(void)
 {
   // Init
@@ -88,7 +112,8 @@ int main(void)
   theOp6Daisy.Init();
   auto pMidiHandler=createMidiHandler();
   theMidiDispatcher.Init(&theOp6Daisy, pMidiHandler);
-
+  INIT_KNOBS;
+  
   // Main loop
   DaisySeedHw.SetLed(false); // LED signals gate + buffer underrun
   pMidiHandler->StartReceive();

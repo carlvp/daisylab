@@ -13,6 +13,8 @@ void Channel::reset(const Program *program) {
   setPan(8192);               // center
   mPitchBendFactor=1.0f;      // no pitch bend
   setPitchBendRange(200);     // 200 cents ~ +/-2 semitones
+  setFilterCutoff(16383);     // Filter is fully open
+  setFilterResonance(0);      // No resonance
 }
 
 void Channel::addVoice(Voice *v) {
@@ -63,9 +65,11 @@ void Channel::mixVoicesPrivate(float *stereoMix, const float *stereoIn) {
     monoIn=monoMix;
   }
 
-  // Pan and add to the stero mix
+  // Run through filter, pan and add to the stero mix
   for (unsigned i=0; i<BLOCK_SIZE; ++i) {
     float x=monoMix[i];
+    mFilter.Process(x);
+    x=mFilter.Low();
     stereoMix[2*i] = stereoIn[2*i] + x*mLeftGain;
     stereoMix[2*i+1] = stereoIn[2*i+1] + x*mRightGain;
   }
@@ -87,4 +91,13 @@ void Channel::setPitchBendRange(unsigned cents) {
   // full pitch bend is +/-8192, a cent is 1/1200 octave
   // both scale factors are brought into mPitchBendRange
   mPitchBendRange=cents/(8192*1200.0f);
+}
+
+void Channel::setFilterCutoff(unsigned v) {
+  // msb (bits 7-13): is in semitones, counted from C0
+  // lsb (bist 0-6): is in the unit of 1/128 semi tone (about one cent)
+  constexpr float unitsPerOctave=12*128;
+  constexpr float C0=16.3516f;
+  float freq=C0*exp2f(v/unitsPerOctave);
+  mFilter.SetFreq(freq);
 }

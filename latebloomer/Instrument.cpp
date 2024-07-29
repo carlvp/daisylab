@@ -11,11 +11,14 @@
 // The phase increment of a 1Hz signal is 2^32/sampleRate
 // In the same way for midi key A4 (440Hz)
 Instrument::Instrument()
-  : mCurrTimestamp{0},
+  : mBaseChannel{0},
+    mCurrTimestamp{0},
     mSysExPtr{0},
     mWaitClearUnderrun{0},
     mDeltaPhi1Hz{4294967296.0f/SAMPLE_RATE},
-    mDeltaPhiA4{4294967296.0f*440/SAMPLE_RATE}
+    mDeltaPhiA4{4294967296.0f*440/SAMPLE_RATE},
+    mCurrCutoff{16383},
+    mCurrReso{0}
 {
 }
 
@@ -29,6 +32,20 @@ void Instrument::Init() {
 void Instrument::fillBuffer(float *stereoOutBuffer) {
   const float *stereoMix=zeroBuffer;
 
+#ifdef WITH_FILTER_KNOBS
+  unsigned short cutOff=getKnob(0);
+  unsigned short reso=getKnob(1);
+  
+  if (cutOff!=mCurrCutoff) {
+    mChannel[mBaseChannel].setFilterCutoff(cutOff);
+    mCurrCutoff=cutOff;
+  }
+  if (reso!=mCurrReso) {
+    mChannel[mBaseChannel].setFilterResonance(reso);
+    mCurrReso=reso;
+  }
+#endif
+  
   for (Channel &ch: mChannel)
     stereoMix=ch.mixVoices(stereoOutBuffer, stereoMix);
 
@@ -45,7 +62,7 @@ void Instrument::fillBuffer(float *stereoOutBuffer) {
       setUnderrunLED(false);
   }
 }
-  
+
 void Instrument::noteOn(unsigned ch, unsigned key, unsigned velocity) {
   Channel *channel=&mChannel[ch];
   Voice *voice=allocateVoice(ch, key);
