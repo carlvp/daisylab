@@ -18,9 +18,11 @@ void Channel::reset(const Program *program) {
 }
 
 void Channel::addVoice(Voice *v) {
-  mVoice[mNumVoices]=v;
-  mNumVoices++;
-
+  if (mNumVoices<NUM_VOICES) {
+    mVoice[mNumVoices]=v;
+    mNumVoices++;
+  }
+  
   if (mNumVoices==1) {
     // Sync lfo at first note-on
     // FIXME: condition for re-trig is overly simple, what if other voice
