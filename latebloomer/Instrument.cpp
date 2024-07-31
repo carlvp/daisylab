@@ -78,10 +78,22 @@ void Instrument::noteOff(unsigned ch, unsigned key) {
 
 void Instrument::controlChange(unsigned ch, unsigned cc, unsigned value) {
   Channel &channel=mChannel[ch];
-  if (cc==7)
-    channel.setChannelVolume(value*128);
-  else if (cc==10)
-    channel.setPan(value*128);
+  unsigned value14Bit=128*value;
+
+  switch (cc) {
+  case 7:
+    channel.setChannelVolume(value14Bit);
+    break;
+  case 10:
+    channel.setPan(value14Bit);
+    break;
+  case 71:
+    channel.setFilterResonance(value14Bit);
+    break;
+  case 74:
+    channel.setFilterCutoff(value14Bit);
+    break;
+  }
 }
 
 void Instrument::programChange(unsigned ch, unsigned p) {
