@@ -20,4 +20,7 @@
 #define CONFIG_USB_MIDI
 //#define CONFIG_UART_MIDI
 
+// Use SAI2 for digital audio output (in addition to analog audio output)
+#define WITH_SAI2
+
 #endif
