@@ -12,8 +12,8 @@
 #define RELEASE_STAGE    3
 
 // select hardware platform
-#define CONFIG_DAISY_SEED
-//#define CONFIG_DAISY_POD
+//#define CONFIG_DAISY_SEED
+#define CONFIG_DAISY_POD
 
 #if defined(CONFIG_DAISY_SEED) && defined(CONFIG_DAISY_POD)
 #error Configure ONE hardware platform
@@ -27,5 +27,9 @@
 // Manual filter control, POT1=Cutoff frequency, POT2=Resonance
 // Works out-of-the-box with daisy POD, use pin 28 (A6) and pin 22 (A0)
 // on a Daisy Seed
-// #define WITH_FILTER_KNOBS
+//#define WITH_FILTER_KNOBS
+
+// Use SAI2 for digital audio output (in addition to analog audio output)
+#define WITH_SAI2
+
 #endif

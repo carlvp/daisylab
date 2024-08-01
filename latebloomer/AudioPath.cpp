@@ -1,3 +1,7 @@
+#include <daisy_seed.h>
+#include <per/sai.h>
+#include <stm32h750xx.h>
+
 #include "hardware.h"
 #include "AudioPath.h"
 #include "Instrument.h"
@@ -15,8 +19,13 @@ static void AudioCallback(daisy::AudioHandle::InputBuffer in,
     const float *buffer=stereoOutDoubleBuffer[nBlocksConsumed & 1];
   
     for(size_t i = 0; i < size; i++) {
+#ifdef WITH_SAI2
+      out[0][i] = out[2][i] = buffer[2*i];
+      out[1][i] = out[3][i] = buffer[2*i+1];
+#else
       out[0][i] = buffer[2*i];
       out[1][i] = buffer[2*i+1];
+#endif      
     }
     ++nBlocksConsumed;
   }
