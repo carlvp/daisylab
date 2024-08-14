@@ -11,7 +11,7 @@ struct Program;
 class Voice {
  public:
  Voice()
-   : mKey{0}, mGate{false}, mTimestamp{0}, mProgram{nullptr}
+   : mKey{0}, mGate{false}, mTimestamp{0}, mChannel{nullptr}, mProgram{nullptr}
     { }
 
   unsigned getKey() const { return mKey; }

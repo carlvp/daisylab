@@ -342,7 +342,7 @@ Program *Instrument::releaseTempProgram(const Program *pgm) {
 }
 
 Voice *Instrument::allocateVoice(unsigned ch, unsigned key) {
-  // First check if we already have am active voice on the channel
+  // First check if we already have an active voice on the channel
   // TODO: mute groups -doesn't have to be the same key, same group is OK
   Voice *result=mChannel[ch].findVoice(key);
   

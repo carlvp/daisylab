@@ -16,8 +16,10 @@ void Channel::reset(const Program *program) {
 }
 
 void Channel::addVoice(Voice *v) {
-  mVoice[mNumVoices]=v;
-  mNumVoices++;
+  if (mNumVoices<NUM_VOICES) {
+    mVoice[mNumVoices]=v;
+    mNumVoices++;
+  }
 }
 
 void Channel::removeVoice(Voice *v) {
