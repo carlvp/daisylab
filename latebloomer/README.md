@@ -1,7 +1,7 @@
 latebloomer: my stab at the classic Lately Bass of the Yamaha TX81z
 
 * Starting out from the op6daisy code, reducing the number of operators to
-  four per voice and adding waveform 5 ("half sine").
+  four per voice and adding waveform 5 ("half sine"). There is also a resonant low-pass filter.
   
 * Same layout on breadboard as op6daisy. Relevant pins on Daisy Seed:
 
@@ -16,8 +16,8 @@ latebloomer: my stab at the classic Lately Bass of the Yamaha TX81z
   configuration option (see configuration.h).
   
 * Latebloomer listens to MIDI note-on/off, pitch-bend and controls 7
-  (channel volume) and 10 (pan). It doesn't do program change. There is just
-  a single program, Lately Bass. 
+  (channel volume), 10 (pan), 71 (filter resonance) and 74 (filter cut-off frequency).
+  It doesn't do program change. There is just a single program, Lately Bass. 
 
 * Since it is based on op6daisy, which is a multi-timbral synth, it's possible
   to have several instances of the program on separate channels.
@@ -28,6 +28,10 @@ latebloomer: my stab at the classic Lately Bass of the Yamaha TX81z
   It doubles as buffer underrun indicator. It's lit up permanently in the
   event of underrun. There will be underruns if the NUM_VOICES is increased
   beyond what the Daisy is able to deliver.
-  
+
+* There's build-time options that allow for digital audio output (WITH_SAI2) and 
+  (currently for Daisy Pod only) the knobs POT1 and POT2 may control the filter cut-off frequency
+  and resonance, respectively (the option is called WITH_FILTER_KNOBS). See configuration.h. 
+
 Hope you like it!
 /Carl
