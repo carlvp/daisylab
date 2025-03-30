@@ -1,5 +1,6 @@
 from .performance import PerformanceController
 from .voice import VoiceEditorController
+from .midi import MidiController, EDIT_MODE, PERFORMANCE_MODE
 from op6.model.editbuffer import EditBuffer
 
 class MainController:
@@ -11,11 +12,9 @@ class MainController:
         editBuffer=EditBuffer()
         self.voiceEditorController=VoiceEditorController(editBuffer)
         self.performanceController=PerformanceController()
+        self.midiController=MidiController()
         self.clipboard=None
-        self.program=None
-        self.midiOut=None
-        self.baseChannel=0
-        self.currOpMode=0
+        self.currOpMode=PERFORMANCE_MODE
 
     def registerModules(self, modules):
         '''registers this module instance and those of possible submodules'''
@@ -32,11 +31,26 @@ class MainController:
         self.performanceController.resolveModules(modules)
         self.voiceEditorController.resolveModules(modules)
 
+    def startUp(self):
+        midi=self.midiController.getMidiOut()
+        self.performanceController.setMidiOut(midi)
+        self.voiceEditorController.setMidiOut(midi)
+        self.midiController.startUp()
+        
+    def shutDown(self):
+        # stop the midi-listener thread, free MIDI resources
+        self.midiController.shutDown()
+    
     def initUI(self):
         self.performanceController.initUI()
 
     def setActiveScreen(self, index):
-        self._setOperationalMode(index)
+        mode=index # mode 0, 1 same as screen index
+        if self.currOpMode!=mode:
+            if mode==EDIT_MODE:
+                self.voiceEditorController.prepareEditMode()
+            self.midiController.setOperationalMode(mode)
+            self.currOpMode=mode
         self.view.selectScreen(index)
 
     def setClipboard(self, clipboard):
@@ -45,22 +59,3 @@ class MainController:
             self.clipboard=clipboard
             # TODO: notify all controllers
             # self.performanceController.clipboadChangedNotifier(clipboard)
-
-    def setMidiOut(self, midiOut):
-        self.midiOut=midiOut
-        self.performanceController.setMidiOut(midiOut)
-        self.voiceEditorController.setMidiOut(midiOut)
-
-    def _setOperationalMode(self, mode):
-        if self.currOpMode!=mode:
-            SWITCH_MODE=7*128
-            PERFORMANCE_MODE=0
-            EDIT_MODE=1
-            COMPARE_MODE=2
-            if mode==EDIT_MODE:
-                self.voiceEditorController.prepareEditMode()
-            if self.midiOut is not None:
-                self.midiOut.sendParameter(self.baseChannel,
-                                           SWITCH_MODE,
-                                           128*mode)
-            self.currOpMode=mode

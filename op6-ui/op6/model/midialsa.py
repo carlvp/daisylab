@@ -1,8 +1,17 @@
 import alsa_midi
-from alsa_midi import SequencerClient, READ_PORT, ProgramChangeEvent, \
-                      ControlChangeEvent
+from alsa_midi import Address, \
+    EventType, \
+    ControlChangeEvent, \
+    PortCaps, \
+    PortType, \
+    PortUnsubscribedEvent, \
+    ProgramChangeEvent, \
+    SequencerClient       
+import threading
 
-class AlsaMidiOutput:
+_ANNOUNCE_PORT=Address(0,1)
+        
+class MidiAlsa:
     '''
     ALSA-based interface to the midi devices
     We imagine that the necessary support for other platforms (that don\'t
@@ -11,10 +20,20 @@ class AlsaMidiOutput:
 
     def __init__(self, name):
         self.client=SequencerClient(name)
-        # yes, the output port has caps=READ_PORT
-        # I suppose this is looking at the capabilities from the other end
-        # of the subscription (we write, another client reads)...
-        self.port=self.client.create_port("output", caps=READ_PORT)
+        self.port=self.client.create_port("in/out")
+        self.listenerThread=None
+
+    def startListen(self, listener):
+        '''
+        Start subscription to SYSTEM SND_SEQ_PORT_SYSTEM_ANNOUNCE port and
+        start midi listener thread
+        '''
+        self.port.connect_from(_ANNOUNCE_PORT)
+        self.listenerThread=threading.Thread(target=self.midiListener_,
+                                             name="midi listener",
+                                             args=(listener,),
+                                             daemon=True)
+        self.listenerThread.start()
 
     def shutDown(self):
         '''
@@ -22,6 +41,9 @@ class AlsaMidiOutput:
         This renders the output useless.
         '''
         self.client.close()
+        self.port=None
+        self.client=None
+        self.listenerThread=None
 
     def findPort(self, startOfName):
         '''
@@ -29,13 +51,44 @@ class AlsaMidiOutput:
         If there are several matching ports, the first one is returned.
         If there is no matching port, None is returned
         '''
-        for pinfo in self.client.list_ports(output=True):
-            if pinfo.name.startswith(startOfName):
-                return pinfo
+        for p in self.client.list_ports(output=True):
+            if p.name.startswith(startOfName):
+                return Address(p)
         return None
 
+    class PortInfoWrapper:
+        def __init__(self, info):
+            self.info=info
+
+        def getPort(self):
+            return Address(self.info.client_id, self.info.port_id)
+        
+        def getName(self):
+            return self.info.name;
+
+        def isInputPort(self):
+            # yes: WRITE means the other endpoint writes (input) 
+            return (self.info.capability & PortCaps.WRITE)==PortCaps.WRITE
+
+        def isOutputPort(self):
+            # yes: READ means the other endpoint reads (output) 
+            return (self.info.capability & PortCaps.READ)==PortCaps.READ
+
+        def isHardwarePort(self):
+            return (self.info.type & PortType.HARDWARE)==PortType.HARDWARE
+
+        def isGenericMidiPort(self):
+            return (self.info.type & PortType.MIDI_GENERIC)==PortType.MIDI_GENERIC
+
+    def getPortInfo(self, port):
+        info=self.client.get_port_info(port)
+        return MidiAlsa.PortInfoWrapper(info)
+    
     def connectTo(self, port):
         self.port.connect_to(port)
+
+    def disconnectTo(self, port):
+        self.port.disconnect_to(port)
 
     def sendMidiEvent(self, event):
         self.client.event_output(event)
@@ -93,3 +146,11 @@ class AlsaMidiOutput:
         buffer[1:1+lastChunk]=payload[i:end]
         buffer[1+lastChunk]=0xf7
         self.sendSysEx(buffer[0:2+lastChunk])
+
+    def midiListener_(self, listener):
+        while True:
+            event = self.client.event_input()
+            if event.type==EventType.PORT_START:
+                listener.onPortAdded(event.addr)
+            elif event.type==EventType.PORT_EXIT:
+                listener.onPortRemoved(event.addr)

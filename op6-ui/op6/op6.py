@@ -1,12 +1,10 @@
 from .view.mainview import MainView
 from .controller.maincontroller import MainController
-from .model.midialsa import AlsaMidiOutput
 
 class Op6App:
     '''Op6App: comprising its model, view and controller'''
 
     def __init__(self):
-        self.midiOut=AlsaMidiOutput("Op6 App")
         self.view=MainView()
         self.controller=MainController()
 
@@ -22,12 +20,7 @@ class Op6App:
         self.controller.initUI()
         # Start displaying the Performance Screen
         self.controller.setActiveScreen(MainView.PERFORMANCE_SCREEN)
-        # Connect to Daisy Seed (op6)
-        daisysPort=self.midiOut.findPort("Daisy Seed")
-        if not daisysPort is None:
-            print("Connected to "+daisysPort.name)
-            self.midiOut.connectTo(daisysPort)
-            self.controller.setMidiOut(self.midiOut)
+        self.controller.startUp()
 
     def run(self):
         '''runs op6 and blocks until app exits'''
@@ -37,7 +30,7 @@ class Op6App:
         
     def shutDown_(self):
         '''releases all resources held'''
-        self.midiOut.shutDown()
+        self.controller.shutDown()
 
 def main(argv):
     app=Op6App()
