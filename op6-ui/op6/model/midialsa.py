@@ -10,7 +10,8 @@ from alsa_midi import Address, \
 import threading
 
 _ANNOUNCE_PORT=Address(0,1)
-        
+_MIDI_THRU_PORT_NAME="Midi Through Port-0"
+
 class MidiAlsa:
     '''
     ALSA-based interface to the midi devices
@@ -29,11 +30,11 @@ class MidiAlsa:
         start midi listener thread
         '''
         self.port.connect_from(_ANNOUNCE_PORT)
-        self.listenerThread=threading.Thread(target=self.midiListener_,
-                                             name="midi listener",
-                                             args=(listener,),
-                                             daemon=True)
-        self.listenerThread.start()
+        listenerThread=threading.Thread(target=self.midiListener_,
+                                        name="midi listener",
+                                        args=(listener,),
+                                        daemon=True)
+        listenerThread.start()
 
     def shutDown(self):
         '''
@@ -43,7 +44,10 @@ class MidiAlsa:
         self.client.close()
         self.port=None
         self.client=None
-        self.listenerThread=None
+
+    def getPort(self):
+        return Address(self.port)
+
 
     def findPort(self, startOfName):
         '''
@@ -55,6 +59,27 @@ class MidiAlsa:
             if p.name.startswith(startOfName):
                 return Address(p)
         return None
+
+    def getMidiThruPort(self):
+        return self.findPort(_MIDI_THRU_PORT_NAME)
+
+    def listPorts(self,
+                  input: bool=None,
+                  output: bool=None,
+                  include_system: bool=False,
+                  include_midi_thru: bool=False):
+        '''
+        list of all ports that match criterion
+
+        :param input: return ports usable for event input
+        :param output: return ports usable for event output
+        :param include_system: include system ports
+        :param include_midi_through: include 'midi through' ports
+        '''
+        return [Address(p) for p in self.client.list_ports(input=input,
+                                                           output=output,
+                                                           include_system=include_system,
+                                                           include_midi_through=include_midi_thru)]
 
     class PortInfoWrapper:
         def __init__(self, info):
@@ -84,11 +109,11 @@ class MidiAlsa:
         info=self.client.get_port_info(port)
         return MidiAlsa.PortInfoWrapper(info)
     
-    def connectTo(self, port):
-        self.port.connect_to(port)
+    def connectPorts(self, src, dest):
+        self.client.subscribe_port(src, dest)
 
-    def disconnectTo(self, port):
-        self.port.disconnect_to(port)
+    def disconnectPorts(self, src, dest):
+        self.client.unsubscribe_port(src, dest)
 
     def sendMidiEvent(self, event):
         self.client.event_output(event)
@@ -148,9 +173,12 @@ class MidiAlsa:
         self.sendSysEx(buffer[0:2+lastChunk])
 
     def midiListener_(self, listener):
-        while True:
-            event = self.client.event_input()
-            if event.type==EventType.PORT_START:
-                listener.onPortAdded(event.addr)
-            elif event.type==EventType.PORT_EXIT:
-                listener.onPortRemoved(event.addr)
+        try:
+            while True:
+                event = self.client.event_input()
+                if event.type==EventType.PORT_START:
+                    listener.onPortAdded(event.addr)
+                elif event.type==EventType.PORT_EXIT:
+                    listener.onPortRemoved(event.addr)
+        except:
+            pass # exit midi listener thread
