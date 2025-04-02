@@ -1,13 +1,15 @@
 import tkinter
 from tkinter import ttk
 from .performance import PerformanceScreen;
-from .voice import VoiceEditorScreen;
+from .voiceselect import VoiceSelectScreen;
+from .voiceeditor import VoiceEditorScreen;
 from .resources import getPhotoImage
 from . import colorscheme
 
 class MainView:
     PERFORMANCE_SCREEN=0
-    VOICE_EDITOR_SCREEN=1
+    VOICE_SELECT_SCREEN=1
+    VOICE_EDITOR_SCREEN=2
 
     '''main view class, handles all things relating to Tk and user interface.'''
     def __init__(self):
@@ -27,6 +29,9 @@ class MainView:
         # Performance Screen
         self.performanceScreen=PerformanceScreen(self.screens)
         self.screens.add(self.performanceScreen)
+        # Voice Select Screen
+        self.voiceSelectScreen=VoiceSelectScreen(self.screens)
+        self.screens.add(self.voiceSelectScreen)
         # Voice Editor Screen
         self.voiceEditorScreen=VoiceEditorScreen(self.screens)
         self.screens.add(self.voiceEditorScreen)
@@ -61,12 +66,14 @@ class MainView:
         '''adds the view object to the module dictionary.'''
         modules['MainView']=self
         self.performanceScreen.registerModules(modules)
+        self.voiceSelectScreen.registerModules(modules)
         self.voiceEditorScreen.registerModules(modules)
 
     def resolveModules(self, modules):
         '''connects to relevant modules in the module dictionary'''
         self.menuButtons.setController(modules['MainController'])
         self.performanceScreen.resolveModules(modules)
+        self.voiceSelectScreen.resolveModules(modules)
         self.voiceEditorScreen.resolveModules(modules)
 
     def selectScreen(self, index):
@@ -129,7 +136,7 @@ class MenuButtons(tkinter.Frame):
         tkinter.Frame.__init__(self, parent, kwargs)
         
         self.controller=None
-        buttonText=("Performance", "Voice Editor")
+        buttonText=("Performance", "Voice Select", "Voice Editor")
         self.buttons=[]
         for b in range(len(buttonText)):
             button=tkinter.Button(self, text=buttonText[b])
@@ -144,13 +151,14 @@ class MenuButtons(tkinter.Frame):
         self.controller=controller
 
     def buttonHandler(self, id):
-        if id==0 or id==1:
+        if id>=0 and id<len(self.buttons):
             self.controller.setActiveScreen(id)
 
     def updateSelectedScreen(self, id):
         self._updateEnabled(self.buttons[id], False)
-        other=1-id
-        self._updateEnabled(self.buttons[other], True)
+        for other in range(len(self.buttons)):
+            if other!=id:
+                self._updateEnabled(self.buttons[other], True)
 
     def _updateEnabled(self, button, isEnabled):
         fg=MenuButtons.FOREGROUND_COLOR

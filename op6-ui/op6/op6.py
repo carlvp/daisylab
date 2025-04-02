@@ -19,7 +19,7 @@ class Op6App:
         # Initialize user interface
         self.controller.initUI()
         # Start displaying the Performance Screen
-        self.controller.setActiveScreen(MainView.PERFORMANCE_SCREEN)
+        self.controller.setActiveScreen(MainView.VOICE_SELECT_SCREEN)
         self.controller.startUp()
 
     def run(self):

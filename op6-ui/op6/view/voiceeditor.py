@@ -4,8 +4,8 @@ from . import colorscheme
 from .resources import getPhotoImage
 
 # interface (MainView):
-# * registerViewObjects()
-# * setController()
+# * registerModules()
+# * resolveModules()
 #
 # interface (VoiceEditorController):
 # * setVoiceParameter()

@@ -1,7 +1,7 @@
 # interface (MainController):
-# registerControllerObjects()
-# setView()
-# updateUI()
+# registerModules()
+# resolveModules()
+# setMidiOut()
 #
 # interface (View):
 # updateVoiceParameter()
@@ -24,7 +24,7 @@ class VoiceEditorController:
         self.editBuffer=editBuffer
         self.programBank=[None]*NUM_PROGRAMS
         self.disableParameterUpdates=False
-        self.performanceController=None
+        self.voiceSelectController=None
         self.voiceEditorScreen=None
         self.voiceIsUpToDate=False
         self.currProgram=0
@@ -37,7 +37,7 @@ class VoiceEditorController:
 
     def resolveModules(self, modules):
         '''connects to relevant modules in the module dictionary'''
-        self.performanceController=modules['PerformanceController']
+        self.voiceSelectController=modules['VoiceSelectController']
         self.voiceEditorScreen=modules['VoiceEditorScreen']
 
     def notifyBankChange(self, syx):
@@ -69,7 +69,7 @@ class VoiceEditorController:
 
         updates program bank
         sends SAVE_BUFFER <program#> nrpn to midi device
-        notifies the performance controller about updated voice
+        notifies the voice-select controller about updated voice
         '''
         SAVE_BUFFER=7*128 + 3
         self.programBank[self.currProgram]=self.editBuffer.getVoiceParameters()
@@ -81,7 +81,7 @@ class VoiceEditorController:
 
         # notify performace controller
         name=self.editBuffer.getVoiceParameter("Voice Name")
-        self.performanceController.notifyBufferStored(self.currProgram, name)
+        self.voiceSelectController.notifyBufferStored(self.currProgram, name)
 
     def initVoiceEditor(self):
         '''initialize UI and voice editor'''

@@ -1,5 +1,6 @@
 from .performance import PerformanceController
-from .voice import VoiceEditorController
+from .voiceselect import VoiceSelectController
+from .voiceeditor import VoiceEditorController
 from .midi import MidiController, EDIT_MODE, PERFORMANCE_MODE
 from op6.model.editbuffer import EditBuffer
 
@@ -9,9 +10,10 @@ class MainController:
     between view and model.
     '''
     def __init__(self):
+        self.performanceController=PerformanceController()
+        self.voiceSelectController=VoiceSelectController()
         editBuffer=EditBuffer()
         self.voiceEditorController=VoiceEditorController(editBuffer)
-        self.performanceController=PerformanceController()
         self.midiController=MidiController()
         self.clipboard=None
         self.currOpMode=PERFORMANCE_MODE
@@ -20,6 +22,7 @@ class MainController:
         '''registers this module instance and those of possible submodules'''
         modules['MainController']=self
         self.performanceController.registerModules(modules)
+        self.voiceSelectController.registerModules(modules)
         self.voiceEditorController.registerModules(modules)
 
     def resolveModules(self, modules):
@@ -29,11 +32,13 @@ class MainController:
         '''
         self.view=modules['MainView']
         self.performanceController.resolveModules(modules)
+        self.voiceSelectController.resolveModules(modules)
         self.voiceEditorController.resolveModules(modules)
 
     def startUp(self):
         midi=self.midiController.getMidiOut()
         self.performanceController.setMidiOut(midi)
+        self.voiceSelectController.setMidiOut(midi)
         self.voiceEditorController.setMidiOut(midi)
         self.midiController.startUp()
         
@@ -42,16 +47,20 @@ class MainController:
         self.midiController.shutDown()
     
     def initUI(self):
-        self.performanceController.initUI()
+        self.voiceSelectController.initUI()
 
-    def setActiveScreen(self, index):
-        mode=index # mode 0, 1 same as screen index
+    def setActiveScreen(self, screen):
+        PERFORMANCE_SCREEN=0
+        VOICE_SELECT_SCREEN=1
+        VOICE_EDITOR_SCREEN=2
+
+        mode=EDIT_MODE if screen==VOICE_EDITOR_SCREEN else PERFORMANCE_MODE
         if self.currOpMode!=mode:
             if mode==EDIT_MODE:
                 self.voiceEditorController.prepareEditMode()
             self.midiController.setOperationalMode(mode)
             self.currOpMode=mode
-        self.view.selectScreen(index)
+        self.view.selectScreen(screen)
 
     def setClipboard(self, clipboard):
         '''set clipboard (or clear it using clipboard=None)'''
