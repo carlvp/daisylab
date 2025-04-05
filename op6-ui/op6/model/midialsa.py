@@ -122,6 +122,9 @@ class MidiAlsa:
     def sendProgramChange(self, channel, program):
         self.sendMidiEvent(ProgramChangeEvent(channel, program))
 
+    def sendControlChange(self, channel, ccIndex, value):
+        self.sendMidiEvent(ControlChangeEvent(channel, ccIndex, value))
+
     def _sendParameterNumber(self, channel, paramNumber, isRegistered):
         NRPN=98
         RPN=100

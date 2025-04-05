@@ -41,12 +41,13 @@ class MainController:
         self.voiceSelectController.setMidiOut(midi)
         self.voiceEditorController.setMidiOut(midi)
         self.midiController.startUp()
-        
+
     def shutDown(self):
         # stop the midi-listener thread, free MIDI resources
         self.midiController.shutDown()
     
     def initUI(self):
+        self.performanceController.initUI()
         self.voiceSelectController.initUI()
 
     def setActiveScreen(self, screen):
