@@ -77,6 +77,15 @@ class PerformanceScreen(tkinter.Frame):
         self.parameterValue[paramName]=var
         return id
 
+    def _makeCombobox(self, paramName, values, width, row, column, columnspan=1, initValue=0):
+        var=tkinter.StringVar(master=self, value=values[initValue], name=paramName)
+        var.trace_add("write", self._onPerformanceParamChanged)
+        id=RetroCombobox(self, var, values, width=width)
+        id.grid(row=row, column=column, columnspan=columnspan, sticky=tkinter.N)
+        cboxFormatter=ComboboxFormatter(var, values)
+        self.parameterValue[paramName]=cboxFormatter
+        return id
+
     def _createLayout(self):
         self._makeLabel("Channel", 0, 0, columnspan=2)
         self._makeLabel("Volume", 1, 0)
@@ -84,3 +93,46 @@ class PerformanceScreen(tkinter.Frame):
 
         self._makeLabel("Pan", 1, 1)
         self._makeScale("Pan", 2, 1)
+
+        self._makeLabel("Poly/", 0, 2)
+        self._makeLabel("Mono",  1, 2)
+        self._makeCombobox("Poly", ("Mono", "Poly"), 4, 2, 2)
+
+class RetroCombobox(tkinter.Button):
+    '''Retro-style multi-value entry widget'''
+    def __init__(self, parent, var, values, **kwargs):
+        tkinter.Button.__init__(self, parent, kwargs)
+        self.config(foreground=FOREGROUND_COLOR,
+                    background=BACKGROUND_COLOR,
+                    activeforeground=LIGHT_FOREGROUND_COLOR,
+                    activebackground=BACKGROUND_COLOR,
+                    highlightcolor=FOREGROUND_COLOR,
+                    highlightbackground=BACKGROUND_COLOR,
+                    highlightthickness=1,
+                    borderwidth=0,
+                    padx=1,
+                    pady=1,
+                    textvariable=var,
+                    command=self.buttonHandler)
+        self.values=values
+        self.var=var
+
+    def buttonHandler(self):
+        if self.focus_get()!=self:
+            self.focus_set()
+        n=self.values.index(self.var.get())+1
+        if n==len(self.values):
+            n=0
+        self.var.set(self.values[n])
+
+class ComboboxFormatter:
+    '''Formats a 0..N-1 as the values[i] strings'''
+    def __init__(self, var, values):
+        self.var=var
+        self.values=values
+
+    def set(self, value):
+        self.var.set(self.values[int(value)])
+
+    def get(self):
+        return self.values.index(self.var.get())

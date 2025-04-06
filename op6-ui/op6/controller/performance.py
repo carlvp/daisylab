@@ -9,17 +9,25 @@
 
 _CC_VOLUME=7
 _CC_PAN=10
+_CC_MONO=126
+_CC_POLY=127
 
 def _midi_transmit_cc(midi, channel, cc, value):
     midi.sendControlChange(channel, cc, value)
+
+def _midi_transmit_poly(midi, channel, _, value):
+    # mono (0) and poly (1) are represented by different MIDI CCs
+    cc=_CC_MONO if value==0 else _CC_POLY
+    midi.sendControlChange(channel, cc, 0)
 
 _performanceParameters = {
     # paramName -> (index, midi-nr, initial, transmit())
     "Volume": (0, _CC_VOLUME, 90, _midi_transmit_cc),
     "Pan":    (1, _CC_PAN,    64, _midi_transmit_cc),
+    "Poly":   (2, _CC_POLY,    1, _midi_transmit_poly),
 }
 
-_NUM_PERFORMANCE_PARAMETERS=2
+_NUM_PERFORMANCE_PARAMETERS=3
 
 class PerformanceController:
     '''
