@@ -27,6 +27,7 @@ void BasicMidiDispatcher::DispatchEvent(daisy::MidiEvent &msg) {
     setGateLED(false);
     break;
   case daisy::ControlChange:
+  case daisy::ChannelMode:
     mInstrument->controlChange(msg.channel, msg.data[0], msg.data[1]);
     break;
   case daisy::ProgramChange:

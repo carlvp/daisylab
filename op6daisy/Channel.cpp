@@ -13,6 +13,7 @@ void Channel::reset(const Program *program) {
   setPan(8192);               // center
   mPitchBendFactor=1.0f;      // no pitch bend
   setPitchBendRange(200);     // 200 cents ~ +/-2 semitones
+  mPoly=true;                 // Polyphonic operation
 }
 
 void Channel::addVoice(Voice *v) {

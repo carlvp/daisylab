@@ -71,6 +71,7 @@ void Instrument::noteOn(unsigned ch, unsigned key, unsigned velocity) {
 void Instrument::noteOff(unsigned ch, unsigned key) {
   // Don't filter: always send note-off if there is an active voice
   Voice *voice=mChannel[ch].findVoice(key);
+  // TODO: in monophonic mode, glide back to any key still pressed
   if (voice) {
     voice->noteOff(mCurrTimestamp++);
   }
@@ -104,6 +105,11 @@ void Instrument::controlChange(unsigned ch, unsigned cc, unsigned value) {
     break;
   case 101:
     controlChangeCoarse(ch, HiresCC::RPN, value);
+    break;
+  case 126: /* mono */
+  case 127: /* poly */
+    /* TODO: all notes should automatically be turned off */
+    channel.setPoly(cc==127);
     break;
   }
 }
@@ -344,7 +350,7 @@ Program *Instrument::releaseTempProgram(const Program *pgm) {
 Voice *Instrument::allocateVoice(unsigned ch, unsigned key) {
   // First check if we already have an active voice on the channel
   // TODO: mute groups -doesn't have to be the same key, same group is OK
-  Voice *result=mChannel[ch].findVoice(key);
+  Voice *result=mChannel[ch].allocateVoice(key);
   
   if (!result) {
     // Voice stealing: look for the voice that has been released the longest

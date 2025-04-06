@@ -24,8 +24,24 @@ class Channel {
   void addVoice(Voice *v);
   void removeVoice(Voice *v);
 
+
+  // search for a voice, which is associated with this key
   Voice *findVoice(unsigned key) const;
-  
+
+  // search for a voice to allocate for a given key
+  // a) in monophonic mode (there can be only one): any voice will do
+  // b) in polyphonic, portamento mode: the given key is preferred
+  //    but any voice, which is associated with a released key will do
+  //    TODO: polyphonic portamento 
+  // c) otherwise just the given key matches (same as findVoice)
+  // nullptr is retured if no Voice was found
+  Voice *allocateVoice(unsigned key) const {
+    if (mPoly)
+      return findVoice(key);
+    else
+      return (mNumVoices==0)? nullptr : mVoice[0];
+  }
+
   // Produce interleaved stereo mix of voices
   const float *mixVoices(float *stereoOut, const float *stereoIn) {
     if (mNumVoices!=0) {
@@ -69,13 +85,17 @@ class Channel {
 
   // Pitch bend range (cents)
   void setPitchBendRange(unsigned cents);
-  
+
+  // poly=true (polyphonic), false (monophonic)
+  void setPoly(bool poly) { mPoly=poly; }
+
  private:
   const Program *mProgram;
   float mMasterVolume, mChannelVolume, mExpression, mPanLeft, mPanRight;
   float mLeftGain, mRightGain;
   float mPitchBendFactor, mPitchBendRange;
   LfoState mLfo;
+  bool mPoly;
   Voice *mVoice[NUM_VOICES];
   unsigned mNumVoices;
 
