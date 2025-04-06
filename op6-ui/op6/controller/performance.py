@@ -7,8 +7,10 @@
 # interface (View)
 # updatePerformanceParameter()
 
+_CC_PORTA_TIME=5
 _CC_VOLUME=7
 _CC_PAN=10
+_CC_PORTAMENTO=65
 _CC_MONO=126
 _CC_POLY=127
 
@@ -20,14 +22,20 @@ def _midi_transmit_poly(midi, channel, _, value):
     cc=_CC_MONO if value==0 else _CC_POLY
     midi.sendControlChange(channel, cc, 0)
 
+def _midi_transmit_on_off(midi, channel, cc, value):
+    on_off=0 if value==0 else 127
+    midi.sendControlChange(channel, cc, on_off)
+
 _performanceParameters = {
     # paramName -> (index, midi-nr, initial, transmit())
-    "Volume": (0, _CC_VOLUME, 90, _midi_transmit_cc),
-    "Pan":    (1, _CC_PAN,    64, _midi_transmit_cc),
-    "Poly":   (2, _CC_POLY,    1, _midi_transmit_poly),
+    "Volume":     (0, _CC_VOLUME,       90, _midi_transmit_cc),
+    "Pan":        (1, _CC_PAN,          64, _midi_transmit_cc),
+    "Poly":       (2, _CC_POLY,          1, _midi_transmit_poly),
+    "PortaTime":  (3, _CC_PORTA_TIME,    0, _midi_transmit_cc),
+    "Portamento": (4, _CC_PORTAMENTO,    0, _midi_transmit_on_off),
 }
 
-_NUM_PERFORMANCE_PARAMETERS=3
+_NUM_PERFORMANCE_PARAMETERS=len(_performanceParameters)
 
 class PerformanceController:
     '''

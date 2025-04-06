@@ -98,6 +98,13 @@ class PerformanceScreen(tkinter.Frame):
         self._makeLabel("Mono",  1, 2)
         self._makeCombobox("Poly", ("Mono", "Poly"), 4, 2, 2)
 
+        self._makeLabel("Porta", 0, 3)
+        self._makeLabel("Time",  1, 3)
+        self._makeScale("PortaTime", 2, 3)
+
+        self._makeLabel("Porta", 3, 3)
+        self._makeCombobox("Portamento", ("Off", "On"), 3, 4, 3)
+
 class RetroCombobox(tkinter.Button):
     '''Retro-style multi-value entry widget'''
     def __init__(self, parent, var, values, **kwargs):
