@@ -40,6 +40,7 @@ class Voice {
   Channel *mChannel;
   const Program *mProgram;
   const FmAlgorithm *mAlgorithm;
+  float mGlideCV;
   EnvelopeState mEnvelope{true}; // true=sample envelope once per block
   FmOperator mOp[NUM_OPERATORS];
 };

@@ -14,6 +14,7 @@ void Channel::reset(const Program *program) {
   mPitchBendFactor=1.0f;      // no pitch bend
   setPitchBendRange(200);     // 200 cents ~ +/-2 semitones
   mPoly=true;                 // Polyphonic operation
+  setPortamentoTime(0);       // Instant pitch glide
 }
 
 void Channel::addVoice(Voice *v) {
@@ -82,4 +83,35 @@ void Channel::setPitchBendRange(unsigned cents) {
   // full pitch bend is +/-8192, a cent is 1/1200 octave
   // both scale factors are brought into mPitchBendRange
   mPitchBendRange=cents/(8192*1200.0f);
+}
+
+void Channel::setPortamentoTime(unsigned t) {
+  // Portamento Time [0,16383]
+  //  0    7 blocks (5ms)  x=-1.000 coeff=0.500
+  //  1    8                 -0.875       0.545
+  //  ...
+  //  54  61                 -0.115       0.923539
+  //  55  62       (41ms)    -0.113       0.924725
+  // -------------------------------------------
+  //  56  64       (43ms)    -0.109       0.926989
+  //  57  69.8     (47ms)    -0.100       0.932840
+  //  ...
+  // 126 27500    (18.4s)    -0.000254    0.999824
+  // 127 30000    (20.0s)    -0.000233    0.999839
+  unsigned msb=t>>7;
+  float x;
+  if (msb<56) {
+    x = -7.0f/(msb+7);
+  }
+  else {
+    // Constants timeK[0]*2^(-msb/8)
+    static const float timeK[8]={
+      -14.00000f, -12.8381f, -11.7725f, -10.79548f,
+       -9.899494f, -9.07787f, -8.32444f, -7.633554f
+    };
+    unsigned index=msb & 7;
+    int exp=msb>>3;
+    x=ldexpf(timeK[index], -exp);
+  }
+  mGlideDecayFactor=exp2f(x);
 }

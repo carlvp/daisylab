@@ -89,11 +89,17 @@ class Channel {
   // poly=true (polyphonic), false (monophonic)
   void setPoly(bool poly) { mPoly=poly; }
 
+  // Portamento Time [0,16383]
+  void setPortamentoTime(unsigned t);
+
+  // Glide decay factor [0, 1.0)
+  float getGlideDecayFactor() const { return mGlideDecayFactor; }
+
  private:
   const Program *mProgram;
   float mMasterVolume, mChannelVolume, mExpression, mPanLeft, mPanRight;
   float mLeftGain, mRightGain;
-  float mPitchBendFactor, mPitchBendRange;
+  float mPitchBendFactor, mPitchBendRange, mGlideDecayFactor;
   LfoState mLfo;
   bool mPoly;
   Voice *mVoice[NUM_VOICES];

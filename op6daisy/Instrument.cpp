@@ -82,17 +82,20 @@ void Instrument::controlChange(unsigned ch, unsigned cc, unsigned value) {
   // and doing so facilitates control logic when switching modes 
   Channel &channel=mChannel[ch];
   switch (cc) {
+  case 5:
+    channel.setPortamentoTime(value*128);
+    break;
   case 7:
     channel.setChannelVolume(value*128);
+    break;
+  case 10:
+    channel.setPan(value*128);
     break;
   case 6:
     controlChangeCoarse(ch, HiresCC::DataEntry, value);
     break;
   case 38:
     controlChangeFine(ch, HiresCC::DataEntry, value);
-    break;
-  case 10:
-    channel.setPan(value*128);
     break;
   case 98:
     controlChangeFine(ch, HiresCC::NRPN, value);

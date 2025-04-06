@@ -22,6 +22,11 @@ void Voice::noteOn(Channel *ch, unsigned key, unsigned velocity,
     // don't retrigger the envelopes.
     retrig=false;
   }
+  else {
+    // Portamento: subtract (new key - old key)/12 from current CV
+    // this makes the glide start from the current frequency
+    mGlideCV -= (int) (key-mKey)*0.08333333f;
+  }
   
   mProgram=ch->getProgram();
   mAlgorithm=FmAlgorithm::getAlgorithm(mProgram->algorithm);
@@ -52,6 +57,10 @@ void Voice::fillBuffer(float *monoOut,
   // Handle pitch envelope
   pitchMod*=mEnvelope.ProcessSample();
   mEnvelope.updateAfterBlock(&mProgram->pitchEnvelope);
+
+  // Glide
+  mGlideCV*=mChannel->getGlideDecayFactor();
+  pitchMod*=exp2f(mGlideCV);
   
   if (mAlgorithm) {
     mAlgorithm->fillBuffer(monoOut, monoIn, mOp,
