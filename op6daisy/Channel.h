@@ -4,12 +4,13 @@
 
 #include "configuration.h"
 #include "LfoState.h"
+#include "Voice.h"
 
 class Program;
-class Voice;
 
 enum PortamentoMode {
   Off,
+  Legato,  // portamento when notes played "legato" (overlapped)
   AlwaysOn
 };
 
@@ -107,7 +108,8 @@ class Channel {
 
   bool getGlide(const Voice *fromVoice) const {
     PortamentoMode mode=static_cast<PortamentoMode>(mPortamentoMode);
-    return mode==PortamentoMode::AlwaysOn;
+    return mode==PortamentoMode::AlwaysOn ||
+	   (mode==PortamentoMode::Legato && fromVoice->isNoteOn());
   }
 
  private:

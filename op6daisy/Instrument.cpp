@@ -93,7 +93,9 @@ void Instrument::controlChange(unsigned ch, unsigned cc, unsigned value) {
     channel.setPan(value*128);
     break;
   case 65:
-    channel.setPortamentoMode((value<64)? PortamentoMode::Off : PortamentoMode::AlwaysOn);
+    channel.setPortamentoMode((value<64)? PortamentoMode::Off :
+			      (value<96)? PortamentoMode::Legato :
+			                  PortamentoMode::AlwaysOn);
     break;
   case 6:
     controlChangeCoarse(ch, HiresCC::DataEntry, value);
