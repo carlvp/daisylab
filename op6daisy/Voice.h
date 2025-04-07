@@ -20,7 +20,11 @@ class Voice {
 
   unsigned getTimestamp() const { return mTimestamp; }
   
-  void noteOn(Channel *ch, unsigned key, unsigned velocity, unsigned timestamp);
+  void noteOn(Channel *ch,
+	      unsigned key,
+	      unsigned velocity,
+	      bool glide,
+	      unsigned timestamp);
 
   void noteOff(unsigned timestamp);
 

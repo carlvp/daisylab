@@ -62,9 +62,10 @@ void Instrument::noteOn(unsigned ch, unsigned key, unsigned velocity) {
     const Program *oldProgram=releaseTempProgram(voice->getProgram());
     if (mOperationalMode==kEditMode) {
       Program *program=getTempProgram(oldProgram);
-      mChannel[mBaseChannel].setProgram(program);
+      channel->setProgram(program);
     }
-    voice->noteOn(channel, key, velocity, mCurrTimestamp++);
+    bool glide=channel->getGlide(voice);
+    voice->noteOn(channel, key, velocity, glide, mCurrTimestamp++);
   }
 }
 
@@ -90,6 +91,9 @@ void Instrument::controlChange(unsigned ch, unsigned cc, unsigned value) {
     break;
   case 10:
     channel.setPan(value*128);
+    break;
+  case 65:
+    channel.setPortamentoMode((value<64)? PortamentoMode::Off : PortamentoMode::AlwaysOn);
     break;
   case 6:
     controlChangeCoarse(ch, HiresCC::DataEntry, value);

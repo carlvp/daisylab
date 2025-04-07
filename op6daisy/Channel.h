@@ -8,6 +8,11 @@
 class Program;
 class Voice;
 
+enum PortamentoMode {
+  Off,
+  AlwaysOn
+};
+
 class Channel {
  public:
   Channel()
@@ -95,12 +100,23 @@ class Channel {
   // Glide decay factor [0, 1.0)
   float getGlideDecayFactor() const { return mGlideDecayFactor; }
 
+  // Portamento Mode
+  void setPortamentoMode(PortamentoMode mode) {
+    mPortamentoMode=static_cast<char>(mode);
+  }
+
+  bool getGlide(const Voice *fromVoice) const {
+    PortamentoMode mode=static_cast<PortamentoMode>(mPortamentoMode);
+    return mode==PortamentoMode::AlwaysOn;
+  }
+
  private:
   const Program *mProgram;
   float mMasterVolume, mChannelVolume, mExpression, mPanLeft, mPanRight;
   float mLeftGain, mRightGain;
   float mPitchBendFactor, mPitchBendRange, mGlideDecayFactor;
   LfoState mLfo;
+  char mPortamentoMode;
   bool mPoly;
   Voice *mVoice[NUM_VOICES];
   unsigned mNumVoices;

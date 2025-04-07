@@ -26,13 +26,19 @@ def _midi_transmit_on_off(midi, channel, cc, value):
     on_off=0 if value==0 else 127
     midi.sendControlChange(channel, cc, on_off)
 
+def _midi_transmit_porta_mode(midi, channel, cc, value):
+    mode=(0 if value==0 else
+          64 if value==1 else
+          127)
+    midi.sendControlChange(channel, cc, mode)
+
 _performanceParameters = {
     # paramName -> (index, midi-nr, initial, transmit())
     "Volume":     (0, _CC_VOLUME,       90, _midi_transmit_cc),
     "Pan":        (1, _CC_PAN,          64, _midi_transmit_cc),
     "Poly":       (2, _CC_POLY,          1, _midi_transmit_poly),
     "PortaTime":  (3, _CC_PORTA_TIME,    0, _midi_transmit_cc),
-    "Portamento": (4, _CC_PORTAMENTO,    0, _midi_transmit_on_off),
+    "PortaMode":  (4, _CC_PORTAMENTO,    0, _midi_transmit_porta_mode),
 }
 
 _NUM_PERFORMANCE_PARAMETERS=len(_performanceParameters)

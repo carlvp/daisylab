@@ -4,7 +4,7 @@
 #include "Voice.h"
 #include "Program.h"
 
-void Voice::noteOn(Channel *ch, unsigned key, unsigned velocity,
+void Voice::noteOn(Channel *ch, unsigned key, unsigned velocity, bool glide,
 		   unsigned timestamp) {
   bool retrig=true;
   
@@ -22,7 +22,7 @@ void Voice::noteOn(Channel *ch, unsigned key, unsigned velocity,
     // don't retrigger the envelopes.
     retrig=false;
   }
-  else {
+  else if (glide) {
     // Portamento: subtract (new key - old key)/12 from current CV
     // this makes the glide start from the current frequency
     mGlideCV -= (int) (key-mKey)*0.08333333f;

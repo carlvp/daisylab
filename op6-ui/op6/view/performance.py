@@ -103,7 +103,8 @@ class PerformanceScreen(tkinter.Frame):
         self._makeScale("PortaTime", 2, 3)
 
         self._makeLabel("Porta", 3, 3)
-        self._makeCombobox("Portamento", ("Off", "On"), 3, 4, 3)
+        self._makeLabel("Mode", 4, 3)
+        self._makeCombobox("PortaMode", ("Off", "Legato", "On"), 6, 5, 3)
 
 class RetroCombobox(tkinter.Button):
     '''Retro-style multi-value entry widget'''
