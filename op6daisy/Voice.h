@@ -15,15 +15,21 @@ class Voice {
     { }
 
   unsigned getKey() const { return mKey; }
-
   bool isNoteOn() const { return mGate; }
-
   unsigned getTimestamp() const { return mTimestamp; }
+  const Program *getProgram() const { return mProgram; }
+  Channel *getChannel() const { return mChannel; }
+
+  // start glide from a given offset in semi tones
+  void setGlide(int slideOffset) {
+    // glide offset in octaves (12 semis)
+    mGlideCV += slideOffset*0.08333333f;
+  }
   
   void noteOn(Channel *ch,
 	      unsigned key,
 	      unsigned velocity,
-	      bool glide,
+	      bool retrig,
 	      unsigned timestamp);
 
   void noteOff(unsigned timestamp);
@@ -32,10 +38,6 @@ class Voice {
 		  const float *monoIn,
 		  float pitchMod,
 		  float ampMod);
-
-  const Program *getProgram() const {
-    return mProgram;
-  }
 
  private:
   unsigned char mKey;

@@ -43,6 +43,48 @@ Voice *Channel::findVoice(unsigned key) const {
   return nullptr;
 }
 
+void Channel::noteOn(Voice *voice,
+		     unsigned key,
+		     unsigned velocity,
+		     unsigned timestamp) {
+  Channel *oldChannel=voice->getChannel();
+  bool retrig=true;
+
+  if (oldChannel!=this) {
+    // A voice, which was associate with another channel (or no channel)
+    // is used. Move it to this channel.
+    if (oldChannel)
+      oldChannel->removeVoice(voice);
+    addVoice(voice);
+  }
+  else {
+    // Recycling of a voice, which is already associated with this channel.
+    unsigned oldKey=voice->getKey();
+    if (key==oldKey)
+      retrig=false; // Even same key: don't retrigger the envelopes
+    else {
+      // In legato mode, just note played "legato" (overlapping) result in
+      // portamento
+      PortamentoMode mode=getPortamentoMode();
+      if (mode==PortamentoMode::AlwaysOn ||
+	  (mode==PortamentoMode::Legato && voice->isNoteOn())) {
+	// Glide the difference between the old and the new key, which
+	// cause the portamento to start from the current pitch
+	voice->setGlide(oldKey-key);
+      }
+    }
+  }
+  voice->noteOn(this, key, velocity, retrig, timestamp);
+}
+
+void Channel::noteOff(unsigned key, unsigned timestamp) {
+  Voice *voice=findVoice(key);
+  // TODO: in monophonic mode, glide back to any key still pressed
+  if (voice) {
+    voice->noteOff(timestamp);
+  }
+}
+
 void Channel::mixVoicesPrivate(float *stereoMix, const float *stereoIn) {
   // Handle LFO
   float lfo=mLfo.sampleAndUpdate(mProgram->lfo);

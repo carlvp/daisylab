@@ -4,30 +4,12 @@
 #include "Voice.h"
 #include "Program.h"
 
-void Voice::noteOn(Channel *ch, unsigned key, unsigned velocity, bool glide,
+void Voice::noteOn(Channel *ch,
+		   unsigned key,
+		   unsigned velocity,
+		   bool retrig,
 		   unsigned timestamp) {
-  bool retrig=true;
-  
-  if (mChannel!=ch) {
-    // Unregister with old channel
-    if (mChannel)
-      mChannel->removeVoice(this);
-    
-    // Register with new channel
-    ch->addVoice(this);
-    mChannel=ch;
-  }
-  else if (mKey==key) {
-    // When the voice with the same channel and same key is recycled:
-    // don't retrigger the envelopes.
-    retrig=false;
-  }
-  else if (glide) {
-    // Portamento: subtract (new key - old key)/12 from current CV
-    // this makes the glide start from the current frequency
-    mGlideCV -= (int) (key-mKey)*0.08333333f;
-  }
-  
+  mChannel=ch;
   mProgram=ch->getProgram();
   mAlgorithm=FmAlgorithm::getAlgorithm(mProgram->algorithm);
   mKey=key;

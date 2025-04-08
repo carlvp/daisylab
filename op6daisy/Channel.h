@@ -27,12 +27,9 @@ class Channel {
   
   void reset(const Program *program);
 
-  void addVoice(Voice *v);
-  void removeVoice(Voice *v);
+  void noteOn(Voice *v, unsigned key, unsigned velocity, unsigned timestamp);
 
-
-  // search for a voice, which is associated with this key
-  Voice *findVoice(unsigned key) const;
+  void noteOff(unsigned key, unsigned timestamp);
 
   // search for a voice to allocate for a given key
   // a) in monophonic mode (there can be only one): any voice will do
@@ -59,10 +56,7 @@ class Channel {
   }
 
   const Program *getProgram() const { return mProgram; }
-
-  void setProgram(const Program *program) {
-    mProgram=program;
-  }
+  void setProgram(const Program *program) { mProgram=program; }
 
   // Master volume [0, 1.0]
   void setMasterVolume(float v) {
@@ -106,10 +100,8 @@ class Channel {
     mPortamentoMode=static_cast<char>(mode);
   }
 
-  bool getGlide(const Voice *fromVoice) const {
-    PortamentoMode mode=static_cast<PortamentoMode>(mPortamentoMode);
-    return mode==PortamentoMode::AlwaysOn ||
-	   (mode==PortamentoMode::Legato && fromVoice->isNoteOn());
+  PortamentoMode getPortamentoMode() const {
+    return static_cast<PortamentoMode>(mPortamentoMode);
   }
 
  private:
@@ -130,6 +122,9 @@ class Channel {
   }
 
   void mixVoicesPrivate(float *stereoOut, const float *stereoIn);
+  Voice *findVoice(unsigned key) const;
+  void addVoice(Voice *v);
+  void removeVoice(Voice *v);
 };
 
 #endif

@@ -64,18 +64,13 @@ void Instrument::noteOn(unsigned ch, unsigned key, unsigned velocity) {
       Program *program=getTempProgram(oldProgram);
       channel->setProgram(program);
     }
-    bool glide=channel->getGlide(voice);
-    voice->noteOn(channel, key, velocity, glide, mCurrTimestamp++);
+    channel->noteOn(voice, key, velocity, mCurrTimestamp++);
   }
 }
 
 void Instrument::noteOff(unsigned ch, unsigned key) {
   // Don't filter: always send note-off if there is an active voice
-  Voice *voice=mChannel[ch].findVoice(key);
-  // TODO: in monophonic mode, glide back to any key still pressed
-  if (voice) {
-    voice->noteOff(mCurrTimestamp++);
-  }
+  mChannel[ch].noteOff(key, mCurrTimestamp++);
 }
 
 void Instrument::controlChange(unsigned ch, unsigned cc, unsigned value) {
