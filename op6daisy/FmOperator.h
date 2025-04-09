@@ -16,6 +16,8 @@ class FmOperator {
 	      float levelCom,
 	      bool retrig);
 
+  void changeKey(unsigned key, std::int32_t deltaPhi);
+
   void noteOff(const FmOperatorParam *param);
 
   void handleAm(float gain, float lfo);

@@ -4,6 +4,14 @@
 #include "Voice.h"
 #include "Program.h"
 
+void Voice::changeKey(unsigned key) {
+  mKey=key;
+  std::int32_t deltaPhi=theOp6Daisy.midiToPhaseIncrement(key);
+  for (unsigned i=0; i<NUM_OPERATORS; ++i) {
+    mOp[i].changeKey(key, deltaPhi);
+  }
+}
+
 void Voice::noteOn(Channel *ch,
 		   unsigned key,
 		   unsigned velocity,

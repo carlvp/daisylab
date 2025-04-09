@@ -4,6 +4,7 @@
 
 #include "configuration.h"
 #include "LfoState.h"
+#include "SetOfKeys.h"
 #include "Voice.h"
 
 class Program;
@@ -87,7 +88,10 @@ class Channel {
   void setPitchBendRange(unsigned cents);
 
   // poly=true (polyphonic), false (monophonic)
-  void setPoly(bool poly) { mPoly=poly; }
+  void setPoly(bool poly) {
+    mPoly=poly;
+    allNotesOff();
+  }
 
   // Portamento Time [0,16383]
   void setPortamentoTime(unsigned t);
@@ -105,13 +109,14 @@ class Channel {
   }
 
  private:
+  SetOfKeys mNotesOn;
   const Program *mProgram;
   float mMasterVolume, mChannelVolume, mExpression, mPanLeft, mPanRight;
   float mLeftGain, mRightGain;
   float mPitchBendFactor, mPitchBendRange, mGlideDecayFactor;
   LfoState mLfo;
-  char mPortamentoMode;
-  bool mPoly;
+  char mPortamentoMode, mLastKey;
+  bool mPoly, mLastKeyUp;
   Voice *mVoice[NUM_VOICES];
   unsigned mNumVoices;
 
@@ -125,6 +130,7 @@ class Channel {
   Voice *findVoice(unsigned key) const;
   void addVoice(Voice *v);
   void removeVoice(Voice *v);
+  void allNotesOff();
 };
 
 #endif

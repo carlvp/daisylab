@@ -25,6 +25,9 @@ class Voice {
     // glide offset in octaves (12 semis)
     mGlideCV += slideOffset*0.08333333f;
   }
+
+  // change key without retriggering note (legato)
+  void changeKey(unsigned key);
   
   void noteOn(Channel *ch,
 	      unsigned key,

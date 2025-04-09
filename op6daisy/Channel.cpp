@@ -15,6 +15,9 @@ void Channel::reset(const Program *program) {
   setPitchBendRange(200);     // 200 cents ~ +/-2 semitones
   mPoly=true;                 // Polyphonic operation
   setPortamentoTime(0);       // Instant pitch glide
+  mNotesOn.clearAll();
+  mLastKey=60;
+  mLastKeyUp=true;
 }
 
 void Channel::addVoice(Voice *v) {
@@ -75,13 +78,27 @@ void Channel::noteOn(Voice *voice,
     }
   }
   voice->noteOn(this, key, velocity, retrig, timestamp);
+  mNotesOn.set(key);
+  mLastKeyUp=(key>=mLastKey);
+  mLastKey=key;
 }
 
 void Channel::noteOff(unsigned key, unsigned timestamp) {
   Voice *voice=findVoice(key);
-  // TODO: in monophonic mode, glide back to any key still pressed
+
+  mNotesOn.reset(key);
   if (voice) {
-    voice->noteOff(timestamp);
+    if (!mPoly && mNotesOn.any()) {
+      // Monophonic mode: the voice is not released when another key is pressed
+      // Keyboard priority (min/max) is determined by last interval (down/up).
+      unsigned newKey=(mLastKeyUp)? mNotesOn.max() : mNotesOn.min();
+      if (getPortamentoMode()!=PortamentoMode::Off)
+	voice->setGlide(key-newKey);
+      voice->changeKey(newKey);
+    }
+    else {
+      voice->noteOff(timestamp);
+    }
   }
 }
 
@@ -156,4 +173,9 @@ void Channel::setPortamentoTime(unsigned t) {
     x=ldexpf(timeK[index], -exp);
   }
   mGlideDecayFactor=exp2f(x);
+}
+
+void Channel::allNotesOff() {
+  // TODO: mute the acual voices
+  mNotesOn.clearAll();
 }

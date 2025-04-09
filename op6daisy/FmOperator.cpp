@@ -53,6 +53,13 @@ static float keyScaling(const KeyScalingParam *param, unsigned key) {
     : keyScaling(param->rcExp, param->rDepth, key-param->bp);
 }
 
+void FmOperator::changeKey(unsigned key, std::int32_t deltaPhi) {
+  if (!mParam->fixedFreq) {
+    mDeltaPhiKey=mParam->freq*deltaPhi;
+    // TODO: keyscaling should be considered here, how?
+  }
+}
+
 void FmOperator::noteOn(const FmOperatorParam *param,
 			unsigned key,
 			unsigned vel,
