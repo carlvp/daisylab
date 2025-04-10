@@ -160,6 +160,12 @@ void Instrument::controlChangeHires(unsigned ch, HiresCC cc, unsigned value) {
   }
 }
 
+static unsigned paramToCents(unsigned midiValue) {
+  unsigned semi=midiValue>>7;    // msb = coarse [semis]
+  unsigned cent=midiValue & 127; // lsb = find [cents]
+  return 100*semi + cent;
+}
+
 void Instrument::setParameter(unsigned ch, unsigned paramNumber, unsigned value) {
   if ((paramNumber & PARAM_PREFIX_MASK) == RPN_PREFIX) {
     // Handle registered parameters
@@ -169,6 +175,8 @@ void Instrument::setParameter(unsigned ch, unsigned paramNumber, unsigned value)
       mDataEntryRouting[ch]=0;
       break;
     case PARAM_PITCH_BEND_SENSITIVITY:
+      mChannel[ch].setPitchBendRange(paramToCents(value));
+      break;
     case PARAM_CHANNEL_FINE_TUNING:
     case PARAM_CHANNEL_COARSE_TUNING:
     case PARAM_MODULATION_DEPTH_RANGE:
