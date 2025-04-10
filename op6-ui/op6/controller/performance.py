@@ -14,6 +14,8 @@ _CC_PORTAMENTO=65
 _CC_MONO=126
 _CC_POLY=127
 
+_RPN_PITCH_BEND_RANGE=0
+
 def _midi_transmit_cc(midi, channel, cc, value):
     midi.sendControlChange(channel, cc, value)
 
@@ -32,13 +34,20 @@ def _midi_transmit_porta_mode(midi, channel, cc, value):
           127)
     midi.sendControlChange(channel, cc, mode)
 
+def _midi_transmit_pbendrange(midi, channel, _, value):
+    # value is in units of 10 cents
+    semi=value//10
+    cent=10*value-100*semi
+    midi.sendParameter(channel, _RPN_PITCH_BEND_RANGE, 128*semi+cent, isRegistered=True)
+    
 _performanceParameters = {
     # paramName -> (index, midi-nr, initial, transmit())
-    "Volume":     (0, _CC_VOLUME,       90, _midi_transmit_cc),
-    "Pan":        (1, _CC_PAN,          64, _midi_transmit_cc),
-    "Poly":       (2, _CC_POLY,          1, _midi_transmit_poly),
-    "PortaTime":  (3, _CC_PORTA_TIME,    0, _midi_transmit_cc),
-    "PortaMode":  (4, _CC_PORTAMENTO,    0, _midi_transmit_porta_mode),
+    "Volume":     (0, _CC_VOLUME,            90, _midi_transmit_cc),
+    "Pan":        (1, _CC_PAN,               64, _midi_transmit_cc),
+    "Poly":       (2, _CC_POLY,               1, _midi_transmit_poly),
+    "PortaTime":  (3, _CC_PORTA_TIME,         0, _midi_transmit_cc),
+    "PortaMode":  (4, _CC_PORTAMENTO,         0, _midi_transmit_porta_mode),
+    "PBendRange": (5, _RPN_PITCH_BEND_RANGE, 20, _midi_transmit_pbendrange),
 }
 
 _NUM_PERFORMANCE_PARAMETERS=len(_performanceParameters)
