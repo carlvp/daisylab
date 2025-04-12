@@ -35,7 +35,8 @@ FmOperatorParam::FmOperatorParam()
 Program::Program() 
   : algorithm{0},
     feedback{0},
-    lfoPmDepth{0.0f},
+    lfoPmInitDepth{0},
+    lfoPmSensitivity{0.0f},
     lfoAmDepth{0.0f},
     pitchEnvelope{1.0f}
 {

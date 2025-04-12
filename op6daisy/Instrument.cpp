@@ -78,6 +78,9 @@ void Instrument::controlChange(unsigned ch, unsigned cc, unsigned value) {
   // and doing so facilitates control logic when switching modes 
   Channel &channel=mChannel[ch];
   switch (cc) {
+  case 1:
+    channel.setModulationWheel(value*128);
+    break;
   case 5:
     channel.setPortamentoTime(value*128);
     break;

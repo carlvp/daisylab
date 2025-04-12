@@ -57,7 +57,8 @@ struct Program {
   
   unsigned char algorithm;
   unsigned char feedback;
-  float lfoPmDepth;
+  unsigned char lfoPmInitDepth; // 0..99
+  float lfoPmSensitivity;
   float lfoAmDepth;
   LfoParam lfo;
   EnvelopeParam pitchEnvelope;

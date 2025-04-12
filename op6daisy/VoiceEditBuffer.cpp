@@ -94,7 +94,7 @@ enum ComonParameters {
   kLfoDelay,
   kLfoWaveform,
   kWasLfoSyncNotUsed,
-  kLfoPMD,
+  kLfoPmDepth,
   kLfoAmDepth,
   NUM_COMMON_PARAMETERS
 };
@@ -304,6 +304,10 @@ static void setPmEnvelopeParameter(EnvelopeParam &envelope,
   }
 }
 
+// LFO pitch-modulation sensitivity (DX has 0..7 range)
+static const float lfoPmSensitivity[8]={      0, 0.039f, 0.078f, 0.129f,
+					 0.215f, 0.333f, 0.600f, 0.999 };
+
 // LFO depth in negative log representation: 2^(-t/256)
 // (1-LFO) is scaled by t/256 before expo-step. In this way we get a linear
 // scale factor between 1.0 (0 dB) and 2^(-2.828*2) (-34 dB) at amd=99.
@@ -377,7 +381,12 @@ static void setCommonParameter(Program &common, unsigned param, unsigned x) {
     case kLfoAmDepth:
       common.lfoAmDepth=computeLfoAmDepth(msb);
       break;
-    //  TODO: kLfoPmDepth and kPmSensitivity: Merge to single float
+    case kPmSensitivity:
+      common.lfoPmSensitivity=lfoPmSensitivity[clamp(msb, 8)];
+      break;
+    case kLfoPmDepth:
+      common.lfoPmInitDepth=clamp(msb, 99);
+      break;
     }
   }
 }
@@ -575,12 +584,6 @@ static void convert(const SyxVoiceParam::Lfo &syxLfo, LfoParam lfo) {
   lfo.deltaPhi=computeLfoDeltaPhi(clamp(syxLfo.speed, 99));
 }
 
-static float computeLfoPmDepth(unsigned pmd, unsigned lpms) {
-  static const float sensitivity[8]={      0, 0.039f, 0.078f, 0.129f,
-       	       	                      0.215f, 0.333f, 0.600f, 0.999 };
-  return sensitivity[lpms]*pmd/99.0f;
-}
-
 static void convertCommon(const SyxVoiceParam &syxVoice, Program &common) {
   common.algorithm=clamp(syxVoice.algorithm, 31);
   
@@ -588,9 +591,12 @@ static void convertCommon(const SyxVoiceParam &syxVoice, Program &common) {
   unsigned fbl=syxVoice.opi_fbl & 7;
   common.feedback=(fbl)? fbl+2 : 0;
   
-  // Map lpms and pmd to lfoPmDepth (float)
+  // Map lpms -> lfoPmSensitivity (specific scale)
   unsigned lpms=clamp(syxVoice.lfo.lpms_wave_sync>>4, 7);
-  common.lfoPmDepth=computeLfoPmDepth(clamp(syxVoice.lfo.pmd, 99), lpms);
+  common.lfoPmSensitivity=lfoPmSensitivity[lpms];
+  // pmd (lfoPmInitDepth) is just a linear scale 0..99
+  unsigned pmd=clamp(syxVoice.lfo.pmd, 99);
+  common.lfoPmInitDepth=pmd;
   // Map amd to lfoAmDepth (float)
   common.lfoAmDepth=computeLfoAmDepth(clamp(syxVoice.lfo.amd, 99));
 

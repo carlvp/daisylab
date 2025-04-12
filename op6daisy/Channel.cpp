@@ -18,6 +18,8 @@ void Channel::reset(const Program *program) {
   mNotesOn.clearAll();
   mLastKey=60;
   mLastKeyUp=true;
+  mModWheel=0;
+  updateLfoPmDepth();
 }
 
 void Channel::addVoice(Voice *v) {
@@ -105,8 +107,7 @@ void Channel::noteOff(unsigned key, unsigned timestamp) {
 void Channel::mixVoicesPrivate(float *stereoMix, const float *stereoIn) {
   // Handle LFO
   float lfo=mLfo.sampleAndUpdate(mProgram->lfo);
-  float lfoPmDepth=mProgram->lfoPmDepth;
-  float pitchMod=exp2f(lfoPmDepth*lfo)*mPitchBendFactor;
+  float pitchMod=exp2f(mLfoPmDepth*lfo)*mPitchBendFactor;
   float lfoAmDepth=mProgram->lfoAmDepth;
   float ampMod=lfoAmDepth*(1.0f-lfo);
 
@@ -178,4 +179,35 @@ void Channel::setPortamentoTime(unsigned t) {
 void Channel::allNotesOff() {
   // TODO: mute the acual voices
   mNotesOn.clearAll();
+}
+
+void Channel::setProgram( const Program *program) {
+  mProgram=program;
+  // Update channel parameters, which depend on the program
+  updateLfoPmDepth();
+}
+
+// set modulation wheel [0, 16383]
+void Channel::setModulationWheel(unsigned value) {
+  // TODO: set range of mod.wheel
+  unsigned modWheelRange=16383; // full range, 1.0
+  // Product value x range has 14+14=28 fractional bits
+  mModWheel=ldexp(value*modWheelRange, -28);
+  updateLfoPmDepth();
+}
+
+// Updates LFO pitch-modulation depth, when program, modulation settings
+// and/or the modulator itself has changed
+void Channel::updateLfoPmDepth() {
+  if (mProgram!=nullptr) {
+    float depth=mProgram->lfoPmInitDepth*(1.0f/99);
+    depth+=mModWheel;
+
+    // Clamp depth to the interval [0, 1.0]
+    if (depth>1.0f) depth=1.0f;
+ 
+    mLfoPmDepth=depth*mProgram->lfoPmSensitivity;
+  } else {
+    mLfoPmDepth=0;
+  }
 }

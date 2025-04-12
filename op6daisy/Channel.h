@@ -57,7 +57,7 @@ class Channel {
   }
 
   const Program *getProgram() const { return mProgram; }
-  void setProgram(const Program *program) { mProgram=program; }
+  void setProgram(const Program *program);
 
   // Master volume [0, 1.0]
   void setMasterVolume(float v) {
@@ -108,12 +108,17 @@ class Channel {
     return static_cast<PortamentoMode>(mPortamentoMode);
   }
 
+  // set modulation wheel [0, 16383]
+  void setModulationWheel(unsigned value);
+
  private:
   SetOfKeys mNotesOn;
   const Program *mProgram;
   float mMasterVolume, mChannelVolume, mExpression, mPanLeft, mPanRight;
   float mLeftGain, mRightGain;
   float mPitchBendFactor, mPitchBendRange, mGlideDecayFactor;
+  float mModWheel;
+  float mLfoPmDepth;
   LfoState mLfo;
   char mPortamentoMode, mLastKey;
   bool mPoly, mLastKeyUp;
@@ -131,6 +136,7 @@ class Channel {
   void addVoice(Voice *v);
   void removeVoice(Voice *v);
   void allNotesOff();
+  void updateLfoPmDepth();
 };
 
 #endif
