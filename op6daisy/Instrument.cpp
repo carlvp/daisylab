@@ -180,9 +180,11 @@ void Instrument::setParameter(unsigned ch, unsigned paramNumber, unsigned value)
     case PARAM_PITCH_BEND_SENSITIVITY:
       mChannel[ch].setPitchBendRange(paramToCents(value));
       break;
+    case PARAM_MODULATION_DEPTH_RANGE:
+      mChannel[ch].setModulationRange(value);
+      break;
     case PARAM_CHANNEL_FINE_TUNING:
     case PARAM_CHANNEL_COARSE_TUNING:
-    case PARAM_MODULATION_DEPTH_RANGE:
     default:
       /* no action */
       break;

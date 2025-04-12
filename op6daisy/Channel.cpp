@@ -18,7 +18,9 @@ void Channel::reset(const Program *program) {
   mNotesOn.clearAll();
   mLastKey=60;
   mLastKeyUp=true;
+  mModulationRange=16383;     // unity
   mModWheel=0;
+  updateModWheel(false);      // don't propagate the update, already dealt with
   updateLfoPmDepth();
 }
 
@@ -187,13 +189,14 @@ void Channel::setProgram( const Program *program) {
   updateLfoPmDepth();
 }
 
-// set modulation wheel [0, 16383]
-void Channel::setModulationWheel(unsigned value) {
-  // TODO: set range of mod.wheel
-  unsigned modWheelRange=16383; // full range, 1.0
+// Update modulation source Mod. Wheel when changed
+void Channel::updateModWheel(bool propagate) {
   // Product value x range has 14+14=28 fractional bits
-  mModWheel=ldexp(value*modWheelRange, -28);
-  updateLfoPmDepth();
+  mFromModWheel=ldexp(mModWheel*mModulationRange, -28);
+  if (propagate) {
+    // update modulation, which depends on modwheel
+    updateLfoPmDepth();
+  }
 }
 
 // Updates LFO pitch-modulation depth, when program, modulation settings
@@ -201,7 +204,7 @@ void Channel::setModulationWheel(unsigned value) {
 void Channel::updateLfoPmDepth() {
   if (mProgram!=nullptr) {
     float depth=mProgram->lfoPmInitDepth*(1.0f/99);
-    depth+=mModWheel;
+    depth+=mFromModWheel;
 
     // Clamp depth to the interval [0, 1.0]
     if (depth>1.0f) depth=1.0f;

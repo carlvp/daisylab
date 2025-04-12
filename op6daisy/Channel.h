@@ -109,7 +109,16 @@ class Channel {
   }
 
   // set modulation wheel [0, 16383]
-  void setModulationWheel(unsigned value);
+  void setModulationWheel(unsigned value) {
+    mModWheel=value;
+    updateModWheel(true);
+  }
+
+  // set modulation range [0, 16383]
+  void setModulationRange(unsigned value) {
+    mModulationRange=value;
+    updateModWheel(true);
+  }
 
  private:
   SetOfKeys mNotesOn;
@@ -117,7 +126,8 @@ class Channel {
   float mMasterVolume, mChannelVolume, mExpression, mPanLeft, mPanRight;
   float mLeftGain, mRightGain;
   float mPitchBendFactor, mPitchBendRange, mGlideDecayFactor;
-  float mModWheel;
+  unsigned mModulationRange, mModWheel;
+  float mFromModWheel;
   float mLfoPmDepth;
   LfoState mLfo;
   char mPortamentoMode, mLastKey;
@@ -136,6 +146,7 @@ class Channel {
   void addVoice(Voice *v);
   void removeVoice(Voice *v);
   void allNotesOff();
+  void updateModWheel(bool propagate);
   void updateLfoPmDepth();
 };
 
