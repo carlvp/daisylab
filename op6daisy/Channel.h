@@ -15,6 +15,21 @@ enum PortamentoMode {
   AlwaysOn
 };
 
+enum ModulationSource {
+  ModWheel=0x01,
+  FootPedal=0x02,
+  BreathCtrl=0x04,
+  AfterTouch=0x08,
+};
+
+enum ModulationDestination {
+  LfoPmDepth,
+  PitchBend,
+  LfoAmDepth,
+  AmpBias,
+  NUM_MODULATION_DESTINATIONS
+};
+
 class Channel {
  public:
   Channel()
@@ -120,6 +135,11 @@ class Channel {
     updateModWheel(true);
   }
 
+  // set modulation routing (on/off)
+  void setModulationRouting(ModulationSource src,
+			    ModulationDestination dst,
+			    bool routingEnabled);
+
  private:
   SetOfKeys mNotesOn;
   const Program *mProgram;
@@ -130,10 +150,11 @@ class Channel {
   float mFromModWheel;
   float mLfoPmDepth;
   LfoState mLfo;
-  char mPortamentoMode, mLastKey;
-  bool mPoly, mLastKeyUp;
   Voice *mVoice[NUM_VOICES];
   unsigned mNumVoices;
+  char mPortamentoMode, mLastKey;
+  bool mPoly, mLastKeyUp;
+  unsigned char mModRouting[ModulationDestination::NUM_MODULATION_DESTINATIONS];
 
   void updateGain() {
     float volume=mMasterVolume*mChannelVolume*mExpression;

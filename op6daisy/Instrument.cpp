@@ -203,6 +203,9 @@ void Instrument::setParameter(unsigned ch, unsigned paramNumber, unsigned value)
     else if (page==kSystemPage && ch==mBaseChannel) {
       setSystemParameter(paramNumber, value);
     }
+    else if (page==kChannelPage) {
+      setChannelParameter(ch, paramNumber, value);
+    }
   }
 }
 
@@ -250,6 +253,50 @@ void Instrument::setOperationalMode(unsigned mode) {
       mChannel[mBaseChannel].setProgram(mSavedProgram);
     }
     mOperationalMode=static_cast<OperationalMode>(mode);
+  }
+}
+
+// Channel parameters for modulation routing #16...#47 in Channel Page (8)
+
+// Modulation destinations
+#define MOD_ROUTING_FIRST   0x10
+#define MOD_DEST_LFO_PM     0x10
+#define MOD_DEST_PITCH      0x18
+#define MOD_DEST_LFO_AM     0x20
+#define MOD_DEST_AMP_BIAS   0x28
+#define MOD_ROUTING_LAST    0x2f
+
+// Modulation sources
+#define MOD_SRC_WHEEL       0
+#define MOD_SRC_FOOT        1
+#define MOD_SRC_BREATH      2
+#define MOD_SRC_ATOUCH      3
+#define MOD_SRC_MASK      0x7
+
+static inline bool isModulationRouting(unsigned paramNumber) {
+  return (paramNumber>=MOD_ROUTING_FIRST && paramNumber<=MOD_ROUTING_LAST);
+}
+
+static inline ModulationDestination getModulationDestination(unsigned paramNr) {
+  return static_cast<ModulationDestination>((paramNr-MOD_ROUTING_FIRST)>>3);
+}
+
+static inline ModulationSource getModulationSource(unsigned paramNr) {
+  // ModulationSource enum tags are bit-masks: 1, 2, 4, 8,...
+  unsigned bitNumber=paramNr & MOD_SRC_MASK;
+  return static_cast<ModulationSource>(1<<bitNumber);
+}
+
+void Instrument::setChannelParameter(unsigned channel,
+				     unsigned paramNumber,
+				     unsigned value) {
+  unsigned msb=value>>7;
+
+  if (isModulationRouting(paramNumber)) {
+    ModulationSource src=getModulationSource(paramNumber);
+    ModulationDestination dst=getModulationDestination(paramNumber);
+    bool routingEnabled=(msb >= 64);
+    mChannel[channel].setModulationRouting(src, dst, routingEnabled);
   }
 }
 

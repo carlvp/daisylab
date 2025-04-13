@@ -98,6 +98,7 @@ class Instrument {
   void setParameter(unsigned ch, unsigned paramNumber, unsigned value);
   void setSystemParameter(unsigned parameterNumber, unsigned value);
   void setOperationalMode(unsigned mode);
+  void setChannelParameter(unsigned ch, unsigned parameterNr, unsigned value);
   void controlChangeHires(unsigned ch, HiresCC cc, unsigned value);
 
   void controlChangeCoarse(unsigned ch, HiresCC cc, unsigned value) {

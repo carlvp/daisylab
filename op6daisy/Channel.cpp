@@ -1,4 +1,5 @@
 #include <cmath>
+#include <cstring>
 #include "AudioPath.h"
 #include "Channel.h"
 #include "Program.h"
@@ -20,6 +21,8 @@ void Channel::reset(const Program *program) {
   mLastKeyUp=true;
   mModulationRange=16383;     // unity
   mModWheel=0;
+  memset(mModRouting, 0, sizeof(mModRouting));
+  mModRouting[ModulationDestination::LfoPmDepth]=ModulationSource::ModWheel;
   updateModWheel(false);      // don't propagate the update, already dealt with
   updateLfoPmDepth();
 }
@@ -199,12 +202,29 @@ void Channel::updateModWheel(bool propagate) {
   }
 }
 
+// set modulation routing (on/off)
+void Channel::setModulationRouting(ModulationSource src,
+				   ModulationDestination dst,
+				   bool routingEnabled) {
+  unsigned char routing=mModRouting[dst];
+
+  // set/clear routing-bit
+  mModRouting[dst]=(routingEnabled)? (routing|src) : (routing & ~src);
+
+  // update modulation depth
+  if (dst==ModulationDestination::LfoPmDepth) {
+    updateLfoPmDepth();
+  }
+}
+
 // Updates LFO pitch-modulation depth, when program, modulation settings
 // and/or the modulator itself has changed
 void Channel::updateLfoPmDepth() {
   if (mProgram!=nullptr) {
     float depth=mProgram->lfoPmInitDepth*(1.0f/99);
-    depth+=mFromModWheel;
+    unsigned char routing=mModRouting[ModulationDestination::LfoPmDepth];
+    
+    if (routing & ModulationSource::ModWheel) depth+=mFromModWheel;
 
     // Clamp depth to the interval [0, 1.0]
     if (depth>1.0f) depth=1.0f;
