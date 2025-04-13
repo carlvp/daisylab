@@ -110,6 +110,20 @@ class PerformanceScreen(tkinter.Frame):
         self._makeLabel("Range",  1, 4)
         self._makeScale("PBendRange", 2, 4)
 
+        self._makeLabel("LFO PM", 5, 5)
+        self._makeLabel("Pitch Bend", 6, 5)
+        self._makeLabel("LFO AM", 7, 5)
+        self._makeLabel("Amp. Bias", 8, 5)
+
+        self._makeLabel("Mod.", 0, 6)
+        self._makeLabel("Range",  1, 6)
+        self._makeScale("ModRange", 2, 6)
+        self._makeLabel("Mod.", 3, 6)
+        self._makeLabel("Wheel",  4, 6)
+        self._makeCombobox("Mod2LfoPm", ("Off", "On"), 3, 5, 6)
+        self._makeCombobox("Mod2LfoAm", ("Off", "On"), 3, 7, 6)
+        self._makeCombobox("Mod2AmpBias", ("Off", "On"), 3, 8, 6)
+
 class RetroCombobox(tkinter.Button):
     '''Retro-style multi-value entry widget'''
     def __init__(self, parent, var, values, **kwargs):
