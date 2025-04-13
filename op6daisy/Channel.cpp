@@ -25,6 +25,7 @@ void Channel::reset(const Program *program) {
   mModRouting[ModulationDestination::LfoPmDepth]=ModulationSource::ModWheel;
   updateModWheel(false);      // don't propagate the update, already dealt with
   updateLfoPmDepth();
+  updateLfoAmDepth();
 }
 
 void Channel::addVoice(Voice *v) {
@@ -113,10 +114,8 @@ void Channel::mixVoicesPrivate(float *stereoMix, const float *stereoIn) {
   // Handle LFO
   float lfo=mLfo.sampleAndUpdate(mProgram->lfo);
   float pitchMod=exp2f(mLfoPmDepth*lfo)*mPitchBendFactor;
-  float lfoAmDepth=mProgram->lfoAmDepth;
-  float ampMod=lfoAmDepth*(1.0f-lfo);
+  float ampMod=mLfoAmDepth*(1.0f-lfo);
 
-  
   // Mix the channel's voices
   const float *monoIn=zeroBuffer;
   for (unsigned i=0; i<mNumVoices; ++i) {
@@ -190,6 +189,7 @@ void Channel::setProgram( const Program *program) {
   mProgram=program;
   // Update channel parameters, which depend on the program
   updateLfoPmDepth();
+  updateLfoAmDepth();
 }
 
 // Update modulation source Mod. Wheel when changed
@@ -198,7 +198,7 @@ void Channel::updateModWheel(bool propagate) {
   mFromModWheel=ldexp(mModWheel*mModulationRange, -28);
   if (propagate) {
     // update modulation, which depends on modwheel
-    updateLfoPmDepth();
+    updateDestinations(ModulationSource::ModWheel);
   }
 }
 
@@ -212,8 +212,13 @@ void Channel::setModulationRouting(ModulationSource src,
   mModRouting[dst]=(routingEnabled)? (routing|src) : (routing & ~src);
 
   // update modulation depth
-  if (dst==ModulationDestination::LfoPmDepth) {
-    updateLfoPmDepth();
+  switch (dst) {
+  case LfoPmDepth: updateLfoPmDepth(); break;
+  case LfoAmDepth: updateLfoAmDepth(); break;
+  case PitchBend:
+  case AmpBias:
+  default:
+    break;
   }
 }
 
@@ -233,4 +238,28 @@ void Channel::updateLfoPmDepth() {
   } else {
     mLfoPmDepth=0;
   }
+}
+
+// Updates LFO amplitude-modulation depth, when program, modulation settings
+// and/or the modulator itself has changed
+void Channel::updateLfoAmDepth() {
+  if (mProgram!=nullptr) {
+    float depth=mProgram->lfoAmDepth;
+    unsigned char routing=mModRouting[ModulationDestination::LfoAmDepth];
+
+    // TODO: Just like AMD is superlinear in the range 89..99, we'd like
+    // the am depth to increase more rapidly when mFromModWheel is close to 1.0
+    if (routing & ModulationSource::ModWheel) depth+=mFromModWheel;
+
+    mLfoAmDepth=depth;
+  } else {
+    mLfoAmDepth=0;
+  }
+}
+
+void Channel::updateDestinations(ModulationSource sourceChanged) {
+  if (mModRouting[ModulationDestination::LfoPmDepth] & sourceChanged)
+    updateLfoPmDepth();
+  if (mModRouting[ModulationDestination::LfoAmDepth] & sourceChanged)
+    updateLfoAmDepth();
 }
