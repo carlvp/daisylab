@@ -26,6 +26,7 @@ void Channel::reset(const Program *program) {
   updateModWheel(false);      // don't propagate the update, already dealt with
   updateLfoPmDepth();
   updateLfoAmDepth();
+  updateAmpBias();
 }
 
 void Channel::addVoice(Voice *v) {
@@ -114,7 +115,7 @@ void Channel::mixVoicesPrivate(float *stereoMix, const float *stereoIn) {
   // Handle LFO
   float lfo=mLfo.sampleAndUpdate(mProgram->lfo);
   float pitchMod=exp2f(mLfoPmDepth*lfo)*mPitchBendFactor;
-  float ampMod=mLfoAmDepth*(1.0f-lfo);
+  float ampMod=mLfoAmDepth*(1.0f-lfo) + mAmpBias;
 
   // Mix the channel's voices
   const float *monoIn=zeroBuffer;
@@ -190,6 +191,7 @@ void Channel::setProgram( const Program *program) {
   // Update channel parameters, which depend on the program
   updateLfoPmDepth();
   updateLfoAmDepth();
+  // No need to update AmpBias (no parameter in Program)
 }
 
 // Update modulation source Mod. Wheel when changed
@@ -215,8 +217,8 @@ void Channel::setModulationRouting(ModulationSource src,
   switch (dst) {
   case LfoPmDepth: updateLfoPmDepth(); break;
   case LfoAmDepth: updateLfoAmDepth(); break;
+  case AmpBias:    updateAmpBias(); break;
   case PitchBend:
-  case AmpBias:
   default:
     break;
   }
@@ -257,9 +259,27 @@ void Channel::updateLfoAmDepth() {
   }
 }
 
+// Updates amplitude bias, when modulation settings and/or the modulator
+// itself has changed
+void Channel::updateAmpBias() {
+  float bias=0;
+  unsigned char routing=mModRouting[ModulationDestination::AmpBias];
+
+  if (routing & ModulationSource::ModWheel) {
+    // Bias in negative logarithmic unit [0,127/16]
+    // Product has 14+14=28 bits, 3 integer bits, 25 fractional bits
+    // Full mod. wheel -> 0 dB
+    // Zero mod. wheel -> -range (high range=more attenuation)
+    bias+=ldexpf((127*128-mModWheel)*mModulationRange, -25);
+  }
+  mAmpBias=bias;
+}
+
 void Channel::updateDestinations(ModulationSource sourceChanged) {
   if (mModRouting[ModulationDestination::LfoPmDepth] & sourceChanged)
     updateLfoPmDepth();
   if (mModRouting[ModulationDestination::LfoAmDepth] & sourceChanged)
     updateLfoAmDepth();
+  if (mModRouting[ModulationDestination::AmpBias] & sourceChanged)
+    updateAmpBias();
 }

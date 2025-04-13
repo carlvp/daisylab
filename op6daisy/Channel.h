@@ -148,7 +148,7 @@ class Channel {
   float mPitchBendFactor, mPitchBendRange, mGlideDecayFactor;
   unsigned mModulationRange, mModWheel;
   float mFromModWheel;
-  float mLfoPmDepth, mLfoAmDepth;
+  float mLfoPmDepth, mLfoAmDepth, mAmpBias;
   LfoState mLfo;
   Voice *mVoice[NUM_VOICES];
   unsigned mNumVoices;
@@ -171,6 +171,7 @@ class Channel {
   void updateDestinations(ModulationSource sourceChanged);
   void updateLfoPmDepth();
   void updateLfoAmDepth();
+  void updateAmpBias();
 };
 
 #endif
