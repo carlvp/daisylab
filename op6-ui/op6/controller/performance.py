@@ -18,14 +18,25 @@ _RPN_PITCH_BEND_RANGE=0
 _RPN_MODULATION_DEPTH_RANGE=5
 
 _NRPN_CHANNEL_PAGE=8*128
+
+_NRPN_MOD_RANGE=_NRPN_CHANNEL_PAGE+0x08
 _NRPN_MOD_DEST_LFO_PM=_NRPN_CHANNEL_PAGE+0x10
 _NRPN_MOD_DEST_PBEND=_NRPN_CHANNEL_PAGE+0x18
 _NRPN_MOD_DEST_LFO_AM=_NRPN_CHANNEL_PAGE+0x20
 _NRPN_MOD_DEST_AM_BIAS=_NRPN_CHANNEL_PAGE+0x28
 
-_NRPN_MOD_WHEEL_LFO_PM=_NRPN_MOD_DEST_LFO_PM
-_NRPN_MOD_WHEEL_LFO_AM=_NRPN_MOD_DEST_LFO_AM
-_NRPN_MOD_WHEEL_AM_BIAS=_NRPN_MOD_DEST_AM_BIAS
+_NRPN_CH_PRESS_RANGE=_NRPN_MOD_RANGE+3
+
+_NRPN_MOD_WHEEL_LFO_PM=_NRPN_MOD_DEST_LFO_PM+0
+_NRPN_CH_PRESS_LFO_PM=_NRPN_MOD_DEST_LFO_PM+3
+
+_NRPN_CH_PRESS_PBEND=_NRPN_MOD_DEST_PBEND+3
+
+_NRPN_MOD_WHEEL_LFO_AM=_NRPN_MOD_DEST_LFO_AM+0
+_NRPN_CH_PRESS_LFO_AM=_NRPN_MOD_DEST_LFO_AM+3
+
+_NRPN_MOD_WHEEL_AM_BIAS=_NRPN_MOD_DEST_AM_BIAS+0
+_NRPN_CH_PRESS_AM_BIAS=_NRPN_MOD_DEST_AM_BIAS+3
 
 def _midi_transmit_cc(midi, channel, cc, value):
     midi.sendControlChange(channel, cc, value)
@@ -58,18 +69,26 @@ def _midi_transmit_nrpn_on_off(midi, channel, nrpn, value):
     on_off=0 if value==0 else 127*128
     midi.sendParameter(channel, nrpn, on_off, isRegistered=False)
 
+def _midi_transmit_nrpn_msb(midi, channel, rpn, value):
+    midi.sendParameter(channel, rpn, 128*value, isRegistered=False)
+
 _performanceParameters = {
-    # paramName -> (index, midi-nr, initial, transmit())
-    "Volume":     (0, _CC_VOLUME,                   90, _midi_transmit_cc),
-    "Pan":        (1, _CC_PAN,                      64, _midi_transmit_cc),
-    "Poly":       (2, _CC_POLY,                      1, _midi_transmit_poly),
-    "PortaTime":  (3, _CC_PORTA_TIME,                0, _midi_transmit_cc),
-    "PortaMode":  (4, _CC_PORTAMENTO,                0, _midi_transmit_porta_mode),
-    "PBendRange": (5, _RPN_PITCH_BEND_RANGE,        20, _midi_transmit_pbendrange),
-    "ModRange":   (6, _RPN_MODULATION_DEPTH_RANGE, 127, _midi_transmit_rpn_msb),
-    "Mod2LfoPm":  (7, _NRPN_MOD_WHEEL_LFO_PM,        1, _midi_transmit_nrpn_on_off),
-    "Mod2LfoAm":  (8, _NRPN_MOD_WHEEL_LFO_AM,        0, _midi_transmit_nrpn_on_off),
-    "Mod2AmpBias":(9, _NRPN_MOD_WHEEL_AM_BIAS,       0, _midi_transmit_nrpn_on_off),
+    # paramName ->   (index, midi-nr, initial, transmit())
+    "Volume":        (0, _CC_VOLUME,                   90, _midi_transmit_cc),
+    "Pan":           (1, _CC_PAN,                      64, _midi_transmit_cc),
+    "Poly":          (2, _CC_POLY,                      1, _midi_transmit_poly),
+    "PortaTime":     (3, _CC_PORTA_TIME,                0, _midi_transmit_cc),
+    "PortaMode":     (4, _CC_PORTAMENTO,                0, _midi_transmit_porta_mode),
+    "PBendRange":    (5, _RPN_PITCH_BEND_RANGE,        20, _midi_transmit_pbendrange),
+    "ModRange":      (6, _RPN_MODULATION_DEPTH_RANGE, 127, _midi_transmit_rpn_msb),
+    "Mod2LfoPm":     (7, _NRPN_MOD_WHEEL_LFO_PM,        1, _midi_transmit_nrpn_on_off),
+    "Mod2LfoAm":     (8, _NRPN_MOD_WHEEL_LFO_AM,        0, _midi_transmit_nrpn_on_off),
+    "Mod2AmpBias":   (9, _NRPN_MOD_WHEEL_AM_BIAS,       0, _midi_transmit_nrpn_on_off),
+    "PressRange":   (10, _NRPN_CH_PRESS_RANGE,        127, _midi_transmit_nrpn_msb),
+    "Press2LfoPm":  (11, _NRPN_CH_PRESS_LFO_PM,         0, _midi_transmit_nrpn_on_off),
+    "Press2PBend":  (12, _NRPN_CH_PRESS_PBEND,          0, _midi_transmit_nrpn_on_off),
+    "Press2LfoAm":  (13, _NRPN_CH_PRESS_LFO_AM,         0, _midi_transmit_nrpn_on_off),
+    "Press2AmpBias":(14, _NRPN_CH_PRESS_AM_BIAS,        0, _midi_transmit_nrpn_on_off),
 }
 
 _NUM_PERFORMANCE_PARAMETERS=len(_performanceParameters)

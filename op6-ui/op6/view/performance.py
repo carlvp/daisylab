@@ -124,6 +124,16 @@ class PerformanceScreen(tkinter.Frame):
         self._makeCombobox("Mod2LfoAm", ("Off", "On"), 3, 7, 6)
         self._makeCombobox("Mod2AmpBias", ("Off", "On"), 3, 8, 6)
 
+        self._makeLabel("Press.", 0, 7)
+        self._makeLabel("Range",  1, 7)
+        self._makeScale("PressRange", 2, 7)
+        self._makeLabel("Ch.", 3, 7)
+        self._makeLabel("Press.",  4, 7)
+        self._makeCombobox("Press2LfoPm", ("Off", "On"), 3, 5, 7)
+        self._makeCombobox("Press2PBend", ("Off", "On"), 3, 6, 7)
+        self._makeCombobox("Press2LfoAm", ("Off", "On"), 3, 7, 7)
+        self._makeCombobox("Press2AmpBias", ("Off", "On"), 3, 8, 7)
+
 class RetroCombobox(tkinter.Button):
     '''Retro-style multi-value entry widget'''
     def __init__(self, parent, var, values, **kwargs):
