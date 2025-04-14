@@ -19,7 +19,7 @@ enum ModulationSource {
   ModWheel=0x01,
   FootPedal=0x02,
   BreathCtrl=0x04,
-  AfterTouch=0x08,
+  ChannelPressure=0x08,
 };
 
 enum ModulationDestination {
@@ -96,6 +96,12 @@ class Channel {
   // Pan [0,16383] 0=hard left, 8192=center, 16383=hard right
   void setPan(unsigned p);
 
+  // Channel pressure [0, 127]
+  void setChannelPressure(unsigned char value);
+
+  // Channel pressure modulation range [0, 127]
+  void setChannelPressureRange(unsigned char value);
+  
   // Pitch bend [-8192, +8192]
   void setPitchBend(int b);
 
@@ -145,15 +151,17 @@ class Channel {
   const Program *mProgram;
   float mMasterVolume, mChannelVolume, mExpression, mPanLeft, mPanRight;
   float mLeftGain, mRightGain;
-  float mPitchBendFactor, mPitchBendRange, mGlideDecayFactor;
+  float mPitchBendInOctaves, mPitchBendRange, mGlideDecayFactor;
   unsigned mModulationRange, mModWheel;
   float mFromModWheel;
   float mLfoPmDepth, mLfoAmDepth, mAmpBias;
   LfoState mLfo;
   Voice *mVoice[NUM_VOICES];
   unsigned mNumVoices;
+  short mPitchWheel;
   char mPortamentoMode, mLastKey;
   bool mPoly, mLastKeyUp;
+  unsigned char mChPressure, mChPressureRange;
   unsigned char mModRouting[ModulationDestination::NUM_MODULATION_DESTINATIONS];
 
   void updateGain() {
@@ -172,6 +180,7 @@ class Channel {
   void updateLfoPmDepth();
   void updateLfoAmDepth();
   void updateAmpBias();
+  void updatePitchBend();
 };
 
 #endif

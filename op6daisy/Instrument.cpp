@@ -256,6 +256,9 @@ void Instrument::setOperationalMode(unsigned mode) {
   }
 }
 
+// Non-registered parameters in Channel Page (8)
+#define CHANNEL_PRESSURE_RANGE 0x0b
+
 // Channel parameters for modulation routing #16...#47 in Channel Page (8)
 
 // Modulation destinations
@@ -298,6 +301,13 @@ void Instrument::setChannelParameter(unsigned channel,
     bool routingEnabled=(msb >= 64);
     mChannel[channel].setModulationRouting(src, dst, routingEnabled);
   }
+  else {
+    switch (paramNumber) {
+    case CHANNEL_PRESSURE_RANGE:
+      mChannel[channel].setChannelPressureRange(msb);
+      break;
+    }
+  }
 }
 
 static const Program initVoice;
@@ -311,6 +321,10 @@ void Instrument::programChange(unsigned ch, unsigned p) {
   
     mChannel[ch].setProgram(program);
   }
+}
+
+void Instrument::channelPressure(unsigned ch, unsigned value) {
+  mChannel[ch].setChannelPressure(value);
 }
 
 void Instrument::pitchBend(unsigned ch, int value) {

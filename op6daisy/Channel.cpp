@@ -12,8 +12,8 @@ void Channel::reset(const Program *program) {
   mExpression=16383/16384.0f; // (very close to) full volume
   setChannelVolume(90*128);   // about 50% linear gain (-6dB)
   setPan(8192);               // center
-  mPitchBendFactor=1.0f;      // no pitch bend
-  setPitchBendRange(200);     // 200 cents ~ +/-2 semitones
+  mPitchWheel=0;              // no pitch bend
+  setPitchBendRange(200);     // 200 cents
   mPoly=true;                 // Polyphonic operation
   setPortamentoTime(0);       // Instant pitch glide
   mNotesOn.clearAll();
@@ -21,10 +21,13 @@ void Channel::reset(const Program *program) {
   mLastKeyUp=true;
   mModulationRange=16383;     // unity
   mModWheel=0;
+  mChPressureRange=127;       // unity
+  mChPressure=0;
   memset(mModRouting, 0, sizeof(mModRouting));
   mModRouting[ModulationDestination::LfoPmDepth]=ModulationSource::ModWheel;
   updateModWheel(false);      // don't propagate the update, already dealt with
   updateLfoPmDepth();
+  updatePitchBend();
   updateLfoAmDepth();
   updateAmpBias();
 }
@@ -114,7 +117,7 @@ void Channel::noteOff(unsigned key, unsigned timestamp) {
 void Channel::mixVoicesPrivate(float *stereoMix, const float *stereoIn) {
   // Handle LFO
   float lfo=mLfo.sampleAndUpdate(mProgram->lfo);
-  float pitchMod=exp2f(mLfoPmDepth*lfo)*mPitchBendFactor;
+  float pitchMod=exp2f(mLfoPmDepth*lfo + mPitchBendInOctaves);
   float ampMod=mLfoAmDepth*(1.0f-lfo) + mAmpBias;
 
   // Mix the channel's voices
@@ -141,13 +144,15 @@ void Channel::setPan(unsigned p) {
 }
 
 void Channel::setPitchBend(int b) {
-  mPitchBendFactor=exp2(b*mPitchBendRange);
+  mPitchWheel=b;
+  updatePitchBend();
 }
 
 void Channel::setPitchBendRange(unsigned cents) {
   // full pitch bend is +/-8192, a cent is 1/1200 octave
   // both scale factors are brought into mPitchBendRange
   mPitchBendRange=cents/(8192*1200.0f);
+  if (mPitchWheel!=0) updatePitchBend();
 }
 
 void Channel::setPortamentoTime(unsigned t) {
@@ -191,7 +196,7 @@ void Channel::setProgram( const Program *program) {
   // Update channel parameters, which depend on the program
   updateLfoPmDepth();
   updateLfoAmDepth();
-  // No need to update AmpBias (no parameter in Program)
+  // No need to update PitchBend/AmpBias (no parameter in Program)
 }
 
 // Update modulation source Mod. Wheel when changed
@@ -202,6 +207,16 @@ void Channel::updateModWheel(bool propagate) {
     // update modulation, which depends on modwheel
     updateDestinations(ModulationSource::ModWheel);
   }
+}
+
+void Channel::setChannelPressure(unsigned char value) {
+  mChPressure=value;
+  if (mChPressureRange!=0) updateDestinations(ModulationSource::ChannelPressure);
+}
+
+void Channel::setChannelPressureRange(unsigned char value) {
+  mChPressureRange=value;
+  if (mChPressure!=0) updateDestinations(ModulationSource::ChannelPressure);
 }
 
 // set modulation routing (on/off)
@@ -230,8 +245,12 @@ void Channel::updateLfoPmDepth() {
   if (mProgram!=nullptr) {
     float depth=mProgram->lfoPmInitDepth*(1.0f/99);
     unsigned char routing=mModRouting[ModulationDestination::LfoPmDepth];
-    
+
     if (routing & ModulationSource::ModWheel) depth+=mFromModWheel;
+
+    if (routing & ModulationSource::ChannelPressure) {
+      depth+=mChPressure*mChPressureRange*(1.0f/127/127);
+    }
 
     // Clamp depth to the interval [0, 1.0]
     if (depth>1.0f) depth=1.0f;
@@ -240,6 +259,20 @@ void Channel::updateLfoPmDepth() {
   } else {
     mLfoPmDepth=0;
   }
+}
+
+// Updates pitch bend, s, when modulation settings and/or the modulator
+// itself has changed.
+void Channel::updatePitchBend() {
+  float octaves=mPitchWheel*mPitchBendRange;
+  unsigned char routing=mModRouting[ModulationDestination::PitchBend];
+
+  if (routing & ModulationSource::ChannelPressure) {
+    // full modulation range is 1270 cents, about 1 octave (127/120)
+    octaves+=mChPressure*mChPressureRange*(1.0f/127/120);
+  }
+
+  mPitchBendInOctaves=octaves;
 }
 
 // Updates LFO amplitude-modulation depth, when program, modulation settings
@@ -253,6 +286,10 @@ void Channel::updateLfoAmDepth() {
     // the am depth to increase more rapidly when mFromModWheel is close to 1.0
     if (routing & ModulationSource::ModWheel) depth+=mFromModWheel;
 
+    if (routing & ModulationSource::ChannelPressure) {
+      depth+=mChPressure*mChPressureRange*(1.0f/127/127);
+    }
+
     mLfoAmDepth=depth;
   } else {
     mLfoAmDepth=0;
@@ -265,12 +302,16 @@ void Channel::updateAmpBias() {
   float bias=0;
   unsigned char routing=mModRouting[ModulationDestination::AmpBias];
 
+  // Bias is in negative logarithmic unit. [0,8] is a useful range.
+  // 0 means 2^0 = 1.0 = 0 dB, higher numbers mean more attenuation.
+  // 8.0 means almost silent, -48 dB
   if (routing & ModulationSource::ModWheel) {
-    // Bias in negative logarithmic unit [0,127/16]
     // Product has 14+14=28 bits, 3 integer bits, 25 fractional bits
-    // Full mod. wheel -> 0 dB
-    // Zero mod. wheel -> -range (high range=more attenuation)
     bias+=ldexpf((127*128-mModWheel)*mModulationRange, -25);
+  }
+  if (routing & ModulationSource::ChannelPressure) {
+    // Product has 7+7=14 bits, interpreted as 3.11 for a range [0,8)
+    bias+=(127-mChPressure)*mChPressureRange*(8.0f/127/128);
   }
   mAmpBias=bias;
 }
@@ -278,6 +319,8 @@ void Channel::updateAmpBias() {
 void Channel::updateDestinations(ModulationSource sourceChanged) {
   if (mModRouting[ModulationDestination::LfoPmDepth] & sourceChanged)
     updateLfoPmDepth();
+  if (mModRouting[ModulationDestination::PitchBend] & sourceChanged)
+    updatePitchBend();
   if (mModRouting[ModulationDestination::LfoAmDepth] & sourceChanged)
     updateLfoAmDepth();
   if (mModRouting[ModulationDestination::AmpBias] & sourceChanged)

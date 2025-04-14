@@ -34,6 +34,9 @@ class Instrument {
   // channel: 0-15, program: 0-127
   void programChange(unsigned channel, unsigned program);
 
+  // channel: 0-15, pressure 0-127
+  void channelPressure(unsigned channel, unsigned program);
+  
   // channel: 0-15, value: -8192..0..+8191
   void pitchBend(unsigned channel, int value);
 

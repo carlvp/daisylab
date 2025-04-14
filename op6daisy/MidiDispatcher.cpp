@@ -33,6 +33,9 @@ void BasicMidiDispatcher::DispatchEvent(daisy::MidiEvent &msg) {
   case daisy::ProgramChange:
     mInstrument->programChange(msg.channel, msg.data[0]);
     break;
+  case daisy::ChannelPressure:
+    mInstrument->channelPressure(msg.channel, msg.data[0]);
+    break;
   case daisy::PitchBend:
     mInstrument->pitchBend(msg.channel,
 			   (int) (msg.data[1]*128 + msg.data[0]) - 8192);
