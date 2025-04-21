@@ -39,13 +39,18 @@ static float timeScaling(int key, int rs) {
   return exp2f(-x*rs/128.0);
 }
 
-static float keyScaling(bool expCurve, int depth, int x) {
-  static constexpr float expCoeff=0.1069336;
+static float keyScaling(bool expCurve, int depth, unsigned key) {
+  static constexpr float k1_3=1.0f/3;
+  static constexpr float k1_12=1.0f/12;
+  static constexpr float k1_24=1.0f/24;
+  static constexpr float depth_scale=255.0f/99/256; // Maps depth onto [0, 1.0)
   
-  if (depth==0 || x==0)
+  if (depth==0 || key==0)
     return 1.0f;
-  float l = (expCurve)? exp2(-(72-x)*expCoeff-8) : ldexpf(25*x,-13);
-  return exp2(l*depth);
+  // LIN: linear arg: key/3
+  // EXP: linear for key=0,...,8 exponential from key=9
+  float arg=(expCurve)? ((key<=8)? key*k1_24 : exp2f(key*k1_12-2)) : key*k1_3;
+  return exp2f(arg*depth*depth_scale);
 }
 
 static float keyScaling(const KeyScalingParam *param, unsigned key) {
