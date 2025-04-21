@@ -235,7 +235,7 @@ static float unpackFp14(unsigned x14, bool addNoise=false) {
 }
 
 static void setOpParameter(FmOperatorParam &op, unsigned param, unsigned x) {
-  if (param<=NUM_ENVELOPE_PARAMETERS)
+  if (param<NUM_ENVELOPE_PARAMETERS)
     setAmEnvelopeParameter(op.envelope, param, x);
   else if (param<=kKlsRightCurve)
     setKeyScalingParameter(op.keyScaling, param, x);
@@ -352,7 +352,7 @@ static unsigned short computeDelayInBlocks(unsigned syxDelay) {
 }
 
 static void setCommonParameter(Program &common, unsigned param, unsigned x) {
-  if (param<=NUM_ENVELOPE_PARAMETERS)
+  if (param<NUM_ENVELOPE_PARAMETERS)
     setPmEnvelopeParameter(common.pitchEnvelope, param, x);
   else {
     unsigned msb=clamp(paramMsb(x), 99);
