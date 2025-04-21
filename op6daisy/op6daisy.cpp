@@ -26,18 +26,24 @@ static daisy::DaisySeed DaisyHw;
 
 Instrument theOp6Daisy;
 
-static bool gateLED, underrunLED;
+static bool gateLED, underrunLED, errorLED;
 
 void setGateLED(bool ledState) {
   gateLED=ledState;
   // We just use a single LED
-  DaisySeedHw.SetLed(gateLED | underrunLED);
+  DaisySeedHw.SetLed(gateLED | underrunLED | errorLED);
 }
 
 void setUnderrunLED(bool ledState) {
   underrunLED=ledState;
   // We just use a single LED
-  DaisySeedHw.SetLed(gateLED | underrunLED);
+  DaisySeedHw.SetLed(gateLED | underrunLED | errorLED);
+}
+
+void setErrorLED(bool ledState) {
+  errorLED=ledState;
+  // We just use a single LED
+  DaisySeedHw.SetLed(gateLED | underrunLED | errorLED);
 }
 
 #ifdef WITH_SAI2
