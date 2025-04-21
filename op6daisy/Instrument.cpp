@@ -30,7 +30,7 @@ void Instrument::Init() {
     mChannel[ch].reset(program1);
   memset(mDataEntryRouting, 0, sizeof(unsigned short)*NUM_CHANNELS);
   memset(mHiresControls, 0, sizeof(unsigned short)*HiresCC::NUM_HIRES_CC*NUM_CHANNELS);
-  memset(mTempRefCount, 0, sizeof(unsigned char)*NUM_CHANNELS);
+  memset(mTempRefCount, 0, sizeof(mTempRefCount));
 }
 
 void Instrument::fillBuffer(float *stereoOutBuffer) {
@@ -405,15 +405,17 @@ Program *Instrument::getTempProgram(const Program *tryThisNext) {
       }
   }
 
-  if (i<NUM_VOICES) {
-    mTempRefCount[i]++;
-    if (program != mLastTempProgram) {
-      // Voice Edit Buffer has changed and needs to be stored to temp program
-      mVoiceEditBuffer.storeProgram(*program);
-      mLastTempProgram=program;
-    }
+  // since there are as many temp programs as there are voices
+  // there will always be a temp program to recycle.
+  assert_with_led(program && i<NUM_VOICES);
+
+  mTempRefCount[i]++;
+  if (program != mLastTempProgram) {
+    // Voice Edit Buffer has changed and needs to be stored to temp program
+    mVoiceEditBuffer.storeProgram(*program);
+    mLastTempProgram=program;
   }
-  return program; 
+  return program;
 }
 
 Program *Instrument::releaseTempProgram(const Program *pgm) {
