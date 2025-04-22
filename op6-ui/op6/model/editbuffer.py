@@ -72,7 +72,7 @@ _commonParameters={
 #    "Keyboard Rate Scaling": (_firstCommon+15, _checkSingleDigitParam),
     "LFO Speed": (_firstCommon+16, _checkIntParam),
     "LFO Delay": (_firstCommon+17, _checkIntParam),
-    "LFO Waveform": (_firstCommon+19, lambda x: _checkIntParam(x, 5)),
+    "LFO Waveform": (_firstCommon+18, lambda x: _checkIntParam(x, 5)),
     "LFO Initial Pitch Modulation Depth": (_firstCommon+20, _checkIntParam),
     "LFO Initial Amplitude Modulation Depth": (_firstCommon+21, _checkIntParam),
     "Voice Name": (_firstCommon+22, _checkStringParam),
