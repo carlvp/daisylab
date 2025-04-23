@@ -72,7 +72,7 @@ void Channel::noteOn(Voice *voice,
       oldChannel->removeVoice(voice);
     addVoice(voice);
   }
-  else {
+  else if (mProgram==voice->getProgram()) {
     // Recycling of a voice, which is already associated with this channel.
     unsigned oldKey=voice->getKey();
     if (key==oldKey)
@@ -100,7 +100,7 @@ void Channel::noteOff(unsigned key, unsigned timestamp) {
 
   mNotesOn.reset(key);
   if (voice) {
-    if (!mPoly && mNotesOn.any()) {
+    if (!mPoly && mNotesOn.any() && mProgram==voice->getProgram()) {
       // Monophonic mode: the voice is not released when another key is pressed
       // Keyboard priority (min/max) is determined by last interval (down/up).
       unsigned newKey=(mLastKeyUp)? mNotesOn.max() : mNotesOn.min();
