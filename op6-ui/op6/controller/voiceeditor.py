@@ -12,7 +12,11 @@
 # notifyProgramChange()
 # notifyBankChange()
 
+import os
+import os.path
+
 NUM_PROGRAMS=32
+OP6_BANKS_DIR='op6-banks'
 
 class VoiceEditorController:
     '''
@@ -79,9 +83,32 @@ class VoiceEditorController:
                                        SAVE_BUFFER,
                                        program14bit)
 
-        # notify performace controller
+        # notify voice select controller
         name=self.editBuffer.getVoiceParameter("Voice Name")
         self.voiceSelectController.notifyBufferStored(self.currProgram, name)
+
+        # print parameters to file
+        bank=chr(65+self.currProgram//32) # bank A, B, C,...
+        prog=1+(self.currProgram & 31)    # program 1, 2,...,32
+        directory=os.path.join(OP6_BANKS_DIR, bank)
+
+        def mkdir_p(path):
+            if not os.path.exists(path):
+                (head, tail)=os.path.split(path)
+                if head!='':
+                    mkdir_p(head)
+                os.mkdir(path)
+
+        mkdir_p(directory)
+        filename=os.path.join(directory, f'{prog:02d}.json')
+        with open(filename, 'w') as file:
+            file.write('{\n')
+            file.write(f'  "Voice Name": "{name}"')
+            items=self.editBuffer.getAllVoiceParameters(skipInitialValue=True)
+            for (param, value) in items:
+                if param!="Voice Name":
+                    file.write(f',\n  "{param}": {value}')
+            file.write('\n}\n')
 
     def initVoiceEditor(self):
         '''initialize UI and voice editor'''
@@ -97,7 +124,7 @@ class VoiceEditorController:
         LOAD_BUFFER=7*128 + 2
 
         pgm=self.programBank[self.currProgram]
-        self.editBuffer.setVoiceParameters(pgm)
+        self.editBuffer.setVoiceParametersUnchecked(pgm)
         if self.midiOut is not None:
             program14bit=self.currProgram*128
             self.midiOut.sendParameter(self.baseChannel,

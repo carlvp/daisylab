@@ -83,12 +83,13 @@ _lastCommon=_firstCommon+22
 class EditBuffer:
     def __init__(self):
         self.parameters=None
+        self.initialVoice_=None
         self.setInitialVoice()
 
     def getVoiceParameters(self):
         return tuple(self.parameters)
 
-    def setVoiceParameters(self, parameters):
+    def setVoiceParametersUnchecked(self, parameters):
         self.parameters=list(parameters)
 
     def _checkParameter(self, value, checker, page):
@@ -100,7 +101,7 @@ class EditBuffer:
         else:
             return checker(value)
         
-    def setVoiceParameters(self, parameters):
+    def setVoiceParametersChecked(self, parameters):
         for op in range(6):
             d0=(5-op)*_paramsPerOp
             for (name, (index, checker)) in _opParameters.items():
@@ -116,6 +117,10 @@ class EditBuffer:
                 self.parameters[index]=value
 
     def setInitialVoice(self):
+        if self.initialVoice_ is not None:
+            self.parameters=list(self.initialVoice_)
+            return
+
         self.parameters=[0 for param in range(_lastCommon+1)]
         for op in range(6):
             d0=op*_paramsPerOp
@@ -140,6 +145,9 @@ class EditBuffer:
 #        self._setCommonParameter("Pitch Envelope Depth", 12)
         self._setCommonParameter("LFO Speed", 35)
         self._setCommonParameter("Voice Name", "INIT VOICE")
+
+        # Cache the initial voice
+        self.initialVoice_=tuple(self.parameters)
     
     def loadFromSyx(self, syxVoiceData):
         self.setInitialVoice()
@@ -288,19 +296,21 @@ class EditBuffer:
     def getVoiceParameter(self, paramName):
         (paramIndex, *_) = self._getParameterTuple(paramName)
         return self.parameters[paramIndex]
-        
-    def getAllVoiceParameters(self):
-        '''aggregate all voice paramters (name, value) in a list'''
+
+    def getAllVoiceParameters(self, skipInitialValue=False):
+        '''aggregate all voice parameters (name, value) in a list'''
         result=[]
         for op in range(6):
             i0=(5-op)*_paramsPerOp
             prefix="Op"+str(op+1)+" "
             for (name, (index,_)) in _opParameters.items():
                 value=self.parameters[i0+index]
-                result.append((prefix+name, value))
+                if not skipInitialValue or value!=self.initialVoice_[i0+index]:
+                    result.append((prefix+name, value))
         for (name, (index,_)) in _commonParameters.items():
             value=self.parameters[index]
-            result.append((name, value))
+            if not skipInitialValue or value!=self.initialVoice_[index]:
+                result.append((name, value))
         return result
 
     def _repackFrequencyParameters(self, op):
