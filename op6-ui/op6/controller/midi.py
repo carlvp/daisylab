@@ -23,6 +23,10 @@ class MidiController:
     def getMidiOut(self):
         return self.midi
 
+    def initModel(self):
+        # early startup: connect op6 if present
+        self.startOp6Port_()
+
     def startUp(self):
         # Identify and connect MIDI ports
         self.startMidiPorts_()
@@ -57,18 +61,22 @@ class MidiController:
     #
     # Helpers
     #
-    def startMidiPorts_(self):
-        # Connect MIDI Thru to Op6 (Daisy Seed)
-        self.midiThruPort=self.midi.getMidiThruPort()
+    def startOp6Port_(self):
         op6Port=self.midi.findPort(OP6_PORT_PREFIX_)
         if op6Port is not None and self.isOp6MidiPort_(op6Port):
             self.connectOp6_(op6Port)
+
+    def startMidiPorts_(self):
+        # Connect MIDI Thru to Op6 (Daisy Seed)
+        self.midiThruPort=self.midi.getMidiThruPort()
+        if self.op6Port is not None:
+            self.midi.connectPorts(self.midiThruPort, self.op6Port)
         # Connect all H/W input ports (except Op6/Daisy Seed) to MIDI Thru
         for p in self.midi.listPorts(input=True,
                                      output=False,
                                      include_system=False,
                                      include_midi_thru=False):
-            if p != op6Port and self.isHardwareMidiInput_(p):
+            if p != self.op6Port and self.isHardwareMidiInput_(p):
                 self.connectMidiInput_(p)
 
     def shutDownMidiPorts_(self):

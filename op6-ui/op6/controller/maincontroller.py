@@ -3,6 +3,10 @@ from .voiceselect import VoiceSelectController
 from .voiceeditor import VoiceEditorController
 from .midi import MidiController, EDIT_MODE, PERFORMANCE_MODE
 from op6.model.editbuffer import EditBuffer
+from op6.model.programbank import ProgramBank
+
+NUM_PROGRAMS=32
+OP6_BANKS_DIR='op6-banks'
 
 class MainController:
     '''
@@ -10,10 +14,12 @@ class MainController:
     between view and model.
     '''
     def __init__(self):
-        self.performanceController=PerformanceController()
-        self.voiceSelectController=VoiceSelectController()
         editBuffer=EditBuffer()
-        self.voiceEditorController=VoiceEditorController(editBuffer)
+        pgmBank=ProgramBank(NUM_PROGRAMS, OP6_BANKS_DIR) 
+
+        self.performanceController=PerformanceController()
+        self.voiceSelectController=VoiceSelectController(pgmBank)
+        self.voiceEditorController=VoiceEditorController(editBuffer, pgmBank)
         self.midiController=MidiController()
         self.clipboard=None
         self.currOpMode=PERFORMANCE_MODE
@@ -35,21 +41,29 @@ class MainController:
         self.voiceSelectController.resolveModules(modules)
         self.voiceEditorController.resolveModules(modules)
 
-    def startUp(self):
+    def initModel(self):
+        # MIDI connection
         midi=self.midiController.getMidiOut()
         self.performanceController.setMidiOut(midi)
         self.voiceSelectController.setMidiOut(midi)
         self.voiceEditorController.setMidiOut(midi)
+        self.midiController.initModel()
+
+        # import program banks from persistent storage, send to daisy
+        self.voiceEditorController.importPrograms()
+
+    def initUI(self):
+        self.performanceController.initUI()
+        self.voiceSelectController.initUI()
+
+    def startUp(self):
+        # start MIDI listener thread
         self.midiController.startUp()
 
     def shutDown(self):
         # stop the midi-listener thread, free MIDI resources
         self.midiController.shutDown()
     
-    def initUI(self):
-        self.performanceController.initUI()
-        self.voiceSelectController.initUI()
-
     def setActiveScreen(self, screen):
         PERFORMANCE_SCREEN=0
         VOICE_SELECT_SCREEN=1

@@ -20,13 +20,14 @@ class VoiceSelectController:
     and mediates user interaction and operations in the performace mode
     '''
 
-    def __init__(self):
+    def __init__(self, programBank):
         self.voiceEditor=None
         self.voiceSelectScreen=None
         self.dialogManager=None
         self.currVoice=None
         self.baseChannel=0
         self.midiOut=None
+        self.programBank=programBank
 
     def registerModules(self, modules):
         '''adds this controller object to the module dictionary.'''
@@ -39,6 +40,9 @@ class VoiceSelectController:
         self.dialogManager=modules['MainView']
 
     def initUI(self):
+        for p in range(32):
+            programName=self.programBank.getProgramName(p)
+            self.voiceSelectScreen.setVoiceName(p, programName)
         self.currVoice=0
         self.voiceSelectScreen.selectVoice(0)
         self.voiceEditor.notifyProgramChange(0)
@@ -77,12 +81,13 @@ class VoiceSelectController:
     def setMidiOut(self, midiOut):
         self.midiOut=midiOut
 
-    def notifyBufferStored(self, voiceNumber, voiceName):
+    def notifyBufferStored(self, voiceNumber):
         '''
         update voice name and (possibly) switch voiceNumber
         in response of the voice editor updating the voice parameters
         (and possibly the number as well)
         '''
+        voiceName=self.programBank.getProgramName(voiceNumber)
         self.voiceSelectScreen.setVoiceName(voiceNumber, voiceName)
         if self.currVoice!=voiceNumber:
             self.setVoice(voiceNumber, notifyVoiceEditor=False)

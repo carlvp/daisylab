@@ -12,21 +12,15 @@
 # notifyProgramChange()
 # notifyBankChange()
 
-import os
-import os.path
-
-NUM_PROGRAMS=32
-OP6_BANKS_DIR='op6-banks'
-
 class VoiceEditorController:
     '''
     The VoiceController manages the UI of the VoiceEditorScreen
     and mediates user interaction and operations in the voice editor
     '''
 
-    def __init__(self, editBuffer):
+    def __init__(self, editBuffer, programBank):
         self.editBuffer=editBuffer
-        self.programBank=[None]*NUM_PROGRAMS
+        self.programBank=programBank
         self.disableParameterUpdates=False
         self.voiceSelectController=None
         self.voiceEditorScreen=None
@@ -49,7 +43,7 @@ class VoiceEditorController:
         self.voiceIsUpToDate=False
         for i in range(32):
             self.editBuffer.loadFromSyx(syx.getVoice(i))
-            self.programBank[i]=self.editBuffer.getVoiceParameters()
+            self.programBank.setProgram(i, self.editBuffer.getVoiceParameters())
 
     def notifyProgramChange(self, program):
         '''Called at program change (invalidates edit buffer)'''
@@ -61,69 +55,49 @@ class VoiceEditorController:
         Set up the UI and Voice Edit Buffer on the MIDI device for Edit Mode
         '''
         if not self.voiceIsUpToDate:
-            if self.programBank[self.currProgram] is None:
+            if self.programBank.getProgram(self.currProgram) is None:
                 self.initVoiceEditor()
             else:
                 self._loadCurrProgram()
             self.voiceIsUpToDate=True
 
+    def sendSaveBufferMidi_(self, programNumber):
+        SAVE_BUFFER_NRPN=7*128 + 3
+        if self.midiOut:
+            program14bit=programNumber*128
+            self.midiOut.sendParameter(self.baseChannel,
+                                       SAVE_BUFFER_NRPN,
+                                       program14bit)
     def saveVoice(self):
         '''
         saves voice-editor buffer
 
-        updates program bank
+        updates program bank, including the persistent storage,
         sends SAVE_BUFFER <program#> nrpn to midi device
-        notifies the voice-select controller about updated voice
+        and notifies the voice-select controller about updated voice
         '''
-        SAVE_BUFFER=7*128 + 3
-        self.programBank[self.currProgram]=self.editBuffer.getVoiceParameters()
-        if self.midiOut:
-            program14bit=self.currProgram*128
-            self.midiOut.sendParameter(self.baseChannel,
-                                       SAVE_BUFFER,
-                                       program14bit)
-
+        self.programBank.saveEditBuffer(self.currProgram, self.editBuffer)
+        self.sendSaveBufferMidi_(self.currProgram)
+        
         # notify voice select controller
         name=self.editBuffer.getVoiceParameter("Voice Name")
-        self.voiceSelectController.notifyBufferStored(self.currProgram, name)
+        self.voiceSelectController.notifyBufferStored(self.currProgram)
 
-        # print parameters to file
-        bank=chr(65+self.currProgram//32) # bank A, B, C,...
-        prog=1+(self.currProgram & 31)    # program 1, 2,...,32
-        directory=os.path.join(OP6_BANKS_DIR, bank)
-
-        def mkdir_p(path):
-            if not os.path.exists(path):
-                (head, tail)=os.path.split(path)
-                if head!='':
-                    mkdir_p(head)
-                os.mkdir(path)
-
-        mkdir_p(directory)
-        filename=os.path.join(directory, f'{prog:02d}.json')
-        with open(filename, 'w') as file:
-            file.write('{\n')
-            file.write(f'  "Voice Name": "{name}"')
-            items=self.editBuffer.getAllVoiceParameters(skipInitialValue=True)
-            for (param, value) in items:
-                if param!="Voice Name":
-                    file.write(f',\n  "{param}": {value}')
-            file.write('\n}\n')
-
-    def initVoiceEditor(self):
+    def initVoiceEditor(self, updateUI=True):
         '''initialize UI and voice editor'''
         INIT_BUFFER=7*128 + 1
 
         self.editBuffer.setInitialVoice()
         if self.midiOut is not None:
             self.midiOut.sendParameter(self.baseChannel, INIT_BUFFER, 0)
-        self._updateUI()
+        if updateUI:
+            self._updateUI()
 
     def _loadCurrProgram(self):
         '''load a program into the edit buffer and update UI'''
         LOAD_BUFFER=7*128 + 2
 
-        pgm=self.programBank[self.currProgram]
+        pgm=self.programBank.getProgram(self.currProgram)
         self.editBuffer.setVoiceParametersUnchecked(pgm)
         if self.midiOut is not None:
             program14bit=self.currProgram*128
@@ -200,6 +174,26 @@ class VoiceEditorController:
 
     def setMidiOut(self, midiOut):
         self.midiOut=midiOut
+
+    def importProgram_(self, p):
+        # start from initial Voice
+        self.initVoiceEditor(updateUI=False)
+        # apply parameters to editBuffer according to saved programs
+        voiceMap=self.programBank.loadVoiceParameters(p)
+        for (paramName, value) in voiceMap.items():
+            self.editBuffer.setVoiceParameter(paramName, value)
+            if self.midiOut is not None and paramName!="Voice Name":
+                self.editBuffer.sendVoiceParameter(paramName,
+                                                   self.midiOut,
+                                                   self.baseChannel)
+        # commit editBuffer to program bank: on the Daisy and on host
+        self.programBank.setProgram(p, self.editBuffer.getVoiceParameters())
+        self.sendSaveBufferMidi_(p) # Save the modified Edit Buffer->program p
+
+    def importPrograms(self):
+        '''load program from persistent storage and send to Daisy'''
+        for p in self.programBank.getProgramDirectory():
+            self.importProgram_(p)
 
 def _isBaseOne(paramName):
     # Some integer parameters 0..N-1 are represented as 1..N in the UI

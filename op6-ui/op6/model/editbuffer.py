@@ -80,11 +80,13 @@ _commonParameters={
 
 _lastCommon=_firstCommon+22
 
+VOICE_NAME_INDEX = _firstCommon+22
+
 class EditBuffer:
     def __init__(self):
         self.parameters=None
         self.initialVoice_=None
-        self.setInitialVoice()
+        self.setInitialVoice_()
 
     def getVoiceParameters(self):
         return tuple(self.parameters)
@@ -117,10 +119,9 @@ class EditBuffer:
                 self.parameters[index]=value
 
     def setInitialVoice(self):
-        if self.initialVoice_ is not None:
-            self.parameters=list(self.initialVoice_)
-            return
+        self.parameters=list(self.initialVoice_)
 
+    def setInitialVoice_(self):
         self.parameters=[0 for param in range(_lastCommon+1)]
         for op in range(6):
             d0=op*_paramsPerOp
@@ -298,14 +299,17 @@ class EditBuffer:
         return self.parameters[paramIndex]
 
     def getAllVoiceParameters(self, skipInitialValue=False):
-        '''aggregate all voice parameters (name, value) in a list'''
+        '''aggregate all voice parameters (name, value) in a list
+           skipInitialValue   when True, don't include values which are the
+                              same as the initial voice ("default value")'''
         result=[]
         for op in range(6):
             i0=(5-op)*_paramsPerOp
             prefix="Op"+str(op+1)+" "
             for (name, (index,_)) in _opParameters.items():
-                value=self.parameters[i0+index]
-                if not skipInitialValue or value!=self.initialVoice_[i0+index]:
+                i=i0+index
+                value=self.parameters[i]
+                if not skipInitialValue or value!=self.initialVoice_[i]:
                     result.append((prefix+name, value))
         for (name, (index,_)) in _commonParameters.items():
             value=self.parameters[index]

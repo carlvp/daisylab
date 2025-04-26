@@ -16,6 +16,8 @@ class Op6App:
         # Connect modules
         self.controller.resolveModules(modules)
         self.view.resolveModules(modules)
+        # Initialize model
+        self.controller.initModel()
         # Initialize user interface
         self.controller.initUI()
         # Start displaying the Performance Screen
