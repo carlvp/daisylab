@@ -1,9 +1,9 @@
 {
-  "Voice Name": "OP6 E.ORGAN",
+  "Voice Name": "E.OP6AH",
   "Op1 Envelope Time 1": 16,
   "Op1 Envelope Time 2": 34,
   "Op1 Envelope Time 3": 34,
-  "Op1 Envelope Time 4": 34,
+  "Op1 Envelope Time 4": 60,
   "Op1 Envelope Level 0": 30,
   "Op1 Envelope Level 2": 91,
   "Op1 Envelope Level 3": 89,
