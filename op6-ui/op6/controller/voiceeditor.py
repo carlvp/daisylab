@@ -43,7 +43,7 @@ class VoiceEditorController:
         self.voiceIsUpToDate=False
         for i in range(32):
             self.editBuffer.loadFromSyx(syx.getVoice(i))
-            self.programBank.setProgram(i, self.editBuffer.getVoiceParameters())
+            self.programBank.saveEditBuffer(i, self.editBuffer)
 
     def notifyProgramChange(self, program):
         '''Called at program change (invalidates edit buffer)'''
