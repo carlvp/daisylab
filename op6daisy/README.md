@@ -16,21 +16,30 @@ op6daisy is a six-operator FM synthesizer.
   
 * Due to a current limitation of the implementation in libDaisy,
   the .syx files needs to be chopped up in pieces of at most 128 bytes
-  of payload. I will upload a utility (op6-ui) that does that.
+  of payload. There is a utility in this repository (op6-ui) that
+  facilitates .syx import. Also part of op6-ui is a Voice Editor, by which
+  voice parameters can be modified and new voices can be created from
+  scratch.
   
 * At power-up the INIT_VOICE is loaded. It's a rather dull sounding,
-  single operator sine wave. There is currently no practical way of
-  creating voices yourself -so you'll need some .syx files. These
-  are two good places:
+  single operator sine wave. With the Voice Editor (see op6-ui in this
+  repository), new voices can be created. Another option is to import
+  DX7 SysEx. Two good resources for .syx files:
   ** [http://bobbyblues.recup.ch/yamaha_dx7/dx7_patches.html]
   ** [https://yamahablackboxes.com/collection/yamaha-dx7-synthesizer/patches]
   
 * In a addition to SysEx, the op6daisy listens to MIDI note-on/off,
-  program change, pitch-bend and controls 7 (channel volume) and
-  10 (pan).
+  program change, pitch-bend, channel pressure and controls 1 (modulation
+  wheel), 5 (portamento time), 7 (channel volume) 10 (pan), 11 (expression),
+  65 (portamento), 126 and 127 (mono and poly operation). Registered parameter
+  0 (pitch bend range) and 5 (modulation range) are supported.
 
-* This is a multi-timbral synth. Each of the 16 MIDI channels can have
-  a distinct program/patch/voice.
+* There are non-registered parameters for control of modulation depth and
+  modulation routing (refer to the source code: Instrument.cpp and
+  Channel.cpp).
+
+* Unlike DX7, this is a multi-timbral synth. Each of the 16 MIDI channels
+  can have a distinct program/patch/voice.
 
 * Polyphony is now 16 voices (up from 4). It still seems possible to streamline
   the code a bit more, so perhaps the polyphony can be improved further. With
