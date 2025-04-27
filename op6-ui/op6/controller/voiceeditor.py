@@ -68,6 +68,21 @@ class VoiceEditorController:
             self.midiOut.sendParameter(self.baseChannel,
                                        SAVE_BUFFER_NRPN,
                                        program14bit)
+
+    def setOpEnabled_(self, newValues):
+        oldValues=[]
+        for n in range(6):
+            paramName=f"Op{n+1} Operator Enable"
+            old=self.editBuffer.getVoiceParameter(paramName)
+            oldValues.append(old)
+            if old!=newValues[n]:
+                # update Operator Enable
+                self.editBuffer.setVoiceParameter(paramName, newValues[n])
+                self.editBuffer.sendVoiceParameter(paramName,
+                                                   self.midiOut,
+                                                   self.baseChannel)
+        return oldValues # return old values so that they can be restored
+
     def saveVoice(self):
         '''
         saves voice-editor buffer
@@ -76,11 +91,18 @@ class VoiceEditorController:
         sends SAVE_BUFFER <program#> nrpn to midi device
         and notifies the voice-select controller about updated voice
         '''
+
+        # Operator Enable should not be part of saved voice
+        # temporarily enable any disabled operator
+        opEnabledOld=self.setOpEnabled_((1, 1, 1, 1, 1, 1))
+
         self.programBank.saveEditBuffer(self.currProgram, self.editBuffer)
         self.sendSaveBufferMidi_(self.currProgram)
+
+        # restore disabled operators
+        self.setOpEnabled_(opEnabledOld)
         
         # notify voice select controller
-        name=self.editBuffer.getVoiceParameter("Voice Name")
         self.voiceSelectController.notifyBufferStored(self.currProgram)
 
     def initVoiceEditor(self, updateUI=True):
