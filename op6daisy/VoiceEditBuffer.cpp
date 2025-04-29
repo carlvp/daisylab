@@ -165,41 +165,12 @@ static void setKeyScalingParameter(KeyScalingParam &ks,
 				   unsigned paramNumber,
 				   unsigned x) {
   x=paramMsb(x);
-  if (paramNumber==kKlsBreakpoint) {
-    ks.bp=x;
-  }
-  else {
-    // TODO: this code is ridiculous
-    // TODO: (1) consider aligning with op6-ui such that +/- is embedded
-    // TODO: (2) an "array of curves" [0]=left, [1]=right perhaps a good idea?
-    bool leftPart=(paramNumber<=kKlsLeftCurve);
-    int depth=leftPart? ks.lDepth : ks.rDepth;
-    bool negCurve=(depth<0);
-    
-    switch (paramNumber) {
-    case kKlsLeftDepth:
-    case kKlsRightDepth:
-      depth=clamp(x, 99);
-      break;
-    case kKlsLeftCurve:
-    case kKlsRightCurve:
-      // curves: -LIN (0) -EXP (1) +EXP(2) +LIN(3)
-      x &= 3;
-      bool expCurve=(x==1) || (x==2);
-      if (leftPart)
-	ks.lcExp=expCurve;
-      else
-	ks.rcExp=expCurve;
-      negCurve=(x<2);
-      depth=abs(depth);
-    }
-    
-    if (negCurve)
-      depth=-depth;
-    if (leftPart)
-      ks.lDepth=depth;
-    else
-      ks.rDepth=depth;
+  switch (paramNumber) {
+  case kKlsBreakpoint: ks.bp=x; break;
+  case kKlsLeftDepth:  ks.left.depth=clamp(x, 99); break;
+  case kKlsLeftCurve: ks.left.curve=x & 3;
+  case kKlsRightDepth: ks.right.depth=clamp(x, 99); break;
+  case kKlsRightCurve: ks.right.curve=x & 3;
   }
 }
 
@@ -492,42 +463,26 @@ static void convertPitchEnvelope(const SyxVoiceParam::Envelope &syxEnv,
 static void convert(const SyxVoiceParam::KbdLevelScaling &syxKls,
 		    KeyScalingParam &kls)
 {
-  unsigned bp=60;
-  bool lcExp=false;
-  int lDepth=0;
-  bool rcExp=false;
-  int rDepth=0;
-  
   // Breakpoint
   if (syxKls.ld || syxKls.rd) {
     // bp=39 ~ C5 (i.e. midi key 60),
     // bp=0  ~ A1 (21), bp=99 ~ C10 (120)
-    bp = clamp(syxKls.bp, 99) + 21;  
+    kls.bp = clamp(syxKls.bp, 99) + 21;
   }
 
   // Left curve
   if (syxKls.ld) {
     // curves: -LIN (0) -EXP (1) +EXP(2) +LIN(3)
-    unsigned curve=syxKls.rc_lc & 3;
-    int depth=clamp(syxKls.ld, 99);
-    lcExp=(curve==1) || (curve==2);
-    lDepth=(curve<2)? -depth : depth;
+    kls.left.curve=syxKls.rc_lc & 3;
+    kls.left.depth=clamp(syxKls.ld, 99);
   }
 
   // Right curve
   if (syxKls.rd) {
     // curves: -LIN (0) -EXP (1) +EXP(2) +LIN(3)
-    unsigned curve=(syxKls.rc_lc >> 2) & 3;
-    int depth=clamp(syxKls.rd, 99);
-    rcExp=(curve==1) || (curve==2);
-    rDepth=(curve<2)? -depth : depth;
+    kls.right.curve=(syxKls.rc_lc >> 2) & 3;
+    kls.right.depth=clamp(syxKls.rd, 99);
   }
-  
-  kls.bp=bp;
-  kls.lcExp=lcExp;
-  kls.lDepth=lDepth;
-  kls.rcExp=rcExp;
-  kls.rDepth=rDepth;
 }
 
 static float computeFrequency(bool fixed,

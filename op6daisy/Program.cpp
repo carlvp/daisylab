@@ -16,8 +16,13 @@ EnvelopeParam::EnvelopeParam(float l0)
 {
 }
 
+KeyScalingCurve::KeyScalingCurve()
+  : curve{kMinusLin}, depth{0}
+{
+}
+
 KeyScalingParam::KeyScalingParam()
-  : bp{60}, lcExp{false}, lDepth{0}, rcExp{false}, rDepth{0}
+  : bp{60}
 {
 }
 

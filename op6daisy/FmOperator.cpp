@@ -39,24 +39,23 @@ static float timeScaling(int key, int rs) {
   return exp2f(-x*rs/128.0);
 }
 
-static float keyScaling(bool expCurve, int depth, unsigned key) {
+float KeyScalingCurve::keyScaling(unsigned key) const {
   static constexpr float k1_3=1.0f/3;
   static constexpr float k1_12=1.0f/12;
   static constexpr float k1_24=1.0f/24;
   static constexpr float depth_scale=255.0f/99/256; // Maps depth onto [0, 1.0)
-  
+
   if (depth==0 || key==0)
     return 1.0f;
+  int signedDepth=(curve==kMinusLin || curve==kMinusExp)? -depth : depth;
+
   // LIN: linear arg: key/3
   // EXP: linear for key=0,...,8 exponential from key=9
-  float arg=(expCurve)? ((key<=8)? key*k1_24 : exp2f(key*k1_12-2)) : key*k1_3;
-  return exp2f(arg*depth*depth_scale);
+  float arg=(curve==kMinusExp || curve==kPlusExp)?
+    ((key<=8)? key*k1_24 : exp2f(key*k1_12-2)) : key*k1_3;
+  return exp2f(arg*signedDepth*depth_scale);
 }
 
-static float keyScaling(const KeyScalingParam *param, unsigned key) {
-  return (key<param->bp)? keyScaling(param->lcExp, param->lDepth, param->bp-key)
-    : keyScaling(param->rcExp, param->rDepth, key-param->bp);
-}
 
 void FmOperator::changeKey(unsigned key, std::int32_t deltaPhi) {
   if (!mParam->fixedFreq) {
@@ -81,7 +80,7 @@ void FmOperator::noteOn(const FmOperatorParam *param,
   mDelay1=mDelay2=0;
   
   // envelope
-  float level=param->totalLevel*keyScaling(&param->keyScaling, key);
+  float level=param->totalLevel*param->keyScaling.keyScaling(key);
   // +LIN and +EXP curves can only use the headroom above totalLevel
   // that is: keyScaling shouldn't cause level greater than unity.
   if (level > 1.0f) level=1.0f;

@@ -29,14 +29,31 @@ struct EnvelopeParam {
   float times[NUM_ENV_STAGES]; 
 };
 
+struct KeyScalingCurve {
+  KeyScalingCurve();
+
+  float keyScaling(unsigned key) const;
+
+  enum Type {
+     kMinusLin,
+     kMinusExp,
+     kPlusExp,
+     kPlusLin
+  };
+  char curve;
+  char depth;
+};
+
 struct KeyScalingParam {
   KeyScalingParam();
 
+  float keyScaling(unsigned key) const {
+    return (key<bp)? left.keyScaling(bp-key) : right.keyScaling(key-bp);
+  }
+
   unsigned char bp;
-  bool lcExp;
-  signed char lDepth;
-  bool rcExp;
-  signed char rDepth;
+  KeyScalingCurve left;
+  KeyScalingCurve right;
 };
 
 struct FmOperatorParam {
