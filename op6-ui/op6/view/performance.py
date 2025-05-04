@@ -1,5 +1,6 @@
 import tkinter
 from . import colorscheme
+from .resources import getPhotoImage
 
 # interface (MainView):
 # * registerModules()
@@ -86,54 +87,65 @@ class PerformanceScreen(tkinter.Frame):
         self.parameterValue[paramName]=cboxFormatter
         return id
 
-    def _createLayout(self):
-        self._makeLabel("Channel", 0, 0, columnspan=2)
-        self._makeLabel("Volume", 1, 0)
-        self._makeScale("Volume", 2, 0)
+    def _makeImage(self, name, row, column, rowspan=1, columnspan=1):
+        img=getPhotoImage(name)
+        id=tkinter.Label(self,
+                         image=img,
+                         anchor=tkinter.N)
+        id.grid(row=row, column=column, rowspan=rowspan, columnspan=columnspan)
+        id.config(foreground=FOREGROUND_COLOR,
+                  background=BACKGROUND_COLOR,
+                  borderwidth='0',
+                  highlightthickness='0')
+        return id
 
-        self._makeLabel("Pan", 1, 1)
+    def _createLayout(self):
+        self._makeImage("channel-controls.png", 0, 0, columnspan=5)
+        self._makeImage("box-volume.png", 1, 0)
+        self._makeScale("Volume", 2, 0)
+        self._makeImage("box-poly-mono.png", 4, 0)
+        self._makeCombobox("Poly", ("Mono", "Poly"), 4, 5, 0)
+
+        self._makeImage("box-pan.png", 1, 1)
         self._makeScale("Pan", 2, 1)
 
-        self._makeLabel("Poly/", 0, 2)
-        self._makeLabel("Mono",  1, 2)
-        self._makeCombobox("Poly", ("Mono", "Poly"), 4, 2, 2)
+        self._makeImage("box-porta-time.png", 1, 2);
+        self._makeScale("PortaTime", 2, 2)
 
-        self._makeLabel("Porta", 0, 3)
-        self._makeLabel("Time",  1, 3)
-        self._makeScale("PortaTime", 2, 3)
+        self._makeImage("box-porta-mode.png", 4, 2)
+        self._makeCombobox("PortaMode", ("Off", "Legato", "On"), 6, 5, 2)
 
-        self._makeLabel("Porta", 3, 3)
-        self._makeLabel("Mode", 4, 3)
-        self._makeCombobox("PortaMode", ("Off", "Legato", "On"), 6, 5, 3)
+        self._makeImage("box-pbend-range.png", 1, 3)
+        self._makeScale("PBendRange", 2, 3)
 
-        self._makeLabel("PBend", 0, 4)
-        self._makeLabel("Range",  1, 4)
-        self._makeScale("PBendRange", 2, 4)
+        self._makeImage("box-blank.png", 1, 4)
+        
+        self._makeImage("dest-lfo-pitch.png", 5, 5)
+        self._makeImage("dest-pitch-bend.png", 6, 5)
+        self._makeImage("dest-lfo-amp.png", 7, 5)
+        self._makeImage("dest-amp-bias.png", 8, 5)
 
-        self._makeLabel("LFO PM", 5, 5)
-        self._makeLabel("Pitch Bend", 6, 5)
-        self._makeLabel("LFO AM", 7, 5)
-        self._makeLabel("Amp. Bias", 8, 5)
-
-        self._makeLabel("Mod.", 0, 6)
-        self._makeLabel("Range",  1, 6)
+        self._makeImage("modulation-depth.png", 0, 6, columnspan=4)
+        self._makeImage("box-mod-wheel.png", 1, 6)
         self._makeScale("ModRange", 2, 6)
-        self._makeLabel("Mod.", 3, 6)
-        self._makeLabel("Wheel",  4, 6)
+        self._makeImage("modulation-routing.png", 3, 6, columnspan=4)
+        self._makeImage("box-mod-wheel.png", 4, 6)
         self._makeCombobox("Mod2LfoPm", ("Off", "On"), 3, 5, 6)
         self._makeCombobox("Mod2LfoAm", ("Off", "On"), 3, 7, 6)
         self._makeCombobox("Mod2AmpBias", ("Off", "On"), 3, 8, 6)
 
-        self._makeLabel("Press.", 0, 7)
-        self._makeLabel("Range",  1, 7)
+        self._makeImage("box-atouch.png", 1, 7)
         self._makeScale("PressRange", 2, 7)
-        self._makeLabel("Ch.", 3, 7)
-        self._makeLabel("Press.",  4, 7)
+        self._makeImage("box-atouch.png", 4, 7)
         self._makeCombobox("Press2LfoPm", ("Off", "On"), 3, 5, 7)
         self._makeCombobox("Press2PBend", ("Off", "On"), 3, 6, 7)
         self._makeCombobox("Press2LfoAm", ("Off", "On"), 3, 7, 7)
         self._makeCombobox("Press2AmpBias", ("Off", "On"), 3, 8, 7)
 
+        self._makeImage("box-blank.png", 1, 8)
+
+        self._makeImage("box-blank.png", 1, 9)
+        
 class RetroCombobox(tkinter.Button):
     '''Retro-style multi-value entry widget'''
     def __init__(self, parent, var, values, **kwargs):
