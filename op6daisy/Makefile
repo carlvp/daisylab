@@ -19,6 +19,7 @@ TARGET = op6daisy
 CPP_SOURCES = op6daisy.cpp \
   AudioPath.cpp \
   Channel.cpp \
+  DelayFx.cpp \
   Program.cpp \
   EnvelopeState.cpp \
   FmAlgorithm.cpp \

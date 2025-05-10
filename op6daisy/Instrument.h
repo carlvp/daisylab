@@ -4,6 +4,7 @@
 
 #include "configuration.h"
 #include "Channel.h"
+#include "DelayFx.h"
 #include "Program.h"
 #include "Voice.h"
 #include "VoiceEditBuffer.h"
@@ -89,6 +90,8 @@ class Instrument {
   Program mEditBuffer;
   static constexpr unsigned SYSEX_BUFFER_SIZE=4104;
   unsigned char mSysExBuffer[SYSEX_BUFFER_SIZE];
+  DelayFx mDelayFx;
+  Mixer mMixer;
 
   bool isTempProgram(const Program *pgm) const {
     return mTempPrograms<=pgm && pgm<mTempPrograms+NUM_VOICES;

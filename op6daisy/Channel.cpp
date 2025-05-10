@@ -30,6 +30,7 @@ void Channel::reset(const Program *program) {
   updatePitchBend();
   updateLfoAmDepth();
   updateAmpBias();
+  memset(mFxSendLevel, 0, sizeof(float)*Mixer::NUM_BUSES);
 }
 
 void Channel::addVoice(Voice *v) {
@@ -114,7 +115,12 @@ void Channel::noteOff(unsigned key, unsigned timestamp) {
   }
 }
 
-void Channel::mixVoicesPrivate(float *stereoMix, const float *stereoIn) {
+// use zero buffer the first time, then outputMix
+const float *Mixer::getInput(EffectBusName name) const {
+  return mixIsZero? zeroBuffer : outputMix[name];
+}
+
+void Channel::mixVoicesPrivate(float *stereoMix, Mixer &mixer) {
   // Handle LFO
   float lfo=mLfo.sampleAndUpdate(mProgram->lfo);
   float pitchMod=exp2f(mLfoPmDepth*lfo + mPitchBendInOctaves);
@@ -127,12 +133,21 @@ void Channel::mixVoicesPrivate(float *stereoMix, const float *stereoIn) {
     monoIn=monoMix;
   }
 
-  // Pan and add to the stero mix
+  // Pan and add to the stero mix and also effect bus
+  const float *stereoIn=mixer.mixIsZero? zeroBuffer : stereoMix;
+  float leftGain=mGain*mPanLeft;
+  float rightGain=mGain*mPanRight;
+  const float *delayIn=mixer.getInput(Mixer::kDelayFx);
+  float *delayOut=mixer.outputMix[Mixer::kDelayFx];
+  float delayLevel=mGain*mFxSendLevel[Mixer::kDelayFx];
   for (unsigned i=0; i<BLOCK_SIZE; ++i) {
     float x=monoMix[i];
-    stereoMix[2*i] = stereoIn[2*i] + x*mLeftGain;
-    stereoMix[2*i+1] = stereoIn[2*i+1] + x*mRightGain;
+    *stereoMix++ = *stereoIn++ + x*leftGain;
+    *stereoMix++ = *stereoIn++ + x*rightGain;
+    *delayOut++ = *delayIn++ + x*delayLevel;
   }
+  // next voice mixes with the output of this one
+  mixer.mixIsZero=false;
 }
 
 void Channel::setPan(unsigned p) {

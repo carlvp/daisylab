@@ -30,6 +30,22 @@ enum ModulationDestination {
   NUM_MODULATION_DESTINATIONS
 };
 
+struct Mixer {
+  enum EffectBusName {
+    kDelayFx,
+    NUM_BUSES
+  };
+  float outputMix[NUM_BUSES][BLOCK_SIZE];
+  bool mixIsZero;
+
+  void clearBuffers() {
+    mixIsZero=true;
+  }
+
+  // use zero buffer the first time, then outputMix
+  const float *getInput(EffectBusName name) const;
+};
+
 class Channel {
  public:
   Channel()
@@ -62,13 +78,10 @@ class Channel {
   }
 
   // Produce interleaved stereo mix of voices
-  const float *mixVoices(float *stereoOut, const float *stereoIn) {
+  void mixVoices(float *stereoMix, Mixer &mixer) {
     if (mNumVoices!=0) {
-      mixVoicesPrivate(stereoOut, stereoIn);
-      return stereoOut;
+      mixVoicesPrivate(stereoMix, mixer);
     }
-    else
-      return stereoIn;
   }
 
   const Program *getProgram() const { return mProgram; }
@@ -146,11 +159,17 @@ class Channel {
 			    ModulationDestination dst,
 			    bool routingEnabled);
 
+  // fx level (send) [0, 1.0)
+  void setFxSendLevel(Mixer::EffectBusName bus, float level) {
+    if (bus<Mixer::NUM_BUSES)
+      mFxSendLevel[bus]=level;
+  }
+
  private:
   SetOfKeys mNotesOn;
   const Program *mProgram;
   float mMasterVolume, mChannelVolume, mExpression, mPanLeft, mPanRight;
-  float mLeftGain, mRightGain;
+  float mGain;
   float mPitchBendInOctaves, mPitchBendRange, mGlideDecayFactor;
   unsigned mModulationRange, mModWheel;
   float mFromModWheel;
@@ -163,14 +182,13 @@ class Channel {
   bool mPoly, mLastKeyUp;
   unsigned char mChPressure, mChPressureRange;
   unsigned char mModRouting[ModulationDestination::NUM_MODULATION_DESTINATIONS];
+  float mFxSendLevel[Mixer::NUM_BUSES];
 
   void updateGain() {
-    float volume=mMasterVolume*mChannelVolume*mExpression;
-    mLeftGain=volume*mPanLeft;
-    mRightGain=volume*mPanRight;
+    mGain=mMasterVolume*mChannelVolume*mExpression;
   }
 
-  void mixVoicesPrivate(float *stereoOut, const float *stereoIn);
+  void mixVoicesPrivate(float *stereoMix, Mixer &mixer);
   Voice *findVoice(unsigned key) const;
   void addVoice(Voice *v);
   void removeVoice(Voice *v);

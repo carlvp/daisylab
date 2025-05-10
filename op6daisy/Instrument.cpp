@@ -6,6 +6,9 @@
 #include "Program.h"
 #include "SyxBulkFormat.h"
 
+#define NUM_DELAY_BUFFER_BLOCKS 1905
+static int16_t delayBuffer[NUM_DELAY_BUFFER_BLOCKS*BLOCK_SIZE];
+
 // Tune the Instrument:
 // Phase is represented as a 32-bit integer and 2PI corresponds to 2^32
 // The phase increment of a 1Hz signal is 2^32/sampleRate
@@ -19,7 +22,8 @@ Instrument::Instrument()
     mDeltaPhi1Hz{4294967296.0f/SAMPLE_RATE},
     mDeltaPhiA4{4294967296.0f*440/SAMPLE_RATE},
     mLastTempProgram{nullptr},
-    mSavedProgram{nullptr}
+    mSavedProgram{nullptr},
+    mDelayFx{delayBuffer, NUM_DELAY_BUFFER_BLOCKS}
 {
 }
 
@@ -34,14 +38,18 @@ void Instrument::Init() {
 }
 
 void Instrument::fillBuffer(float *stereoOutBuffer) {
-  const float *stereoMix=zeroBuffer;
+  mMixer.clearBuffers();
 
   for (Channel &ch: mChannel)
-    stereoMix=ch.mixVoices(stereoOutBuffer, stereoMix);
+    ch.mixVoices(stereoOutBuffer, mMixer);
 
   // zero fill if there were no active channels
-  if (stereoMix==zeroBuffer)
+  if (mMixer.mixIsZero) {
     memset(stereoOutBuffer, 0, sizeof(float)*2*BLOCK_SIZE);
+  }
+
+  // Process effects
+  mDelayFx.processBlock(stereoOutBuffer, mMixer.outputMix[Mixer::kDelayFx]);
 
   // Buffer is bound to underrun after loading a program bank.
   // But that's OK. Reset the LED after a little while.
@@ -100,6 +108,10 @@ void Instrument::controlChange(unsigned ch, unsigned cc, unsigned value) {
     break;
   case 38:
     controlChangeFine(ch, HiresCC::DataEntry, value);
+    break;
+  case 94:
+    // 50% max send level. a factor of two results from mono-to-stereo mix.
+    channel.setFxSendLevel(Mixer::kDelayFx, value/256.0f);
     break;
   case 98:
     controlChangeFine(ch, HiresCC::NRPN, value);
@@ -214,6 +226,9 @@ enum SystemParameter {
   kInitBuffer,
   kLoadProgramToBuffer,
   kStoreProgramFromBuffer,
+  kDelayFeedback,
+  kDelayTime,
+  kDelayDamp
 };
 
 void Instrument::setSystemParameter(unsigned paramNumber, unsigned value) {
@@ -238,6 +253,18 @@ void Instrument::setSystemParameter(unsigned paramNumber, unsigned value) {
     if (msb<NUM_PROGRAMS) {
       mVoiceEditBuffer.storeProgram(mProgram[msb]);
     }
+    break;
+  case kDelayFeedback:
+    // 0...127/128 feedback
+    mDelayFx.setFeedback(msb/128.0f);
+    break;
+  case kDelayTime:
+    // 4, 10..1270 ms
+    mDelayFx.setDelayMs(msb? msb*10 : 4);
+    break;
+  case kDelayDamp:
+    // 0..127 -> 8384 Hz..256Hz cutoff frequency
+    mDelayFx.setDamping((131-msb)*64);
     break;
   }
 }
