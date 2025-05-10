@@ -11,11 +11,18 @@ _CC_PORTA_TIME=5
 _CC_VOLUME=7
 _CC_PAN=10
 _CC_PORTAMENTO=65
+_CC_DELAY_LEVEL=94
 _CC_MONO=126
 _CC_POLY=127
 
 _RPN_PITCH_BEND_RANGE=0
 _RPN_MODULATION_DEPTH_RANGE=5
+
+_NRPN_SYSTEM_PAGE=7*128
+
+_NRPN_DELAY_FEEDBACK=_NRPN_SYSTEM_PAGE+0x04
+_NRPN_DELAY_TIME=_NRPN_SYSTEM_PAGE+0x05
+_NRPN_DELAY_DAMP=_NRPN_SYSTEM_PAGE+0x06
 
 _NRPN_CHANNEL_PAGE=8*128
 
@@ -89,6 +96,10 @@ _performanceParameters = {
     "Press2PBend":  (12, _NRPN_CH_PRESS_PBEND,          0, _midi_transmit_nrpn_on_off),
     "Press2LfoAm":  (13, _NRPN_CH_PRESS_LFO_AM,         0, _midi_transmit_nrpn_on_off),
     "Press2AmpBias":(14, _NRPN_CH_PRESS_AM_BIAS,        0, _midi_transmit_nrpn_on_off),
+    "DelayLevel":   (15, _CC_DELAY_LEVEL,               0, _midi_transmit_cc),
+    "DelayFeedback":(16, _NRPN_DELAY_FEEDBACK,          0, _midi_transmit_nrpn_msb),
+    "DelayTime":    (17, _NRPN_DELAY_TIME,              0, _midi_transmit_nrpn_msb),
+    "DelayDamp":    (18, _NRPN_DELAY_DAMP,              0, _midi_transmit_nrpn_msb),
 }
 
 _NUM_PERFORMANCE_PARAMETERS=len(_performanceParameters)

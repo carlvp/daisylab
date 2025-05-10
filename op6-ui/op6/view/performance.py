@@ -145,6 +145,21 @@ class PerformanceScreen(tkinter.Frame):
         self._makeImage("box-blank.png", 1, 8)
 
         self._makeImage("box-blank.png", 1, 9)
+
+        self._makeImage("delay-fx.png", 9, 0, columnspan=4)
+
+        self._makeImage("box-delay-level.png", 10, 0)
+        self._makeScale("DelayLevel", 11, 0)
+
+        self._makeImage("box-feedback.png", 10, 1)
+        self._makeScale("DelayFeedback", 11, 1)
+
+        self._makeImage("box-delay-time.png", 10, 2)
+        self._makeScale("DelayTime", 11, 2)
+
+        self._makeImage("box-damping.png", 10, 3)
+        self._makeScale("DelayDamp", 11, 3)
+
         
 class RetroCombobox(tkinter.Button):
     '''Retro-style multi-value entry widget'''
