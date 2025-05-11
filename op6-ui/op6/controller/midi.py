@@ -13,7 +13,7 @@ class MidiController:
     The MIDI Controller manages MIDI input (and output to some degree)
     '''
     def __init__(self):
-        self.onConnectCallback=None
+        self.connectionChangedCallback=None
         self.midi=MidiAlsa("Op6 App")
         self.program=None
         self.baseChannel=0
@@ -30,8 +30,8 @@ class MidiController:
         # return connection status
         return (self.op6Port is not None)
 
-    def startUp(self, onConnectCallback):
-        self.onConnectCallback=onConnectCallback
+    def startUp(self, connectionChangedCallback):
+        self.connectionChangedCallback=connectionChangedCallback
         
         # Identify and connect MIDI ports
         self.startMidiPorts_()
@@ -53,7 +53,7 @@ class MidiController:
         # print("Port added:  ", repr(port))
         if self.op6Port is None and self.isOp6MidiPort_(port):
             self.connectOp6_(port)
-            self.onConnectCallback()
+            self.connectionChangedCallback(isConnected=True)
         elif self.isHardwareMidiInput_(port):
             self.connectMidiInput_(port)
     
@@ -61,6 +61,7 @@ class MidiController:
         # print("Port removed: ", repr(port))
         if port==self.op6Port:
             self.op6Port=None
+            self.connectionChangedCallback(isConnected=False)
         elif port in self.connectedInputs:
             self.connectedInputs.remove(port)
 

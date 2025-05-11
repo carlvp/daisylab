@@ -22,6 +22,7 @@ class PerformanceScreen(tkinter.Frame):
         tkinter.Frame.__init__(self, parent, kwargs)
 
         self.controller=None
+        self.ledCanvas=None
         self.parameterValue={}
         self._createLayout()
         
@@ -99,6 +100,12 @@ class PerformanceScreen(tkinter.Frame):
                   highlightthickness='0')
         return id
 
+    def _makeLedCanvas(self, name, ledxy, row, column, rowspan=1, columnspan=1):
+        img=getPhotoImage(name)
+        id=LedCanvas(self, img, ledxy[0], ledxy[1])
+        id.grid(row=row, column=column, rowspan=rowspan, columnspan=columnspan)
+        return id
+
     def _createLayout(self):
         self._makeImage("channel-controls.png", 0, 0, columnspan=5)
         self._makeImage("box-volume.png", 1, 0)
@@ -146,6 +153,9 @@ class PerformanceScreen(tkinter.Frame):
 
         self._makeImage("box-blank.png", 1, 9)
 
+        self.ledCanvas=self._makeLedCanvas("device-online.png", (7, 5),
+                                           8, 0, columnspan=2)
+
         self._makeImage("delay-fx.png", 9, 0, columnspan=4)
 
         self._makeImage("box-delay-level.png", 10, 0)
@@ -160,7 +170,9 @@ class PerformanceScreen(tkinter.Frame):
         self._makeImage("box-damping.png", 10, 3)
         self._makeScale("DelayDamp", 11, 3)
 
-        
+    def setOnline(self, isOnline):
+        self.ledCanvas.setLed(isOnline)
+
 class RetroCombobox(tkinter.Button):
     '''Retro-style multi-value entry widget'''
     def __init__(self, parent, var, values, **kwargs):
@@ -199,3 +211,22 @@ class ComboboxFormatter:
 
     def get(self):
         return self.values.index(self.var.get())
+
+class LedCanvas(tkinter.Canvas):
+
+    def __init__(self, parent, image, ledX, ledY, **kwargs):
+        tkinter.Canvas.__init__(self, parent, kwargs)
+        self.config(width=image.width(),
+                    height=image.height(),
+                    background=BACKGROUND_COLOR,
+                    borderwidth='0',
+                    highlightthickness='0')
+        
+        self.create_image(0, 0, anchor=tkinter.NW, image=image)
+        # LED
+        image=getPhotoImage('led-on.png')
+        self.ledId=self.create_image(ledX, ledY, anchor=tkinter.NW,
+                                     image=image, state='hidden')
+
+    def setLed(self, lit):
+        self.itemconfig(self.ledId, state='normal' if lit else 'hidden')

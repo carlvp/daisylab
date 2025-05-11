@@ -162,3 +162,7 @@ class PerformanceController:
             return True
         else:
             return False
+
+    def onConnectionChanged(self, isConnected):
+        # indicate online status
+        self.performanceScreen.setOnline(isConnected)

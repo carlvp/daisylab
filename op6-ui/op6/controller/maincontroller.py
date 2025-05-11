@@ -54,12 +54,13 @@ class MainController:
         if op6IsConnected:
             self.initDevice_()
 
-    def onConnectCallback_(self):
+    def onConnectionChanged_(self, isConnected):
         '''called from the MidiController when op6 has been connected
 
            The call may be made from a thread, other than the main app
            thread (e.g. the MIDI-listener thread).'''
-        self.view.postCallbackFromMain(self.initDevice_)
+        callback=self.initDevice_ if isConnected else self.onDeviceDisconnect_
+        self.view.postCallbackFromMain(callback)
 
     def initDevice_(self, arg=None):
         # send the current settings to the device
@@ -71,6 +72,10 @@ class MainController:
         self.setOpMode(EDIT_MODE)
         self.voiceEditorController.syncProgramsOnConnect(NUM_PROGRAMS)
         self.setOpMode(oldOpMode)
+        self.performanceController.onConnectionChanged(True)
+
+    def onDeviceDisconnect_(self, arg=None):
+        self.performanceController.onConnectionChanged(False)
 
     def initUI(self):
         self.performanceController.initUI()
@@ -78,7 +83,7 @@ class MainController:
 
     def startUp(self):
         # start MIDI listener thread
-        self.midiController.startUp(self.onConnectCallback_)
+        self.midiController.startUp(self.onConnectionChanged_)
 
     def shutDown(self):
         # stop the midi-listener thread, free MIDI resources
