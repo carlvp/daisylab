@@ -197,25 +197,28 @@ class VoiceEditorController:
     def setMidiOut(self, midiOut):
         self.midiOut=midiOut
 
-    def importProgram_(self, p):
-        # start from initial Voice
+    def syncToEditBuffer_(self, pgm):
+        # start from initial Voice (clear edit buffer on host and device)
         self.initVoiceEditor(updateUI=False)
-        # apply parameters to editBuffer according to saved programs
-        voiceMap=self.programBank.loadVoiceParameters(p)
-        for (paramName, value) in voiceMap.items():
-            self.editBuffer.setVoiceParameter(paramName, value)
-            if self.midiOut is not None and paramName!="Voice Name":
-                self.editBuffer.sendVoiceParameter(paramName,
-                                                   self.midiOut,
-                                                   self.baseChannel)
-        # commit editBuffer to program bank: on the Daisy and on host
-        self.programBank.setProgram(p, self.editBuffer.getVoiceParameters())
-        self.sendSaveBufferMidi_(p) # Save the modified Edit Buffer->program p
+        # load program into edit buffer on host
+        if pgm is not None:
+            self.editBuffer.setVoiceParametersUnchecked(pgm)
+        # send to device
+        self.editBuffer.sendAllVoiceParameters(self.midiOut, self.baseChannel,
+                                               skipInitialValue=True)
 
-    def importPrograms(self):
-        '''load program from persistent storage and send to Daisy'''
-        for p in self.programBank.getProgramDirectory():
-            self.importProgram_(p)
+    def syncProgram_(self, index):
+        pgm=self.programBank.getProgram(index)
+        self.syncToEditBuffer_(pgm)
+        self.sendSaveBufferMidi_(index)
+
+    def syncProgramsOnConnect(self, numPrograms):
+        '''send programs to Daisy'''
+        savedBuffer=self.editBuffer.asProgram()
+        for index in range(numPrograms):
+            self.syncProgram_(index)
+        # restore the saved buffer on host and device
+        self.syncToEditBuffer_(savedBuffer)
 
 def _isBaseOne(paramName):
     # Some integer parameters 0..N-1 are represented as 1..N in the UI

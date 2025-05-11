@@ -15,11 +15,11 @@ class MainController:
     '''
     def __init__(self):
         editBuffer=EditBuffer()
-        pgmBank=ProgramBank(NUM_PROGRAMS, OP6_BANKS_DIR) 
-
+        self.pgmBank=ProgramBank(NUM_PROGRAMS, OP6_BANKS_DIR)
         self.performanceController=PerformanceController()
-        self.voiceSelectController=VoiceSelectController(pgmBank)
-        self.voiceEditorController=VoiceEditorController(editBuffer, pgmBank)
+        self.voiceSelectController=VoiceSelectController(self.pgmBank)
+        self.voiceEditorController=VoiceEditorController(editBuffer,
+                                                         self.pgmBank)
         self.midiController=MidiController()
         self.clipboard=None
         self.currOpMode=PERFORMANCE_MODE
@@ -42,6 +42,9 @@ class MainController:
         self.voiceEditorController.resolveModules(modules)
 
     def initModel(self):
+        # import program banks from persistent storage
+        self.pgmBank.importPrograms()
+
         # MIDI connection
         midi=self.midiController.getMidiOut()
         self.performanceController.setMidiOut(midi)
@@ -50,9 +53,6 @@ class MainController:
         op6IsConnected=self.midiController.initModel()
         if op6IsConnected:
             self.initDevice_()
-
-        # import program banks from persistent storage, send to daisy
-        self.voiceEditorController.importPrograms()
 
     def onConnectCallback_(self):
         '''called from the MidiController when op6 has been connected
@@ -66,6 +66,11 @@ class MainController:
         self.midiController.getMidiOut().sendReset()
         self.voiceSelectController.syncProgramOnConnect()
         self.performanceController.syncPerformanceParametersOnConnect()
+        # programs are transferred by means of the edit buffer
+        oldOpMode=self.currOpMode
+        self.setOpMode(EDIT_MODE)
+        self.voiceEditorController.syncProgramsOnConnect(NUM_PROGRAMS)
+        self.setOpMode(oldOpMode)
 
     def initUI(self):
         self.performanceController.initUI()
@@ -78,7 +83,12 @@ class MainController:
     def shutDown(self):
         # stop the midi-listener thread, free MIDI resources
         self.midiController.shutDown()
-    
+
+    def setOpMode(self, mode):
+        if self.currOpMode!=mode:
+            self.midiController.setOperationalMode(mode)
+            self.currOpMode=mode
+
     def setActiveScreen(self, screen):
         PERFORMANCE_SCREEN=0
         VOICE_SELECT_SCREEN=1
@@ -88,8 +98,7 @@ class MainController:
         if self.currOpMode!=mode:
             if mode==EDIT_MODE:
                 self.voiceEditorController.prepareEditMode()
-            self.midiController.setOperationalMode(mode)
-            self.currOpMode=mode
+            self.setOpMode(mode)
         self.view.selectScreen(screen)
 
     def setClipboard(self, clipboard):

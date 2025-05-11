@@ -88,7 +88,7 @@ class EditBuffer:
         self.initialVoice_=None
         self.setInitialVoice_()
 
-    def getVoiceParameters(self):
+    def asProgram(self):
         return tuple(self.parameters)
 
     def setVoiceParametersUnchecked(self, parameters):
@@ -368,6 +368,12 @@ class EditBuffer:
             
         # TODO: check if we have an active midi connection
         midiOut.sendParameter(channel, nrpn, x)
+
+    def sendAllVoiceParameters(self, midiOut, channel, skipInitialValue=False):
+        voiceParams=self.getAllVoiceParameters(skipInitialValue)
+        for (paramName, _) in voiceParams:
+            if paramName!="Voice Name":
+                self.sendVoiceParameter(paramName, midiOut, channel)
 
 # Conversion of envelope times
 

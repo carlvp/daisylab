@@ -1,7 +1,7 @@
 import json
 import os
 import os.path
-from .editbuffer import VOICE_NAME_INDEX
+from .editbuffer import EditBuffer, VOICE_NAME_INDEX
 
 PROGRAMS_PER_CARTRIDGE=32
 
@@ -50,7 +50,7 @@ class ProgramBank:
 
     def saveEditBuffer(self, index, editBuffer):
         '''saves the editBuffer to program bank and file'''
-        program=editBuffer.getVoiceParameters()
+        program=editBuffer.asProgram()
         self.setProgram(index, program)
 
         # commit to file
@@ -67,25 +67,35 @@ class ProgramBank:
             file.write('\n}\n')
         return False # success
 
-    def loadVoiceParameters(self, index):
-        '''loads the program with given index from persistent storage
+    def loadVoiceParameters_(self, filename):
+        '''loads a program from persistent storage
            returns a map of {parameter-name: value} items'''
-        filename=self.getProgramPath_(index)
         with open(filename, 'r') as file:
             data=file.read()
         return json.loads(data)
 
-    def getProgramDirectory(self):
-        '''loads the indicies of all programs in the persistent storage'''
-        programDirectory=[]
+    def importProgram_(self, fileName, editBuffer):
+        '''loads a program from persistent storage'''
+        voiceMap=self.loadVoiceParameters_(fileName)
+        # apply parameters to editBuffer according to saved programs
+        editBuffer.setInitialVoice()
+        for (paramName, value) in voiceMap.items():
+            editBuffer.setVoiceParameter(paramName, value)
+
+    def importPrograms(self):
+        '''loads all programs from persistent storage'''
         numPrograms=len(self.program)
+        editBuffer=EditBuffer()
         for p0 in range(0, numPrograms, 32):
             # The programs are organized in directories A, B, C,...
+            # TODO: this can be simplified by not exposing loadProgram
             if os.path.isdir(os.path.join(self.pathToStorage,
                                           self.getBankLetter(p0))):
                 # Check the presence of files named 01.json,..., 32.json
                 end=min(p0+32, numPrograms)
-                for pgm in range(p0, end):
-                    if os.path.isfile(self.getProgramPath_(pgm)):
-                        programDirectory.append(pgm)
-        return programDirectory
+                for index in range(p0, end):
+                    fileName=self.getProgramPath_(index)
+                    if os.path.isfile(fileName):
+                        self.importProgram_(fileName, editBuffer)
+                        program=editBuffer.asProgram()
+                        self.setProgram(index, program)
