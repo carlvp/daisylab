@@ -6,6 +6,7 @@ from alsa_midi import Address, \
     PortType, \
     PortUnsubscribedEvent, \
     ProgramChangeEvent, \
+    ResetEvent, \
     SequencerClient       
 import threading
 
@@ -124,6 +125,9 @@ class MidiAlsa:
 
     def sendControlChange(self, channel, ccIndex, value):
         self.sendMidiEvent(ControlChangeEvent(channel, ccIndex, value))
+
+    def sendReset(self):
+        self.sendMidiEvent(ResetEvent())
 
     def _sendParameterNumber(self, channel, paramNumber, isRegistered):
         NRPN=98

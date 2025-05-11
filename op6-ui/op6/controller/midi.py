@@ -13,6 +13,7 @@ class MidiController:
     The MIDI Controller manages MIDI input (and output to some degree)
     '''
     def __init__(self):
+        self.onConnectCallback=None
         self.midi=MidiAlsa("Op6 App")
         self.program=None
         self.baseChannel=0
@@ -26,8 +27,12 @@ class MidiController:
     def initModel(self):
         # early startup: connect op6 if present
         self.startOp6Port_()
+        # return connection status
+        return (self.op6Port is not None)
 
-    def startUp(self):
+    def startUp(self, onConnectCallback):
+        self.onConnectCallback=onConnectCallback
+        
         # Identify and connect MIDI ports
         self.startMidiPorts_()
         # register this instance as a MIDI Listener
@@ -48,6 +53,7 @@ class MidiController:
         # print("Port added:  ", repr(port))
         if self.op6Port is None and self.isOp6MidiPort_(port):
             self.connectOp6_(port)
+            self.onConnectCallback()
         elif self.isHardwareMidiInput_(port):
             self.connectMidiInput_(port)
     
@@ -106,7 +112,7 @@ class MidiController:
         # Connect op6 UI to Op6 (Daisy Seed)
         self.op6Port=op6InputPort
         self.midi.connectPorts(self.midi.getPort(), op6InputPort)
-        # Connect midiThru port (other inputs) to Op6 (Daiosy Seed)
+        # Connect midiThru port (other inputs) to Op6 (Daisy Seed)
         if self.midiThruPort is not None:
             self.midi.connectPorts(self.midiThruPort, op6InputPort)
 

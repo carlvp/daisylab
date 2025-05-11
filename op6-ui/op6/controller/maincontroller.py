@@ -47,10 +47,25 @@ class MainController:
         self.performanceController.setMidiOut(midi)
         self.voiceSelectController.setMidiOut(midi)
         self.voiceEditorController.setMidiOut(midi)
-        self.midiController.initModel()
+        op6IsConnected=self.midiController.initModel()
+        if op6IsConnected:
+            self.initDevice_()
 
         # import program banks from persistent storage, send to daisy
         self.voiceEditorController.importPrograms()
+
+    def onConnectCallback_(self):
+        '''called from the MidiController when op6 has been connected
+
+           The call may be made from a thread, other than the main app
+           thread (e.g. the MIDI-listener thread).'''
+        self.view.postCallbackFromMain(self.initDevice_)
+
+    def initDevice_(self, arg=None):
+        # send the current settings to the device
+        self.midiController.getMidiOut().sendReset()
+        self.voiceSelectController.syncProgramOnConnect()
+        self.performanceController.syncPerformanceParametersOnConnect()
 
     def initUI(self):
         self.performanceController.initUI()
@@ -58,7 +73,7 @@ class MainController:
 
     def startUp(self):
         # start MIDI listener thread
-        self.midiController.startUp()
+        self.midiController.startUp(self.onConnectCallback_)
 
     def shutDown(self):
         # stop the midi-listener thread, free MIDI resources

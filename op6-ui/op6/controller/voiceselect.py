@@ -24,7 +24,7 @@ class VoiceSelectController:
         self.voiceEditor=None
         self.voiceSelectScreen=None
         self.dialogManager=None
-        self.currVoice=None
+        self.currVoice=0
         self.baseChannel=0
         self.midiOut=None
         self.programBank=programBank
@@ -43,9 +43,7 @@ class VoiceSelectController:
         for p in range(32):
             programName=self.programBank.getProgramName(p)
             self.voiceSelectScreen.setVoiceName(p, programName)
-        self.currVoice=0
         self.voiceSelectScreen.selectVoice(0)
-        self.voiceEditor.notifyProgramChange(0)
 
     def setHasActiveScreen(self, hasActiveScreen):
         pass
@@ -58,6 +56,9 @@ class VoiceSelectController:
             self.midiOut.sendProgramChange(self.baseChannel, voiceNumber)
         if notifyVoiceEditor:
             self.voiceEditor.notifyProgramChange(voiceNumber)
+
+    def syncProgramOnConnect(self):
+        self.midiOut.sendProgramChange(self.baseChannel, self.currVoice)
 
     def loadVoiceBank(self):
         '''called from the VoiceSelectScreen to load a voice bank'''

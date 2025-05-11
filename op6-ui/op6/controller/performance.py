@@ -114,6 +114,7 @@ class PerformanceController:
     def __init__(self):
         self.performanceScreen=None
         self.parameterValues=[0 for index in range(_NUM_PERFORMANCE_PARAMETERS)]
+        self.resetPerformanceParameters()
         self.midiOut=None
         self.mBaseChannel=0
 
@@ -128,11 +129,25 @@ class PerformanceController:
     def setMidiOut(self, midiOut):
         self.midiOut=midiOut
 
-    def initUI(self):
-        '''initializes the performance parameters and the View'''
+    def resetPerformanceParameters(self, updateUI=False, sendMIDI=False):
+        '''set performance parameters to initial default values'''
         for (name, (index, _, value, _)) in _performanceParameters.items():
             self.parameterValues[index]=value
+        # TODO updateUI and sendMIDI, if True
+
+    def initUI(self):
+        '''reflect the performance parameters in the UI'''
+        for (name, (index, _, value, _)) in _performanceParameters.items():
             self.performanceScreen.setPerformanceParameter(name, str(value))
+
+    def syncPerformanceParametersOnConnect(self):
+        '''sync a newly connected Op6 Daisy to current performance parameters
+
+           the device is assumed to be in reset state (default values)'''
+        for (name, (index, midiNr, initValue, midiTransmit)) in _performanceParameters.items():
+            currValue=self.parameterValues[index]
+            if currValue!=initValue:
+                midiTransmit(self.midiOut, self.mBaseChannel, midiNr, currValue)
 
     def updatePerformanceParameter(self, paramName, paramValue):
         '''called from view object when parameter changed'''
