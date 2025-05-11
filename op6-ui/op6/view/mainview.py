@@ -1,3 +1,4 @@
+from collections import deque
 import tkinter
 from tkinter import ttk
 from .performance import PerformanceScreen;
@@ -17,7 +18,11 @@ class MainView:
         self.root=tkinter.Tk()
         self.setTitle("Op6")
         self.root.config(background='black')
-        
+
+        # callback event
+        self.queue=deque()
+        self.root.bind('<<callback>>', self.callback_)
+
         # icon
         self.root.iconphoto(True, getPhotoImage('op6-64x64.png'))
         # tabbed screens
@@ -86,6 +91,14 @@ class MainView:
         tkinter.messagebox.showerror(title=title,
                                      message=message,
                                      detail=detail)
+
+    def postCallbackFromMain(self, func, arg=None):
+        self.queue.append((func, arg))
+        self.root.event_generate('<<callback>>')
+
+    def callback_(self, event):
+        (func, arg)=self.queue.popleft()
+        func(arg)
 
 class TabbedScreens(tkinter.Frame):
     '''
