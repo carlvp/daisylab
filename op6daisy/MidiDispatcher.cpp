@@ -45,6 +45,11 @@ void BasicMidiDispatcher::DispatchEvent(daisy::MidiEvent &msg) {
       mInstrument->sysEx(msg.sysex_data, msg.sysex_message_len);
     }
     break;
+  case daisy::SystemRealTime:
+    if (msg.srt_type==daisy::Reset) {
+      mInstrument->reset();
+    }
+    break;
   default:
     break;
   }

@@ -165,6 +165,8 @@ class Channel {
       mFxSendLevel[bus]=level;
   }
 
+  void resetAllControllers();
+
  private:
   SetOfKeys mNotesOn;
   const Program *mProgram;

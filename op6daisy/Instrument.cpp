@@ -28,13 +28,47 @@ Instrument::Instrument()
 }
 
 void Instrument::Init() {
+  reset();
+  memset(mTempRefCount, 0, sizeof(mTempRefCount));
+}
+
+void Instrument::resetAllControllers(unsigned ch) {
+  mChannel[ch].resetAllControllers();
+  mDataEntryRouting[ch]=0;
+  memset(&mHiresControls[ch], 0, sizeof(unsigned short)*HiresCC::NUM_HIRES_CC);
+}
+
+void Instrument::reset() {
   const Program *program1 = &mProgram[0];
 
-  for (unsigned ch=0; ch<NUM_CHANNELS; ++ch)
+  for (unsigned ch=0; ch<NUM_CHANNELS; ++ch) {
     mChannel[ch].reset(program1);
-  memset(mDataEntryRouting, 0, sizeof(unsigned short)*NUM_CHANNELS);
-  memset(mHiresControls, 0, sizeof(unsigned short)*HiresCC::NUM_HIRES_CC*NUM_CHANNELS);
-  memset(mTempRefCount, 0, sizeof(mTempRefCount));
+  }
+  memset(mDataEntryRouting, 0, sizeof(mDataEntryRouting));
+  memset(mHiresControls, 0, sizeof(mHiresControls));
+
+  // All sound off (mVoices)
+  // no: mBaseChannel
+  // mOperationalMode
+  // mCurrTimeStamp -proabably not
+  // mSysExPtr
+  // mWaitClearUnderrun
+  // mLastTempProgram
+  // mDelayFx
+  // (N)RPN business and DataEntry: mDataEntryRouting and mHiResControls
+  // mVoiceEditBuffer
+  // no: mProgram[], mTempPrograms[]
+  // mTempRefCount[]
+  // (?): mLastTempProgram
+  // (?): mSavedProgram
+  // no (?): mEditBuffer
+  // no: mSysExBuffer
+  // clear mDelayFx (how?)
+  // no: mMixer
+  // other state
+  mSysExPtr=0;
+  setUnderrunLED(false);
+  mWaitClearUnderrun=0;
 }
 
 void Instrument::fillBuffer(float *stereoOutBuffer) {
@@ -124,6 +158,9 @@ void Instrument::controlChange(unsigned ch, unsigned cc, unsigned value) {
     break;
   case 101:
     controlChangeCoarse(ch, HiresCC::RPN, value);
+    break;
+  case 121:
+    resetAllControllers(ch);
     break;
   case 126: /* mono */
   case 127: /* poly */

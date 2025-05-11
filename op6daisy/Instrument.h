@@ -44,6 +44,12 @@ class Instrument {
   // system exclusive
   void sysEx(const unsigned char *buffer, unsigned length);
 
+  // channel: 0-15
+  void resetAllControllers(unsigned channel);
+
+  // reset MIDI event
+  void reset();
+
   // Midi Key A4 (used for tuning)
   static constexpr int MidiKeyA4=69;
 

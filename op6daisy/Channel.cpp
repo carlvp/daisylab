@@ -7,18 +7,15 @@
 
 static float monoMix[BLOCK_SIZE];
 
-void Channel::reset(const Program *program) {
-  mProgram=program;
+void Channel::resetAllControllers() {
   mExpression=16383/16384.0f; // (very close to) full volume
   setChannelVolume(90*128);   // about 50% linear gain (-6dB)
   setPan(8192);               // center
   mPitchWheel=0;              // no pitch bend
   setPitchBendRange(200);     // 200 cents
   mPoly=true;                 // Polyphonic operation
+  mPortamentoMode=0;          // Portamento off
   setPortamentoTime(0);       // Instant pitch glide
-  mNotesOn.clearAll();
-  mLastKey=60;
-  mLastKeyUp=true;
   mModulationRange=16383;     // unity
   mModWheel=0;
   mChPressureRange=127;       // unity
@@ -30,7 +27,15 @@ void Channel::reset(const Program *program) {
   updatePitchBend();
   updateLfoAmDepth();
   updateAmpBias();
-  memset(mFxSendLevel, 0, sizeof(float)*Mixer::NUM_BUSES);
+  memset(mFxSendLevel, 0, sizeof(mFxSendLevel));
+}
+
+void Channel::reset(const Program *program) {
+  mProgram=program;
+  mNotesOn.clearAll();
+  mLastKey=60;
+  mLastKeyUp=true;
+  resetAllControllers();
 }
 
 void Channel::addVoice(Voice *v) {
