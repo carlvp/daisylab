@@ -17,8 +17,12 @@ class DelayFx {
     mBufferBack{buffer},
     mFeedback{0}
   {
+    clearBuffer(); // sets mEndValidSamples
   }
 
+  // clear buffer (in a sneaky way)
+  void clearBuffer();
+  
   // Set delay in ms (min 1 block, max determined by buffer size)
   void setDelayMs(unsigned ms);
 
@@ -43,6 +47,7 @@ class DelayFx {
   int16_t *mBufferEnd;
   const int16_t *mBufferFront;
   int16_t *mBufferBack;
+  int16_t *mEndValidSamples;
   float mFeedback;
   OnePoleLowpass mDampingFilter;
 };

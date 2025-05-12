@@ -38,6 +38,8 @@ void Instrument::resetAllControllers(unsigned ch) {
   memset(&mHiresControls[ch], 0, sizeof(unsigned short)*HiresCC::NUM_HIRES_CC);
 }
 
+#define MIN_DELAY_MS 4
+#define MIN_DAMPING_HZ (131*64)
 void Instrument::reset() {
   const Program *program1 = &mProgram[0];
 
@@ -47,6 +49,12 @@ void Instrument::reset() {
   memset(mDataEntryRouting, 0, sizeof(mDataEntryRouting));
   memset(mHiresControls, 0, sizeof(mHiresControls));
 
+  // reset delay
+  mDelayFx.clearBuffer();
+  mDelayFx.setDelayMs(MIN_DELAY_MS);
+  mDelayFx.setFeedback(0);
+  mDelayFx.setDamping(MIN_DAMPING_HZ);
+
   // All sound off (mVoices)
   // no: mBaseChannel
   // mOperationalMode
@@ -54,7 +62,6 @@ void Instrument::reset() {
   // mSysExPtr
   // mWaitClearUnderrun
   // mLastTempProgram
-  // mDelayFx
   // (N)RPN business and DataEntry: mDataEntryRouting and mHiResControls
   // mVoiceEditBuffer
   // no: mProgram[], mTempPrograms[]
@@ -63,7 +70,6 @@ void Instrument::reset() {
   // (?): mSavedProgram
   // no (?): mEditBuffer
   // no: mSysExBuffer
-  // clear mDelayFx (how?)
   // no: mMixer
   // other state
   mSysExPtr=0;
@@ -297,7 +303,7 @@ void Instrument::setSystemParameter(unsigned paramNumber, unsigned value) {
     break;
   case kDelayTime:
     // 4, 10..1270 ms
-    mDelayFx.setDelayMs(msb? msb*10 : 4);
+    mDelayFx.setDelayMs(msb? msb*10 : MIN_DELAY_MS);
     break;
   case kDelayDamp:
     // 0..127 -> 8384 Hz..256Hz cutoff frequency
