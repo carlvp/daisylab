@@ -68,17 +68,10 @@ void Instrument::reset() {
   mDelayFx.setFeedback(0);
   mDelayFx.setDamping(MIN_DAMPING_HZ);
 
-  // no: mBaseChannel
-  // mOperationalMode
-  // mCurrTimeStamp -proabably not
-  // mSysExPtr
-  // mWaitClearUnderrun
-  // mVoiceEditBuffer
-  // no: mProgram[], mTempPrograms[]
-  // (?): mSavedProgram
-  // no (?): mEditBuffer
-  // no: mSysExBuffer
-  // no: mMixer
+  // operatrional mode
+  setOperationalMode(kPerformanceMode);
+  mSavedProgram=nullptr;
+
   // other state
   mSysExPtr=0;
   setUnderrunLED(false);
