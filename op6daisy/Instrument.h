@@ -45,6 +45,9 @@ class Instrument {
   void sysEx(const unsigned char *buffer, unsigned length);
 
   // channel: 0-15
+  void allSoundOff(unsigned channel);
+
+  // channel: 0-15
   void resetAllControllers(unsigned channel);
 
   // reset MIDI event

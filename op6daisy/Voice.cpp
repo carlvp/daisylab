@@ -40,6 +40,13 @@ void Voice::noteOff(unsigned timestamp) {
   mTimestamp=timestamp;
 }
 
+void Voice::kill() {
+  mGate=false;
+  mTimestamp=0;
+  mChannel=nullptr;
+  mProgram=nullptr;
+}
+
 void Voice::fillBuffer(float *monoOut,
 		       const float *monoIn,
 		       float pitchMod,

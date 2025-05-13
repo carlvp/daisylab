@@ -37,6 +37,8 @@ class Voice {
 
   void noteOff(unsigned timestamp);
 
+  void kill();
+
   void fillBuffer(float *monoOut,
 		  const float *monoIn,
 		  float pitchMod,

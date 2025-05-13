@@ -124,7 +124,6 @@ class Channel {
   // poly=true (polyphonic), false (monophonic)
   void setPoly(bool poly) {
     mPoly=poly;
-    allNotesOff();
   }
 
   // Portamento Time [0,16383]
@@ -165,6 +164,7 @@ class Channel {
       mFxSendLevel[bus]=level;
   }
 
+  void allSoundOff();
   void resetAllControllers();
 
  private:
@@ -194,7 +194,6 @@ class Channel {
   Voice *findVoice(unsigned key) const;
   void addVoice(Voice *v);
   void removeVoice(Voice *v);
-  void allNotesOff();
   void updateModWheel(bool propagate);
   void updateDestinations(ModulationSource sourceChanged);
   void updateLfoPmDepth();

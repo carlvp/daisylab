@@ -29,7 +29,6 @@ Instrument::Instrument()
 
 void Instrument::Init() {
   reset();
-  memset(mTempRefCount, 0, sizeof(mTempRefCount));
 }
 
 void Instrument::resetAllControllers(unsigned ch) {
@@ -38,13 +37,27 @@ void Instrument::resetAllControllers(unsigned ch) {
   memset(&mHiresControls[ch], 0, sizeof(unsigned short)*HiresCC::NUM_HIRES_CC);
 }
 
+void Instrument::allSoundOff(unsigned ch) {
+  // kills all the voices held by the channel -abruptly
+  mChannel[ch].allSoundOff();
+
+  if (ch==mBaseChannel) {
+    // release all temporary programs, which can only be associated with
+    // the base channel
+    memset(mTempRefCount, 0, sizeof(mTempRefCount));
+    mLastTempProgram=nullptr;
+  }
+}
+
 #define MIN_DELAY_MS 4
 #define MIN_DAMPING_HZ (131*64)
+
 void Instrument::reset() {
   const Program *program1 = &mProgram[0];
 
   for (unsigned ch=0; ch<NUM_CHANNELS; ++ch) {
     mChannel[ch].reset(program1);
+    mChannel[ch].allSoundOff();
   }
   memset(mDataEntryRouting, 0, sizeof(mDataEntryRouting));
   memset(mHiresControls, 0, sizeof(mHiresControls));
@@ -55,18 +68,13 @@ void Instrument::reset() {
   mDelayFx.setFeedback(0);
   mDelayFx.setDamping(MIN_DAMPING_HZ);
 
-  // All sound off (mVoices)
   // no: mBaseChannel
   // mOperationalMode
   // mCurrTimeStamp -proabably not
   // mSysExPtr
   // mWaitClearUnderrun
-  // mLastTempProgram
-  // (N)RPN business and DataEntry: mDataEntryRouting and mHiResControls
   // mVoiceEditBuffer
   // no: mProgram[], mTempPrograms[]
-  // mTempRefCount[]
-  // (?): mLastTempProgram
   // (?): mSavedProgram
   // no (?): mEditBuffer
   // no: mSysExBuffer
@@ -165,13 +173,16 @@ void Instrument::controlChange(unsigned ch, unsigned cc, unsigned value) {
   case 101:
     controlChangeCoarse(ch, HiresCC::RPN, value);
     break;
+  case 120:
+    allSoundOff(ch);
+    break;
   case 121:
     resetAllControllers(ch);
     break;
   case 126: /* mono */
   case 127: /* poly */
-    /* TODO: all notes should automatically be turned off */
     channel.setPoly(cc==127);
+    allSoundOff(ch);
     break;
   }
 }

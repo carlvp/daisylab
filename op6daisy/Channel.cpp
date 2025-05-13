@@ -206,8 +206,11 @@ void Channel::setPortamentoTime(unsigned t) {
   mGlideDecayFactor=exp2f(x);
 }
 
-void Channel::allNotesOff() {
-  // TODO: mute the acual voices
+void Channel::allSoundOff() {
+  // TODO: this might be a bit crude. Turn off the voices less abruptly.
+  for (unsigned i=0; i<mNumVoices; ++i)
+    mVoice[i]->kill();
+  mNumVoices=0;
   mNotesOn.clearAll();
 }
 
