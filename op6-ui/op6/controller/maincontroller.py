@@ -69,7 +69,7 @@ class MainController:
         self.performanceController.syncPerformanceParametersOnConnect()
         # programs are transferred by means of the edit buffer
         oldOpMode=self.currOpMode
-        self.setOpMode(EDIT_MODE)
+        self.setOpMode(EDIT_MODE, force_midi_tx=True)
         self.voiceEditorController.syncProgramsOnConnect(NUM_PROGRAMS)
         self.setOpMode(oldOpMode)
         self.performanceController.onConnectionChanged(True)
@@ -89,8 +89,8 @@ class MainController:
         # stop the midi-listener thread, free MIDI resources
         self.midiController.shutDown()
 
-    def setOpMode(self, mode):
-        if self.currOpMode!=mode:
+    def setOpMode(self, mode, force_midi_tx=False):
+        if self.currOpMode!=mode or force_midi_tx:
             self.midiController.setOperationalMode(mode)
             self.currOpMode=mode
 
