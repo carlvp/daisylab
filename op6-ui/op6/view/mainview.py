@@ -92,13 +92,13 @@ class MainView:
                                      message=message,
                                      detail=detail)
 
-    def postCallbackFromMain(self, func, arg=None):
+    def postCallbackFromMain(self, func, arg=()):
         self.queue.append((func, arg))
         self.root.event_generate('<<callback>>')
 
     def callback_(self, event):
         (func, arg)=self.queue.popleft()
-        func(arg)
+        func(*arg)
 
 class TabbedScreens(tkinter.Frame):
     '''

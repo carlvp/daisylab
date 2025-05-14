@@ -52,17 +52,9 @@ class MainController:
         self.voiceEditorController.setMidiOut(midi)
         op6IsConnected=self.midiController.initModel()
         if op6IsConnected:
-            self.initDevice_()
+            self.initDevice()
 
-    def onConnectionChanged_(self, isConnected):
-        '''called from the MidiController when op6 has been connected
-
-           The call may be made from a thread, other than the main app
-           thread (e.g. the MIDI-listener thread).'''
-        callback=self.initDevice_ if isConnected else self.onDeviceDisconnect_
-        self.view.postCallbackFromMain(callback)
-
-    def initDevice_(self, arg=None):
+    def initDevice(self, arg=None):
         # send the current settings to the device
         self.midiController.getMidiOut().sendReset()
         self.voiceSelectController.syncProgramOnConnect()
@@ -74,7 +66,7 @@ class MainController:
         self.setOpMode(oldOpMode)
         self.performanceController.onConnectionChanged(True)
 
-    def onDeviceDisconnect_(self, arg=None):
+    def onDeviceDisconnect(self, arg=None):
         self.performanceController.onConnectionChanged(False)
 
     def initUI(self):
@@ -83,7 +75,11 @@ class MainController:
 
     def startUp(self):
         # start MIDI listener thread
-        self.midiController.startUp(self.onConnectionChanged_)
+        midiEventListener=MidiEventListener(self.view.postCallbackFromMain,
+                                            self,
+                                            self.performanceController,
+                                            self.voiceSelectController)
+        self.midiController.startUp(midiEventListener)
 
     def shutDown(self):
         # stop the midi-listener thread, free MIDI resources
@@ -112,3 +108,28 @@ class MainController:
             self.clipboard=clipboard
             # TODO: notify all controllers
             # self.performanceController.clipboadChangedNotifier(clipboard)
+
+class MidiEventListener:
+    def __init__(self,
+                 postCallbackFromMain,
+                 mainController,
+                 performanceController,
+                 voiceSelectController):
+        self.postCallbackFromMain=postCallbackFromMain
+        self.mainController=mainController
+        self.performanceController=performanceController
+        self.voiceSelectController=voiceSelectController
+
+    def onConnectionChanged(self, isConnected):
+        '''called from the MidiController when op6 has been connected
+
+           The call may be made from a thread, other than the main app
+           thread (e.g. the MIDI-listener thread).'''
+        callback=(self.mainController.initDevice if isConnected
+                  else self.mainController.onDeviceDisconnect)
+        self.postCallbackFromMain(callback)
+
+    def onProgramChange(self, ch, pgm):
+        callback=self.voiceSelectController.onMidiProgramChange
+        self.postCallbackFromMain(callback, (ch, pgm))
+

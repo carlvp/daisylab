@@ -14,6 +14,8 @@ from op6.model.syx import SyxPacked32Voice
 # setVoice(voiceNumber)
 # loadVoiceBank()
 
+NUM_VOICES=32
+
 class VoiceSelectController:
     '''
     The VoiceSelectController manages the UI of the VoiceSelectScreen
@@ -40,7 +42,7 @@ class VoiceSelectController:
         self.dialogManager=modules['MainView']
 
     def initUI(self):
-        for p in range(32):
+        for p in range(NUM_VOICES):
             programName=self.programBank.getProgramName(p)
             self.voiceSelectScreen.setVoiceName(p, programName)
         self.voiceSelectScreen.selectVoice(0)
@@ -48,11 +50,18 @@ class VoiceSelectController:
     def setHasActiveScreen(self, hasActiveScreen):
         pass
 
-    def setVoice(self, voiceNumber, notifyVoiceEditor=True):
+    def onMidiProgramChange(self, ch, pgm):
+        '''called from MIDI listener or front panel'''
+        # FIXME shouldn't change programs while in EDIT mode
+        # TODO keep track also of other channels
+        if ch==self.baseChannel and pgm<NUM_VOICES:
+            self.setVoice(pgm, sendMidi=False)
+
+    def setVoice(self, voiceNumber, notifyVoiceEditor=True, sendMidi=True):
         '''called from VoiceSelectScreen to set new voice'''
         self.voiceSelectScreen.selectVoice(voiceNumber)
         self.currVoice=voiceNumber
-        if self.midiOut:
+        if sendMidi and self.midiOut:
             self.midiOut.sendProgramChange(self.baseChannel, voiceNumber)
         if notifyVoiceEditor:
             self.voiceEditor.notifyProgramChange(voiceNumber)

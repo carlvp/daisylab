@@ -183,7 +183,9 @@ class MidiAlsa:
         try:
             while True:
                 event = self.client.event_input()
-                if event.type==EventType.PORT_START:
+                if event.type==EventType.PGMCHANGE:
+                    listener.onProgramChange(event.channel, event.value)
+                elif event.type==EventType.PORT_START:
                     listener.onPortAdded(event.addr)
                 elif event.type==EventType.PORT_EXIT:
                     listener.onPortRemoved(event.addr)

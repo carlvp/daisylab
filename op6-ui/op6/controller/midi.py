@@ -13,13 +13,13 @@ class MidiController:
     The MIDI Controller manages MIDI input (and output to some degree)
     '''
     def __init__(self):
-        self.connectionChangedCallback=None
         self.midi=MidiAlsa("Op6 App")
         self.program=None
         self.baseChannel=0
         self.op6Port=None
         self.midiThruPort=None
         self.connectedInputs=[]
+        self.midiListener=None
 
     def getMidiOut(self):
         return self.midi
@@ -30,13 +30,16 @@ class MidiController:
         # return connection status
         return (self.op6Port is not None)
 
-    def startUp(self, connectionChangedCallback):
-        self.connectionChangedCallback=connectionChangedCallback
+    def startUp(self, midiListener):
+        # Add more local listener methods
+        midiListener.onPortAdded=self.onPortAdded
+        midiListener.onPortRemoved=self.onPortRemoved
+        self.midiListener=midiListener
         
         # Identify and connect MIDI ports
         self.startMidiPorts_()
         # register this instance as a MIDI Listener
-        self.midi.startListen(self)
+        self.midi.startListen(midiListener)
 
     def setOperationalMode(self, mode):
         SWITCH_MODE=7*128
@@ -49,11 +52,13 @@ class MidiController:
     #
     # MIDI Listener implementation
     #
+
+
     def onPortAdded(self, port):
         # print("Port added:  ", repr(port))
         if self.op6Port is None and self.isOp6MidiPort_(port):
             self.connectOp6_(port)
-            self.connectionChangedCallback(isConnected=True)
+            self.midiListener.onConnectionChanged(isConnected=True)
         elif self.isHardwareMidiInput_(port):
             self.connectMidiInput_(port)
     
@@ -61,7 +66,7 @@ class MidiController:
         # print("Port removed: ", repr(port))
         if port==self.op6Port:
             self.op6Port=None
-            self.connectionChangedCallback(isConnected=False)
+            self.midiListener.onConnectionChanged(isConnected=False)
         elif port in self.connectedInputs:
             self.connectedInputs.remove(port)
 
@@ -76,6 +81,8 @@ class MidiController:
     def startMidiPorts_(self):
         # Connect MIDI Thru to Op6 (Daisy Seed)
         self.midiThruPort=self.midi.getMidiThruPort()
+        uiPort=self.midi.getPort()
+        self.midi.connectPorts(self.midiThruPort, uiPort)
         if self.op6Port is not None:
             self.midi.connectPorts(self.midiThruPort, self.op6Port)
         # Connect all H/W input ports (except Op6/Daisy Seed) to MIDI Thru
@@ -87,9 +94,9 @@ class MidiController:
                 self.connectMidiInput_(p)
 
     def shutDownMidiPorts_(self):
+        uiPort=self.midi.getPort()
         # Disconnect the midi ports: Op6 UI and MIDI Thru to Op6/Daisy Seed
         if self.op6Port is not None:
-            uiPort=self.midi.getPort()
             self.midi.disconnectPorts(uiPort, self.op6Port)
             if self.midiThruPort is not None:
                 self.midi.disconnectPorts(self.midiThruPort, self.op6Port)
@@ -97,6 +104,8 @@ class MidiController:
         if self.midiThruPort is not None:
             for p in self.connectedInputs:
                 self.midi.disconnectPorts(p, self.midiThruPort)
+            # Disconnect MIDI Thru -> uiPort
+            self.midi.disconnectPorts(self.midiThruPort, uiPort)
 
     def isOp6MidiPort_(self, port):
         portInfo=self.midi.getPortInfo(port)
