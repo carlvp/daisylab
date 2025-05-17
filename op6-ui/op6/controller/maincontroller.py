@@ -133,3 +133,6 @@ class MidiEventListener:
         callback=self.voiceSelectController.onMidiProgramChange
         self.postCallbackFromMain(callback, (ch, pgm))
 
+    def onControllerChange(self, ch, cc, value):
+        callback=self.performanceController.onMidiControllerChange
+        self.postCallbackFromMain(callback, (ch, cc, value))

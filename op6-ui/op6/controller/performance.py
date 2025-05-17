@@ -104,6 +104,16 @@ _performanceParameters = {
 
 _NUM_PERFORMANCE_PARAMETERS=len(_performanceParameters)
 
+_cc_to_parameter = {
+    _CC_PORTA_TIME:  "PortaTime",
+    _CC_VOLUME:      "Volume",
+    _CC_PAN:         "Pan",
+    _CC_PORTAMENTO:  "PortaMode",
+    _CC_DELAY_LEVEL: "DelayLevel",
+    _CC_MONO:        "Poly",  # _CC_MONO and _CC_POLY map to same parameter
+    _CC_POLY:        "Poly",
+}
+
 class PerformanceController:
     '''
     The PerformanceController manages the UI of the PerformanceScreen
@@ -129,7 +139,7 @@ class PerformanceController:
     def setMidiOut(self, midiOut):
         self.midiOut=midiOut
 
-    def resetPerformanceParameters(self, updateUI=False, sendMIDI=False):
+    def resetPerformanceParameters(self, updateUI=False, sendMidi=False):
         '''set performance parameters to initial default values'''
         for (name, (index, _, value, _)) in _performanceParameters.items():
             self.parameterValues[index]=value
@@ -149,19 +159,37 @@ class PerformanceController:
             if currValue!=initValue:
                 midiTransmit(self.midiOut, self.mBaseChannel, midiNr, currValue)
 
+    def setParameter_(self, paramName, value, updateUI=False, sendMidi=False):
+        (index, midiNr, _, midiTransmit)=_performanceParameters[paramName]
+        if self.parameterValues[index]!=value:
+            self.parameterValues[index]=value
+            if sendMidi:
+                midiTransmit(self.midiOut, self.mBaseChannel, midiNr, value)
+            if updateUI:
+                self.performanceScreen.setPerformanceParameter(paramName, str(value))
+            return True
+        else:
+            return False
+
     def updatePerformanceParameter(self, paramName, paramValue):
         '''called from view object when parameter changed'''
         try:
             value=int(paramValue)
         except ValueError:
             return False
-        (index, midiNr, _, midiTransmit)=_performanceParameters[paramName]
-        if self.parameterValues[index]!=value:
-            self.parameterValues[index]=value
-            midiTransmit(self.midiOut, self.mBaseChannel, midiNr, value)
-            return True
-        else:
-            return False
+        return self.setParameter_(paramName, value, sendMidi=True)
+
+    def onMidiControllerChange(self, ch, cc, value):
+        if ch==self.mBaseChannel:
+            paramName=_cc_to_parameter.get(cc)
+            if paramName is not None:
+                # map MIDI CC values to parameter values (special cases)
+                setValue=(0 if cc==_CC_MONO else
+                          1 if cc==_CC_POLY else
+                          (0 if value<64 else
+                           1 if value<96 else 2) if cc==_CC_PORTAMENTO else
+                          value)
+                self.setParameter_(paramName, setValue, updateUI=True)
 
     def onConnectionChanged(self, isConnected):
         # indicate online status
