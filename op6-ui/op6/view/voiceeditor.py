@@ -1,3 +1,4 @@
+import bisect
 import tkinter
 from tkinter import ttk
 from . import colorscheme
@@ -15,8 +16,17 @@ FOREGROUND_COLOR=colorscheme.RETRO_DISPLAY_FOREGROUND
 LIGHT_FOREGROUND_COLOR=colorscheme.RETRO_DISPLAY_HIGHLIGHTED
 DARK_FOREGROUND_COLOR=colorscheme.RETRO_DISPLAY_DARK
 
+# Screen Layout
+TOP_ROW=1
 VOICE_PARAM_ROW=4
 OP6_ROW=7
+LFO_ROW=14
+
+# The cursor snaps to the following rows
+_CURSOR_ROWS=[
+    TOP_ROW,   VOICE_PARAM_ROW, OP6_ROW,   OP6_ROW+1, OP6_ROW+2,
+    OP6_ROW+3, OP6_ROW+4,       OP6_ROW+5, LFO_ROW
+]
 
 class VoiceEditorScreen(tkinter.Frame):
     '''
@@ -33,25 +43,30 @@ class VoiceEditorScreen(tkinter.Frame):
         self.envelopeDisplay=None
         self.kbdScalingDisplay=None
         self.saveButton=None
+        self.cursorRow=0
+        self.cursorCol=0
+        self.currWidget=None
         # register Tk validation functions
         self.validateWidth=self.register(_onValidateWidth)
         self.validateInt=self.register(_onValidateInt)
         self.validateFp=self.register(_onValidateFp)
         # create layout
         self._makeAlgorithmLegend(0)
-        self._makeTopRow(1)
-        self._makeDisplayRow(2)
-        self._makeVoiceParamHeading(3)
+        self._makeTopRow(TOP_ROW)
+        self._makeDisplayRow(TOP_ROW+1)
+        self._makeVoiceParamHeading(VOICE_PARAM_ROW-1)
         self._makeVoiceParamRow(VOICE_PARAM_ROW)
-        self._makeOpParamHeading1(5)
-        self._makeOpParamHeading2(6)
+        self._makeOpParamHeading1(OP6_ROW-2)
+        self._makeOpParamHeading2(OP6_ROW-1)
         for r in range(6):
             self._makeOpParamRow(6-r, OP6_ROW+r)
-        self._makeLfoParamHeading(13)
-        self._makeLfoParamRow(14)
+        self._makeLfoParamHeading(LFO_ROW-1)
+        self._makeLfoParamRow(LFO_ROW)
         # initialize displays
         self._connectEnvelopeVariables()
         self.currDisplayed=None
+        # set initial focus on Algorithm Entry
+        self._getWidget(VOICE_PARAM_ROW, 1).focus()
 
     def registerModules(self, modules):
         '''adds this view object to the module dictionary.'''
@@ -121,7 +136,7 @@ class VoiceEditorScreen(tkinter.Frame):
     def _makeAlgorithmLegend(self, row):
         '''Creates the legend (image) showing all algorithms'''
         self._makeImage('algorithms.png', row, 0, columnspan=26)
-        
+
     def _makeTopRow(self, row):
         '''Creates the row with voice name and number'''
         self._makeLabel("Voice", row, 4, 2)
@@ -133,10 +148,12 @@ class VoiceEditorScreen(tkinter.Frame):
                                        command=(lambda:
                                                 self.controller.saveVoice()))
         self.saveButton.grid(row=row, column=15, columnspan=2, sticky=tkinter.S)
+        self.saveButton.bind('<FocusIn>', self._focusInListener)
         button=tkinter.Button(self,
                               text="Init",
                               command=lambda: self.controller.initVoiceEditor())
         button.grid(row=row, column=17, columnspan=2, sticky=(tkinter.S, tkinter.E))
+        button.bind('<FocusIn>', self._focusInListener)
 
     def _makeDisplayRow(self, row):
         '''Creates the row with displays: algorithm and envelope'''
@@ -277,9 +294,18 @@ class VoiceEditorScreen(tkinter.Frame):
         id.grid(row=row, column=column, columnspan=columnspan)
         return id
 
-    def _focusInListener(self, e, row):
-        self._focusOnRow(row)
-        e.widget.select_range(0, tkinter.END)
+    def _focusInListener(self, e, selectAll=False):
+        widget=e.widget
+        info=widget.grid_info()
+        self.cursorRow=info["row"]
+        self.cursorCol=info["column"]
+        self._focusOnRow(self.cursorRow)
+        self.currWidget=widget
+        if selectAll:
+            widget.select_range(0, tkinter.END)
+        else:
+            # clear any selection elsewhere
+            self.selection_clear()
 
     def _makeIntEntry(self, paramName, width, row, column,
                    columnspan=1, minValue=0, maxValue=None):
@@ -296,7 +322,7 @@ class VoiceEditorScreen(tkinter.Frame):
                          justify=tkinter.RIGHT,
                          width=width)
         id.grid(row=row, column=column, columnspan=columnspan)
-        id.bind('<FocusIn>', lambda e, row=row: self._focusInListener(e, row))
+        id.bind('<FocusIn>', lambda e: self._focusInListener(e, selectAll=True))
         id.bind('<FocusOut>', lambda _, name=paramName:
                 self.controller.requestUIFieldUpdate(name))
         _setRetroEntryStyle(id)
@@ -317,7 +343,7 @@ class VoiceEditorScreen(tkinter.Frame):
                          justify=tkinter.RIGHT,
                          width=width)
         id.grid(row=row, column=column, columnspan=columnspan)
-        id.bind('<FocusIn>', lambda e, row=row: self._focusInListener(e, row))
+        id.bind('<FocusIn>', lambda e: self._focusInListener(e, selectAll=True))
         id.bind('<FocusOut>', lambda _, name=paramName:
                 self.controller.requestUIFieldUpdate(name))
         _setRetroEntryStyle(id)
@@ -335,7 +361,7 @@ class VoiceEditorScreen(tkinter.Frame):
                          justify=tkinter.LEFT,
                          width=width)
         id.grid(row=row, column=column, columnspan=columnspan)
-        id.bind('<FocusIn>', lambda e, row=row: self._focusInListener(e, row))
+        id.bind('<FocusIn>', lambda e: self._focusInListener(e, selectAll=True))
         id.bind('<FocusOut>', lambda _, name=paramName:
                 self.controller.requestUIFieldUpdate(name))
         _setRetroEntryStyle(id)
@@ -349,6 +375,7 @@ class VoiceEditorScreen(tkinter.Frame):
         id.grid(row=row, column=column, columnspan=columnspan)
         cboxFormatter=ComboboxFormatter(var, values)
         self.parameterValue[paramName]=cboxFormatter
+        id.bind('<FocusIn>', self._focusInListener)
         return id
 
     def _makeToggle(self, paramName, initialValue,
@@ -362,6 +389,7 @@ class VoiceEditorScreen(tkinter.Frame):
                       lambda name, index, op, widget=id:
                           (widget.master._onVoiceParamChanged(name, index, op),
                            widget.update()))
+        id.bind('<FocusIn>', self._focusInListener)
         return id
 
     def _makeImage(self, name, row, column, rowspan=1, columnspan=1):
@@ -390,6 +418,44 @@ class VoiceEditorScreen(tkinter.Frame):
             if type(w)!=tkinter.Label and type(w)!=RetroToggle:
                 w.config(foreground=color)
 
+    def _snap(L, x, dx):
+        i=bisect.bisect_left(L, x)
+        if i<len(L):
+            y=L[i]
+            if x!=y and dx==-1:
+                # go to previous element (or clamp at first)
+                y = L[i-1] if i>0 else L[0]
+        else:
+            # clamp at last element
+            y=L[len(L)-1]
+        return y
+
+    def moveCursor(self, deltaRow, deltaCol):
+        if deltaRow!=0:
+            r=VoiceEditorScreen._snap(_CURSOR_ROWS, self.cursorRow+deltaRow, deltaRow)
+            widget=self._getWidget(r, self.cursorCol)
+            if widget is None:
+                # adjust column
+                c=self.cursorCol
+                if r==TOP_ROW:
+                    c=6 if c<6 else 17
+                elif r==VOICE_PARAM_ROW:
+                    c=(1 if c<1 else
+                       2 if c<4 else
+                       6 if c<8 else 18)
+                elif r==LFO_ROW:
+                    c=(1 if c<1 else
+                       2 if c<4 else 12)
+                widget=self._getWidget(r, c)
+        else:
+            widget=(self.currWidget.tk_focusNext() if deltaCol==+1 else
+                    self.currWidget.tk_focusPrev())
+        if widget.master==self:
+            widget.focus()
+
+    def _getWidget(self, row, column):
+        widgets=self.grid_slaves(row=row, column=column)
+        return widgets[0] if len(widgets)==1 else None
 
 class FpFormatter:
     '''Formats the frequency field which is floating point'''
@@ -473,14 +539,6 @@ class RetroCombobox(tkinter.Button):
                     command=self.buttonHandler)
         self.values=values
         self.var=var
-        self.bind('<FocusIn>', self._focusInListener)
-
-    def _focusInListener(self, e):
-        info=e.widget.grid_info()
-        row=info["row"]
-        self.master._focusOnRow(row)
-        # clear any selection elsewhere
-        self.master.selection_clear()
 
     def buttonHandler(self):
         if self.focus_get()!=self:
@@ -502,18 +560,10 @@ class RetroToggle(tkinter.Button):
                     pady=1,
                     command=self._buttonHandler)
         self.var=var
-        self.bind('<FocusIn>', self._focusInListener)
         self._updateConfig(self._getValue())
 
     def update(self):
         self._update(self._getValue())
-
-    def _focusInListener(self, e):
-        info=e.widget.grid_info()
-        row=info["row"]
-        self.master._focusOnRow(row)
-        # clear any selection elsewhere
-        self.master.selection_clear()
 
     def _buttonHandler(self):
         if self.focus_get()!=self:

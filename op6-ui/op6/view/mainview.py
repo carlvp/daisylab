@@ -23,6 +23,12 @@ class MainView:
         self.queue=deque()
         self.root.bind('<<callback>>', self.callback_)
 
+        # keyboard events
+        self.root.bind('<Key-Up>',    lambda _: self.moveCursor(-1,0))
+        self.root.bind('<Key-Down>',  lambda _: self.moveCursor(+1,0))
+        self.root.bind('<Key-Left>',  lambda _: self.moveCursor(0,-1))
+        self.root.bind('<Key-Right>', lambda _: self.moveCursor(0,+1))
+
         # icon
         self.root.iconphoto(True, getPhotoImage('op6-64x64.png'))
         # tabbed screens
@@ -99,6 +105,10 @@ class MainView:
     def callback_(self, event):
         (func, arg)=self.queue.popleft()
         func(*arg)
+
+    def moveCursor(self, deltaRow, deltaColumn):
+        #print(f"moveCursor({deltaRow},{deltaColumn})")
+        self.screens.tabs[self.currScreen].moveCursor(deltaRow, deltaColumn)
 
 class TabbedScreens(tkinter.Frame):
     '''
