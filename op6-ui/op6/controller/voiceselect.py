@@ -4,7 +4,7 @@ from op6.model.syx import SyxPacked32Voice
 # interface (MainController):
 # registerModules()
 # resolveModules()
-# setHasActiveScreen()
+# setDisplay()
 # setMidiOut()
 # initUI()
 #
@@ -31,6 +31,7 @@ class VoiceSelectController:
         self.baseChannel=0
         self.midiOut=None
         self.programBank=programBank
+        self.display=None
 
     def registerModules(self, modules):
         '''adds this controller object to the module dictionary.'''
@@ -48,14 +49,6 @@ class VoiceSelectController:
             self.voiceSelectScreen.setVoiceName(p, programName)
         self.voiceSelectScreen.selectVoice(0)
 
-    def setDisplay(self, display):
-        '''sets the active status of the controller
-        
-        the active controller owns the screen and the display.
-        when the controller is not active, display is None
-        '''
-        pass
-
     def onMidiProgramChange(self, ch, pgm):
         '''called from MIDI listener or front panel'''
         # FIXME shouldn't change programs while in EDIT mode
@@ -71,6 +64,7 @@ class VoiceSelectController:
             self.midiOut.sendProgramChange(self.baseChannel, voiceNumber)
         if notifyVoiceEditor:
             self.voiceEditor.notifyProgramChange(voiceNumber)
+        self.updateDisplay_()
 
     def syncProgramOnConnect(self):
         self.midiOut.sendProgramChange(self.baseChannel, self.currVoice)
@@ -93,6 +87,7 @@ class VoiceSelectController:
             self.voiceSelectScreen.setVoiceName(n, syx.getVoice(n).getName())
         self.voiceEditor.notifyBankChange(syx)
         self.voiceEditor.notifyProgramChange(self.currVoice)
+        self.updateDisplay_()
 
     def setMidiOut(self, midiOut):
         self.midiOut=midiOut
@@ -107,3 +102,24 @@ class VoiceSelectController:
         self.voiceSelectScreen.setVoiceName(voiceNumber, voiceName)
         if self.currVoice!=voiceNumber:
             self.setVoice(voiceNumber, notifyVoiceEditor=False)
+
+    def setDisplay(self, display):
+        '''sets the active status of the controller
+        
+        the active controller owns the screen and the display.
+        when the controller is not active, display is None
+        '''
+        self.display=display
+        if display is not None:
+            self.updateDisplay_()
+
+    def updateDisplay_(self):
+        if self.display is not None:
+            pgm=self.currVoice
+            letter=self.programBank.getBankLetter(pgm)
+            number=self.programBank.getOffsetInBank(pgm)
+            l1=f"Voice  {letter}{number:02}  CH{self.baseChannel+1:02}"
+            l2=self.programBank.getProgramName(self.currVoice)
+            self.display.update(l1, l2)
+
+

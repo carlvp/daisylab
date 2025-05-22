@@ -7,7 +7,7 @@ class DisplayController:
         self.line=["                ",
                    "                "]
 
-    def update(line1=None, line2=None):
+    def update(self, line1=None, line2=None):
         if line1 is not None:
             self.line[0]=line1
         if line2 is not None:
