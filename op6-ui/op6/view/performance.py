@@ -242,25 +242,29 @@ class PerformanceScreen(tkinter.Frame):
             self.cursorRow=r
             self.cursorCol=c
             if len(widgets)==1:
-                self.setCurrWidget_(widgets[0])
+                self.setCurrWidget_(widgets[0], setFocus=True)
 
-    def setCurrWidget_(self, widget):
-        if self.currWidget is not None:
-            self.configCurrent_(self.currWidget, False)
-        self.currWidget=widget
-        self.configCurrent_(widget, True)
+    def setCurrWidget_(self, widget, setFocus):
+        if self.currWidget!=widget:
+            if self.currWidget is not None:
+                self.configCurrent_(self.currWidget, isCurrent=False, setFocus=setFocus)
+            self.currWidget=widget
+            self.configCurrent_(widget, isCurrent=True, setFocus=setFocus)
+            paramName=str(widget.cget('variable'))
+            self.controller.setCurrentParameter(paramName)
 
-    def configCurrent_(self, widget, isCurrent):
+    def configCurrent_(self, widget, isCurrent, setFocus):
         if isinstance(widget, tkinter.Scale):
             # We don't want the Scale to take focus: it would capture
             # Up/Down keys. Instead just change its appearence
             color=DARK_FOREGROUND_COLOR if isCurrent else BACKGROUND_COLOR
             widget.config(troughcolor=color)
-        elif isCurrent:
-            widget.focus()
-        else:
-            # Give the focus to the Frame
-            self.focus()
+        elif setFocus:
+            if isCurrent:
+                widget.focus()
+            else:
+                # Give the focus to the Frame
+                self.focus()
 
     def setFocusListener_(self, widget, grid):
         '''associates widget, laid out at grid=(r,c), with a focus-in listener'''
@@ -274,10 +278,7 @@ class PerformanceScreen(tkinter.Frame):
             # set cursor to new position
             self.cursorRow=cursorPos[0]
             self.cursorCol=cursorPos[1]
-            if isinstance(self.currWidget, tkinter.Scale):
-                # The previous widget hasn't got focus, but is marked as current
-                self.configCurrent_(self.currWidget, False)
-            self.currWidget=widget
+            self.setCurrWidget_(widget, setFocus=False)
 
 class RetroCombobox(tkinter.Button):
     '''Retro-style multi-value entry widget'''
@@ -297,6 +298,9 @@ class RetroCombobox(tkinter.Button):
                     command=self.buttonHandler)
         self.values=values
         self.var=var
+
+    def cget(self, key):
+        return self.var if key=="variable" else tkinter.Button.cget(self, key)
 
     def buttonHandler(self):
         if self.focus_get()!=self:

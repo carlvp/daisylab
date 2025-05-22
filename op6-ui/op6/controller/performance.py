@@ -1,12 +1,13 @@
 # interface (MainController):
 # registerModules()
 # resolveModules()
-# setHasActiveScreen()
 # setMidiOut()
 # initUI()
+# setDisplay()
 #
 # interface (View)
 # updatePerformanceParameter()
+# setCurrentParameter()
 
 _CC_PORTA_TIME=5
 _CC_VOLUME=7
@@ -128,6 +129,39 @@ class PerformanceController:
         self.resetPerformanceParameters()
         self.midiOut=None
         self.mBaseChannel=0
+        self.display=None
+        self.currParam="Volume"
+        self.currParamValue=self.parameterValues[0]
+        self.displayLine1=self.displayLine1WithChannel_
+        self.displayLine2=self.displayNameValue_
+        self.displayFormatters=(
+            (self.displayLine1WithChannel_, self.displayNameValue_),
+            (self.displayLine1WithChannel_, self.displayNameValue_),
+            (self.displayLine1WithChannel_,
+             lambda: self.displayOnOff_("Poly Operation", "Mono Operation")),
+            (self.displayLine1WithChannel_,
+             lambda: self.displayNameValue_("Porta Time")),
+            (self.displayLine1WithChannel_, self.displayPortaMode_),
+            (self.displayLine1WithChannel_,
+             lambda: self.displayNameValue_("P.Bend Range")),
+            (self.displayLine1ModWheel_, self.displayModDepth_),
+            (self.displayLine1ModWheel_, self.displayModDestPLfo_),
+            (self.displayLine1ModWheel_, self.displayModDestALfo_),
+            (self.displayLine1ModWheel_, self.displayModDestABias_),
+            (self.displayLine1Aftertouch_, self.displayModDepth_),
+            (self.displayLine1Aftertouch_, self.displayModDestPLfo_),
+            (self.displayLine1Aftertouch_, self.displayModDestPBend_),
+            (self.displayLine1Aftertouch_, self.displayModDestALfo_),
+            (self.displayLine1Aftertouch_, self.displayModDestABias_),
+            (self.displayLine1WithChannel_,
+             lambda: self.displayNameValue_("Delay Level")),
+            (self.displayLine1NoChannel_,
+             lambda: self.displayNameValue_("Delay Feedbk")),
+            (self.displayLine1NoChannel_,
+             lambda: self.displayNameValue_("Delay Time")),
+            (self.displayLine1NoChannel_,
+             lambda: self.displayNameValue_("Delay Damp")),
+        )
 
     def registerModules(self, modules):
         '''adds this controller object to the module dictionary.'''
@@ -136,14 +170,6 @@ class PerformanceController:
     def resolveModules(self, modules):
         '''connects to relevant modules in the module dictionary'''
         self.performanceScreen=modules['PerformanceScreen']
-
-    def setDisplay(self, display):
-        '''sets the active status of the display
-        
-        the active controller owns the screen and the display.
-        when the controller is not active, display is None
-        '''
-        pass
 
     def setMidiOut(self, midiOut):
         self.midiOut=midiOut
@@ -176,6 +202,9 @@ class PerformanceController:
                 midiTransmit(self.midiOut, self.mBaseChannel, midiNr, value)
             if updateUI:
                 self.performanceScreen.setPerformanceParameter(paramName, str(value))
+            if paramName==self.currParam:
+                self.currParamValue=value
+                self.updateDisplay_(updateLine1=False)
             return True
         else:
             return False
@@ -203,3 +232,71 @@ class PerformanceController:
     def onConnectionChanged(self, isConnected):
         # indicate online status
         self.performanceScreen.setOnline(isConnected)
+
+    def setDisplay(self, display):
+        '''sets the active status of the display
+
+        the active controller owns the screen and the display.
+        when the controller is not active, display is None
+        '''
+        self.display=display
+        self.updateDisplay_(updateLine1=True)
+
+    def setCurrentParameter(self, paramName):
+        '''selects the parameter to be displayed and affected by +/-'''
+        (index, *_)=_performanceParameters[paramName]
+        self.currParam=paramName
+        self.currParamValue=self.parameterValues[index]
+        (line1, line2)=self.displayFormatters[index]
+        self.displayLine1=line1
+        self.displayLine2=line2
+        self.updateDisplay_(updateLine1=True)
+
+    def updateDisplay_(self, updateLine1=False):
+        if self.display is not None:
+            l1=self.displayLine1() if updateLine1 else None
+            l2=self.displayLine2()
+            self.display.update(l1, l2)
+
+    def displayLine1NoChannel_(self, title="Performance"):
+        return title
+
+    def displayLine1WithChannel_(self, title="Performance"):
+        return f"{title} CH{self.mBaseChannel+1:02}"
+
+    def displayLine1ModWheel_(self):
+        return self.displayLine1WithChannel_("Mod. Wheel")
+
+    def displayLine1Aftertouch_(self):
+        return self.displayLine1WithChannel_("Aftertouch")
+
+    def displayNameValue_(self, name=None):
+        if name is None:
+            name=self.currParam
+        return f"{name}={self.currParamValue:3}"
+
+    def displayOnOff_(self, on, off):
+        return on if self.currParamValue!=0 else off
+
+    def displayPortaMode_(self):
+        return ("Portamento Off" if self.currParamValue==0 else
+                "Legato Porta."  if self.currParamValue==1 else
+                "Portamento On")
+
+    def displayModDepth_(self):
+        return self.displayNameValue_("Mod. Depth")
+
+    def displaySwitch_(self, name):
+        return f"to {name} " + ("On" if self.currParamValue!=0 else "Off")
+
+    def displayModDestPLfo_(self):
+        return self.displaySwitch_("Pitch LFO")
+
+    def displayModDestPBend_(self):
+        return self.displaySwitch_("Pitchbend")
+
+    def displayModDestALfo_(self):
+        return self.displaySwitch_("Amp. LFO")
+
+    def displayModDestABias_(self):
+        return self.displaySwitch_("Amp. Bias")
