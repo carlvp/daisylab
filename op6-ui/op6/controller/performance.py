@@ -1,6 +1,7 @@
 # interface (MainController):
 # registerModules()
 # resolveModules()
+# setHasActiveScreen()
 # setMidiOut()
 # initUI()
 #
@@ -135,6 +136,14 @@ class PerformanceController:
     def resolveModules(self, modules):
         '''connects to relevant modules in the module dictionary'''
         self.performanceScreen=modules['PerformanceScreen']
+
+    def setDisplay(self, display):
+        '''sets the active status of the display
+        
+        the active controller owns the screen and the display.
+        when the controller is not active, display is None
+        '''
+        pass
 
     def setMidiOut(self, midiOut):
         self.midiOut=midiOut

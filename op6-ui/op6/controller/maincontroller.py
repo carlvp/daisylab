@@ -2,6 +2,7 @@ from .performance import PerformanceController
 from .voiceselect import VoiceSelectController
 from .voiceeditor import VoiceEditorController
 from .midi import MidiController, EDIT_MODE, PERFORMANCE_MODE
+from .display import DisplayController
 from op6.model.editbuffer import EditBuffer
 from op6.model.programbank import ProgramBank
 
@@ -20,9 +21,14 @@ class MainController:
         self.voiceSelectController=VoiceSelectController(self.pgmBank)
         self.voiceEditorController=VoiceEditorController(editBuffer,
                                                          self.pgmBank)
+        self.screenControllers=[self.performanceController,
+                                self.voiceSelectController,
+                                self.voiceEditorController]
+        self.activeController=None
         self.midiController=MidiController()
         self.clipboard=None
         self.currOpMode=PERFORMANCE_MODE
+        self.displayController=DisplayController()
 
     def registerModules(self, modules):
         '''registers this module instance and those of possible submodules'''
@@ -100,6 +106,10 @@ class MainController:
             if mode==EDIT_MODE:
                 self.voiceEditorController.prepareEditMode()
             self.setOpMode(mode)
+        if self.activeController is not None:
+            self.activeController.setDisplay(None)
+        self.activeController=self.screenControllers[screen]
+        self.activeController.setDisplay(self.displayController)
         self.view.selectScreen(screen)
 
     def setClipboard(self, clipboard):

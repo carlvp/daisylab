@@ -1,6 +1,7 @@
 # interface (MainController):
 # registerModules()
 # resolveModules()
+# setHasActiveScreen()
 # setMidiOut()
 #
 # interface (View):
@@ -37,6 +38,14 @@ class VoiceEditorController:
         '''connects to relevant modules in the module dictionary'''
         self.voiceSelectController=modules['VoiceSelectController']
         self.voiceEditorScreen=modules['VoiceEditorScreen']
+
+    def setDisplay(self, display):
+        '''sets the active status of the display
+        
+        the active controller owns the screen and the display.
+        when the controller is not active, display is None
+        '''
+        pass
 
     def notifyBankChange(self, syx):
         '''Called when a new bank has been loaded'''

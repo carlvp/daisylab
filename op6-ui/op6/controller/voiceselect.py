@@ -4,6 +4,7 @@ from op6.model.syx import SyxPacked32Voice
 # interface (MainController):
 # registerModules()
 # resolveModules()
+# setHasActiveScreen()
 # setMidiOut()
 # initUI()
 #
@@ -47,7 +48,12 @@ class VoiceSelectController:
             self.voiceSelectScreen.setVoiceName(p, programName)
         self.voiceSelectScreen.selectVoice(0)
 
-    def setHasActiveScreen(self, hasActiveScreen):
+    def setDisplay(self, display):
+        '''sets the active status of the controller
+        
+        the active controller owns the screen and the display.
+        when the controller is not active, display is None
+        '''
         pass
 
     def onMidiProgramChange(self, ch, pgm):
