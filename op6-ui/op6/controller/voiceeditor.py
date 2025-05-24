@@ -3,6 +3,8 @@
 # resolveModules()
 # setHasActiveScreen()
 # setMidiOut()
+# setDisplay()
+# setCurrentParameter()
 #
 # interface (View):
 # updateVoiceParameter()
@@ -29,6 +31,16 @@ class VoiceEditorController:
         self.currProgram=0
         self.midiOut=None
         self.baseChannel=0
+        self.display=None
+        self.displayLine1=None
+        self.displayLine2=None
+        self.currText=None
+        self.currParam=None
+        self.currParamValue=0
+        self.currAlgorithm=0
+        self.currOp=None
+        self.enabledOps="123456"
+        self.setCurrentParameter("Algorithm")
 
     def registerModules(self, modules):
         '''adds this controller object to the module dictionary.'''
@@ -38,14 +50,6 @@ class VoiceEditorController:
         '''connects to relevant modules in the module dictionary'''
         self.voiceSelectController=modules['VoiceSelectController']
         self.voiceEditorScreen=modules['VoiceEditorScreen']
-
-    def setDisplay(self, display):
-        '''sets the active status of the display
-        
-        the active controller owns the screen and the display.
-        when the controller is not active, display is None
-        '''
-        pass
 
     def notifyBankChange(self, syx):
         '''Called when a new bank has been loaded'''
@@ -155,6 +159,12 @@ class VoiceEditorController:
         for (name, value) in self.editBuffer.getAllVoiceParameters():
             self._updateUIField(name, value)
         self.disableParameterUpdates=old
+        # update display
+        if self.currParam is not None:
+            self.currParamValue=self._getVoiceParameter(self.currParam)
+        self.enabledOps=self._getEnabledOps()
+        self.currAlgorithm=self._getVoiceParameter("Algorithm")
+        self._updateDisplay()
 
     def _getVoiceParameter(self, paramName):
         '''
@@ -192,6 +202,20 @@ class VoiceEditorController:
                     self.editBuffer.sendVoiceParameter(paramName,
                                                        self.midiOut,
                                                        self.baseChannel)
+        # update display
+        changed=False
+        if paramName==self.currParam:
+            if paramValue!=self.currParamValue:
+                self.currParamValue=self._getVoiceParameter(self.currParam)
+                changed=True
+        if paramName=="Algorithm" and paramValue!="":
+            self.currAlgorithm=paramValue
+            changed=True
+        if paramName.endswith("Operator Enable"):
+            self.enabledOps=self._getEnabledOps()
+            changed=True
+        if changed:
+            self._updateDisplay()
 
     def _checkFrequencyRatio(self, paramName):
         '''tweak to put frequency in range when shifting to ratio mode'''
@@ -228,6 +252,163 @@ class VoiceEditorController:
             self.syncProgram_(index)
         # restore the saved buffer on host and device
         self.syncToEditBuffer_(savedBuffer)
+
+    def setDisplay(self, display):
+        '''sets the active status of the display
+        
+        the active controller owns the screen and the display.
+        when the controller is not active, display is None
+        '''
+        self.display=display
+        self._updateDisplay()
+
+    def setCurrentParameter(self, paramName):
+        '''selects the parameter to be displayed and affected by +/-'''
+        self.currParam=paramName
+        if paramName!="Save" and paramName!="Init":
+            self.currParamValue=self._getVoiceParameter(self.currParam)
+        # split paramName in operator numer (or None) and rest of the name
+        self.currOp=int(paramName[2]) if paramName.startswith("Op") else None
+        key=paramName[4:] if paramName.startswith("Op") else paramName
+        # Look up display formatting details
+        self.currText=VoiceEditorController.displayTexts.get(key, key)
+        self.displayLine1=VoiceEditorController.displayLine1.get(key, VoiceEditorController._displayLine1AlgOps)
+        self.displayLine2=VoiceEditorController.displayLine2.get(key, VoiceEditorController._displayLine2TextNN)
+        self._updateDisplay()
+
+    def _updateDisplay(self):
+        if self.display is not None:
+            l1=self.displayLine1(self)
+            l2=self.displayLine2(self)
+            self.display.update(l1, l2)
+
+    def _displayLine1AlgOps(self):
+        alg=self.currAlgorithm+1
+        return (f"ALG{alg:02} {self.enabledOps}" if self.currOp is None else
+                f"ALG{alg:02} {self.enabledOps} OP{self.currOp}")
+
+    def _getEnabledOps(self):
+        DASH=45
+        s=bytearray(b"123456")
+        for n in range(6):
+            paramName=f"Op{n+1} Operator Enable"
+            if self.editBuffer.getVoiceParameter(paramName)==0:
+                s[n]=DASH
+        return s.decode()
+
+    def _displayLine1Voice(self, suffix=""):
+        n=self.currProgram+1
+        bankLetter='A'
+        voiceNumber=n
+        return f"Voice {bankLetter}{voiceNumber:02}{suffix}"
+
+    def _displayLine1VoiceName(self):
+        return self._displayLine1Voice(" Name:")
+
+    def _displayLine2TextNN(self):
+        return f"{self.currText}={self.currParamValue:2}"
+
+    def _displayLine2TextN(self):
+        return f"{self.currText}={self.currParamValue}"
+
+    def _displayLine2Text(self):
+        return self.currText
+
+    def _displayLine2Value(self):
+        return self.currParamValue
+
+    def _displayLine2TextOnOff(self):
+        status="ON" if self.currParamValue!=0 else "OFF"
+        return f"{self.currText} {status}"
+
+    def _displayLine2FreqMode(self):
+        return ("Fixed Freq. Mode" if self.currParamValue!=0 else
+                "Freq. Ratio Mode")
+
+    _klsCurve=("-Lin", "-Exp", "+Exp", "+Lin")
+
+    def _displayLine2KlsCurve(self):
+        curve=VoiceEditorController._klsCurve[self.currParamValue]
+        return f"{self.currText}={curve}"
+
+    _lfoWaveforms=(
+        "TRIANGL",
+        "SINE",
+        "SAW UP",
+        "SAW DN",
+        "SQUARE",
+        "S&H",
+    )
+
+    def _displayLine2LfoWave(self):
+        n=self.currParamValue
+        return f"LFO Wave={VoiceEditorController._lfoWaveforms[n]}"
+
+    # Override default text: parameter name
+    displayTexts={
+        "Voice Number":                           "Set Voice Number",
+        "Save":                                   "Save?       [OK]",
+        "Init":                                   "Initialize? [OK]",
+        "Algorithm":                              "Select Algorithm",
+        "Pitch Modulation Sensitivity":           "PM Sensitivity",
+        "Pitch Envelope Time 1":                  "Pitch Env. T1",
+        "Pitch Envelope Time 2":                  "Pitch Env. T2",
+        "Pitch Envelope Time 3":                  "Pitch Env. T3",
+        "Pitch Envelope Time 4":                  "Pitch Env. T4",
+        "Pitch Envelope Level 0":                 "Pitch Env. L0",
+        "Pitch Envelope Level 1":                 "Pitch Env. L1",
+        "Pitch Envelope Level 2":                 "Pitch Env. L2",
+        "Pitch Envelope Level 3":                 "Pitch Env. L3",
+        "Pitch Envelope Level 4":                 "Pitch Env. L4",
+        "Operator Enable":                        "Operator",
+        "Total Output Level":                     "Output Level",
+        "Amplitude Modulation Sensitivity":       "AM Sensitivity",
+        "Velocity Sensitivity":                   "Velocity Sens.",
+        "Envelope Time 1":                        "Envelope T1",
+        "Envelope Time 2":                        "Envelope T2",
+        "Envelope Time 3":                        "Envelope T3",
+        "Envelope Time 4":                        "Envelope T4",
+        "Envelope Level 0":                       "Envelope L0",
+        "Envelope Level 1":                       "Envelope L1",
+        "Envelope Level 2":                       "Envelope L2",
+        "Envelope Level 3":                       "Envelope L3",
+        "Envelope Level 4":                       "Envelope L4",
+        "Keyboard Rate Scaling":                  "Kbd Rate Scale",
+        "Keyboard Level Scaling Left Depth":      "Left KLS",
+        "Keyboard Level Scaling Left Curve":      "Left Curve",
+        "Keyboard Level Scaling Breakpoint":      "Breakpoint",
+        "Keyboard Level Scaling Right Depth":     "Right KLS",
+        "Keyboard Level Scaling Right Curve":     "Right Curve",
+        "LFO Initial Pitch Modulation Depth":     "LFO PM Depth",
+        "LFO Initial Amplitude Modulation Depth": "LFO AM Depth",
+    }
+
+    # Override default formatter: _displayLine1AlgOps
+    displayLine1={
+        "Voice Number":                           _displayLine1Voice,
+        "Voice Name":                             _displayLine1VoiceName,
+        "Save":                                   _displayLine1Voice,
+        "Init":                                   _displayLine1Voice,
+    }
+
+    # Override default formatter: _displayLine2TextNN
+    displayLine2={
+        "Voice Number":                           _displayLine2Text,
+        "Voice Name":                             _displayLine2Value,
+        "Save":                                   _displayLine2Text,
+        "Init":                                   _displayLine2Text,
+        "Algorithm":                              _displayLine2Text,
+        "Feedback":                               _displayLine2TextN,
+        "Pitch Modulation Sensitivity":           _displayLine2TextN,
+        "Operator Enable":                        _displayLine2TextOnOff,
+        "Frequency Mode":                         _displayLine2FreqMode,
+        "Amplitude Modulation Sensitivity":       _displayLine2TextN,
+        "Velocity Sensitivity":                   _displayLine2TextN,
+        "Keyboard Rate Scaling":                  _displayLine2TextN,
+        "Keyboard Level Scaling Left Curve":      _displayLine2KlsCurve,
+        "Keyboard Level Scaling Right Curve":     _displayLine2KlsCurve,
+        "LFO Waveform":                           _displayLine2LfoWave,
+    }
 
 def _isBaseOne(paramName):
     # Some integer parameters 0..N-1 are represented as 1..N in the UI

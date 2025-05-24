@@ -301,11 +301,17 @@ class VoiceEditorScreen(tkinter.Frame):
         self.cursorCol=info["column"]
         self._focusOnRow(self.cursorRow)
         self.currWidget=widget
+        self.controller.setCurrentParameter(self._getParamName(widget))
         if selectAll:
             widget.select_range(0, tkinter.END)
         else:
             # clear any selection elsewhere
             self.selection_clear()
+
+    def _getParamName(self, widget):
+        # button Save/Init have no textvariables
+        key="text" if type(widget)==tkinter.Button else "textvariable"
+        return widget.cget(key)
 
     def _makeIntEntry(self, paramName, width, row, column,
                    columnspan=1, minValue=0, maxValue=None):
@@ -540,6 +546,9 @@ class RetroCombobox(tkinter.Button):
         self.values=values
         self.var=var
 
+    def cget(self, key):
+        return str(self.var) if key=="textvariable" else tkinter.Button(self, key)
+
     def buttonHandler(self):
         if self.focus_get()!=self:
             self.focus_set()
@@ -561,6 +570,9 @@ class RetroToggle(tkinter.Button):
                     command=self._buttonHandler)
         self.var=var
         self._updateConfig(self._getValue())
+
+    def cget(self, key):
+        return str(self.var) if key=="textvariable" else tkinter.Button(self, key)
 
     def update(self):
         self._update(self._getValue())
