@@ -4,6 +4,7 @@ from tkinter import ttk
 from .performance import PerformanceScreen;
 from .voiceselect import VoiceSelectScreen;
 from .voiceeditor import VoiceEditorScreen;
+from .display import OnScreenDisplay
 from .resources import getPhotoImage
 from . import colorscheme
 
@@ -33,7 +34,7 @@ class MainView:
         self.root.iconphoto(True, getPhotoImage('op6-64x64.png'))
         # tabbed screens
         self.screens=TabbedScreens(self.root)
-        self.screens.grid(row=0, column=0, columnspan=2, sticky=tkinter.N)
+        self.screens.grid(row=0, column=0, columnspan=3, sticky=tkinter.N)
         self.screens.setReqDimensions(1024, 640)
         self.screens.config(background='black')
         self.currScreen=None
@@ -49,21 +50,26 @@ class MainView:
         # MenuButtons
         self.menuButtons=MenuButtons(self.root)
         self.menuButtons.grid(row=1, column=0, sticky=(tkinter.S,tkinter.W))
+        # On-screen Display
+        self.display=OnScreenDisplay(self.root)
+        self.display.grid(row=1, column=1, sticky=tkinter.S)
         # Logo
         logo=getPhotoImage('op6-fm-synthesizer.png')
         tkinter.Label(self.root,
                       image=logo,
                       background=colorscheme.RETRO_DISPLAY_BACKGROUND,
                       borderwidth=8,
-                      highlightthickness=0).grid(row=1, column=1,
+                      highlightthickness=0).grid(row=1, column=2,
                                                  sticky=(tkinter.S,tkinter.E))
         # Make the bottom row expand. It sticks/stays at the bottom,
         # but disappears if the window gets too small
         self.root.rowconfigure(1, weight=1)
-        # Leftmost/rightmost columns expand, buttons stay to the left,
-        # logo to the right and the screen stays centered at the top
+        # Columns expand, the buttons stay to the left, the display in
+        # the center and the logo to the right.
+        # The actual screens stays centered at the top
         self.root.columnconfigure(0, weight=1)
         self.root.columnconfigure(1, weight=1)
+        self.root.columnconfigure(2, weight=1)
 
     def run(self):
         '''runs Tk mainloop'''
@@ -79,6 +85,7 @@ class MainView:
         self.performanceScreen.registerModules(modules)
         self.voiceSelectScreen.registerModules(modules)
         self.voiceEditorScreen.registerModules(modules)
+        self.display.registerModules(modules)
 
     def resolveModules(self, modules):
         '''connects to relevant modules in the module dictionary'''
@@ -86,6 +93,7 @@ class MainView:
         self.performanceScreen.resolveModules(modules)
         self.voiceSelectScreen.resolveModules(modules)
         self.voiceEditorScreen.resolveModules(modules)
+        self.display.resolveModules(modules)
 
     def selectScreen(self, index):
         if index!=self.currScreen:

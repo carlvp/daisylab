@@ -36,6 +36,7 @@ class MainController:
         self.performanceController.registerModules(modules)
         self.voiceSelectController.registerModules(modules)
         self.voiceEditorController.registerModules(modules)
+        self.displayController.registerModules(modules)
 
     def resolveModules(self, modules):
         '''
@@ -46,6 +47,7 @@ class MainController:
         self.performanceController.resolveModules(modules)
         self.voiceSelectController.resolveModules(modules)
         self.voiceEditorController.resolveModules(modules)
+        self.displayController.resolveModules(modules)
 
     def initModel(self):
         # import program banks from persistent storage
