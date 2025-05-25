@@ -23,7 +23,4 @@ class DisplayController:
         if line2 is not None:
             line2=line2.ljust(16, ' ')
             self.line[1]=line2
-        print(f"|{self.line[0]}|")
-        print(f"|{self.line[1]}|")
-        print("+----------------+")
         self.onScreenDisplay.update(line1, line2)
