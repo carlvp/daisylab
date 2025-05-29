@@ -9,8 +9,8 @@ def mkdir_p_(path):
     if not os.path.exists(path):
         (head, tail)=os.path.split(path)
         if head!='':
-            mkdir_p(head)
-            os.mkdir(path)
+            mkdir_p_(head)
+        os.mkdir(path)
 
 class ProgramBank:
     '''
